@@ -4,4 +4,11 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="microsoft.azure.cosmos" Version="3.37.1" />
+	  <PackageReference Include="microsoft.extensions.options" Version="8.0.1" />
+	</ItemGroup>
+<ItemGroup>
+    <ProjectReference Include="..\Clinic.Data.Models\Clinic.Data.Models.csproj" />
+  </ItemGroup>
 </Project>
