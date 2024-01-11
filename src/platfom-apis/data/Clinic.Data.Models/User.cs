@@ -31,6 +31,13 @@ namespace Clinic.Data.Models
         /// The email.
         /// </value>
         public string Email { get; set; }
+        /// <summary>
+        /// Gets or sets the email.
+        /// </summary>
+        /// <value>
+        /// The email.
+        /// </value>
+        public Roles Role { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number.
@@ -57,4 +64,5 @@ namespace Clinic.Data.Models
         [JsonProperty("_etag")]
         public string Etag { get; set; }
     }
+
 }
