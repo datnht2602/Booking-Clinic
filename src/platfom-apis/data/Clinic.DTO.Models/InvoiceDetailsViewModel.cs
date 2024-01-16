@@ -37,7 +37,7 @@ namespace Clinic.DTO.Models
         /// <value>
         /// The shipping address.
         /// </value>
-        public AddressViewModel ShippingAddress { get; set; }
+        public BriefViewModel BriefViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the sold by.
@@ -53,7 +53,7 @@ namespace Clinic.DTO.Models
         /// <value>
         /// The products.
         /// </value>
-        public List<ProductListViewModel> Products { get; set; }
+        public List<ServicesViewModel> Products { get; set; }
 
         /// <summary>
         /// Gets or sets the etag.

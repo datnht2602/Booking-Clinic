@@ -9,7 +9,10 @@ namespace Clinic.DTO.Models
     {
  
         public List<Uri> ImageUrls { get; set; }
+        public int ExperienceYear { get; set; }
+        public string Title { get; set; }
         public Specialization Specialization { get; set; }
+        public string ClinicNum { get; set; }
         public double AverageRating { get; set; }
     }
 

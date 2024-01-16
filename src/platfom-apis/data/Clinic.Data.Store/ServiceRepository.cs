@@ -9,20 +9,17 @@ using Microsoft.Extensions.Options;
 
 namespace Clinic.Data.Store
 {
-    public class OrderRepository : BaseRepository<Booking>, IOrderRepository
+    public class ServiceRepository : BaseRepository<Service> , IServiceRepository
     {
-         /// <summary>
-        /// The database settings.
-        /// </summary>
         private readonly IOptions<DatabaseSettingsOptions> databaseSettings;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OrderRepository"/> class.
+        /// Initializes a new instance of the <see cref="ServiceRepository"/> class.
         /// </summary>
         /// <param name="cosmosClient">The cosmos client.</param>
         /// <param name="databaseSettingsOption">The database settings option.</param>
-        public OrderRepository(CosmosClient cosmosClient, IOptions<DatabaseSettingsOptions> databaseSettingsOption)
-            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Booking")
+        public ServiceRepository(CosmosClient cosmosClient, IOptions<DatabaseSettingsOptions> databaseSettingsOption)
+            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Services")
         {
             this.databaseSettings = databaseSettingsOption;
         }
