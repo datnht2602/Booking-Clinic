@@ -1,0 +1,6 @@
+@Clinic.Invoice_HostAddress = http://localhost:5090
+
+GET {{Clinic.Invoice_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
