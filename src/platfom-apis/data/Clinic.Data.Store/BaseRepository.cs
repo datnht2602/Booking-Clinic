@@ -1,35 +1,20 @@
-using System;
+using Clinic.Data.Store.Contracts;
+using Microsoft.Azure.Cosmos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Clinic.Data.Store.Contracts;
-using Microsoft.Azure.Cosmos;
 
 namespace Clinic.Data.Store
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
-        /// <summary>
-        /// The container.
-        /// </summary>
         private readonly Container container;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseRepository{TEntity}"/> class.
-        /// </summary>
-        /// <param name="cosmosClient">cosmos client.</param>
-        /// <param name="databaseName">Name of the database.</param>
-        /// <param name="containerName">Name of the container.</param>
         public BaseRepository(CosmosClient cosmosClient, string databaseName, string containerName)
         {
             this.container = cosmosClient?.GetContainer(databaseName, containerName);
         }
-
-        /// <inheritdoc/>
         public async Task<ItemResponse<TEntity>> AddAsync(TEntity entity, string partitionKey) =>
             await this.container.CreateItemAsync<TEntity>(entity, new PartitionKey(partitionKey)).ConfigureAwait(false);
-
-        /// <inheritdoc/>
         public async Task<IEnumerable<TEntity>> GetAsync(string filterCriteria)
         {
             if (string.IsNullOrWhiteSpace(filterCriteria))
@@ -52,8 +37,6 @@ namespace Clinic.Data.Store
 
             return results;
         }
-
-        /// <inheritdoc/>
         public async Task<TEntity> GetByIdAsync(string id, string partitionKey)
         {
             try
@@ -66,8 +49,6 @@ namespace Clinic.Data.Store
                 return null;
             }
         }
-
-        /// <inheritdoc/>
         public async Task<bool> ModifyAsync(TEntity entity, string etag, string partitionKey)
         {
             try
@@ -80,8 +61,6 @@ namespace Clinic.Data.Store
                 return false;
             }
         }
-
-        /// <inheritdoc/>
         public async Task<bool> RemoveAsync(string id, string partitionKey)
         {
             try
