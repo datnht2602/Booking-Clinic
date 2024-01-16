@@ -1,32 +1,21 @@
 namespace Clinic.DTO.Models
 {
-    public class AddressViewModel
+    public class BriefViewModel
     {
-        /// <summary>
-        /// Gets or sets the address1.
-        /// </summary>
-        /// <value>
-        /// The address1.
-        /// </value>
+
         [Required(ErrorMessage = "Address is required")]
         public string Address1 { get; set; }
 
-        /// <summary>
-        /// Gets or sets the city.
-        /// </summary>
-        /// <value>
-        /// The city.
-        /// </value>
+
+        [Required(ErrorMessage = "District is required")]
+        public string District { get; set; }
+
         [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
+        [Required(ErrorMessage = "HealthInsuranceCode is required")]
+         public string HealthInsuranceCode { get; set; }
+         [Required(ErrorMessage = "DateOfBirth is required")]
 
-        /// <summary>
-        /// Gets or sets the country.
-        /// </summary>
-        /// <value>
-        /// The country.
-        /// </value>
-        [Required(ErrorMessage = "Country is required")]
-        public string Country { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }

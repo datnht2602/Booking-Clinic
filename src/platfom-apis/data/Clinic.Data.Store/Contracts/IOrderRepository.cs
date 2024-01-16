@@ -6,7 +6,7 @@ using Clinic.Data.Models;
 
 namespace Clinic.Data.Store.Contracts
 {
-    public interface IOrderRepository : IBaseRepository<Order>
+    public interface IOrderRepository : IBaseRepository<Booking>
     {
         
     }

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace Clinic.Data.Store
 {
-    public class OrderRepository : BaseRepository<Order>, IOrderRepository
+    public class OrderRepository : BaseRepository<Booking>, IOrderRepository
     {
          /// <summary>
         /// The database settings.
@@ -22,7 +22,7 @@ namespace Clinic.Data.Store
         /// <param name="cosmosClient">The cosmos client.</param>
         /// <param name="databaseSettingsOption">The database settings option.</param>
         public OrderRepository(CosmosClient cosmosClient, IOptions<DatabaseSettingsOptions> databaseSettingsOption)
-            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Orders")
+            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Booking")
         {
             this.databaseSettings = databaseSettingsOption;
         }
