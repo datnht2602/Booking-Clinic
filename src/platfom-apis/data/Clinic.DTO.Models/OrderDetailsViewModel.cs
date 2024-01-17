@@ -18,7 +18,7 @@ namespace Clinic.DTO.Models
         public string OrderPlacedDate { get; set; }
 
         [Required]
-        public List<ServicesViewModel> Services { get; set; }
+        public List<ProductListViewModel> Services { get; set; }
 
         public string Description { get; set; }
         public string OrderStatus { get; set; }

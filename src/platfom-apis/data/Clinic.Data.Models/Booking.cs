@@ -13,7 +13,7 @@ namespace Clinic.Data.Models
 
         public string UserId { get; set; }
 
-        public List<Service> Services { get; set; }
+        public List<Product> Products { get; set; }
 
 
         public string OrderStatus { get; set; }

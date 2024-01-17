@@ -1,9 +1,19 @@
+using Clinic.Product;
+using Clinic.Product.Contracts;
+using Clinic.Product.Services;
+using Polly;
+using Polly.Extensions.Http;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient<IProductService, ProductService>()
+    .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+    .AddPolicyHandler(RetryPolicy()) // Retry policy
+    .AddPolicyHandler(CircuitBreakerPolicy());
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 
@@ -16,29 +26,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+static IAsyncPolicy<HttpResponseMessage> CircuitBreakerPolicy()
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    return HttpPolicyExtensions.HandleTransientHttpError()
+        .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
+}
+static IAsyncPolicy<HttpResponseMessage> RetryPolicy()
+{
+    Random random = new();
+    var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+        .WaitAndRetryAsync(
+        5, retry => TimeSpan.FromSeconds(Math.Pow(2,retry))
+        + TimeSpan.FromMicroseconds(random.Next(0,100)));
+    return retryPolicy;
 }

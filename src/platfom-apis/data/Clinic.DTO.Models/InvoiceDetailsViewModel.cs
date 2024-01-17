@@ -53,7 +53,7 @@ namespace Clinic.DTO.Models
         /// <value>
         /// The products.
         /// </value>
-        public List<ServicesViewModel> Products { get; set; }
+        public List<ProductListViewModel> Products { get; set; }
 
         /// <summary>
         /// Gets or sets the etag.

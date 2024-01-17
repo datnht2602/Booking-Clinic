@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 namespace Clinic.Data.Models
 {
-    public class Service
+    public class Product
     {
 
         [JsonProperty(PropertyName = "id")]

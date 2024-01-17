@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Clinic.DTO.Models
 {
-    public class ServicesViewModel
+    public class ProductListViewModel
     {
         public string Id { get; set; }
 
@@ -14,7 +14,7 @@ namespace Clinic.DTO.Models
         public string Name { get; set; }
 
 
-        public string Specialization { get; set; }
+        public Specialization Specialization { get; set; }
 
 
         public int Price { get; set; }

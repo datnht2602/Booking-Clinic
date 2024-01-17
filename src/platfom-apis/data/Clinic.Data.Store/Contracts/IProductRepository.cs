@@ -6,7 +6,7 @@ using Clinic.Data.Models;
 
 namespace Clinic.Data.Store.Contracts
 {
-    public interface IServiceRepository : IBaseRepository<Service>
+    public interface IProductRepository : IBaseRepository<Product>
     {
         
     }

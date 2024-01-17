@@ -11,11 +11,23 @@ namespace Clinic.Data.Models
 
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
+
+
         public string OrderId { get; set; }
+
+
         public string PaymentMode { get; set; }
+
+
         public Brief Brief { get; set; }
+
+
         public SoldBy SoldBy { get; set; }
-        public List<Service> Services { get; set; }
+
+
+        public List<Product> Product { get; set; }
+
+
         [JsonProperty("_etag")]
         public string Etag { get; set; }
     }
