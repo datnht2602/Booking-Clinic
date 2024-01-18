@@ -5,7 +5,9 @@ namespace Clinic.Product
 {
     public class AutoMapperProfile : Profile
     {
-        public AutoMapperProfile() { }
+        public AutoMapperProfile() { 
+            this.MapEntity();
+        }
         private void MapEntity()
         {
             this.CreateMap<Data.Models.Product, ProductDetailsViewModel>();
