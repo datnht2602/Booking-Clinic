@@ -22,8 +22,10 @@ namespace Clinic.DTO.Models
 
         public string Description { get; set; }
         public string OrderStatus { get; set; }
+        public int TrackingId { get; set; }
  
         public string Etag { get; set; }
+        public string DeliveryDate {get; set;}
         public double OrderTotal { get; set; }
         public string PaymentMode { get; set; }
     }

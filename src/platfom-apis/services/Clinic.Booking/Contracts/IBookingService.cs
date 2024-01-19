@@ -2,10 +2,10 @@
 {
     public interface IBookingService
     {
-        Task<IEnumerable<BookingDetailsViewModel>> GetOrdersAsync(string? filterCriteria = null);
-        Task<BookingDetailsViewModel> GetOrderByIdAsync(string orderId);
-        Task<BookingDetailsViewModel> AddOrderAsync(BookingDetailsViewModel order);
-        Task<HttpResponseMessage> UpdateOrderAsync(BookingDetailsViewModel order);
-        double ComputeTotalDiscount(double orderTotal);
+        Task<IEnumerable<BookingDetailsViewModel>> GetBookingAsync(string? filterCriteria = null);
+        Task<BookingDetailsViewModel> GetBookingByIdAsync(string orderId);
+        Task<BookingDetailsViewModel> AddBookingAsync(BookingDetailsViewModel booking);
+        Task<HttpResponseMessage> UpdateBookingAsync(BookingDetailsViewModel booking);
+        double ComputeTotalDiscount(double bookingTotal);
     }
 }
