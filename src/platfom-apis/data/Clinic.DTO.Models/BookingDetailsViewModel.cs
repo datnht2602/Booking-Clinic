@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Clinic.DTO.Models
 {
-    public class OrderDetailsViewModel
+    public class BookingDetailsViewModel
     {
         public string Id { get; set; }
         [Required]
