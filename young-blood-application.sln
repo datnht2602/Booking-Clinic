@@ -31,15 +31,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Caching", "src\platf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Logger", "src\platfom-apis\core\Clinic.Logger\Clinic.Logger.csproj", "{FB3E220D-EDB4-432B-9F00-47AE6A290DBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.DataAccess", "src\platfom-apis\services\Clinic.DataAccess\Clinic.DataAccess.csproj", "{CAD85A79-ABC7-466A-A9A7-9C80E7C3D2E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.DataAccess", "src\platfom-apis\services\Clinic.DataAccess\Clinic.DataAccess.csproj", "{CAD85A79-ABC7-466A-A9A7-9C80E7C3D2E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Invoice", "src\platfom-apis\services\Clinic.Invoice\Clinic.Invoice.csproj", "{348B1C4E-E5DE-4A2D-81C1-A671E842442E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Invoice", "src\platfom-apis\services\Clinic.Invoice\Clinic.Invoice.csproj", "{348B1C4E-E5DE-4A2D-81C1-A671E842442E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Product", "src\platfom-apis\services\Clinic.Product\Clinic.Product.csproj", "{B8820E64-C31C-4730-9EE1-63F73BC9D28C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Product", "src\platfom-apis\services\Clinic.Product\Clinic.Product.csproj", "{B8820E64-C31C-4730-9EE1-63F73BC9D28C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Booking", "src\platfom-apis\services\Clinic.Booking\Clinic.Booking.csproj", "{BC65F389-849A-4CAF-AB78-621241AB36AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Booking", "src\platfom-apis\services\Clinic.Booking\Clinic.Booking.csproj", "{BC65F389-849A-4CAF-AB78-621241AB36AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.UserManagement", "src\platfom-apis\services\Clinic.UserManagement\Clinic.UserManagement.csproj", "{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.UserManagement", "src\platfom-apis\services\Clinic.UserManagement\Clinic.UserManagement.csproj", "{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.BlazorWebPWA", "src\webapp\Clinic.BlazorWebPWA\Clinic.BlazorWebPWA.csproj", "{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +105,10 @@ Global
 		{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{B8820E64-C31C-4730-9EE1-63F73BC9D28C} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{BC65F389-849A-4CAF-AB78-621241AB36AE} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
+		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC} = {F2248940-38B8-48B8-BBB6-B5118AF9DCA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D82853F-2960-44C3-81E2-DA4597DC4483}
