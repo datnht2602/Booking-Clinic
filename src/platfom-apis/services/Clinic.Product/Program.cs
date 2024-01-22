@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
+using Clinic.DTO.Models;
 using Clinic.Product;
 using Clinic.Product.Contracts;
 using Clinic.Product.Services;
@@ -47,12 +49,35 @@ app.UseHttpsRedirection();
 //app.UseAuthorization();
 app.MapGet("/getproducts", async ([FromServices] IProductService productService,[FromQuery]string? filterCriteria= null) =>
 {
-  return Results.Ok(await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false));  
+  return await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false);  
 })
+.WithName("GetProductById")
 .WithOpenApi();
 app.MapGet("/getproduct/{id}", async (string id,[FromQuery][Required] string name ,[FromServices] IProductService productService) =>
 {
-  await productService.GetProductByIdASync(id,name).ConfigureAwait(false);  
+  return await productService.GetProductByIdASync(id,name).ConfigureAwait(false) is ProductDetailsViewModel product ? Results.Ok(product) : Results.NotFound();  
+})
+.WithOpenApi();
+app.MapPost("/getproduct",async (ProductDetailsViewModel product, IProductService productService) =>{
+     if (product == null || product.Etag != null)
+            {
+                return Results.BadRequest();
+            }
+
+            var result = await productService.AddProductAsync(product).ConfigureAwait(false);
+            return Results.CreatedAtRoute($"/getproduct/{result.Id}", new { name = result.Name }, result);
+})
+.WithOpenApi();
+app.MapPut("/getproduct",async (ProductDetailsViewModel product, IProductService productService) =>{
+    if (product == null || product.Etag == null || product.Id == null)
+            {
+                return Results.BadRequest();
+            }
+   return (await productService.UpdateProductAsync(product)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
+})
+.WithOpenApi();
+app.MapDelete("/getproduct",async (string id,[FromQuery][Required] string name, IProductService productService) =>{
+   return (await productService.DeleteProductAsync(id,name)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
 })
 .WithOpenApi();
 app.Run();
