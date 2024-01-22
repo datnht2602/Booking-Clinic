@@ -10,25 +10,15 @@ namespace Clinic.Data.Models
 
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
-
         public string UserId { get; set; }
-
         public List<Product> Products { get; set; }
-
-
-        public string OrderStatus { get; set; }
-
-  
+        public string OrderStatus { get; set; } 
         public string OrderPlacedDate { get; set; }
-
-
         public Brief Brief { get; set; }
-
+        public int TrackingId { get; set; }
         public double OrderTotal { get; set; }
-
-
+        public string DeliveryDate { get; set; }
         public string PaymentMode { get; set; }
-
 
         [JsonProperty("_etag")]
         public string Etag { get; set; }
