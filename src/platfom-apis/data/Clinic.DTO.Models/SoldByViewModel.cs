@@ -13,7 +13,7 @@ namespace Clinic.DTO.Models
         /// <value>
         /// The name of the seller.
         /// </value>
-        public string SellerName { get; set; }
+        public string ManagerName { get; set; }
 
         /// <summary>
         /// Gets or sets the email.

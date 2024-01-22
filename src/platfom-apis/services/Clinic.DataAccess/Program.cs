@@ -34,7 +34,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 #region Invoice
 app.MapGet("/getallinvoice", async (IInvoiceRepository repository, string? filterCriteria = null) =>
 {

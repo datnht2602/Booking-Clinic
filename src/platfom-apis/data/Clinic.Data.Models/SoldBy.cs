@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,10 @@ namespace Clinic.Data.Models
 {
     public class SoldBy
     {
+        [JsonProperty(PropertyName = "id")]
+        public string Id { get; set; }
 
-        public string SellerName { get; set; }
+        public string ManagerName { get; set; }
 
 
         public string Email { get; set; }
