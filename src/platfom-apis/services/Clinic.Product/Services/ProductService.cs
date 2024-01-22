@@ -34,7 +34,7 @@ namespace Clinic.Product.Services
             ArgumentValidation.ThrowIfNull(product);
             product.CreatedDate = DateTime.UtcNow;
             using var productRequest = new StringContent(JsonSerializer.Serialize(product),Encoding.UTF8,ContentType);
-            var productResponse = await httpClient.PostAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}products"),productRequest).ConfigureAwait(false);
+            var productResponse = await httpClient.PostAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct"),productRequest).ConfigureAwait(false);
 
             if(!productResponse.IsSuccessStatusCode){
                 await ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
@@ -49,7 +49,7 @@ namespace Clinic.Product.Services
 
         public async Task<HttpResponseMessage> DeleteProductAsync(string productId, string productName)
         {
-            var productResponse = await httpClient.DeleteAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}products/{productId}?name={productName}")).ConfigureAwait(false);
+            var productResponse = await httpClient.DeleteAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}?name={productName}")).ConfigureAwait(false);
             if(!productResponse.IsSuccessStatusCode){
                 await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
@@ -59,7 +59,7 @@ namespace Clinic.Product.Services
 
         public async Task<ProductDetailsViewModel> GetProductByIdASync(string productId, string productName)
         {
-            using var productRequest = new HttpRequestMessage(HttpMethod.Get,$"{this.applicationSettings.Value.DataStoreEndpoint}products/{productId}?name={productName}");
+            using var productRequest = new HttpRequestMessage(HttpMethod.Get,$"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}?name={productName}");
             var productResponse = await httpClient.SendAsync(productRequest).ConfigureAwait(false);
             if(!productResponse.IsSuccessStatusCode){
                 await ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
@@ -79,7 +79,7 @@ namespace Clinic.Product.Services
             var products = await this.cacheService.GetCacheAsync<IEnumerable<Clinic.Data.Models.Product>>($"products{filterCriteria}").ConfigureAwait(false);
             if(products == null)
             {
-                using var productRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.DataStoreEndpoint}products?filterCriteria={filterCriteria}");
+                using var productRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.DataStoreEndpoint}getallproducts?filterCriteria={filterCriteria}");
                 var productResponse = await this.httpClient.SendAsync(productRequest).ConfigureAwait(false);
                 if(!productResponse.IsSuccessStatusCode)
                 {
@@ -100,7 +100,7 @@ namespace Clinic.Product.Services
         public async Task<HttpResponseMessage> UpdateProductAsync(ProductDetailsViewModel product)
         {
              using var productRequest = new StringContent(JsonSerializer.Serialize(product), Encoding.UTF8, ContentType);
-            var productResponse = await this.httpClient.PutAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}products"), productRequest).ConfigureAwait(false);
+            var productResponse = await this.httpClient.PutAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct"), productRequest).ConfigureAwait(false);
             if (!productResponse.IsSuccessStatusCode)
             {
                 await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);

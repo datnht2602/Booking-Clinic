@@ -41,17 +41,17 @@ namespace Clinic.Booking.Services
                 Random trackingId = new Random();
                 booking.TrackingId = trackingId.Next(int.MaxValue);
             }else{
-                booking.Services.AddRange(existingBooking.Services);
+                booking.Products.AddRange(existingBooking.Products);
                 booking.OrderStatus = OrderStatus.Cart.ToString();
             }
 
-            booking.OrderTotal = booking.Services.Sum(x => x.Price);
+            booking.OrderTotal = booking.Products.Sum(x => x.Price);
             await this.UpdateBookingAsync(booking).ConfigureAwait(false);
             return booking;
            }else{
             booking.OrderStatus = OrderStatus.Cart.ToString();
             booking.Id = Guid.NewGuid().ToString();
-            booking.OrderTotal = booking.Services.Sum(x => x.Price);
+            booking.OrderTotal = booking.Products.Sum(x => x.Price);
             using var bookingRequest = new StringContent(JsonSerializer.Serialize(booking),Encoding.UTF8,ContentType);
             var bookingResponse = await this.httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getbooking"),bookingRequest).ConfigureAwait(false);
 

@@ -19,7 +19,7 @@ namespace Clinic.Data.Store
         /// <param name="cosmosClient">The cosmos client.</param>
         /// <param name="databaseSettingsOption">The database settings option.</param>
         public ProductRepository(CosmosClient cosmosClient, IOptions<DatabaseSettingsOptions> databaseSettingsOption)
-            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Services")
+            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Products")
         {
             this.databaseSettings = databaseSettingsOption;
         }

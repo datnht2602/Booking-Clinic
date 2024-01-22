@@ -34,7 +34,7 @@ namespace Clinic.Invoice.Services
             {
                 Email = "",
                 Phone = "",
-                SellerName = "Packt"
+                ManagerName = "Packt"
             };
             using var invoiceRequest = new StringContent(JsonSerializer.Serialize(invoice),Encoding.UTF8,ContentType);
             var invoiceResponse = await httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getinvoice"), invoiceRequest).ConfigureAwait(false);

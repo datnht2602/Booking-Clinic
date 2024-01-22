@@ -44,10 +44,10 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+//app.UseAuthorization();
 app.MapGet("/getproducts", async ([FromServices] IProductService productService,[FromQuery]string? filterCriteria= null) =>
 {
-  await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false);  
+  return Results.Ok(await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false));  
 })
 .WithOpenApi();
 app.MapGet("/getproduct/{id}", async (string id,[FromQuery][Required] string name ,[FromServices] IProductService productService) =>
