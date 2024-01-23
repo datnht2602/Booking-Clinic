@@ -13,7 +13,7 @@ namespace Clinic.Data.Store
     {
         private readonly IOptions<DatabaseSettingsOptions> databaseSettings;
         public BookingRepository(CosmosClient cosmosClient, IOptions<DatabaseSettingsOptions> databaseSettingsOption)
-            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Booking")
+            : base(cosmosClient, databaseSettingsOption?.Value.DataBaseName, "Bookings")
         {
             this.databaseSettings = databaseSettingsOption;
         }

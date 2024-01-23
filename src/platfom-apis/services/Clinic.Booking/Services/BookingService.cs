@@ -78,7 +78,7 @@ namespace Clinic.Booking.Services
 
         public async Task<IEnumerable<BookingDetailsViewModel>> GetBookingAsync(string? filterCriteria = null)
         {
-            using var bookingRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getbooking?filterCriteria={filterCriteria}");
+            using var bookingRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getallbooking?filterCriteria={filterCriteria}");
             var bookingResponse = await httpClient.SendAsync(bookingRequest).ConfigureAwait(false);
 
             if(!bookingResponse.IsSuccessStatusCode){

@@ -44,28 +44,27 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
-app.MapGet("/getorders", async ([FromServices] IBookingService bookingService,[FromQuery]string? filterCriteria= null) =>
+app.MapGet("/getallbooking", async ([FromServices] IBookingService bookingService,[FromQuery]string? filterCriteria= null) =>
 {
   return await bookingService.GetBookingAsync(filterCriteria).ConfigureAwait(false);  
 })
-.WithName("GetProductById")
 .WithOpenApi();
-app.MapGet("/getorder/{id}", async (string id,[FromServices] IBookingService bookingService) =>
+app.MapGet("/getbooking/{id}", async (string id,[FromServices] IBookingService bookingService) =>
 {
   return await bookingService.GetBookingByIdAsync(id).ConfigureAwait(false) is BookingDetailsViewModel booking ? Results.Ok(booking) : Results.NotFound();  
 })
 .WithOpenApi();
-app.MapPost("/getorder",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
+app.MapPost("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
      if (booking == null || booking.Etag != null)
             {
                 return Results.BadRequest();
             }
 
             var result = await bookingService.AddBookingAsync(booking).ConfigureAwait(false);
-            return Results.Created($"/getorder/{result.Id}", result);
+            return Results.Created($"/getbooking/{result.Id}", result);
 })
 .WithOpenApi();
-app.MapPut("/getorder",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
+app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
     if (booking == null || booking.Etag == null || booking.Id == null)
             {
                 return Results.BadRequest();

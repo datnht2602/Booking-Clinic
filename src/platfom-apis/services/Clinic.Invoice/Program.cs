@@ -56,7 +56,7 @@ app.MapPost("/getinvoice",async (InvoiceDetailsViewModel invoice, IInvoiceServic
             }
 
             var result = await invoiceService.AddInvoiceAsync(invoice).ConfigureAwait(false);
-            return Results.Created($"/getproduct/{result.Id}", result);
+            return Results.Created($"/getinvoice/{result.Id}", result);
 })
 .WithOpenApi();
 
