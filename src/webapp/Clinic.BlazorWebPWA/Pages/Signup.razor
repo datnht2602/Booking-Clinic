@@ -34,7 +34,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label small text-muted">Số điện thoại <small class="text-danger">*</small></label>
-                            <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9} + [^\s]+" title="Vui lòng không nhập khoảng trắng">
+                            <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ, bắt đầu bằng số 0 và theo sau là 9 chữ số khác" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ, bắt đầu bằng số 0 và theo sau là 9 chữ số khác và không có khoảng trắng.')">
                             <div class="invalid-feedback">
                                 Vui lòng nhập Số điện thoại của bạn.
                             </div>
@@ -43,9 +43,6 @@
                             <label for="password" class="form-label small text-muted">Mật khẩu <small class="text-danger">*</small></label>
                             <div class="input-group">
                                 <input type="password" class="form-control" placeholder="Nhập mật khẩu" id="password" required pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" />
-                                <span class="show-password" id="togglePassword" onclick="togglePasswordVisibility()">
-                                    <i class="bi bi-eye-fill" id="eye-icon"></i>
-                                </span>
                             </div>
                             <div class="invalid-feedback">
                                 Vui lòng nhập mật khẩu của bạn.
@@ -81,21 +78,6 @@
 </main>
 
 <script>
-    function togglePasswordVisibility() {
-        var passwordField = document.querySelector('input');
-        var showbtn = document.querySelector('span i');
-        
-        showbtn.onclick = (() => {
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                showbtn.classList.add("hide-btn");
-            } else {
-                passwordField.type = 'password';
-                showbtn.classList.remove("hide-btn");
-            }
-        })
-        }
-
     document.addEventListener('DOMContentLoaded', function () {
         var form = document.querySelector('.needs-validation');
 
