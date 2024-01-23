@@ -30,7 +30,7 @@ namespace Clinic.Data.Models
         public List<Rating> Rating { get; set; }
 
 
-        public List<int> Authors { get; set; }
+        public List<string> Authors { get; set; }
 
 
         public List<string> ProductIds { get; set; }
