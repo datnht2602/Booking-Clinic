@@ -172,6 +172,11 @@ b, strong {
 small, .small {
     font-size: 0.875em;
 }
+
+medium, .medium {
+    font-size: 0.925em;
+}
+
 mark, .mark {
     padding: 0.2em;
     background-color: #fcf8e3;
