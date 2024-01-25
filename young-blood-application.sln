@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5F3B0141
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Webapp", "Webapp", "{F2248940-38B8-48B8-BBB6-B5118AF9DCA5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Web", "src\webapp\Clinic.Web\Clinic.Web.csproj", "{EE667161-6DB0-43F0-A35D-7F9905379DC6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Data.Store", "src\platfom-apis\data\Clinic.Data.Store\Clinic.Data.Store.csproj", "{063045DE-49F6-431E-A2A8-812B884EFEB6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.DTO.Models", "src\platfom-apis\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj", "{89F91E65-B4D0-4248-A105-7B3EC7DE5F96}"
@@ -41,16 +39,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.UserManagement", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.BlazorWebPWA", "src\webapp\Clinic.BlazorWebPWA\Clinic.BlazorWebPWA.csproj", "{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Identity", "src\webapp\Clinic.Identity\Clinic.Identity.csproj", "{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE667161-6DB0-43F0-A35D-7F9905379DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE667161-6DB0-43F0-A35D-7F9905379DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE667161-6DB0-43F0-A35D-7F9905379DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE667161-6DB0-43F0-A35D-7F9905379DC6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{063045DE-49F6-431E-A2A8-812B884EFEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{063045DE-49F6-431E-A2A8-812B884EFEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{063045DE-49F6-431E-A2A8-812B884EFEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -103,12 +99,15 @@ Global
 		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{EE667161-6DB0-43F0-A35D-7F9905379DC6} = {F2248940-38B8-48B8-BBB6-B5118AF9DCA5}
 		{063045DE-49F6-431E-A2A8-812B884EFEB6} = {388706E7-30E7-48C2-BFDE-D282AC3F5B32}
 		{89F91E65-B4D0-4248-A105-7B3EC7DE5F96} = {388706E7-30E7-48C2-BFDE-D282AC3F5B32}
 		{5AB5D4C5-D9A6-4809-B77F-49767D02AB3E} = {388706E7-30E7-48C2-BFDE-D282AC3F5B32}
@@ -122,6 +121,7 @@ Global
 		{BC65F389-849A-4CAF-AB78-621241AB36AE} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{5D5F7EAE-DE13-492B-8F46-D4BB5AF33813} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC} = {F2248940-38B8-48B8-BBB6-B5118AF9DCA5}
+		{97A01F09-3C82-4ED7-9B16-EF3E57D170D4} = {F2248940-38B8-48B8-BBB6-B5118AF9DCA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D82853F-2960-44C3-81E2-DA4597DC4483}
