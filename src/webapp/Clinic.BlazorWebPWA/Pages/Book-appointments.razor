@@ -8,7 +8,7 @@
             <div>
                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">ĐẶT LỊCH KHÁM BỆNH</h2>
                 <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
-                    <form class="text-start pt-4">
+                    <form action="/" class="text-start pt-4">
                         <div class="mb-3">
                             <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
                             <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
@@ -65,7 +65,11 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase">Đặt lịch khám</button>
+                        <div>
+                            <div class="text-center col-lg-5 py-4 mx-auto">
+                                <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Đặt lịch khám</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
