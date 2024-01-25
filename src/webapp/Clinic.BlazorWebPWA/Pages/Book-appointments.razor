@@ -2,17 +2,24 @@
 
 <PageTitle>Đặt lịch khám</PageTitle>
 
-
 <main>
     <div class="bg-white">
         <div class="container px-5 py-5 appointments">
             <div>
-                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-3">ĐẶT LỊCH KHÁM BỆNH</h2>
-                <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-10 mx-auto">
-                    <form text-start pt-4>
+                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">ĐẶT LỊCH KHÁM BỆNH</h2>
+                <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
+                    <form class="text-start pt-4">
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
+                            <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                        </div>
                         <div class="row">
                             <div class="mb-3 col-6">
-                                <label for="" class="form-label medium text-white">Chọn chuyên khoa <small class="text-danger fw-bold">*</small></label>
+                                <label for="major" class="form-label medium text-white">Chọn chuyên khoa <small class="text-danger fw-bold">*</small></label>
                                 <select class="form-select" required aria-label="Chọn Chuyên khoa">
                                     <option value="">Chọn chuyên khoa</option>
                                     <option value="1">Chuyên khoa 1</option>
@@ -21,12 +28,40 @@
                                 </select>
                             </div>
                             <div class="mb-3 col-6">
-                                <label for="" class="form-label medium text-white">Chọn chuyên khoa <small class="text-danger">*</small></label>
+                                <label for="doctor" class="form-label medium text-white">Chọn bác sĩ <small class="text-danger">*</small></label>
                                 <select class="form-select" required aria-label="Chọn Chuyên khoa">
-                                    <option value="">Chọn chuyên khoa</option>
-                                    <option value="1">Chuyên khoa 1</option>
-                                    <option value="2">Chuyên khoa 2</option>
-                                    <option value="3">Chuyên khoa 3</option>
+                                    <option value="">Chọn bác sĩ</option>
+                                    <option value="1">Bác sĩ 1</option>
+                                    <option value="2">Bác sĩ 2</option>
+                                    <option value="3">Bác sĩ 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label medium text-white">Chọn ngày và khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
+                            <input type="datetime-local" class="form-control" id="datetime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
+                            <textarea class="form-control height-auto" rows="4" placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi cho bác sĩ và các vấn đề sức khỏe cần khám." required></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 col-6">
+                                <label for="service" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger fw-bold">*</small></label>
+                                <select class="form-select" required aria-label="Chọn gói dịch vụ">
+                                    <option value="">Chọn dịch vụ</option>
+                                    <option value="1">Dịch vụ 1</option>
+                                    <option value="2">Dịch vụ 2</option>
+                                    <option value="3">Dịch vụ 3</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
+                                <select class="form-select" required aria-label="Chọn phương thức thanh toán">
+                                    <option value="">Chọn phương thức thanh toán</option>
+                                    <option value="1">Phương thức 1</option>
+                                    <option value="2">Phương thức 2</option>
+                                    <option value="3">Phương thức 3</option>
                                 </select>
                             </div>
                         </div>
