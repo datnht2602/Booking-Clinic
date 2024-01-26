@@ -22,7 +22,7 @@ namespace Clinic.Data.Models
         public int PhoneNumber { get; set; }
 
 
-        public List<Brief> Brief { get; set; }
+        public List<AddtionalData> AddtionalData { get; set; }
         public Detail Detail {get; set;}
 
 

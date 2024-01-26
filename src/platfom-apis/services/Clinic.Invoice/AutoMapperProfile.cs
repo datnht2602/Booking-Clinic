@@ -12,7 +12,7 @@ namespace Clinic.Invoice
         {
             this.CreateMap<Data.Models.Invoice, DTO.Models.InvoiceDetailsViewModel>();
             this.CreateMap<Data.Models.Product, DTO.Models.ProductListViewModel>();
-            this.CreateMap<Data.Models.Brief, DTO.Models.BriefViewModel>();
+            this.CreateMap<Data.Models.AddtionalData, DTO.Models.BriefViewModel>();
             this.CreateMap<Data.Models.SoldBy, DTO.Models.SoldByViewModel>();
         }
     }

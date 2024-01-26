@@ -14,7 +14,7 @@ namespace Clinic.Data.Models
         public List<Product> Products { get; set; }
         public string OrderStatus { get; set; } 
         public string OrderPlacedDate { get; set; }
-        public Brief Brief { get; set; }
+        public AddtionalData AddtionalData { get; set; }
         public int TrackingId { get; set; }
         public double OrderTotal { get; set; }
         public string DeliveryDate { get; set; }
