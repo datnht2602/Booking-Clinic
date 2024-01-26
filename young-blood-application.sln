@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.UserManagement", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.BlazorWebPWA", "src\webapp\Clinic.BlazorWebPWA\Clinic.BlazorWebPWA.csproj", "{48DA7380-532D-49B2-A1C7-F77FF69A8CFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Identity", "src\webapp\Clinic.Identity\Clinic.Identity.csproj", "{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Identity", "src\webapp\Clinic.Identity\Clinic.Identity.csproj", "{97A01F09-3C82-4ED7-9B16-EF3E57D170D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
