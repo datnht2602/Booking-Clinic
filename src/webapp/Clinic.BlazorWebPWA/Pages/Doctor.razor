@@ -2,6 +2,78 @@
 
 <PageTitle>Bác sĩ</PageTitle>
 
+<style>
+    div .doctor-img {
+        height: 140px;
+        width: 140px;
+    }
+
+        div .doctor-img img {
+            height: 100%;
+            width: 100%;
+        }
+
+    .btn-navy {
+        color: #fff;
+        background-color: #002884;
+        border-color: #002884;
+    }
+
+        .btn-navy:hover {
+            color: #000;
+            background-color: #fae41f;
+            border-color: #fae41f;
+        }
+
+        .btn-check:focus + .btn-navy,
+        .btn-navy:focus {
+            color: #fff;
+            background-color: #002884;
+            border-color: #002884;
+            box-shadow: 0 0 0 0.25rem rgba(211, 212, 213, 0.5);
+        }
+
+        .btn-check:checked + .btn-navy,
+        .btn-check:active + .btn-navy,
+        .btn-navy:active,
+        .btn-navy.active,
+        .show > .btn-navy.dropdown-toggle {
+            color: #fff;
+            background-color: #002884;
+            border-color: #002884;
+        }
+
+            .btn-check:checked + .btn-navy:focus,
+            .btn-check:active + .btn-navy:focus,
+            .btn-navy:active:focus,
+            .btn-navy.active:focus,
+            .show > .btn-navy.dropdown-toggle:focus {
+                box-shadow: 0 0 0 0.25rem rgba(211, 212, 213, 0.5);
+            }
+
+        .btn-navy:disabled,
+        .btn-navy.disabled {
+            color: #000;
+            background-color: #f8f9fa;
+            border-color: #f8f9fa;
+        }
+
+    .stars {
+        display: flex;
+        align-items: center;
+    }
+
+        .stars i {
+            color: #D9D9D9;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+            .stars i.active {
+                color: #ff9c1a;
+            }
+</style>
+
 <main class="flex-shrink-0">
     <div class="bg-primary">
         <header class="bg-primary py-4 inner-header">
@@ -23,208 +95,327 @@
             <div class="row gx-5">
                 <div class="col-lg-4">
                     <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d1.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">Collis Molate <i class="bi bi-patch-check-fill small text-primary"></i></h5>
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
                                     <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
                                 </div>
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
                                 </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d2.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">Domani Plavon</h5>
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
                                     <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
                                 </div>
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
                                 </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d3.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">John Mard</h5>
-                                    <p class="fw-light mb-0 text-muted small">Dental Surgeon</p>
-                                </div>
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
-                                </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d4.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">Domani Plavon</h5>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
                                     <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
                                 </div>
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
                                 </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d5.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">Amanal Frond <i class="bi bi-patch-check-fill small text-primary"></i></h5>
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
                                     <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
                                 </div>
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
                                 </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d6.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">John Mard</h5>
-                                    <p class="fw-light mb-0 text-muted small">Dental Surgeon</p>
-                                </div>
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
-                                </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d7.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">John Mard</h5>
-                                    <p class="fw-light mb-0 text-muted small">Dental Surgeon</p>
-                                </div>
-                            </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
-                                </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d8.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">Domani Plavon</h5>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
                                     <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
                                 </div>
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
                                 </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="position-relative mb-5">
-                        <div class="bg-white shadow-sm p-4 rounded-3">
-                            <div class="d-flex mb-3 align-items-center">
-                                <img class="img-fluid rounded-circle" src="img/d2.png" alt="...">
-                                <div class="ms-3">
-                                    <h5 class="fw-bold mb-1">Amanal Frond <i class="bi bi-patch-check-fill small text-primary"></i></h5>
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
                                     <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
                                 </div>
                             </div>
-                            <p class="text-muted fw-light mb-4">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div>
-                                    <a href="#" class="text-primary"><span class="bi bi-facebook"></span></a>
-                                    <a href="#" class="text-primary mx-3"><span class="bi bi-google"></span></a>
-                                    <a href="#" class="text-primary"><span class="bi bi-twitter"></span></a>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
                                 </div>
-                                <a href="doctors-item.html" class="btn btn-outline-primary stretched-link">Get Appointment</a>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center col-lg-12">
-                    <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                <div class="col-lg-4">
+                    <div class="position-relative mb-5">
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                    <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                </div>
+                            </div>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="position-relative mb-5">
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                    <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                </div>
+                            </div>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="position-relative mb-5">
+                        <div class="bg-white shadow-sm p-4 rounded-3 border">
+                            <div class="doctor-img mx-auto mb-3">
+                                <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                            </div>
+                            <div class="mb-2 align-items-center">
+                                <div class="text-center">
+                                    <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                    <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                </div>
+                            </div>
+                            <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                            <div class="mb-2 align-items-center">
+                                <div class="d-flex">
+                                    <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                    <div class="stars mx-2 gap-sm-2 fs-5">
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 </main>
+
+<script>
+    const stars = document.querySelectorAll(".stars i");
+    // Loop through the "stars" NodeList
+    stars.forEach((star, index1) => {
+        // Add an event listener that runs a function when the "click" event is triggered
+        star.addEventListener("click", () => {
+            // Loop through the "stars" NodeList Again
+            stars.forEach((star, index2) => {
+                // Add the "active" class to the clicked star and any stars with a lower index
+                // and remove the "active" class from any stars with a higher index
+                index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
+            });
+        });
+    });
+</script>
