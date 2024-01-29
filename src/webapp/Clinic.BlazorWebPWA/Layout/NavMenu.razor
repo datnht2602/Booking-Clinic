@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject SignOutSessionStateManager SignOutManager
+@inject NavigationManager nav
 <div class="bg-primary">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0 osahan-nav">
@@ -22,10 +24,27 @@
                     </li>
                 </ul>
                 <div class="d-flex gap-4 align-items-center">
-                    <NavLink href="login" class="btn btn-light text-uppercase fw-bold">Đăng nhập</NavLink>
-                    <NavLink href="signup" class="btn btn-light text-uppercase fw-bold">Đăng ký</NavLink>
+                    <AuthorizeView>
+                        <Authorized>
+                            <h3 class="fw-bold" style="color:azure">Hello @context.User.Identity.Name</h3>
+                            <button type="button" class="btn btn-light" @onclick="LogOut">
+                                Log out
+                            </button>
+                        </Authorized>
+                        <NotAuthorized>
+                            <NavLink href="authentication/login" class="btn btn-light text-uppercase fw-bold">Đăng nhập</NavLink>
+                            <NavLink href="signup" class="btn btn-light text-uppercase fw-bold">Đăng ký</NavLink>
+                        </NotAuthorized>
+                    </AuthorizeView>
                 </div>
             </div>
         </div>
     </nav>
 </div>
+@code {
+    public async Task LogOut()
+    {
+        await SignOutManager.SetSignOutState();
+        nav.NavigateTo("authentication/logout");
+    }
+}

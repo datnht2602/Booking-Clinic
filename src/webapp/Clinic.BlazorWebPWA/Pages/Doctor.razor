@@ -1,9 +1,18 @@
-﻿@page "/doctor"
-
+﻿@page "/doctor" 
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject HttpClient Http
+<AuthorizeView>
+	Logged
+</AuthorizeView>
 <PageTitle>Bác sĩ</PageTitle>
-
+@s
 <h3>Component</h3>
-
 @code {
-
+	string s;
+	protected override async Task OnInitializedAsync()
+	{
+		var response = await Http.GetAsync("api/test");
+		s = await response.Content.ReadAsStringAsync();
+	}
 }

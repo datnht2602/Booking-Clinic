@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace Clinic.Identity
 {
@@ -19,7 +20,7 @@ namespace Clinic.Identity
         public static IEnumerable<ApiScope> ApiScopes =>
              new List<ApiScope>
             {
-                new ApiScope(name: "magic", displayName: "Magic Server"),
+                new ApiScope(name: "Clinic", displayName: "Clinic Server"),
                 new ApiScope(name: "read", displayName: "Read your data"),
                 new ApiScope(name: "write", displayName: "Write your data"),
                 new ApiScope(name: "delete", displayName: "Delete your data")
@@ -37,13 +38,22 @@ namespace Clinic.Identity
                 },
                 new Client
                 {
-                    ClientId = "magic",
+                    ClientId = "Clinic",
                     ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.Code,
-                    AllowedScopes = { "magic"},
-                    RedirectUris = { "https://localhost:44379/signin-oidic" },
-                    PostLogoutRedirectUris = { "https://localhost:44379/signout-callback-oidc" }
-                }
+					RequirePkce = true,
+			        RequireClientSecret = false,
+					AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Email,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "Clinic"
+                    },
+                    RedirectUris = { "https://localhost:44379/authentication/login-callback" },
+					PostLogoutRedirectUris = { "https://localhost:44379/authentication/logout-callback" },
+					Enabled = true
+				}
         };
     }
 }
