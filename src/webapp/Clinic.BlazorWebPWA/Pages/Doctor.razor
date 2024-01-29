@@ -96,7 +96,7 @@
         </header>
     </div>
     <!-- Page Content-->
-    <section class="py-5">
+    <section class="py-4">
         <div class="container px-5 mt-5">
             <div class="row gx-5">
                 <div class="col-lg-4">
@@ -128,7 +128,7 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
                                 <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
-                                <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                <a href="book-appointments" class="btn btn-navy mx-3">Đặt lịch khám</a>
                             </div>
                         </div>
                     </div>
@@ -408,20 +408,45 @@
             </div>
         </div>
     </section>
+    <section class="p-3 d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mb-0">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
 </main>
 
 <script>
-    const stars = document.querySelectorAll(".stars i");
-    // Loop through the "stars" NodeList
-    stars.forEach((star, index1) => {
-        // Add an event listener that runs a function when the "click" event is triggered
-        star.addEventListener("click", () => {
-            // Loop through the "stars" NodeList Again
-            stars.forEach((star, index2) => {
-                // Add the "active" class to the clicked star and any stars with a lower index
-                // and remove the "active" class from any stars with a higher index
-                index1 >= index2 ? star.classList.add("active") : star.classList.remove("active");
+    document.querySelectorAll(".stars").forEach((starsContainer) => {
+        const stars = starsContainer.querySelectorAll(".bi-star-fill");
+
+        stars.forEach((star, index1) => {
+            star.addEventListener("click", () => {
+                stars.forEach((otherStar, index2) => {
+                    index1 >= index2
+                        ? otherStar.classList.add("active")
+                        : otherStar.classList.remove("active");
+                });
+
+                // Update the rating display based on the clicked star
+                const ratingDisplay = starsContainer.nextElementSibling.querySelector(".fw-bold.my-auto.fs-6");
+                ratingDisplay.textContent = `${index1 + 1}/5`;
             });
         });
     });
+
+
 </script>
