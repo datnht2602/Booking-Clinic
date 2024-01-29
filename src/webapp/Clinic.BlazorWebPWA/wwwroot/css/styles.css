@@ -9458,7 +9458,3 @@ label.error {
     max-width: 5%;
 }
 
-i.hide-btn::before {
-    content: "\F33E";
-}
-
