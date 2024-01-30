@@ -1,0 +1,69 @@
+﻿div .doctor-img {
+    height: 140px;
+    width: 140px;
+}
+
+    div .doctor-img img {
+        height: 100%;
+        width: 100%;
+    }
+
+.btn-navy {
+    color: #fff;
+    background-color: #002884;
+    border-color: #002884;
+}
+
+    .btn-navy:hover {
+        color: #000;
+        background-color: #fae41f;
+        border-color: #fae41f;
+    }
+
+    .btn-check:focus + .btn-navy,
+    .btn-navy:focus {
+        color: #fff;
+        background-color: #002884;
+        border-color: #002884;
+        box-shadow: 0 0 0 0.25rem rgba(211, 212, 213, 0.5);
+    }
+
+    .btn-check:checked + .btn-navy,
+    .btn-check:active + .btn-navy,
+    .btn-navy:active,
+    .btn-navy.active,
+    .show > .btn-navy.dropdown-toggle {
+        color: #fff;
+        background-color: #002884;
+        border-color: #002884;
+    }
+
+        .btn-check:checked + .btn-navy:focus,
+        .btn-check:active + .btn-navy:focus,
+        .btn-navy:active:focus,
+        .btn-navy.active:focus,
+        .show > .btn-navy.dropdown-toggle:focus {
+            box-shadow: 0 0 0 0.25rem rgba(211, 212, 213, 0.5);
+        }
+
+    .btn-navy:disabled,
+    .btn-navy.disabled {
+        color: #000;
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+    }
+
+.stars {
+    display: flex;
+    align-items: center;
+}
+
+    .stars i {
+        color: #D9D9D9;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+
+        .stars i.active {
+            color: #ff9c1a;
+        }
