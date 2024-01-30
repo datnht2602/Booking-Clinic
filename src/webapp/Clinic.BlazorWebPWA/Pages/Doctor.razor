@@ -1,18 +1,380 @@
-﻿@page "/doctor" 
-@using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
-@inject HttpClient Http
-<AuthorizeView>
-	Logged
-</AuthorizeView>
+﻿@page "/doctor"
+
 <PageTitle>Bác sĩ</PageTitle>
 @s
-<h3>Component</h3>
-@code {
-	string s;
-	protected override async Task OnInitializedAsync()
-	{
-		var response = await Http.GetAsync("api/test");
-		s = await response.Content.ReadAsStringAsync();
-	}
-}
+<head>
+    <link href="css/doctor.css" rel="stylesheet" />
+</head>
+
+<body>
+    <main class="flex-shrink-0">
+        <div class="bg-primary">
+            <header class="bg-primary py-4 inner-header">
+                <div class="container py-3 px-5">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <h1 class="fw-bold text-white text-uppercase">Các bác sĩ chuyên nghiệp của chúng tôi</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <!-- Page Content-->
+        <section class="py-4">
+            <div class="container px-5 mt-5">
+                <div class="row gx-5">
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="book-appointments" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="position-relative mb-5">
+                            <div class="bg-white shadow-sm p-4 rounded-3 border">
+                                <div class="doctor-img mx-auto mb-3">
+                                    <img class="img-fluid rounded-3" src="img/avatar.jpg" alt="...">
+                                </div>
+                                <div class="mb-2 align-items-center">
+                                    <div class="text-center">
+                                        <h5 class="fw-bold mb-1">Collis Molate </h5>
+                                        <p class="fw-light mb-0 text-muted small">Neurosurgeon</p>
+                                    </div>
+                                </div>
+                                <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                <div class="mb-2 align-items-center">
+                                    <div class="d-flex">
+                                        <p class="fw-bold my-auto me-2 fs-6"> Đánh giá: </p>
+                                        <div class="stars mx-2 gap-sm-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
+                                    <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
+                                    <a href="/" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="p-3 d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination mb-0">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">«</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+    </main>
+</body>
+
+
+<script>
+    document.querySelectorAll(".stars").forEach((starsContainer) => {
+        const stars = starsContainer.querySelectorAll(".bi-star-fill");
+
+        stars.forEach((star, index1) => {
+            star.addEventListener("click", () => {
+                stars.forEach((otherStar, index2) => {
+                    index1 >= index2
+                        ? otherStar.classList.add("active")
+                        : otherStar.classList.remove("active");
+                });
+
+                // Update the rating display based on the clicked star
+                const ratingDisplay = starsContainer.nextElementSibling.querySelector(".fw-bold.my-auto.fs-6");
+                ratingDisplay.textContent = `${index1 + 1}/5`;
+            });
+        });
+    });
+
+
+</script>
