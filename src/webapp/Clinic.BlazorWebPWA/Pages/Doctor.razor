@@ -1,7 +1,6 @@
 ﻿@page "/doctor"
 
 <PageTitle>Bác sĩ</PageTitle>
-@s
 <head>
     <link href="css/doctor.css" rel="stylesheet" />
 </head>
@@ -21,6 +20,54 @@
                 </div>
             </header>
         </div>
+
+        <!-- Filter bar-->
+        <section class="py-3">
+            <div class="container px-5">
+                <div class="row gx-3 align-items-center">
+                    <!-- Part 1: Filter Bar -->
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-md-1 d-flex justify-content-center">
+                                <h6 class="my-auto">Bộ lọc:</h6>
+                            </div>
+                            <div class="col-md-5">
+                                <select class="form-select" id="specializationFilter">
+                                    <option selected>Chuyên khoa</option>
+                                    <option value="1">Chuyên khoa 1</option>
+                                    <option value="2">Chuyên khoa 2</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="academicRankFilter">
+                                    <option selected>Học vị</option>
+                                    <option value="1">Học vị 1</option>
+                                    <option value="2">Học vị 2</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="genderFilter">
+                                    <option selected>Giới tính</option>
+                                    <option value="male">Nam</option>
+                                    <option value="female">Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 2: Search Bar -->
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm bác sĩ" aria-label="Doctor's name" aria-describedby="searchButton">
+                            <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                                <i class="bi bi-search"></i> <!-- Bootstrap icon for search -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Page Content-->
         <section class="py-4">
             <div class="container px-5 mt-5">
