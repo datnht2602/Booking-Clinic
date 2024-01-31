@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using IdentityModel;
 
 namespace Clinic.Identity
 {
@@ -15,7 +16,7 @@ namespace Clinic.Identity
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Email(),
-                new IdentityResources.Profile(),
+                new ProfileWithRoleIdentityResource(),
             };
         public static IEnumerable<ApiScope> ApiScopes =>
              new List<ApiScope>
@@ -25,6 +26,12 @@ namespace Clinic.Identity
                 new ApiScope(name: "write", displayName: "Write your data"),
                 new ApiScope(name: "delete", displayName: "Delete your data")
             };
+        public static IEnumerable<ApiResource> ApiResources =>
+            new ApiResource[]
+           {
+                new ApiResource(name: "apigateway", displayName: "The Api Gateway",new[]{ JwtClaimTypes.Role})
+
+           };
 
         public static IEnumerable<Client> Clients =>
              new List<Client>
@@ -39,7 +46,6 @@ namespace Clinic.Identity
                 new Client
                 {
                     ClientId = "Clinic",
-                    ClientSecrets = {new Secret("secret".Sha256())},
                     AllowedGrantTypes = GrantTypes.Code,
 					RequirePkce = true,
 			        RequireClientSecret = false,
@@ -48,7 +54,7 @@ namespace Clinic.Identity
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "Clinic"
+                        "apigateway"
                     },
                     RedirectUris = { "https://localhost:44379/authentication/login-callback" },
 					PostLogoutRedirectUris = { "https://localhost:44379/authentication/logout-callback" },
