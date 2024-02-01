@@ -8,5 +8,12 @@
         public string Name { get; set; }
 
         public string DateTime { get; set; }
+
+        public string Introduction { get; set; }
+
+        public string Achievement { get; set; }
+
+        public string WorkingExperience { get; set; }
+
     }
 }
