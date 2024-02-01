@@ -14,7 +14,7 @@ builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().Cre
 builder.Services.AddOidcAuthentication(options =>
 {
 	options.ProviderOptions.Authority = "https://localhost:44396";
-	options.ProviderOptions.ClientId = "magic";
+	options.ProviderOptions.ClientId = "Clinic";
 	options.ProviderOptions.ResponseType = "code";
 	options.ProviderOptions.DefaultScopes.Add("openid");
 	options.ProviderOptions.DefaultScopes.Add("profile");
