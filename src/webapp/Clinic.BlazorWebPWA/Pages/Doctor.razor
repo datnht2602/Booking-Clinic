@@ -20,9 +20,65 @@
                 </div>
             </header>
         </div>
+
+        <!-- Filter bar-->
+        <section class="py-3">
+            <div class="container px-5">
+                <div class="row gx-3 align-items-center">
+                    <!-- Part 1: Filter Bar -->
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <div class="col-md-1 d-flex justify-content-center">
+                                <h6 class="my-auto">Bộ lọc:</h6>
+                            </div>
+                            <div class="col-md-5">
+                                <select class="form-select" id="specializationFilter">
+                                    <option selected>Chuyên khoa</option>
+                                    <option value="1">Chuyên khoa 1</option>
+                                    <option value="2">Chuyên khoa 2</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="academicRankFilter">
+                                    <option selected>Học vị</option>
+                                    <option value="1">Học vị 1</option>
+                                    <option value="2">Học vị 2</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="genderFilter">
+                                    <option selected>Giới tính</option>
+                                    <option value="male">Nam</option>
+                                    <option value="female">Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part 2: Search Bar -->
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm bác sĩ" aria-label="Doctor's name" aria-describedby="searchButton">
+                            <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                                <i class="bi bi-search"></i> <!-- Bootstrap icon for search -->
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="col-lg-12 bg-warning">
+            <div class="container px-5">
+                <div class="row py-2 align-items-center justify-content-center">
+                    <h5 class="my-auto">Phòng khám số 201</h5>
+                </div>
+            </div>
+        </div>
+
         <!-- Page Content-->
-        <section class="py-4">
-            <div class="container px-5 mt-5">
+        <section class="py-3">
+            <div class="container px-5 mt-3">
                 <div class="row gx-5">
                     <div class="col-lg-4">
                         <div class="position-relative mb-5">
@@ -53,7 +109,7 @@
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div> <a href="#" class="text-primary fs-4 mx-3"><i class="bi bi-chat-dots-fill"></i></a> </div>
                                     <a href="/" class="btn btn-navy mx-3">Chi tiết</a>
-                                    <a href="book-appointments" class="btn btn-navy mx-3">Đặt lịch khám</a>
+                                    <a href="doctor/book-appointments" class="btn btn-navy mx-3">Đặt lịch khám</a>
                                 </div>
                             </div>
                         </div>
