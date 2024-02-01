@@ -28,7 +28,8 @@ builder.Services.AddOidcAuthentication(options =>
 	options.ProviderOptions.ResponseType = "code";
 	options.ProviderOptions.DefaultScopes.Add("openid");
 	options.ProviderOptions.DefaultScopes.Add("profile");
-    options.ProviderOptions.DefaultScopes.Add("apigateway");
+    options.ProviderOptions.DefaultScopes.Add("email");
+    //options.ProviderOptions.DefaultScopes.Add("apigateway");
     options.ProviderOptions.PostLogoutRedirectUri = "/";
 	options.ProviderOptions.RedirectUri = "authentication/login-callback";
 	options.UserOptions.RoleClaim = "role";

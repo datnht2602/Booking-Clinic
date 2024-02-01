@@ -38,24 +38,11 @@ namespace Clinic.Identity
             {
                 new Client
                 {
-                    ClientId = "service.client",
-                    ClientSecrets = {new Secret("secret".Sha256())},
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { "api1", "api2.read_only"}
-                },
-                new Client
-                {
                     ClientId = "Clinic",
                     AllowedGrantTypes = GrantTypes.Code,
 					RequirePkce = true,
 			        RequireClientSecret = false,
-					AllowedScopes = new List<string>
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Email,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "apigateway"
-                    },
+					AllowedScopes = { "openid", "profile", "email", "apigateway" },
                     RedirectUris = { "https://localhost:44379/authentication/login-callback" },
 					PostLogoutRedirectUris = { "https://localhost:44379/authentication/logout-callback" },
 					Enabled = true
