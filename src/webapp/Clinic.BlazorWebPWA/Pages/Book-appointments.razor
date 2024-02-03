@@ -12,16 +12,16 @@
                     <form action="/" class="text-start pt-4">
                         <div class="mb-3">
                             <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
-                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                            <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
-                            <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                            <label for="phoneNumbers" class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
+                            <input type="tel" id="phoneNumbers" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
                         </div>
                         <div class="row">
                             <div class="mb-3 col-6">
-                                <label for="major" class="form-label medium text-white">Chọn chuyên khoa <small class="text-danger fw-bold">*</small></label>
-                                <select class="form-select" required aria-label="Chọn Chuyên khoa">
+                                <label for="specialization" class="form-label medium text-white">Chọn chuyên khoa <small class="text-danger fw-bold">*</small></label>
+                                <select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
                                     <option value="">Chọn chuyên khoa</option>
                                     <option value="1">Chuyên khoa 1</option>
                                     <option value="2">Chuyên khoa 2</option>
@@ -30,7 +30,7 @@
                             </div>
                             <div class="mb-3 col-6">
                                 <label for="doctor" class="form-label medium text-white">Chọn bác sĩ <small class="text-danger">*</small></label>
-                                <select class="form-select" required aria-label="Chọn Chuyên khoa">
+                                <select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
                                     <option value="">Chọn bác sĩ</option>
                                     <option value="1">Bác sĩ 1</option>
                                     <option value="2">Bác sĩ 2</option>
