@@ -1,5 +1,6 @@
 ﻿@page "/doctor/doctor-detail/book-appointments"
 @page "/doctor/book-appointments"
+@page "/book-appointments"
 
 <PageTitle>Đặt lịch khám</PageTitle>
 
@@ -100,13 +101,11 @@
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.2/js/bootstrap-multiselect.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $('#service').multiselect({
+        document.addEventListener("DOMContentLoaded", function () {
+            jQuery('#service').multiselect({
                 buttonClass: 'form-select',
                 templates: {
                     button: '<button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button>',
