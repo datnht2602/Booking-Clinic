@@ -101,16 +101,17 @@
         </div>
     </main>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.2/js/bootstrap-multiselect.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            jQuery('#service').multiselect({
+        $(document).ready(function () {
+            $('#service').multiselect({
                 buttonClass: 'form-select',
                 templates: {
                     button: '<button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button>',
                 },
+
             });
-        });
     </script>
 </body>
