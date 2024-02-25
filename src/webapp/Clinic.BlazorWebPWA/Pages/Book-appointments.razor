@@ -6,13 +6,13 @@
 
 
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 
 <body>
     <style>
-        .btn-group, .btn-group-vertical {
+        .btn-group,
+        .btn-group-vertical {
             position: relative;
             display: inline-flex;
             vertical-align: middle;
@@ -26,6 +26,133 @@
             padding: 0;
             width: 100%;
         }
+
+        ul {
+            list-style-type: none;
+            padding: 0px
+        }
+        /* Modal Box  */
+        :root {
+            --theme-color: #041150;
+            --theme-color-hover: #041150;
+            --theme-color2: #041150;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Custom Multi Select */
+        .sd-multiSelect {
+            position: relative;
+        }
+
+            .sd-multiSelect .placeholder {
+                opacity: 1;
+                background-color: transparent;
+                cursor: pointer;
+            }
+
+            .sd-multiSelect .ms-offscreen {
+                height: 1px;
+                width: 1px;
+                opacity: 0;
+                overflow: hidden;
+                display: none;
+            }
+
+            .sd-multiSelect .sd-CustomSelect {
+                width: 100% !important;
+            }
+
+            .sd-multiSelect .ms-choice {
+                position: relative;
+                text-align: left !important;
+                width: 100%;
+                border: 1px solid #e3e3e3;
+                background: #ffff;
+                box-shadow: none;
+                font-size: 15px;
+                height: 37px;
+                font-weight: 500;
+                color: #212529;
+                line-height: 1.5;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border-radius: 0.25rem;
+                transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+            }
+
+                .sd-multiSelect .ms-choice:after {
+                    content: "\f107 ";
+                    font-family: "FontAwesome";
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    font-size: 18px;
+                }
+
+                .sd-multiSelect .ms-choice:focus {
+                    border-color: var(--theme-color);
+                }
+
+            .sd-multiSelect .ms-drop.bottom {
+                display: none;
+                background: #fff;
+                border: 1px solid #e5e5e5;
+                padding: 10px;
+            }
+
+            .sd-multiSelect .ms-drop li {
+                position: relative;
+                margin-bottom: 10px;
+            }
+
+                .sd-multiSelect .ms-drop li input[type="checkbox"] {
+                    padding: 0;
+                    height: initial;
+                    width: initial;
+                    margin-bottom: 0;
+                    display: none;
+                    cursor: pointer;
+                }
+
+                .sd-multiSelect .ms-drop li label {
+                    cursor: pointer;
+                    user-select: none;
+                    -ms-user-select: none;
+                    -moz-user-select: none;
+                    -webkit-user-select: none;
+                }
+
+                    .sd-multiSelect .ms-drop li label:before {
+                        content: "";
+                        -webkit-appearance: none;
+                        background-color: transparent;
+                        border: 2px solid var(--theme-color);
+                        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+                        padding: 8px;
+                        display: inline-block;
+                        position: relative;
+                        vertical-align: middle;
+                        cursor: pointer;
+                        margin-right: 5px;
+                    }
+
+                .sd-multiSelect .ms-drop li input:checked + span:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    top: 9px;
+                    left: 5px;
+                    width: 10px;
+                    height: 10px;
+                    background: var(--theme-color);
+                    border-width: 0 2px 2px 0;
+                }
     </style>
     <main>
         <div class="bg-white">
@@ -72,12 +199,17 @@
                             </div>
                             <div class="row" id="multiselect">
                                 <div class="mb-3 col-6">
-                                    <label for="service" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger fw-bold">*</small></label>
-                                    <select class="form-select" id="service" multiple>
-                                        <option value="1">Dịch vụ 1</option>
-                                        <option value="2">Dịch vụ 2</option>
-                                        <option value="3">Dịch vụ 3</option>
-                                    </select>
+                                    <div class="modal-box">
+                                        <div class="sd-multiSelect form-group">
+                                            <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
+                                            <select multiple id="current-job-role" class="sd-CustomSelect" data-placeholder="Chọn dịch vụ">
+                                                <option value="1">Dịch vụ 1 (1000000 đồng)</option>
+                                                <option value="2">Dịch vụ 2 (1000000 đồng)</option>
+                                                <option value="3">Dịch vụ 3 (1000000 đồng)</option>
+                                                <option value="4">Dịch vụ 4 (1000000 đồng)</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
@@ -88,6 +220,9 @@
                                         <option value="3">Phương thức 3</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="mb-3">
+                                <h5 class="form-label fs-5 text-white">Tổng tiền: <b>2.000.000 đ</b></h5>
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
@@ -101,19 +236,17 @@
         </div>
     </main>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-
-    <script type="text/javascript">
+    <script src="js/multi-select.js" defer></script>
+    <script>
         $(document).ready(function () {
-            // Initialize Select2 for service select element
-            $('#service').select2({
-                theme: 'bootstrap-5',
-                dropdownParent: $('#multiselect'),
-                width: '100%',
-                placeholder: 'Chọn dịch vụ',
-                allowClear: true,
-            });
+            setTimeout(function () {
+                $(".sd-CustomSelect").multipleSelect({
+                    selectAll: false,
+                    onOptgroupClick: function (view) {
+                        $(view).parents("label").addClass("selected-optgroup");
+                    }
+                });
+            }, 500);
         });
     </script>
 </body>
