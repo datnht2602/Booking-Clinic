@@ -17,7 +17,7 @@ namespace Clinic.Identity.Controllers
         }
         public async Task<IActionResult> GetListDoctor()
         {
-            throw new NotImplementedException();
+            return  Ok(_userManager.Users.ToList());
         }
     }
 }

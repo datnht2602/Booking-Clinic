@@ -95,6 +95,6 @@ public class Index : PageModel
             }
         }
 
-        return Redirect("https://localhost:44379/");
+        return Redirect("https://localhost:7072/");
     }
 }

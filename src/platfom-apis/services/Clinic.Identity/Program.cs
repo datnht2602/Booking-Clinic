@@ -2,6 +2,7 @@ using Clinic.Identity;
 using Clinic.Identity.Data;
 using Clinic.Identity.IDBInitializer;
 using Clinic.Identity.Models;
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +28,7 @@ builder.Services.AddIdentityServer(options =>
     options.Events.RaiseSuccessEvents = true;
     options.Events.RaiseFailureEvents = true;
 }).AddInMemoryIdentityResources(SD.IdentityResource)
-.AddInMemoryApiResources(SD.ApiResources)
+.AddInMemoryApiScopes(SD.ApiScopes)
 .AddInMemoryClients(SD.Clients)
 .AddAspNetIdentity<ApplicationUser>()
 .AddDeveloperSigningCredential();

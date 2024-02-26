@@ -14,8 +14,8 @@ builder.Services.AddHttpClient("api")
                {
                    var handler = sp.GetService<AuthorizationMessageHandler>()
                        .ConfigureHandler(
-                           authorizedUrls: new[] { "https://localhost:44393" },
-                           scopes: new[] { "weatherapi" });
+                           authorizedUrls: new[] { "https://localhost:7244" },
+                           scopes: new[] { "Clinic" });
 
                    return handler;
                });
@@ -23,13 +23,13 @@ builder.Services.AddHttpClient("api")
 builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("api"));
 builder.Services.AddOidcAuthentication(options =>
 {
-	options.ProviderOptions.Authority = "https://localhost:44396";
+	options.ProviderOptions.Authority = "https://localhost:7268";
 	options.ProviderOptions.ClientId = "Clinic";
 	options.ProviderOptions.ResponseType = "code";
 	options.ProviderOptions.DefaultScopes.Add("openid");
 	options.ProviderOptions.DefaultScopes.Add("profile");
     options.ProviderOptions.DefaultScopes.Add("email");
-    //options.ProviderOptions.DefaultScopes.Add("apigateway");
+    options.ProviderOptions.DefaultScopes.Add("Clinic");
     options.ProviderOptions.PostLogoutRedirectUri = "/";
 	options.ProviderOptions.RedirectUri = "authentication/login-callback";
 	options.UserOptions.RoleClaim = "role";

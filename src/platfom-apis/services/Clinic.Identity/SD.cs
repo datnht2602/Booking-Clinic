@@ -21,17 +21,11 @@ namespace Clinic.Identity
         public static IEnumerable<ApiScope> ApiScopes =>
              new List<ApiScope>
             {
-                new ApiScope(name: "Clinic", displayName: "Clinic Server"),
+                new ApiScope(name: "Clinic", displayName: "Clinic Server",new[] { JwtClaimTypes.Role}),
                 new ApiScope(name: "read", displayName: "Read your data"),
                 new ApiScope(name: "write", displayName: "Write your data"),
                 new ApiScope(name: "delete", displayName: "Delete your data")
             };
-        public static IEnumerable<ApiResource> ApiResources =>
-            new ApiResource[]
-           {
-                new ApiResource(name: "apigateway", displayName: "The Api Gateway",new[]{ JwtClaimTypes.Role})
-
-           };
 
         public static IEnumerable<Client> Clients =>
              new List<Client>
@@ -42,9 +36,9 @@ namespace Clinic.Identity
                     AllowedGrantTypes = GrantTypes.Code,
 					RequirePkce = true,
 			        RequireClientSecret = false,
-					AllowedScopes = { "openid", "profile", "email", "apigateway" },
-                    RedirectUris = { "https://localhost:44379/authentication/login-callback" },
-					PostLogoutRedirectUris = { "https://localhost:44379/authentication/logout-callback" },
+					AllowedScopes = { "openid", "profile", "email", "Clinic" },
+                    RedirectUris = { "https://localhost:7072/authentication/login-callback" },
+					PostLogoutRedirectUris = { "https://localhost:7072/authentication/logout-callback" },
 					Enabled = true
 				}
         };

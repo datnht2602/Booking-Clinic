@@ -10,8 +10,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://localhost:44396";
-        options.Audience = "apigateway";
+        options.Authority = "https://localhost:7268";
+        options.Audience = "Clinic";
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             NameClaimType = "name"
@@ -32,7 +32,8 @@ app.UseCors(config =>
     config.AllowAnyHeader();
 });
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGet("/weatherforecast", () =>
 {

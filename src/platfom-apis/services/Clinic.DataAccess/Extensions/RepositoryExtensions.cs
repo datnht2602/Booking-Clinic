@@ -10,7 +10,6 @@ namespace Clinic.DataAccess.Extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }

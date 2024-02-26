@@ -30,8 +30,8 @@ namespace Clinic.Identity.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("AverageRating")
+                        .HasColumnType("float");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -40,7 +40,7 @@ namespace Clinic.Identity.Migrations
                     b.Property<long>("DateOfBirth")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("District")
+                    b.Property<string>("Detail")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -50,8 +50,13 @@ namespace Clinic.Identity.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("HealthInsuranceCode")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("Introduction")
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -60,7 +65,6 @@ namespace Clinic.Identity.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -82,9 +86,6 @@ namespace Clinic.Identity.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Specialization")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
