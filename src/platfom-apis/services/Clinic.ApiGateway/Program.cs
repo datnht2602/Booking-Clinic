@@ -25,15 +25,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(config =>
-{
-    config.AllowAnyOrigin();
-    config.AllowAnyMethod();
-    config.AllowAnyHeader();
-});
+
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapGet("/weatherforecast", () =>
 {
