@@ -17,6 +17,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="Select2-Bootstrap" Version="1.2.0" />
+    <PackageReference Include="Select2.js" Version="4.0.13" />
   </ItemGroup>
 
   <ItemGroup>

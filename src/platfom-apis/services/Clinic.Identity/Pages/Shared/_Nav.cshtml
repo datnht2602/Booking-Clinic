@@ -1,4 +1,4 @@
-@using Duende.IdentityServer.Extensions
+﻿@using Duende.IdentityServer.Extensions
 @{
     string name = null;
     if (!true.Equals(ViewData["signed-out"]))
@@ -7,13 +7,28 @@
     }
 }
 
-<div class="nav-page">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-
-        <a href="~/" class="navbar-brand">
-            <img src="~/duende-logo.svg" class="icon-banner">
-            Duende IdentityServer
-        </a>
+<div class="bg-primary">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0 osahan-nav">
+        <div class="container px-5">
+            <NavLink class="navbar-brand" href="/"><img class="img-fluid" src="~/logo.png" alt="..." /></NavLink>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><NavLink class="nav-link" href="/">Trang chủ</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="about">Giới thiệu</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="doctor">Bác sĩ</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="health-packages">Gói khám sức khỏe</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="book-appointments">Đặt lịch khám</NavLink></li>
+                    <li class="nav-item"><NavLink class="nav-link" href="blog">Tin tức</NavLink></li>
+                    <li class="nav-item dropdown">
+                        <NavLink class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tin tức</NavLink>
+                        <ul class="dropdown-menu m-0 border-0 shadow-sm p-2 dropdown-menu-end">
+                            <li><NavLink class="dropdown-item px-3 py-2 rounded" href="forgot.html">Forgot</NavLink></li>
+                            <li><NavLink class="dropdown-item px-3 py-2 rounded" href="404">Not Found 404</NavLink></li>
+                        </ul>
+                    </li>
+                </ul>
 
         @if (!string.IsNullOrWhiteSpace(name))
         {
