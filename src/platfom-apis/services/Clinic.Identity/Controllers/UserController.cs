@@ -24,7 +24,7 @@ namespace Clinic.Identity.Controllers
         public async Task<IActionResult> GetListDoctor()
         {
             var items = await _userManager.Users.ToListAsync();
-            return  Ok(items.To<ApplicationUsersDto>().To<ApplicationUserModel>());
+            return  Ok();
         }
     }
 }
