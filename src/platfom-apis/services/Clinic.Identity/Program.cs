@@ -1,3 +1,4 @@
+using Clinic.Common.Options;
 using Clinic.Identity;
 using Clinic.Identity.Data;
 using Clinic.Identity.IDBInitializer;
@@ -11,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
@@ -32,6 +32,8 @@ builder.Services.AddIdentityServer(options =>
 .AddInMemoryClients(SD.Clients)
 .AddAspNetIdentity<ApplicationUser>()
 .AddDeveloperSigningCredential();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 

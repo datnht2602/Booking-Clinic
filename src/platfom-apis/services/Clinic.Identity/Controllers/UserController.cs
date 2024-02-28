@@ -12,9 +12,11 @@ namespace Clinic.Identity.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper autoMapper;
-        public UserController(UserManager<ApplicationUser> userManager)
+        public UserController(UserManager<ApplicationUser> userManager,
+            IMapper autoMapper)
         {
             _userManager = userManager;
+            this.autoMapper = autoMapper;
         }
         public IActionResult Index()
         {
@@ -24,7 +26,9 @@ namespace Clinic.Identity.Controllers
         public async Task<IActionResult> GetListDoctor()
         {
             var items = await _userManager.Users.ToListAsync();
-            return  Ok();
+            var usersDto = autoMapper.Map<List<ApplicationUsersDto>>(items);
+            var userModels = autoMapper.Map<List<ApplicationUserModel>>(usersDto);
+            return  Ok(userModels);
         }
     }
 }

@@ -16,9 +16,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\core\Clinic.Common\Clinic.Common.csproj" />
+    <ProjectReference Include="..\..\core\Clinic.Infrastructure\Clinic.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\data\Clinic.Data.Models\Clinic.Data.Models.csproj" />
     <ProjectReference Include="..\..\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
   </ItemGroup>
 

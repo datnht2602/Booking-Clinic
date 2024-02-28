@@ -2,6 +2,7 @@ namespace Clinic.DTO.Models.Dto;
 
 public class ApplicationUsersDto
 {
+    public string? Id { get; set; }
     public string? UserName { get; set; }
     
     public string? NormalizedUserName { get; set; }

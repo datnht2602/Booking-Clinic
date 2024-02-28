@@ -2,6 +2,7 @@ namespace Clinic.DTO.Models;
 
 public class ApplicationUserModel
 {
+    public string? Id { get; set; }
     public string? UserName { get; set; }
     
     public string? Email { get; set; }
@@ -21,4 +22,8 @@ public class ApplicationUserModel
     public string? Introduction { get; set; }
     
     public double AverageRating { get; set; }
+    public int ExperienceYear { get; set; }
+    public string Title { get; set; }
+    public int Specialization { get; set; }
+    public string ClinicNum { get; set; }
 }
