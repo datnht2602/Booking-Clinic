@@ -2,23 +2,18 @@
 
 <PageTitle>Admin</PageTitle>
 
+<link href="css/admin.css" rel="stylesheet" />
+
+
 <div class="header">
     <div class="header-left">
-        <a href="index.html" class="logo">
-            <img src="assets/img/logo.png" width="35" height="35" alt> <span>Pre Clinic</span>
+        <a href="/" class="logo">
+            <img src="img/logo.png" width="35" height="35" alt="4Health Clinic Booking">
         </a>
-    </div>
-    <a id="toggle_btn" href="javascript:void(0);"><img src="assets/img/icons/bar-icon.svg" alt></a>
-    <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><img src="assets/img/icons/bar-icon.svg" alt></a>
-    <div class="top-nav-search mob-view">
-        <form>
-            <input type="text" class="form-control" placeholder="Search here">
-            <a class="btn"><img src="assets/img/icons/search-normal.svg" alt></a>
-        </form>
     </div>
     <ul class="nav user-menu float-end">
         <li class="nav-item dropdown d-none d-md-block">
-            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img src="assets/img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a>
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img src="img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
                     <span>Notifications</span>
@@ -29,7 +24,7 @@
                             <a href="activities.html">
                                 <div class="media">
                                     <span class="avatar">
-                                        <img alt="John Doe" src="assets/img/user.jpg" class="img-fluid">
+                                        <img alt="John Doe" src="img/user.jpg" class="img-fluid">
                                     </span>
                                     <div class="media-body">
                                         <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
@@ -90,7 +85,7 @@
             </div>
         </li>
         <li class="nav-item dropdown d-none d-md-block">
-            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img src="assets/img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img src="img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
         </li>
         <li class="nav-item dropdown has-arrow user-profile-list">
             <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
@@ -99,7 +94,7 @@
                     <span>Admin</span>
                 </div>
                 <span class="user-img">
-                    <img src="assets/img/user-06.jpg" alt="Admin">
+                    <img src="img/user-06.jpg" alt="Admin">
                 </span>
             </a>
             <div class="dropdown-menu">
@@ -110,7 +105,7 @@
             </div>
         </li>
         <li class="nav-item ">
-            <a href="settings.html" class="hasnotifications nav-link"><img src="assets/img/icons/setting-icon-01.svg" alt> </a>
+            <a href="settings.html" class="hasnotifications nav-link"><img src="img/icons/setting-icon-01.svg" alt> </a>
         </li>
     </ul>
     <div class="dropdown mobile-user-menu float-end">
@@ -129,7 +124,7 @@
             <ul>
                 <li class="menu-title">Main</li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-01.svg" alt></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-01.svg" alt></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a class="active" href="/">Admin Dashboard</a></li>
                         <li><a href="/">Doctor Dashboard</a></li>
@@ -137,7 +132,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-02.svg" alt></span> <span> Doctors </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-02.svg" alt></span> <span> Doctors </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/list-doctor">Doctor List</a></li>
                         <li><a href="/add-doctor">Add Doctor</a></li>
@@ -146,7 +141,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-03.svg" alt></span> <span>Patients </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-03.svg" alt></span> <span>Patients </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Patients List</a></li>
                         <li><a href="/">Add Patients</a></li>
@@ -155,7 +150,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-08.svg" alt></span> <span> Staff </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-08.svg" alt></span> <span> Staff </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Staff List</a></li>
                         <li><a href="/">Add Staff</a></li>
@@ -166,7 +161,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-04.svg" alt></span> <span> Appointments </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-04.svg" alt></span> <span> Appointments </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Appointment List</a></li>
                         <li><a href="/">Book Appointment</a></li>
@@ -174,7 +169,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-05.svg" alt></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-05.svg" alt></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Schedule List</a></li>
                         <li><a href="/">Add Schedule</a></li>
@@ -182,7 +177,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-06.svg" alt></span> <span> Departments </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-06.svg" alt></span> <span> Departments </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Department List</a></li>
                         <li><a href="/">Add Department</a></li>
@@ -190,7 +185,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-07.svg" alt></span> <span> Accounts </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-07.svg" alt></span> <span> Accounts </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Invoices</a></li>
                         <li><a href="/">Payments</a></li>
@@ -200,17 +195,17 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-09.svg" alt></span> <span> Payroll </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-09.svg" alt></span> <span> Payroll </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/"> Employee Salary </a></li>
                         <li><a href="/"> Payslip </a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/"><span class="menu-side"><img src="assets/img/icons/menu-icon-10.svg" alt></span> <span>Chat</span></a>
+                    <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-10.svg" alt></span> <span>Chat</span></a>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-11.svg" alt></span> <span> Calls</span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-11.svg" alt></span> <span> Calls</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Voice Call</a></li>
                         <li><a href="/">Video Call</a></li>
@@ -218,7 +213,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-12.svg" alt></span> <span> Email</span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-12.svg" alt></span> <span> Email</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Compose Mail</a></li>
                         <li><a href="/">Inbox</a></li>
@@ -226,7 +221,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-13.svg" alt></span> <span> Blog</span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-13.svg" alt></span> <span> Blog</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Blog</a></li>
                         <li><a href="/">Blog View</a></li>
@@ -238,7 +233,7 @@
                     <a href="/"><i class="fa fa-cube"></i> <span>Assets</span></a>
                 </li>
                 <li>
-                    <a href="/"><span class="menu-side"><img src="assets/img/icons/menu-icon-14.svg" alt></span> <span>Activities</span></a>
+                    <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-14.svg" alt></span> <span>Activities</span></a>
                 </li>
                 <li class="submenu">
                     <a style="cursor: pointer"><i class="fa fa-flag"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
@@ -248,7 +243,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="assets/img/icons/menu-icon-15.svg" alt></span> <span> Invoice </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-15.svg" alt></span> <span> Invoice </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/"> Invoices List </a></li>
                         <li><a href="/"> Invoices Grid</a></li>
@@ -259,7 +254,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="/"><span class="menu-side"><img src="assets/img/icons/menu-icon-16.svg" alt></span> <span>Settings</span></a>
+                    <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-16.svg" alt></span> <span>Settings</span></a>
                 </li>
                 <li class="menu-title">Extras</li>
                 <li class="submenu">
@@ -301,7 +296,7 @@
                 </li>
             </ul>
             <div class="logout-btn">
-                <a href="/"><span class="menu-side"><img src="assets/img/icons/logout.svg" alt></span> <span>Logout</span></a>
+                <a href="/"><span class="menu-side"><img src="img/icons/logout.svg" alt></span> <span>Logout</span></a>
             </div>
         </div>
     </div>
@@ -329,7 +324,7 @@
                 </div>
                 <div class="col-md-6 position-blk">
                     <div class="morning-img">
-                        <img src="assets/img/morning-img-01.png" alt>
+                        <img src="img/morning-img-01.png" alt>
                     </div>
                 </div>
             </div>
@@ -338,7 +333,7 @@
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
-                        <img src="assets/img/icons/calendar.svg" alt>
+                        <img src="img/icons/calendar.svg" alt>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Appointments</h4>
@@ -350,7 +345,7 @@
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
-                        <img src="assets/img/icons/profile-add.svg" alt>
+                        <img src="img/icons/profile-add.svg" alt>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>New Patients</h4>
@@ -362,7 +357,7 @@
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
-                        <img src="assets/img/icons/scissor.svg" alt>
+                        <img src="img/icons/scissor.svg" alt>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Operations</h4>
@@ -374,7 +369,7 @@
             <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                 <div class="dash-widget">
                     <div class="dash-boxs comman-flex-center">
-                        <img src="assets/img/icons/empty-wallet.svg" alt>
+                        <img src="img/icons/empty-wallet.svg" alt>
                     </div>
                     <div class="dash-content dash-count">
                         <h4>Earnings</h4>
@@ -416,7 +411,7 @@
                             <h4>Patient by Department</h4>
                         </div>
                         <div id="donut-chart-dash" class="chart-user-icon">
-                            <img src="assets/img/icons/user-icon.svg" alt>
+                            <img src="img/icons/user-icon.svg" alt>
                         </div>
                     </div>
                 </div>
@@ -431,7 +426,7 @@
                     <div class="card-body">
                         <div class="activity-top">
                             <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-01.svg" alt>
+                                <img src="img/icons/dep-icon-01.svg" alt>
                             </div>
                             <div class="departments-list">
                                 <h4>General Physician</h4>
@@ -440,7 +435,7 @@
                         </div>
                         <div class="activity-top">
                             <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-02.svg" alt>
+                                <img src="img/icons/dep-icon-02.svg" alt>
                             </div>
                             <div class="departments-list">
                                 <h4>Dentist</h4>
@@ -449,7 +444,7 @@
                         </div>
                         <div class="activity-top">
                             <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-03.svg" alt>
+                                <img src="img/icons/dep-icon-03.svg" alt>
                             </div>
                             <div class="departments-list">
                                 <h4>ENT</h4>
@@ -458,7 +453,7 @@
                         </div>
                         <div class="activity-top">
                             <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-04.svg" alt>
+                                <img src="img/icons/dep-icon-04.svg" alt>
                             </div>
                             <div class="departments-list">
                                 <h4>Cardiologist</h4>
@@ -467,7 +462,7 @@
                         </div>
                         <div class="activity-top mb-0">
                             <div class="activity-boxs comman-flex-center">
-                                <img src="assets/img/icons/dep-icon-05.svg" alt>
+                                <img src="img/icons/dep-icon-05.svg" alt>
                             </div>
                             <div class="departments-list">
                                 <h4>Opthomology</h4>
@@ -511,7 +506,7 @@
                                         <td>R00001</td>
                                         <td>Andrea Lalema</td>
                                         <td class="table-image appoint-doctor">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-02.jpg" alt>
                                             <h2>Dr.Jenny Smith</h2>
                                         </td>
                                         <td class="appoint-time"><span>12.05.2022 at </span>7.00 PM</td>
@@ -535,7 +530,7 @@
                                         <td>R00002</td>
                                         <td>Cristina Groves</td>
                                         <td class="table-image appoint-doctor">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-03.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-03.jpg" alt>
                                             <h2>Dr.Angelica Ramos</h2>
                                         </td>
                                         <td class="appoint-time"><span>13.05.2022 at </span>7.00 PM</td>
@@ -559,7 +554,7 @@
                                         <td>R00003</td>
                                         <td>Bernardo </td>
                                         <td class="table-image appoint-doctor">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-04.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-04.jpg" alt>
                                             <h2>Dr.Martin Doe</h2>
                                         </td>
                                         <td class="appoint-time"><span>14.05.2022 at </span>7.00 PM</td>
@@ -583,7 +578,7 @@
                                         <td>R00004</td>
                                         <td>Galaviz Lalema</td>
                                         <td class="table-image appoint-doctor">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-05.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-05.jpg" alt>
                                             <h2>Dr.William Jerk</h2>
                                         </td>
                                         <td class="appoint-time"><span>15.05.2022 at </span>7.00 PM</td>
@@ -607,7 +602,7 @@
                                         <td>R00005</td>
                                         <td>Cristina Groves</td>
                                         <td class="table-image appoint-doctor">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-03.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-03.jpg" alt>
                                             <h2>Dr.Angelica Ramos</h2>
                                         </td>
                                         <td class="appoint-time"><span>16.05.2022 at </span>7.00 PM</td>
@@ -664,7 +659,7 @@
                                         </td>
                                         <td>R00001</td>
                                         <td class="table-image">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-02.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-02.jpg" alt>
                                             <h2>Andrea Lalema</h2>
                                         </td>
                                         <td>21</td>
@@ -689,7 +684,7 @@
                                         </td>
                                         <td>R00002</td>
                                         <td class="table-image">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-03.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-03.jpg" alt>
                                             <h2>Mark Hay Smith</h2>
                                         </td>
                                         <td>23</td>
@@ -714,7 +709,7 @@
                                         </td>
                                         <td>R00003</td>
                                         <td class="table-image">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-04.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-04.jpg" alt>
                                             <h2>Cristina Groves</h2>
                                         </td>
                                         <td>25</td>
@@ -739,7 +734,7 @@
                                         </td>
                                         <td>R00004</td>
                                         <td class="table-image">
-                                            <img width="28" height="28" class="rounded-circle" src="assets/img/profiles/avatar-05.jpg" alt>
+                                            <img width="28" height="28" class="rounded-circle" src="img/profiles/avatar-05.jpg" alt>
                                             <h2>Galaviz Lalema</h2>
                                         </td>
                                         <td>21</td>
