@@ -14,10 +14,7 @@ namespace Clinic.ApiGateway
         }
         private void MapEntity()
         {
-            this.CreateMap<ApplicationUserModel, DoctorListViewModel>()
-                      .ForMember(des => des.Specialization,
-                           act => act.MapFrom
-                           (src => Enum.GetName(typeof(Specialization),src.Specialization)));
+            this.CreateMap<ApplicationUserModel, DoctorListViewModel>();
         }
     }
 }

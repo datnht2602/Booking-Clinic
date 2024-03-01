@@ -29,5 +29,6 @@ public class AutoMapperProfile : Profile
                 .ForMember(des => des.ClinicNum,
                            act => act.MapFrom
                            (src => JsonConvert.DeserializeObject<Detail>(src.Detail).ClinicNum ?? string.Empty));
+        this.CreateMap<ApplicationUserModel, DoctorListViewModel>();
     }
 }

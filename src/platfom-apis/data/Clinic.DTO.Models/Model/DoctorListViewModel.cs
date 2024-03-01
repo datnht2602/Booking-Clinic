@@ -12,13 +12,25 @@ namespace Clinic.DTO.Models
         public string ImageUrl { get; set; }
         public int ExperienceYear { get; set; }
         public string Title { get; set; }
-        public string Specialization { get; set; }
+        public int Specialization { get; set; }
         public string ClinicNum { get; set; }
         public double AverageRating { get; set; }
+        public string Introduction { get; set; }
     }
 
     public enum Specialization
     {
-        None
+        None,
+        KhoaNoiTimMach,
+        KhoaNoiTongHop,
+        KhoaChanDoanHinhAnhVaThamDoChucNang,
+        KhoaNoiTongQuat,
+        KhoaKhambenh,
+        KhoaNhi,
+        KhoaUngBuou,
+        KhoaNoiThanKinh,
+        KhoaYHocCoTruyen,
+        KhoaNoiThanKinhDotQuy,
+        KhoaRangHamMat,
     }
 }

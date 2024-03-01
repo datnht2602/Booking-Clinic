@@ -1,5 +1,6 @@
 ﻿@page "/doctor"
-
+@using Clinic.BlazorWebPWA.Extensions
+@inject HttpClient Http
 <PageTitle>Bác sĩ</PageTitle>
 <head>
     <link href="css/doctor.css" rel="stylesheet" />
@@ -80,7 +81,41 @@
         <section class="py-3">
             <div class="container px-5 mt-3">
                 <div class="row gx-5">
-                    <div class="col-md-6 col-lg-4">
+                    @foreach (var doctor in doctors)
+                    {
+                        <div class="col-md-6 col-lg-4">
+                        <div class="card mb-5">
+                            <div class="bg-white shadow-sm border">
+                                <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="..."></div>
+                                <div class="card-body align-items-center">
+                                    <div class="text-center mb-2">
+                                        <h5 class="fw-bold card-title">@doctor.Name </h5>
+                                        <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
+                                    </div>
+                                    <div class="card-text px-3">
+                                        <p class="text-muted fw-light mb-2">@doctor.Introduction</p>
+                                    </div>
+                                    <div class="d-flex px-3 justify-content-between">
+                                        <p class="fw-bold my-auto fs-6"> Đánh giá: </p>
+                                        <div class="stars gap-sm-2 fs-5">
+                                        @for (int i = 0; i < doctor.AverageRating; i++)
+                                        {
+                                            <i class="bi bi-star-fill" style="color: rgb(255, 210, 48);"></i>
+                                        }
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">@doctor.AverageRating </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between card-body">
+                                        <div><a href="#" class="text-primary fs-4 card-link"><i class="bi bi-chat-dots-fill"></i></a></div>
+                                        <a href="/" class="btn btn-navy card-link">Chi tiết</a>
+                                        <a href="doctor/book-appointments" class="btn btn-navy card-link">Đặt lịch khám</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @*<div class="col-md-6 col-lg-4">
                         <div class="card mb-5">
                             <div class="bg-white shadow-sm border">
                                 <div class="mx-auto"><img class="img-fluid card-img-top" src="img/avatar.jpg" alt="..."></div>
@@ -311,36 +346,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card mb-5">
-                            <div class="bg-white shadow-sm border">
-                                <div class="mx-auto"><img class="img-fluid card-img-top" src="img/avatar.jpg" alt="..."></div>
-                                <div class="card-body align-items-center">
-                                    <div class="text-center mb-2">
-                                        <h5 class="fw-bold card-title">Collis Molate </h5>
-                                        <p class="card-subtitle mb-0 text-muted">Neurosurgeon</p>
-                                    </div><div class="card-text px-3">
-                                        <p class="text-muted fw-light mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                                    </div><div class="d-flex px-3 justify-content-between">
-                                        <p class="fw-bold my-auto fs-6"> Đánh giá: </p>
-                                        <div class="stars gap-sm-2 fs-5">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
-                                    </div><div class="d-flex justify-content-between card-body">
-                                        <div><a href="#" class="text-primary fs-4 card-link"><i class="bi bi-chat-dots-fill"></i></a></div>
-                                        <a href="/" class="btn btn-navy card-link">Chi tiết</a>
-                                        <a href="doctor/book-appointments" class="btn btn-navy card-link">Đặt lịch khám</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </section>
@@ -388,3 +394,13 @@
 
 
 </script>
+@code
+{
+    List<DoctorListViewModel> doctors = new();
+    protected override async Task OnInitializedAsync()
+    {
+        doctors = await Http.GetFromJsonAsync<List<DoctorListViewModel>>(
+            "https://localhost:7268/user/GetListDoctor");
+        doctors = doctors.OrderByDescending(x => x.AverageRating).ToList();
+    }
+}

@@ -25,10 +25,10 @@ namespace Clinic.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListDoctor()
         {
-            var items = await _userManager.Users.ToListAsync();
+            var items = await _userManager.GetUsersInRoleAsync(SD.DOCTOR);
             var usersDto = autoMapper.Map<List<ApplicationUsersDto>>(items);
             var userModels = autoMapper.Map<List<ApplicationUserModel>>(usersDto);
-            return  Ok(userModels);
+            return  Ok(autoMapper.Map<List<DoctorListViewModel>>(userModels));
         }
     }
 }

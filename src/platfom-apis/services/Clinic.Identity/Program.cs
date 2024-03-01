@@ -50,7 +50,7 @@ app.UseCors(x => x
 			.AllowAnyHeader());
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-//SeedDatabase();
+SeedDatabase();
 app.UseRouting();
 app.UseIdentityServer();
 app.UseAuthorization();

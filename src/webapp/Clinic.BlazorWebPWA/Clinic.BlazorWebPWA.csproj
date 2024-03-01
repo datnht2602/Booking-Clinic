@@ -31,4 +31,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\platfom-apis\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
+  </ItemGroup>
+
 </Project>
