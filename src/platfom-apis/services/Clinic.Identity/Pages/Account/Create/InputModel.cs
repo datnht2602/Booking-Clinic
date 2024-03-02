@@ -9,7 +9,8 @@ namespace webapp.Pages.Create;
 public class InputModel
 {
     [Required]
-    public string Username { get; set; }
+    public string firstname { get; set; }
+    public string lastname { get; set; }
 
     [Required]
     public string Password { get; set; }
