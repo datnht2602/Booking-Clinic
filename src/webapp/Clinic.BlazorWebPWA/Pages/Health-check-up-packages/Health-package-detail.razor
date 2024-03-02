@@ -1,9 +1,91 @@
-﻿@page "/health-packages/health-package-detail"
+﻿@page "/health-packages/detail/kham-suc-khoe-dinh-ky"
 
 <PageTitle>Chi tiết gói khám sức khỏe</PageTitle>
 
-<h3>Health_package_detail</h3>
+<head>
+    <link href="css/doctor.css" rel="stylesheet" />
+</head>
 
-@code {
+<body>
+    <main class="flex-shrink-0">
+        <div class="bg-primary">
+            <header class="bg-primary py-4 inner-header">
+                <div class="container py-3 px-5">
+                    <div class="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <h1 class="fw-bold text-white text-uppercase">Chi tiết gói khám sức khỏe</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <section class="py-3">
+            <div class="container px-5 mt-3">
+                <div class="row gx-5">
+                    <div class="col-12">
+                        <div class="card mb-5">
+                            <div class="bg-white shadow-sm border">
+                                <div class="card-body align-items-center mx-3">
+                                    <div class="text-center">
+                                        <h2 class="fw-bold card-title">Gói khám sức khỏe định kỳ</h2>
+                                    </div>
+                                    <div class="card-text">
+                                        <p class="text-muted mb-2">Khi đã có dấu hiệu bệnh việc khám và điều trị tốn kém nhiều chi phí và thời gian, thậm chí bệnh đã ở giai đoạn nặng. Vì vậy, mỗi người hãy chủ động khám sức khoẻ định kỳ 6 tháng - 1 năm/lần để tầm soát các mầm mống bệnh tật và điều chỉnh lối sống lành mạnh.</p>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h5 class="fw-bold card-title">Chi tiết gói khám</h5>
+                                    </div>
+                                    <div class="card-text">
+                                        <p class="text-muted mb-2">Khám nội tổng quát<br>
+                                                                   Khám chuyên khoa mắt<br>
+                                                                   Khám tai mũi họng<br>
+                                                                   Khám răng hàm mặt<br>
+                                                                   Khám sản phụ khoa<br>
+                                                                   Tư vấn đánh giá sức khoẻ<br>
+                                                                   Chẩn đoán hình ảnh đầy đủ và chuyên sâu gồm: Chụp X-quang, điện tâm đồ, siêu âm ổ bụng, siêu âm vú, siêu âm tử cung phần phụ, siêu âm tuyến giáp, siêu âm tiền liệt tuyến…<br>
+                                                                   Xét nghiệm: Tổng phân tích tế bào máu ngoại vi, định lượng glucose, đánh giá nguy cơ bệnh tiểu đường, bệnh gout, tìm các bệnh lý về gan, thận, đánh giá tình trạng mỡ máu, phát hiện viêm nhiễm đường sinh dục - tiết niệu, HBsAg miễn dịch tự động…</p>
+                                    </div>
+                                    <div class="mb-2">
+                                        <h5 class="fw-bold card-title">Đối tượng và điều kiện áp dụng</h5>
+                                    </div>
+                                    <div class="card-text">
+                                        <p class="text-muted mb-2">
+                                            Tất cả nam nữ bắt đầu từ 18 tuổi trở lên đều nên khám sức khoẻ định kỳ 1-2 lần/năm.<br>
+                                            Đặc biệt những người mắc bệnh bẩm sinh, suy giảm miễn dịch, có tiền sử gia đình mắc các bệnh nguy hiểm như ung thư cần khám định kỳ theo chỉ định của bác sĩ.<br>
+                                            Độ tuổi từ 20-30: Phát hiện sớm các bệnh truyền nhiễm như viêm gan A, B, C, khám sức khỏe tiền hôn nhân.<br>
+                                            Độ tuổi từ 30-40: Phát hiện các bệnh chuyển hóa như gout, tiểu đường, mỡ máu, bệnh tim mạch… Đối với nam giới, nếu uống nhiều rượu bia cần kiểm tra chức năng gan, mật, nếu hút thuốc cần khám phổi. Đối với nữ giới, khuyến cáo khám phụ khoa định kỳ 6 tháng/lần, đo mật độ loãng xương.<br>
+                                            Độ tuổi từ 40-60: Phát hiện sớm các bệnh về dạ dày, đại - trực tràng, gan, phổi, vòm họng, tầm soát ung thư…
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-start gap-3">
+                                        <p class="fw-bold my-auto fs-6"> Đánh giá: </p>
+                                        <div class="stars gap-2 fs-5">
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                            <i class="bi bi-star-fill"></i>
+                                        </div>
+                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                    </div>
+                                </div>
 
-}
+                                <div class="d-flex align-items-center justify-content-between card-footer">
+                                    <div class="mx-3">
+                                        <h6 class="my-auto fw-bold">Giá: 4.000.000đ</h6>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between px-3 py-5">
+                        <a href="" class="btn btn-primary btn-lg mx-auto card-link">Đặt gói khám</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>

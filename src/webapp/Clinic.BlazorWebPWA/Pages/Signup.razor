@@ -15,7 +15,7 @@
                                 <input type="text" class="form-control" id="firstName" placeholder="Họ" required pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng">
                             </div>
                             <div class="mb-3 col-6 ps-1">
-                                <label for="lastName" class="form-label small text-muted">Tên</label>
+                                <label for="lastName" class="form-label small text-muted">Tên<small class="text-danger">*</small></label>
                                 <input type="text" class="form-control" id="lastName" placeholder="Tên" required pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng">
                             </div>
                         </div>
@@ -31,6 +31,12 @@
                             <label for="password" class="form-label small text-muted">Mật khẩu <small class="text-danger">*</small></label>
                             <div class="input-group">
                                 <input type="password" class="form-control" placeholder="Nhập mật khẩu" id="password" required pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" />
+                            </div>
+                        </div>
+                        <div class="mb-3 input-group align-items-center">
+                            <label for="password" class="form-label small text-muted">Nhập lại mật khẩu <small class="text-danger">*</small></label>
+                            <div class="input-group">
+                                <input type="passwordcheck" class="form-control" placeholder="Nhập lại mật khẩu" id="passwordcheck" required pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" />
                             </div>
                         </div>
                         <div class="mb-3 form-check">
