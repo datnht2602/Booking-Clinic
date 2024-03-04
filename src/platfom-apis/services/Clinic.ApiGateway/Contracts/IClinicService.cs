@@ -15,5 +15,6 @@ namespace Clinic.ApiGateway.Contracts
         Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string orderId);
 
         Task<InvoiceDetailsViewModel> SubmitOrder(BookingDetailsViewModel order);
+        Task<List<long>> GetListTime(string userId);
     }
 }

@@ -1,7 +1,9 @@
 ﻿@page "/doctor/doctor-detail/book-appointments"
-@page "/doctor/book-appointments"
+@page "/doctor/book-appointments/{id:string}"
 @page "/book-appointments"
+@using Clinic.DTO.Models.Dto
 
+@inject IClinicService clinicService
 <PageTitle>Đặt lịch khám</PageTitle>
 
 
@@ -250,3 +252,16 @@
         });
     </script>
 </body>
+@code{
+    [Parameter] public string id { get; set; }
+    private BookingDetailsViewModel booking = new();
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await clinicService.GetBookingViewAsync<ResponseDto>(id);
+        if (response != null && response.IsSuccess)
+        {
+            booking = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+        }
+    }
+
+}

@@ -70,6 +70,13 @@ namespace Clinic.ApiGateway.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<List<long>> GetListTime(string userId)
+        {
+            using var doctorRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.IdentityApiEndpoint}/user/getlistdoctor");
+            
+        }
+
         private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)
         {
             var exceptionReponse = await response.Content.ReadFromJsonAsync<ExceptionResponse>().ConfigureAwait(false);

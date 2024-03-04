@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\core\Clinic.Common\Clinic.Common.csproj" />
     <ProjectReference Include="..\..\data\Clinic.Data.Store\Clinic.Data.Store.csproj" />
+    <ProjectReference Include="..\..\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ namespace Clinic.Product.Contracts
     {
         Task<IEnumerable<ProductListViewModel>> GetProductsAsync(string filterCriteria = null);
         Task<ProductDetailsViewModel> GetProductByIdASync(string productId,string productName);
-        Task<ProductDetailsViewModel> AddProductAsync(ProductDetailsViewModel product);
+        Task<List<ProductDetailsViewModel>> AddProductAsync(List<ProductDetailsViewModel> product);
         Task<HttpResponseMessage> UpdateProductAsync(ProductDetailsViewModel product);
         Task<HttpResponseMessage> DeleteProductAsync(string productId,string productName);
     }

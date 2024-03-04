@@ -1,5 +1,6 @@
 ﻿using Clinic.Data.Models;
 using Clinic.Data.Store.Contracts;
+using Clinic.DTO.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.DataAccess.EndpointServices
@@ -44,15 +45,19 @@ namespace Clinic.DataAccess.EndpointServices
             })
                 .WithName("GetProductById")
                 .WithOpenApi();
-            routes.MapPost("/getproduct", async (IProductRepository repository, [FromBody] Product product) =>
+            
+            routes.MapPost("/getproduct", async (IProductRepository repository, [FromBody] List<Product> product) =>
             {
-                if (product == null || product.Etag != null)
+                if (product == null )
                 {
                     return Results.BadRequest();
                 }
 
-                var result = await repository.AddAsync(product, product.Id).ConfigureAwait(false);
-                return Results.CreatedAtRoute("GetProductById", new { id = result.Resource.Id }, result.Resource);
+                product.ForEach(async x =>
+                {
+                    var resul = await repository.AddAsync(x, x.Id).ConfigureAwait(false);
+                });
+                return Results.Ok(product);
             })
                 .WithOpenApi();
             routes.MapPut("/getproduct", async (IProductRepository repository, [FromBody] Product product) =>

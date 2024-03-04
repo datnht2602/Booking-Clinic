@@ -58,14 +58,14 @@ app.MapGet("/getproduct/{id}", async (string id,[FromQuery][Required] string nam
   return await productService.GetProductByIdASync(id,name).ConfigureAwait(false) is ProductDetailsViewModel product ? Results.Ok(product) : Results.NotFound();  
 })
 .WithOpenApi();
-app.MapPost("/getproduct",async (ProductDetailsViewModel product, IProductService productService) =>{
-     if (product == null || product.Etag != null)
+app.MapPost("/getproduct",async (List<ProductDetailsViewModel> product, IProductService productService) =>{
+     if (product == null )
             {
                 return Results.BadRequest();
             }
 
             var result = await productService.AddProductAsync(product).ConfigureAwait(false);
-            return Results.CreatedAtRoute($"/getproduct/{result.Id}", new { name = result.Name }, result);
+            return Results.CreatedAtRoute($"/getproducts/", result);
 })
 .WithOpenApi();
 app.MapPut("/getproduct",async (ProductDetailsViewModel product, IProductService productService) =>{

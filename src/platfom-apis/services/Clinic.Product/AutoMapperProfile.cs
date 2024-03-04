@@ -13,6 +13,7 @@ namespace Clinic.Product
             this.CreateMap<Data.Models.Product, ProductDetailsViewModel>();
             this.CreateMap<Data.Models.Rating, RatingViewModel>();
             this.CreateMap<Data.Models.Product,ProductListViewModel>();
+            this.CreateMap<ProductDetailsViewModel, Data.Models.Product>();
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Clinic.Data.Store
         }
         public async Task<ItemResponse<TEntity>> AddAsync(TEntity entity, string partitionKey) =>
             await this.container.CreateItemAsync<TEntity>(entity, new PartitionKey(partitionKey)).ConfigureAwait(false);
+        
         public async Task<IEnumerable<TEntity>> GetAsync(string filterCriteria)
         {
             if (string.IsNullOrWhiteSpace(filterCriteria))
