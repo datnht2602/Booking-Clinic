@@ -71,9 +71,26 @@ namespace Clinic.ApiGateway.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<long>> GetListTime(string userId)
+        public async Task<BookingViewModel> GetBookingDetail(string userId)
         {
-            using var doctorRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.IdentityApiEndpoint}/user/getlistdoctor");
+            using var doctorRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.IdentityApiEndpoint}/user/GetDoctorSchedule?userId={userId}");
+            var doctorResponse = await httpClient.SendAsync(doctorRequest).ConfigureAwait(false);
+
+            if(!doctorResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(doctorResponse).ConfigureAwait(false);
+            }
+            if(doctorResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var bookingResponse = await doctorResponse.Content.ReadFromJsonAsync<BookingViewModel>().ConfigureAwait(false);
+                
+
+                return bookingResponse;
+            }
+            else
+            {
+                return new BookingViewModel();
+            }
             
         }
 

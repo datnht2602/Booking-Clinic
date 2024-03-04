@@ -1,7 +1,8 @@
 ﻿@page "/doctor/doctor-detail/book-appointments"
-@page "/doctor/book-appointments/{id:string}"
+@page "/doctor/book-appointments/{id}"
 @page "/book-appointments"
 @using Clinic.DTO.Models.Dto
+@using Clinic.BlazorWebPWA.Extensions
 
 @inject IClinicService clinicService
 <PageTitle>Đặt lịch khám</PageTitle>
@@ -163,37 +164,46 @@
                     <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">ĐẶT LỊCH KHÁM BỆNH</h2>
                     <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
                         <form action="/" class="text-start pt-4">
-                            <div class="mb-3">
+                            @*<div class="mb-3">
                                 <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
                                 <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
                             </div>
                             <div class="mb-3">
                                 <label for="phoneNumbers" class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
                                 <input type="tel" id="phoneNumbers" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
-                            </div>
+                            </div>*@
                             <div class="row">
                                 <div class="mb-3 col-6">
-                                    <label for="specialization" class="form-label medium text-white">Chọn chuyên khoa <small class="text-danger fw-bold">*</small></label>
-                                    <select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
+                                    <label for="specialization" class="form-label medium text-white">@booking.Specialization.ConvertSpecEnum() <small class="text-danger fw-bold">*</small></label>
+                                    @*<select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
                                         <option value="">Chọn chuyên khoa</option>
                                         <option value="1">Chuyên khoa 1</option>
                                         <option value="2">Chuyên khoa 2</option>
                                         <option value="3">Chuyên khoa 3</option>
-                                    </select>
+                                    </select>*@
                                 </div>
                                 <div class="mb-3 col-6">
-                                    <label for="doctor" class="form-label medium text-white">Chọn bác sĩ <small class="text-danger">*</small></label>
-                                    <select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
+                                    <label for="doctor" class="form-label medium text-white">@booking.Name<small class="text-danger">*</small></label>
+                                    @*<select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
                                         <option value="">Chọn bác sĩ</option>
                                         <option value="1">Bác sĩ 1</option>
                                         <option value="2">Bác sĩ 2</option>
                                         <option value="3">Bác sĩ 3</option>
-                                    </select>
+                                    </select>*@
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="date" class="form-label medium text-white">Chọn ngày và khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
-                                <input type="datetime-local" class="form-control" id="datetime" required>
+                                <select id="doctor" class="form-select" required aria-label="Chọn ngày và khung giờ muốn khám">
+                                    @foreach (var timeSlot in timeSlots)
+                                    {
+                                        <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
+                                    }
+                                    @*<option value="">Chọn ngày và khung giờ muốn khám</option>
+                                    <option value="1">Bác sĩ 1</option>
+                                    <option value="2">Bác sĩ 2</option>
+                                    <option value="3">Bác sĩ 3</option>*@
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
@@ -205,10 +215,14 @@
                                         <div class="sd-multiSelect form-group">
                                             <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
                                             <select multiple id="current-job-role" class="sd-CustomSelect" data-placeholder="Chọn dịch vụ">
-                                                <option value="1">Dịch vụ 1 (1000000 đồng)</option>
+                                                @foreach (var service in booking.ProductListViewModels)
+                                                {
+                                                    <option value="@service.Id">@service.Name (@service.Price)</option>
+                                                }
+                                                @*<option value="1">Dịch vụ 1 (1000000 đồng)</option>
                                                 <option value="2">Dịch vụ 2 (1000000 đồng)</option>
                                                 <option value="3">Dịch vụ 3 (1000000 đồng)</option>
-                                                <option value="4">Dịch vụ 4 (1000000 đồng)</option>
+                                                <option value="4">Dịch vụ 4 (1000000 đồng)</option>*@
                                             </select>
                                         </div>
                                     </div>
@@ -217,9 +231,9 @@
                                     <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
                                     <select class="form-select" required aria-label="Chọn phương thức thanh toán">
                                         <option value="">Chọn phương thức thanh toán</option>
-                                        <option value="1">Phương thức 1</option>
-                                        <option value="2">Phương thức 2</option>
-                                        <option value="3">Phương thức 3</option>
+                                        <option value="1">QR Pay</option>
+                                        <option value="2">Ngân hàng</option>
+                                        <option value="3">Momo</option>
                                     </select>
                                 </div>
                             </div>
@@ -254,14 +268,16 @@
 </body>
 @code{
     [Parameter] public string id { get; set; }
-    private BookingDetailsViewModel booking = new();
+    private BookingViewModel booking = new();
     protected async override Task OnInitializedAsync()
     {
         var response = await clinicService.GetBookingViewAsync<ResponseDto>(id);
         if (response != null && response.IsSuccess)
         {
-            booking = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+            booking = JsonConvert.DeserializeObject<BookingViewModel>(Convert.ToString((response.Result)));
         }
     }
 
+    // Get the list of time slots
+    List<DateTime> timeSlots = Extension.GetTimeSlots();
 }

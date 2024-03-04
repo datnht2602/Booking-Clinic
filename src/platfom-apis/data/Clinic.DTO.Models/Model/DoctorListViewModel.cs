@@ -16,6 +16,7 @@ namespace Clinic.DTO.Models
         public string ClinicNum { get; set; }
         public double AverageRating { get; set; }
         public string Introduction { get; set; }
+        public List<long> OrderedTimes { get; set; }
     }
 
     public enum Specialization

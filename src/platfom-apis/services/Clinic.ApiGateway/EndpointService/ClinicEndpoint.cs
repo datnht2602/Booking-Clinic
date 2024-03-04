@@ -16,19 +16,15 @@ public static class ClinicEndpoint
                 return result;
     
             }).AllowAnonymous()
-            .WithName("GetWeatherForecast")
             .WithOpenApi();
-        routes.MapGet("/getbookingview", async ([FromServices] IClinicService clinicService, [FromQuery] string? filterCriteria = null) =>
+        routes.MapGet("/getbooking", async ([FromServices] IClinicService clinicService, [FromQuery] string userId) =>
             {
-                var list = await clinicService.GetDoctorsAsync(filterCriteria).ConfigureAwait(false);
+                var list = await clinicService.GetBookingDetail(userId).ConfigureAwait(false);
                 ResponseDto result = new();
                 result.Result = list;
                 return result;
     
             }).AllowAnonymous()
-            .WithName("GetWeatherForecast")
             .WithOpenApi();
     }
-    }
-    
 }

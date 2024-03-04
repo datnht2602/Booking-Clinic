@@ -1,4 +1,5 @@
-﻿using Clinic.DTO.Models;
+﻿using Clinic.Data.Models;
+using Clinic.DTO.Models;
 
 namespace Clinic.ApiGateway.Contracts
 {
@@ -15,6 +16,6 @@ namespace Clinic.ApiGateway.Contracts
         Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string orderId);
 
         Task<InvoiceDetailsViewModel> SubmitOrder(BookingDetailsViewModel order);
-        Task<List<long>> GetListTime(string userId);
+        Task<BookingViewModel> GetBookingDetail(string userId);
     }
 }

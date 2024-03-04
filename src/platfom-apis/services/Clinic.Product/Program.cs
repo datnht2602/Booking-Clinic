@@ -51,7 +51,7 @@ app.MapGet("/getproducts", async ([FromServices] IProductService productService,
 {
   return await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false);  
 })
-.WithName("GetProductById")
+.WithName("GetProduct")
 .WithOpenApi();
 app.MapGet("/getproduct/{id}", async (string id,[FromQuery][Required] string name ,[FromServices] IProductService productService) =>
 {

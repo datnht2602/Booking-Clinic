@@ -21,4 +21,20 @@ public static class Extension
         };
         return chuyenKhoa;
     }
+    public static List<DateTime> GetTimeSlots()
+    {
+        TimeSpan startTime = new TimeSpan(8, 30, 0);
+        TimeSpan endTime = new TimeSpan(17, 0, 0);
+        TimeSpan interval = new TimeSpan(0, 30, 0);
+        List<DateTime> timeSlots = new List<DateTime>();
+        DateTime current = DateTime.Today.Add(startTime);
+
+        while (current <= DateTime.Today.Add(endTime))
+        {
+            timeSlots.Add(current);
+            current = current.Add(interval);
+        }
+
+        return timeSlots;
+    }
 }

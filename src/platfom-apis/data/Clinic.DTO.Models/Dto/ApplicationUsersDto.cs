@@ -44,4 +44,5 @@ public class ApplicationUsersDto
     public string? Introduction { get; set; }
     
     public double AverageRating { get; set; }
+    public List<long> OrderedTimes { get; set; }
 }

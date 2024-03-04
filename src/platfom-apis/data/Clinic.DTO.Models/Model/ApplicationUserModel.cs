@@ -26,4 +26,5 @@ public class ApplicationUserModel
     public string Title { get; set; }
     public int Specialization { get; set; }
     public string ClinicNum { get; set; }
+    public List<long> OrderedTimes { get; set; }
 }

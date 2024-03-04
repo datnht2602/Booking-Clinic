@@ -27,7 +27,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = "https://localhost:7244/getbookingview/" + userId,
+            Url = "https://localhost:7244/getbooking?userId=" + userId,
         });
     }
 
