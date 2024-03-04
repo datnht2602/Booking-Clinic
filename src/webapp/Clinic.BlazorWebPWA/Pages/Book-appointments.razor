@@ -174,7 +174,8 @@
                             </div>*@
                             <div class="row">
                                 <div class="mb-3 col-6">
-                                    <label for="specialization" class="form-label medium text-white">@booking.Specialization.ConvertSpecEnum() <small class="text-danger fw-bold">*</small></label>
+                                    <label for="major" class="form-label medium text-white">Chuyên khoa <small class="text-danger fw-bold">*</small></label>
+                                    <input type="text" class="form-control" placeholder="@booking.Specialization.ConvertSpecEnum()" readonly="False">
                                     @*<select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
                                         <option value="">Chọn chuyên khoa</option>
                                         <option value="1">Chuyên khoa 1</option>
@@ -183,7 +184,8 @@
                                     </select>*@
                                 </div>
                                 <div class="mb-3 col-6">
-                                    <label for="doctor" class="form-label medium text-white">@booking.Name<small class="text-danger">*</small></label>
+                                    <label for="doctor" class="form-label medium text-white">Bác sĩ <small class="text-danger">*</small></label>
+                                    <input type="text" class="form-control" placeholder="@booking.Name" readonly="False">
                                     @*<select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
                                         <option value="">Chọn bác sĩ</option>
                                         <option value="1">Bác sĩ 1</option>
@@ -238,7 +240,8 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <h5 class="form-label fs-5 text-white">Tổng tiền: <b>2.000.000 đ</b></h5>
+                                <label for="price" class="form-label medium text-white">Tổng cộng <small class="text-danger">*</small></label>
+                                <input type="text" class="form-control" placeholder="2.000.000 đ" readonly="False">
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
