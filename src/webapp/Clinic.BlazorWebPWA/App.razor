@@ -3,6 +3,7 @@
     <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
             @{
+                // kiểm tra layout dùng chung là layout nào
                 var layoutCh = IsAdmin(Current) ? typeof(AdminLayout) : typeof(MainLayout);
             }
             <RouteView RouteData="@routeData" DefaultLayout="@layoutCh" />
@@ -21,11 +22,11 @@
 
 @code {
 
-
+    // lấy dịa chị website hiện tại 
     private string Current => NavigationManager.Uri;
+    // kiểm tra xem có bắt đầu bằng admin ko
     private bool IsAdmin(string routepath)
     {
-
         return routepath.StartsWith("/admin");
     }
 }
