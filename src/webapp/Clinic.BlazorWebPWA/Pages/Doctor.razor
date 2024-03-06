@@ -96,8 +96,8 @@
                                         <h5 class="fw-bold card-title">@doctor.Name </h5>
                                         <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
                                     </div>
-                                    <div class="card-text px-3">
-                                        <p class="text-muted fw-light mb-2">@doctor.Introduction</p>
+                                        <div class="card-text px-3">
+                                            <p class="text-muted fw-light mb-2" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">@doctor.Introduction</p>
                                     </div>
                                     <div class="d-flex px-3 justify-content-between">
                                         <p class="fw-bold my-auto fs-6"> Đánh giá: </p>
