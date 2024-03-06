@@ -15,7 +15,7 @@ namespace Clinic.Data.Models
         public string Name { get; set; }
 
 
-        public string Specialization { get; set; }
+        public int Specialization { get; set; }
 
 
         public int Price { get; set; }
@@ -25,15 +25,16 @@ namespace Clinic.Data.Models
 
 
         public List<string> ImageUrls { get; set; }
-
-
-        public List<Rating> Rating { get; set; }
-
-
-        public List<string> Authors { get; set; }
-
-
-        public List<string> ProductIds { get; set; }
+        
+        public double Rating { get; set; }
+        
+        public string Authors { get; set; }
+        
+        public string Description { get; set; }
+        
+        public bool IsMainCombo { get; set; }
+        
+        public string Combo { get; set; }
 
 
         [JsonProperty("_etag")]

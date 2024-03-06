@@ -13,5 +13,6 @@ namespace Clinic.Identity.Models
         [StringLength(1024)]
         public string? Introduction { get; set; }
         public double AverageRating { get; set; }
+        public List<ScheduleTime> ScheduleTimes { get; set; }
     }
 }

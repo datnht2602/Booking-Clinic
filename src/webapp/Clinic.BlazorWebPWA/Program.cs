@@ -1,5 +1,8 @@
+using System.Net.Http.Headers;
 using BlazorClient.Security;
 using Clinic.BlazorWebPWA;
+using Clinic.BlazorWebPWA.Services;
+using Clinic.BlazorWebPWA.Services.IService;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -8,19 +11,15 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
-builder.Services.AddHttpClient("api")
-               .AddHttpMessageHandler(sp =>
-               {
-                   var handler = sp.GetService<AuthorizationMessageHandler>()
-                       .ConfigureHandler(
-                           authorizedUrls: new[] { "https://localhost:7244" },
-                           scopes: new[] { "Clinic" });
-
-                   return handler;
-               });
-
-builder.Services.AddScoped(sp => sp.GetService<IHttpClientFactory>().CreateClient("api"));
+builder.Services.AddHttpClient(name: "ApiGateway",
+	configureClient: options =>
+	{
+		options.BaseAddress = new Uri("https://localhost:7024/");
+		options.DefaultRequestHeaders.Accept.Add(
+			new MediaTypeWithQualityHeaderValue(
+				mediaType: "application/json", quality: 1.0));
+	});
+builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddOidcAuthentication(options =>
 {
 	options.ProviderOptions.Authority = "https://localhost:7268";
@@ -33,7 +32,7 @@ builder.Services.AddOidcAuthentication(options =>
     options.ProviderOptions.PostLogoutRedirectUri = "/";
 	options.ProviderOptions.RedirectUri = "authentication/login-callback";
 	options.UserOptions.RoleClaim = "role";
-}).AddAccountClaimsPrincipalFactory<ArrayClaimsPrincipalFactory<RemoteUserAccount>>();
+});
 
 await builder.Build().RunAsync();
 

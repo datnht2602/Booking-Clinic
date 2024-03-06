@@ -19,7 +19,7 @@ namespace Clinic.Data.Models
         public string PaymentMode { get; set; }
 
 
-        public AddtionalData AddtionalData { get; set; }
+        public AddtionalData AdditionalData { get; set; }
 
 
         public SoldBy SoldBy { get; set; }

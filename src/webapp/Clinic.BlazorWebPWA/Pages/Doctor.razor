@@ -1,6 +1,10 @@
 ﻿@page "/doctor"
 @using Clinic.BlazorWebPWA.Extensions
+@using Clinic.BlazorWebPWA.Services.IService
+@using Clinic.DTO.Models.Dto
+@using Newtonsoft.Json
 @inject HttpClient Http
+@inject IClinicService clinicService
 <PageTitle>Bác sĩ</PageTitle>
 <head>
     <link href="css/doctor.css" rel="stylesheet" />
@@ -108,7 +112,7 @@
                                     <div class="d-flex justify-content-between card-body">
                                         <div><a href="#" class="text-primary fs-4 card-link"><i class="bi bi-chat-dots-fill"></i></a></div>
                                         <a href="/" class="btn btn-navy card-link">Chi tiết</a>
-                                        <a href="doctor/book-appointments" class="btn btn-navy card-link">Đặt lịch khám</a>
+                                        <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Đặt lịch khám</a>
                                     </div>
                                 </div>
                             </div>
@@ -399,8 +403,10 @@
     List<DoctorListViewModel> doctors = new();
     protected override async Task OnInitializedAsync()
     {
-        doctors = await Http.GetFromJsonAsync<List<DoctorListViewModel>>(
-            "https://localhost:7268/user/GetListDoctor");
-        doctors = doctors.OrderByDescending(x => x.AverageRating).ToList();
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>();
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+        }
     }
 }

@@ -12,14 +12,21 @@ namespace Clinic.DTO.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Specialization { get; set; }
+        public int Specialization { get; set; }
         [Required]
-        [Range(0, 9999)]
         public int Price { get; set; }
         public DateTime CreatedDate { get; set; }
         public List<string> ImageUrls { get; set; }
-        public List<RatingViewModel> Rating { get; set; }
-        public List<string> Authors { get; set; }
+        
+        public double Rating { get; set; }
+        
+        public string Authors { get; set; }
+        
+        public string Description { get; set; }
+        
+        public bool IsMainCombo { get; set; }
+        
+        public string Combo { get; set; }
         public string Etag { get; set; }
     }
 }

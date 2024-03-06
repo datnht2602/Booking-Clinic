@@ -15,7 +15,10 @@ public class AutoMapperProfile : Profile
     }
     private void MapEntity() 
     {
-        this.CreateMap<ApplicationUser,ApplicationUsersDto>();
+        this.CreateMap<ApplicationUser,ApplicationUsersDto>()
+            .ForMember(des => des.OrderedTimes,
+                act => act.MapFrom
+                    (src => src.ScheduleTimes.Select(x => x.Time)));
         this.CreateMap<ApplicationUsersDto,ApplicationUserModel>()
                 .ForMember(des => des.ExperienceYear,
                            act => act.MapFrom

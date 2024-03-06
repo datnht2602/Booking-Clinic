@@ -9,6 +9,8 @@ namespace Clinic.DTO.Models
     {
         public string Id { get; set; }
         [Required]
+        public string UserName { get; set; }
+
         public string UserId { get; set; }
         [Required]
         public int Specialization { get; set; }
@@ -16,17 +18,17 @@ namespace Clinic.DTO.Models
         public string DoctorId { get; set; }
         [Required]
         public string OrderPlacedDate { get; set; }
+        public string Description { get; set; }
 
         [Required]
         public List<ProductListViewModel> Products { get; set; }
-
-        public string Description { get; set; }
+        
+        public double OrderTotal { get; set; }
+        public string PaymentMode { get; set; }
         public string OrderStatus { get; set; }
         public int TrackingId { get; set; }
  
         public string Etag { get; set; }
-        public string DeliveryDate {get; set;}
-        public double OrderTotal { get; set; }
-        public string PaymentMode { get; set; }
+
     }
 }

@@ -29,21 +29,22 @@ namespace Clinic.Product.Services
             this.autoMapper = autoMapper;
             this.cacheService = cacheService;
         }
-        public async Task<ProductDetailsViewModel> AddProductAsync(ProductDetailsViewModel product)
+        public async Task<List<ProductDetailsViewModel>> AddProductAsync(List<ProductDetailsViewModel> product)
         {
             ArgumentValidation.ThrowIfNull(product);
-            product.CreatedDate = DateTime.UtcNow;
-            using var productRequest = new StringContent(JsonSerializer.Serialize(product),Encoding.UTF8,ContentType);
+            product.Select(x => x.CreatedDate = DateTime.UtcNow);
+            var productEntity = autoMapper.Map<List<Data.Models.Product>>(product);
+            using var productRequest = new StringContent(JsonSerializer.Serialize(productEntity),Encoding.UTF8,ContentType);
             var productResponse = await httpClient.PostAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct"),productRequest).ConfigureAwait(false);
 
             if(!productResponse.IsSuccessStatusCode){
                 await ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
-            var createdProductDAO = await productResponse.Content.ReadFromJsonAsync<Data.Models.Product>().ConfigureAwait(false);
+            var createdProductDAO = await productResponse.Content.ReadFromJsonAsync<List<Data.Models.Product>>().ConfigureAwait(false);
 
             await cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
 
-            var createdProduct = autoMapper.Map<ProductDetailsViewModel>(createdProductDAO);
+            var createdProduct = autoMapper.Map<List<ProductDetailsViewModel>>(createdProductDAO);
             return createdProduct;
         }
 
