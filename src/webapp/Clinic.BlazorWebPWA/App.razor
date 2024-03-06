@@ -1,14 +1,32 @@
-﻿<CascadingAuthenticationState>
-<Router AppAssembly="@typeof(App).Assembly">
+﻿@inject NavigationManager NavigationManager
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            @{
+                // kiểm tra layout dùng chung là layout nào
+                var layoutCh = IsAdmin(Current) ? typeof(AdminLayout) : typeof(MainLayout);
+            }
+            <RouteView RouteData="@routeData" DefaultLayout="@layoutCh" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
         <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
+        <LayoutView Layout="@typeof(AdminLayout)">
             <p role="alert">Sorry, there's nothing at this address.</p>
         </LayoutView>
     </NotFound>
 </Router>
 </CascadingAuthenticationState>
+
+
+
+@code {
+
+    // lấy dịa chị website hiện tại 
+    private string Current => NavigationManager.Uri;
+    // kiểm tra xem có bắt đầu bằng admin ko
+    private bool IsAdmin(string routepath)
+    {
+        return routepath.StartsWith("/admin");
+    }
+}
