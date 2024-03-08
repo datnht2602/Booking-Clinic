@@ -38,6 +38,28 @@ namespace Clinic.Data.Store
 
             return results;
         }
+        public async Task<TEntity> GetByNameCouponAsync(string filterCriteria)
+        {
+            if (string.IsNullOrWhiteSpace(filterCriteria))
+            {
+                filterCriteria = "select * from e";
+            }
+            else
+            {
+                filterCriteria = $"select * from e where e.CouponCode = \"{filterCriteria}\"";
+            }
+
+            var iterator = this.container.GetItemQueryIterator<TEntity>(new QueryDefinition(filterCriteria));
+            List<TEntity> results = new List<TEntity>();
+            while (iterator.HasMoreResults)
+            {
+                var result = await iterator.ReadNextAsync().ConfigureAwait(false);
+
+                results.AddRange(result.ToList());
+            }
+
+            return results.FirstOrDefault();
+        }
         public async Task<TEntity> GetByIdAsync(string id, string partitionKey)
         {
             try

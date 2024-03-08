@@ -22,12 +22,13 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
-    public async Task<T> GetBookingViewAsync<T>(string userId)
+    public async Task<T> GetBookingViewAsync<T>(string userId,string accessToken)
     {
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
             Url = "https://localhost:7244/getbooking?userId=" + userId,
+            AccessToken = accessToken
         });
     }
 
@@ -36,9 +37,15 @@ public class ClinicService :  BaseService,IClinicService
         throw new NotImplementedException();
     }
 
-    public Task<T> CreateOrUpdateBooking<T>(BookingDetailsViewModel model)
+    public async Task<T> CreateOrUpdateBooking<T>(BookingDetailsViewModel model,string accessToken)
     {
-        throw new NotImplementedException();
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Data = model,
+            Url = "https://localhost:7244/upsertbooking",
+            AccessToken = accessToken
+        });
     }
 
     public Task<T> GetBookingByIdAsync<T>(string orderId)

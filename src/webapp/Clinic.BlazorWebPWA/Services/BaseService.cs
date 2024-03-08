@@ -10,21 +10,10 @@ namespace Clinic.BlazorWebPWA.Services;
 
  public class BaseService : ComponentBase,IBaseService
     {
-        [Inject]
-        IAccessTokenProvider TokenProvider { get; set; }
+        
         public ResponseDto responseModel { get; set; }
         private readonly IHttpClientFactory httpClient;
-        private string AccessToken { get; set; }
-        protected override async Task OnInitializedAsync()
-        {
-            var accessTokenResult = await TokenProvider.RequestAccessToken();
-            AccessToken = string.Empty;
-
-            if (accessTokenResult.TryGetToken(out var token))
-            {
-                AccessToken = token.Value;
-            }
-        }
+  
         
         protected BaseService(IHttpClientFactory httpClient)
         {
@@ -47,9 +36,9 @@ namespace Clinic.BlazorWebPWA.Services;
                         Encoding.UTF8,"application/json");
                 }
 
-                if (!string.IsNullOrEmpty(AccessToken))
+                if (!string.IsNullOrEmpty(apiRequest.AccessToken))
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.AccessToken);
                 }
 
                 HttpResponseMessage apiResponse = null;

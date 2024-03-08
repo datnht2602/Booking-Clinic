@@ -46,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Coupon", "Clinic.Coupon\Clinic.Coupon.csproj", "{3C620C6A-E5B2-4AAB-8DF7-ED08171146C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{1F89C5DD-A552-4FED-B91D-D5FB730B3557}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F89C5DD-A552-4FED-B91D-D5FB730B3557}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F89C5DD-A552-4FED-B91D-D5FB730B3557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C620C6A-E5B2-4AAB-8DF7-ED08171146C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C620C6A-E5B2-4AAB-8DF7-ED08171146C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C620C6A-E5B2-4AAB-8DF7-ED08171146C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C620C6A-E5B2-4AAB-8DF7-ED08171146C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{48DA7380-532D-49B2-A1C7-F77FF69A8CFC} = {F2248940-38B8-48B8-BBB6-B5118AF9DCA5}
 		{B7962B4E-861E-406D-8C8B-9211D00E0D8E} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{1F89C5DD-A552-4FED-B91D-D5FB730B3557} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
+		{3C620C6A-E5B2-4AAB-8DF7-ED08171146C5} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D82853F-2960-44C3-81E2-DA4597DC4483}

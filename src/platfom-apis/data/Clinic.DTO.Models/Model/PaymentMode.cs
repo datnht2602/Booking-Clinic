@@ -7,8 +7,8 @@ namespace Clinic.DTO.Models
 {
     public enum PaymentMode
     {
-        VNPay,
-        Momo,
+        QRPay,
+        Bank,
         Cash
     }
 }

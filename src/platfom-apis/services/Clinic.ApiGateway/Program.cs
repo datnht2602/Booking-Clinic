@@ -43,11 +43,13 @@ builder.Services.AddAuthentication("Bearer")
         };
 
     });
-builder.Services.AddAuthorization(options => {
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
-        .RequireAuthenticatedUser()
-        .Build();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "Clinic");
+    });
 });
 builder.Services.AddCors( options => {
     options.AddPolicy("AllowAll", 

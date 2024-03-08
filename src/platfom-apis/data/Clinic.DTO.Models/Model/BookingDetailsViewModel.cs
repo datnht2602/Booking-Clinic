@@ -16,17 +16,23 @@ namespace Clinic.DTO.Models
         public int Specialization { get; set; }
         [Required]
         public string DoctorId { get; set; }
-        [Required]
-        public string OrderPlacedDate { get; set; }
-        public string Description { get; set; }
 
+        public string DoctorName { get; set; }
+        [Required]
+        public long OrderPlacedDate { get; set; }
+        public string Description { get; set; }
+        public string CouponCode { get; set; }
+        public double DiscountTotal { get; set; }
+        public string FullName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public int CartTotalItems { get; set; }
         [Required]
         public List<ProductListViewModel> Products { get; set; }
         
         public double OrderTotal { get; set; }
-        public string PaymentMode { get; set; }
+        public int PaymentMode { get; set; }
         public string OrderStatus { get; set; }
-        public int TrackingId { get; set; }
  
         public string Etag { get; set; }
 

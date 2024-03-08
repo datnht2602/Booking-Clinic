@@ -41,6 +41,7 @@ app.MapBookingEndpoints();
 
 app.MapProductEndpoints();
 
+app.MapCouponEndpoints();
 
 app.Run();
 

@@ -36,9 +36,7 @@ namespace Clinic.Booking.Services
             booking.Id = existingBooking.Id;
             booking.Etag = existingBooking.Etag;
             if(booking.OrderStatus == OrderStatus.Submitted.ToString()){
-                booking.OrderPlacedDate = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
-                Random trackingId = new Random();
-                booking.TrackingId = trackingId.Next(int.MaxValue);
+                
             }else{
                 booking.Products.AddRange(existingBooking.Products);
                 booking.OrderStatus = OrderStatus.Cart.ToString();

@@ -1,5 +1,7 @@
 using Clinic.ApiGateway.Contracts;
+using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Clinic.ApiGateway.EndpointService;
@@ -17,14 +19,23 @@ public static class ClinicEndpoint
     
             }).AllowAnonymous()
             .WithOpenApi();
-        routes.MapGet("/getbooking", async ([FromServices] IClinicService clinicService, [FromQuery] string userId) =>
+        routes.MapGet("/getbooking", [Authorize]async ([FromServices] IClinicService clinicService, [FromQuery] string userId) =>
             {
-                var list = await clinicService.GetBookingDetail(userId).ConfigureAwait(false);
+                var booking = await clinicService.GetBookingDetail(userId).ConfigureAwait(false);
                 ResponseDto result = new();
-                result.Result = list;
+                result.Result = booking;
                 return result;
     
-            }).AllowAnonymous()
+            })
+            .WithOpenApi();
+        routes.MapPost("/upsertbooking", [Authorize]async ([FromBody]BookingDetailsViewModel createModel,[FromServices]IClinicService clinicService) =>
+            {
+                var booking = await clinicService.CreateOrUpdateBooking(createModel).ConfigureAwait(false);
+                ResponseDto result = new();
+                result.Result = booking;
+                return result;
+    
+            })
             .WithOpenApi();
     }
 }

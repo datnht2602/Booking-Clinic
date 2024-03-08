@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using Clinic.ApiGateway.Contracts;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Models;
@@ -6,6 +7,7 @@ using Clinic.Common.Options;
 using Clinic.Common.Validator;
 using Clinic.DTO.Models;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Clinic.ApiGateway.Services
 {
@@ -24,9 +26,28 @@ namespace Clinic.ApiGateway.Services
             this.cacheService = cacheService;
             this.applicationSettings = applicationSettings;
         }
-        public Task<BookingDetailsViewModel> CreateOrUpdateBooking(BookingDetailsViewModel model)
+        public async Task<BookingDetailsViewModel> CreateOrUpdateBooking(BookingDetailsViewModel model)
         {
-            throw new NotImplementedException();
+            using var bookingRequest = new HttpRequestMessage(HttpMethod.Post, $"{applicationSettings.Value.ProductsApiEndpoint}/getbooking");
+            bookingRequest.Content = new StringContent(JsonConvert.SerializeObject(model),
+                Encoding.UTF8,"application/json");
+            var bookingResponse = await httpClient.SendAsync(bookingRequest).ConfigureAwait(false);
+
+            if(!bookingResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(bookingResponse).ConfigureAwait(false);
+            }
+            if(bookingResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var result = await bookingResponse.Content.ReadFromJsonAsync<BookingDetailsViewModel>().ConfigureAwait(false);
+                
+
+                return result;
+            }
+            else
+            {
+                return new BookingDetailsViewModel();
+            }
         }
 
         public Task<BookingDetailsViewModel> GetBookingByIdAsync(string orderId)
