@@ -1,7 +1,7 @@
 ﻿@page "/edit-product"
 @layout AdminLayout
 
-<PageTitle>Chỉnh sửa gói khám</PageTitle>
+<PageTitle>Chỉnh sửa sản phẩm</PageTitle>
 
 <link href="css/admin.css" rel="stylesheet" />
 
@@ -12,9 +12,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="list-product">Products</a></li>
+                        <li class="breadcrumb-item"><a href="list-product">Sản phẩm</a></li>
                         <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Add Products</li>
+                        <li class="breadcrumb-item active">Chỉnh sửa sản phẩm</li>
                     </ul>
                 </div>
             </div>
@@ -31,169 +31,73 @@
                                         <h4>Chi tiết sản phẩm</h4>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12">
                                     <div class="input-block local-forms">
                                         <label>Tên sản phẩm <span class="login-danger">*</span></label>
                                         <input class="form-control" type="text">
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+
+                                <div class="col-12 col-md-6">
                                     <div class="input-block local-forms">
-                                        <label>Last Name <span class="login-danger">*</span></label>
+                                        <label>Người tạo sản phẩm <span class="login-danger">*</span></label>
                                         <input class="form-control" type="text">
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+
+                                <div class="col-12 col-md-6">
                                     <div class="input-block local-forms">
-                                        <label>User Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms">
-                                        <label>Mobile <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms">
-                                        <label>Email <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms">
-                                        <label>Password <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="password">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms">
-                                        <label>Confirm Password <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="password">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms cal-icon">
-                                        <label>Date Of Birth <span class="login-danger">*</span></label>
-                                        <input class="form-control datetimepicker" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block select-gender">
-                                        <label class="gen-label">Gender<span class="login-danger">*</span></label>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Male
-                                            </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Female
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>Education <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>Designation <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>Department <span class="login-danger">*</span></label>
+                                        <label>Chuyên khoa <span class="login-danger">*</span></label>
                                         <select class="form-control select">
-                                            <option>Select Department</option>
-                                            <option>Orthopedics</option>
-                                            <option>Radiology</option>
-                                            <option>Dentist</option>
+                                            <option>Chọn chuyên khoa</option>
+                                            <option>Chuyên khoa 1</option>
+                                            <option>Chuyên khoa 2</option>
+                                            <option>Chuyên khoa 3</option>
                                         </select>
                                     </div>
                                 </div>
+                                
                                 <div class="col-12 col-sm-12">
                                     <div class="input-block local-forms">
-                                        <label>Address <span class="login-danger">*</span></label>
-<textarea class="form-control" rows="3" cols="30"></textarea>
+                                        <label>Mô tả sản phẩm <span class="login-danger">*</span></label>
+                                        <textarea class="form-control" rows="3" cols="30"></textarea>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="input-block local-forms">
-                                        <label>City <span class="login-danger">*</span></label>
-                                        <select class="form-control select">
-                                            <option>Select City</option>
-                                            <option>Alaska</option>
-                                            <option>Los Angeles</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="input-block local-forms">
-                                        <label>Country <span class="login-danger">*</span></label>
-                                        <select class="form-control select">
-                                            <option>Select Country </option>
-                                            <option>Usa</option>
-                                            <option>Uk</option>
-                                            <option>Italy</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="input-block local-forms">
-                                        <label>State/Province <span class="login-danger">*</span></label>
-                                        <select class="form-control select">
-                                            <option>Select State</option>
-                                            <option>Alaska</option>
-                                            <option>California</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="input-block local-forms">
-                                        <label>Postal Code <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12">
-                                    <div class="input-block local-forms">
-                                        <label>Start Biography <span class="login-danger">*</span></label>
-<textarea class="form-control" rows="3" cols="30"></textarea>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-top-form">
-                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
+                                        <label class="local-top">Upload hình ảnh <span class="login-danger">*</span></label>
                                         <div class="settings-btn upload-files-avator">
                                             <input type="file" accept="image/*" name="image" id="file" onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)" class="hide-input" data-cf-modified-e8088f475d55c291364b1df7->
                                             <label for="file" class="upload">Choose File</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block select-gender">
-                                        <label class="gen-label">Status <span class="login-danger">*</span></label>
+                                        <label class="gen-label">Gói sản phẩm<span class="login-danger">*</span></label>
                                         <div class="form-check-inline">
                                             <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Active
+                                                <input type="radio" name="True" class="form-check-input">Đúng
                                             </label>
                                         </div>
                                         <div class="form-check-inline">
                                             <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">In Active
+                                                <input type="radio" name="False" class="form-check-input">Sai
                                             </label>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12 col-sm-12">
+                                    <div class="input-block local-forms">
+                                        <label>Giá tiền <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="number" required>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
-                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
-                                        <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
+                                        <button type="submit" class="btn btn-primary submit-form me-2">Xác nhận</button>
+                                        <button type="submit" class="btn btn-primary cancel-form">Hủy bỏ</button>
                                     </div>
                                 </div>
                             </div>

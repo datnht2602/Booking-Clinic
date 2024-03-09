@@ -5175,7 +5175,7 @@ table.dataTable thead .sorting_desc_disabled:after {
     border-color: #00d3c7;
 }
 
-.select-gender .form-check-input:focus {
+.select-product .form-check-input:focus {
     box-shadow: none;
 }
 
@@ -7506,20 +7506,20 @@ a.status-grey {
     margin-bottom: 30px;
 }
 
-.select-gender .gen-label {
+.select-product .gen-label {
     margin-bottom: 5px;
     color: #333448;
     font-size: 12px;
     font-weight: 500;
 }
 
-.select-gender .form-check-label {
+.select-product .form-check-label {
     color: rgba(51, 52, 72, 0.5);
     font-weight: 500;
     font-size: 14px;
 }
 
-.select-gender .form-check-input {
+.select-product .form-check-input {
     width: 12px;
     height: 12px;
     margin-right: 5px;
