@@ -1,0 +1,41 @@
+﻿@page "/doctor/doctor-detail/book-appointments/confirm/invoice"
+@page "/doctor/book-appointments/confirm/invoice"
+<PageTitle>Thông tin hóa đơn</PageTitle>
+
+<main>
+    <div class="bg-white">
+        <div class="container px-5 py-5 appointments">
+            <div>
+                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">THÔNG TIN HÓA ĐƠN</h2>
+                <div class="m-auto bg-primary shadow-lg px-5 pt-3 rounded-3 col-lg-8 mx-auto">
+                    <form action="/" class="text-start pt-4">
+                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Phiếu khám bệnh</h4>
+                        <h5 class="m-auto text-center text-white mb-5 mx-auto">Phòng khám: 4Health Clinic</h5>
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label medium text-white">Họ và tên người khám</label>
+                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" size=20 readonly="False">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label medium text-white">Số điện thoại</label>
+                            <input type="tel" class="form-control" placeholder="Số điện thoại" readonly="False">
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label medium text-white">Ngày và khung giờ muốn khám <small class="text-danger fw-bold"></small></label>
+                            <input type="datetime-local" class="form-control" id="datetime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label medium text-white">Tổng cộng</label>
+                            <input type="number" class="form-control" placeholder="150000" readonly="False">
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-center px-3 py-5">
+                                <a href="" class="btn btn-primary btn-lg mx-auto card-link">Thanh toán</a>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

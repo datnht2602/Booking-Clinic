@@ -1,0 +1,50 @@
+﻿@page "/profile-management"
+<PageTitle>Xác nhận thông tin</PageTitle>
+<main>
+    <div class="container mt-5">
+        <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">QUẢN LÝ THÔNG TIN CÁ NHÂN</h2>
+        <div class="card bold-border mb-5 shadow-lg">
+            <div class="row no-gutters mx-4 my-3 px-5 py-4">
+                <div class="col-md-3">
+                    <img class="card-img image-left" src="img/avatar.jpg" alt="...">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label medium text-black">Họ và tên người khám <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="major" class="form-label medium text-black">Giới tính<small class="text-danger">*</small></label>
+                            <select class="form-select" required aria-label="Chọn giới tính">
+                                <option value="">Chọn giới tính</option>
+                                <option value="1">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label medium text-black">Email <small class="text-danger">*</small></label>
+                            <input type="email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label medium text-black">Số điện thoại <small class="text-danger">*</small></label>
+                            <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                        </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label medium text-black">Ngày sinh <small class="text-danger fw-bold">*</small></label>
+                            <input type="datetime-local" class="form-control" id="datetime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label medium text-black">Địa chỉ <small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                        </div>
+                    </div>
+                    </div>
+                <div class="d-flex justify-content-between px-3 py-5">
+                    <a href="" class="btn btn-primary btn-lg mx-auto card-link">Lưu thay đổi</a>
+                </div>
+                </div>
+            </div>
+       </div>
+</main>
