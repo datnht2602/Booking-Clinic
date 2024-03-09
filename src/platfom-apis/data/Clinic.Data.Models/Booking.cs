@@ -14,15 +14,15 @@ namespace Clinic.Data.Models
         public string UserName { get; set; }
         public int Specialization { get; set; }
         public string DoctorId { get; set; }
+        public string DoctorName { get; set; }
         public string Description { get; set; }
         public string CouponCode { get; set; }
         public double DiscountTotal { get; set; }
         public int CartTotalItems { get; set; }
         public List<Product> Products { get; set; }
         public string OrderStatus { get; set; } 
-        public string OrderPlacedDate { get; set; }
+        public long OrderPlacedDate { get; set; }
         public AddtionalData AdditionalData { get; set; }
-        public int TrackingId { get; set; }
         public double OrderTotal { get; set; }
         public int PaymentMode { get; set; }
 

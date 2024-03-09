@@ -28,7 +28,7 @@ namespace Clinic.ApiGateway.Services
         }
         public async Task<BookingDetailsViewModel> CreateOrUpdateBooking(BookingDetailsViewModel model)
         {
-            using var bookingRequest = new HttpRequestMessage(HttpMethod.Post, $"{applicationSettings.Value.ProductsApiEndpoint}/getbooking");
+            using var bookingRequest = new HttpRequestMessage(HttpMethod.Post, $"{applicationSettings.Value.OrdersApiEndpoint}/getbooking");
             bookingRequest.Content = new StringContent(JsonConvert.SerializeObject(model),
                 Encoding.UTF8,"application/json");
             var bookingResponse = await httpClient.SendAsync(bookingRequest).ConfigureAwait(false);

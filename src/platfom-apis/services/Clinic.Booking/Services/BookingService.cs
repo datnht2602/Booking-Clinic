@@ -47,9 +47,9 @@ namespace Clinic.Booking.Services
             return booking;
            }else{
             booking.OrderStatus = OrderStatus.Cart.ToString();
-            booking.Id = Guid.NewGuid().ToString();
             booking.OrderTotal = booking.Products.Sum(x => x.Price);
-            using var bookingRequest = new StringContent(JsonSerializer.Serialize(booking),Encoding.UTF8,ContentType);
+            var bookingModel = autoMapper.Map<Data.Models.Booking>(booking);
+            using var bookingRequest = new StringContent(JsonSerializer.Serialize(bookingModel),Encoding.UTF8,ContentType);
             var bookingResponse = await this.httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getbooking"),bookingRequest).ConfigureAwait(false);
 
             if(!bookingResponse.IsSuccessStatusCode){

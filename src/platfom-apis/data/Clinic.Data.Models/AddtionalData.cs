@@ -12,5 +12,6 @@ namespace Clinic.Data.Models
         public string HealthInsuranceCode { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string ClinicNumber { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

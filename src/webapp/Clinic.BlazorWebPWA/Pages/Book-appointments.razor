@@ -165,19 +165,22 @@
     private string accessToken { get; set; }
     private BookingViewModel booking = new();
     string eventValue;
+    string userId = string.Empty;
     IEnumerable<string> multipleValues;
+    int total = 0;
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
+        total = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         StateHasChanged();
     }
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
-
+        
         var authState = await authenticationStateTask;
         var user = authState.User;
-
+        userId = user.FindFirst(c => c.Type == "sub")?.Value;
         if(!user.Identity.IsAuthenticated)
         {
             nav.NavigateTo("authentication/login");
@@ -201,9 +204,10 @@
         createBooking.DoctorId = booking.DoctorId;
         createBooking.Specialization = booking.Specialization;
         createBooking.DoctorName = booking.Name;
-        
-
+        //var userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value;
+        createBooking.UserId = userId;
         createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
+        createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking,accessToken);
         if (response != null && response.IsSuccess)
         {
