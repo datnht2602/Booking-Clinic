@@ -48,9 +48,14 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
-    public Task<T> GetBookingByIdAsync<T>(string orderId)
+    public async Task<T> GetBookingByIdAsync<T>(string bookingId, string accessToken)
     {
-        throw new NotImplementedException();
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"https://localhost:7244/getbookingbyid?bookingId={bookingId}",
+            AccessToken = accessToken
+        });
     }
 
     public Task<T> GetInvoiceByIdAsync<T>(string orderId)

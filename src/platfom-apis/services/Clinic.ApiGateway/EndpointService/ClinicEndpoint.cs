@@ -37,5 +37,14 @@ public static class ClinicEndpoint
     
             })
             .WithOpenApi();
+        routes.MapGet("/getbookingbyid", [Authorize]async (string bookingId,[FromServices]IClinicService clinicService) =>
+            {
+                var booking = await clinicService.GetBookingByIdAsync(bookingId).ConfigureAwait(false);
+                ResponseDto result = new();
+                result.Result = booking;
+                return result;
+    
+            })
+            .WithOpenApi();
     }
 }

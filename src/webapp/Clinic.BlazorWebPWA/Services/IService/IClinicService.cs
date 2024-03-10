@@ -11,7 +11,7 @@ public interface IClinicService : IBaseService
 
     Task<T> CreateOrUpdateBooking<T>(BookingDetailsViewModel model,string accessToken);
 
-    Task<T> GetBookingByIdAsync<T>(string orderId);
+    Task<T> GetBookingByIdAsync<T>(string bookingId, string accessToken);
 
     Task<T> GetInvoiceByIdAsync<T>(string orderId);
 

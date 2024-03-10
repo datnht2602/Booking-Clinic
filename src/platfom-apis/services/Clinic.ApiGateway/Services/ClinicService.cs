@@ -50,9 +50,22 @@ namespace Clinic.ApiGateway.Services
             }
         }
 
-        public Task<BookingDetailsViewModel> GetBookingByIdAsync(string orderId)
+        public async Task<BookingDetailsViewModel> GetBookingByIdAsync(string orderId)
         {
-            throw new NotImplementedException();
+            BookingDetailsViewModel order = new ();
+            using var orderRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.OrdersApiEndpoint}/getbooking/{orderId}");
+            var productResponse = await this.httpClient.SendAsync(orderRequest).ConfigureAwait(false);
+            if (!productResponse.IsSuccessStatusCode)
+            {
+                await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
+            }
+
+            if (productResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                order = await productResponse.Content.ReadFromJsonAsync<BookingDetailsViewModel>().ConfigureAwait(false);
+            }
+
+            return order;
         }
 
         public Task<DoctorDetailsViewModel> GetDoctorByIdAsync(string id)

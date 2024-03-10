@@ -17,7 +17,7 @@ public static class Extension
             8 => "Khoa Nội Thần Kinh",
             9 => "Khoa Y Học Cổ Truyền",
             10 => "Khoa Nội Thần Kinh Đột Quỵ",
-            11 => " Khoa Răng Hàm mặt"
+            11 => "Khoa Răng Hàm mặt"
         };
         return chuyenKhoa;
     }

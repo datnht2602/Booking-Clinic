@@ -6,7 +6,6 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IClinicService clinicService
 @inject NavigationManager nav
-@using static Microsoft.AspNetCore.Components.Web.RenderMode
 <PageTitle>Đặt lịch khám</PageTitle>
 
 <head>
@@ -211,7 +210,7 @@
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking,accessToken);
         if (response != null && response.IsSuccess)
         {
-            nav.NavigateTo("authentication/login");
+            nav.NavigateTo($"/doctor/book-appointments/confirm/{createBooking.Id}");
         }
     }
    

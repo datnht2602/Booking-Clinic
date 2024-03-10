@@ -1,6 +1,9 @@
 ﻿@page "/doctor/doctor-detail/book-appointments/confirm"
-@page "/doctor/book-appointments/confirm"
-
+@page "/doctor/book-appointments/confirm/{bookingId}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Clinic.DTO.Models.Dto
+@inject IClinicService clinicService
+@inject NavigationManager nav
 <PageTitle>Xác nhận thông tin</PageTitle>
 <main>
     <div class="bg-white">
@@ -84,3 +87,35 @@
     </div>
 
 </main>
+@code
+{
+    [Parameter] public string bookingId { get; set; }
+    [Inject]
+    IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if(!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+        var response = await clinicService.GetBookingByIdAsync<ResponseDto>(bookingId,accessToken);
+        if (response != null && response.IsSuccess)
+        {
+         
+        }
+    }
+}
