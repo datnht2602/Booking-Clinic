@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\core\Clinic.Caching\Clinic.Caching.csproj" />
     <ProjectReference Include="..\..\core\Clinic.Common\Clinic.Common.csproj" />
     <ProjectReference Include="..\..\core\Clinic.Infrastructure\Clinic.Infrastructure.csproj" />
     <ProjectReference Include="..\..\data\Clinic.Data.Models\Clinic.Data.Models.csproj" />
