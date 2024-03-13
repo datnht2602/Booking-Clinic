@@ -13,20 +13,19 @@
                     <li class="nav-item"><NavLink class="nav-link" href="about">Giới thiệu</NavLink></li>
                     <li class="nav-item"><NavLink class="nav-link" href="doctor">Bác sĩ</NavLink></li>
                     <li class="nav-item"><NavLink class="nav-link" href="health-packages">Gói khám sức khỏe</NavLink></li>
-                    <li class="nav-item"><NavLink class="nav-link" href="book-appointments">Đặt lịch khám</NavLink></li>
                     <li class="nav-item"><NavLink class="nav-link" href="blog">Tin tức</NavLink></li>
-                    <li class="nav-item dropdown">
+@*                     <li class="nav-item dropdown">
                         <NavLink class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tin tức</NavLink>
                         <ul class="dropdown-menu m-0 border-0 shadow-sm p-2 dropdown-menu-end">
                             <li><NavLink class="dropdown-item px-3 py-2 rounded" href="forgot.html">Forgot</NavLink></li>
                             <li><NavLink class="dropdown-item px-3 py-2 rounded" href="404">Not Found 404</NavLink></li>
                         </ul>
-                    </li>
+                    </li> *@
                 </ul>
                 <div class="d-flex gap-4 align-items-center">
                     <AuthorizeView>
                         <Authorized>
-                            <h3 class="fw-bold" style="color:azure">Hello @context.User.Identity.Name</h3>
+                            <h3 class="fw-bold fs-6" style="color:azure">Hello @context.User.Identity.Name</h3>
                             <button type="button" class="btn btn-light" @onclick="LogOut">
                                 Log out
                             </button>

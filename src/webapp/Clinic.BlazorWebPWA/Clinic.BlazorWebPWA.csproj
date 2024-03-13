@@ -88,8 +88,4 @@
 		<None Include="wwwroot\plugins\moment\moment.min.js" />
 		<None Include="wwwroot\plugins\moment\moment.min.jssourcemap" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Pages\Admin\Appointments\" />
-	</ItemGroup>
 </Project>
