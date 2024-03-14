@@ -113,11 +113,11 @@
                                          else
                                          {
                                              <RadzenDropDownDataGrid  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                                                     AllowFiltering="true" AllowClear="true" 
-                                                                     Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                     TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
-                                                                     Placeholder="Chọn dịch vụ"
-                                                                     Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
+                                                                      AllowFiltering="true" AllowClear="true" 
+                                                                      Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
+                                                                      TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
+                                                                      Placeholder="Chọn dịch vụ"
+                                                                      Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
                                          }
                                      </div>
                                  </div>
@@ -133,8 +133,13 @@
                              </div>
                          </div>
                          <div class="mb-3">
+                                 <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger">*</small></label>
+                                 <input type="text" @bind-value="@_coupon" class="form-control"/>
+                                 <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
+                         </div>
+                         <div class="mb-3">
                              <label for="price" class="form-label medium text-white">Tổng cộng</label>
-                             <input type="text" class="form-control" placeholder="2.000.000 đ" readonly="False">
+                             <input type="text" class="form-control" placeholder="@booking.OrderTotal" readonly="False">
                          </div>
                          <div>
                              <div class="text-center col-lg-5 py-4 mx-auto">
@@ -160,13 +165,14 @@
     private string accessToken { get; set; }
     private BookingViewModel booking = new();
     string eventValue;
+    private string _coupon;
+    private string Coupon;
     string userId = string.Empty;
     IEnumerable<string> multipleValues;
-    int total = 0;
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
-        total = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
+        booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         StateHasChanged();
     }
     protected async override Task OnInitializedAsync()
@@ -193,6 +199,15 @@
             booking = JsonConvert.DeserializeObject<BookingViewModel>(Convert.ToString((response.Result)));
         }
     }
+    private void HandleAddCoupon()
+    {
+        if (_coupon != string.Empty)
+        {
+            booking.OrderTotal = booking.OrderTotal / 10;
+        }
+           Coupon = _coupon;
+           StateHasChanged();
+    }
     private async Task HandleBookingCreate()
     {
         createBooking.Id = Guid.NewGuid().ToString();
@@ -203,6 +218,7 @@
         createBooking.UserId = userId;
         createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
         createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
+        booking.OrderTotal = createBooking.OrderTotal = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking,accessToken);
         if (response != null && response.IsSuccess)
         {
@@ -213,4 +229,11 @@
 
     // Get the list of time slots
     List<DateTime> timeSlots = Extension.GetTimeSlots();
+
+    public class CouponTotal
+    {
+        public string CouponCode { get; set; }
+        public double Total { get; set; }
+        public bool IsAdded { get; set; }
+    }
 }

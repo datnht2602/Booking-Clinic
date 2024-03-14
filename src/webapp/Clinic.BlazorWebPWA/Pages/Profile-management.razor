@@ -1,8 +1,8 @@
 ﻿@page "/profile-management"
-<PageTitle>Xác nhận thông tin</PageTitle>
+<PageTitle>Profile Management</PageTitle>
 <main>
     <div class="container mt-5">
-        <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">QUẢN LÝ THÔNG TIN CÁ NHÂN</h2>
+        <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">MANAGE PERSONAL INFORMATION</h2>
         <div class="card bold-border mb-5 shadow-lg">
             <div class="row no-gutters mx-4 my-3 px-5 py-4">
                 <div class="col-md-3">
@@ -11,16 +11,16 @@
                 <div class="col-md-9">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="fullname" class="form-label medium text-black">Họ và tên người khám <small class="text-danger">*</small></label>
-                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                            <label for="fullname" class="form-label medium text-black">Full Name<small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required>
                         </div>
                         <div class="mb-3">
-                            <label for="major" class="form-label medium text-black">Giới tính<small class="text-danger">*</small></label>
-                            <select class="form-select" required aria-label="Chọn giới tính">
-                                <option value="">Chọn giới tính</option>
-                                <option value="1">Nam</option>
-                                <option value="2">Nữ</option>
-                                <option value="3">Khác</option>
+                            <label for="major" class="form-label medium text-black">Gender<small class="text-danger">*</small></label>
+                            <select class="form-select" required aria-label="Select Gender">
+                                <option value="">Select Gender</option>
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                                <option value="3">Other</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -28,21 +28,21 @@
                             <input type="email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label medium text-black">Số điện thoại <small class="text-danger">*</small></label>
-                            <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                            <label class="form-label medium text-black">Phone Number<small class="text-danger">*</small></label>
+                            <input type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
                         </div>
                         <div class="mb-3">
-                            <label for="date" class="form-label medium text-black">Ngày sinh <small class="text-danger fw-bold">*</small></label>
+                            <label for="date" class="form-label medium text-black">Date of birth<small class="text-danger fw-bold">*</small></label>
                             <input type="datetime-local" class="form-control" id="datetime" required>
                         </div>
                         <div class="mb-3">
-                            <label for="address" class="form-label medium text-black">Địa chỉ <small class="text-danger">*</small></label>
-                            <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                            <label for="address" class="form-label medium text-black">Address<small class="text-danger">*</small></label>
+                            <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Please do not enter spaces." required>
                         </div>
                     </div>
                     </div>
                 <div class="d-flex justify-content-between px-3 py-5">
-                    <a href="" class="btn btn-primary btn-lg mx-auto card-link">Lưu thay đổi</a>
+                    <a href="" class="btn btn-primary btn-lg mx-auto card-link">Save changes</a>
                 </div>
                 </div>
             </div>

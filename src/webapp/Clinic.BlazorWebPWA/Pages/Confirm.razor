@@ -4,29 +4,29 @@
 @using Clinic.DTO.Models.Dto
 @inject IClinicService clinicService
 @inject NavigationManager nav
-<PageTitle>Xác nhận thông tin</PageTitle>
+<PageTitle>Confirm Information</PageTitle>
 <main>
     <div class="bg-white">
         <div class="container px-5 py-5 appointments">
             <div>
-                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">XÁC NHẬN THÔNG TIN</h2>
+                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">CONFIRM INFORMATION</h2>
                 <div class="container">
                     <div class="row gx-5">
                         <div class="col-md-6 mb-5 offset-md-3">
                             <div class="card mh-100 bg-primary shadow-lg">
                                 <div class="card-body mx-4 my-3 px-5 py-4">
-                                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Thông tin bệnh nhân</h4>
+                                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Patient Information</h4>
                                     <div class="mb-3">
-                                        <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
-                                        <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                                        <label for="fullname" class="form-label medium text-white">Full Name <small class="text-danger">*</small></label>
+                                        <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="major" class="form-label medium text-white">Giới tính<small class="text-danger">*</small></label>
-                                        <select class="form-select" required aria-label="Chọn giới tính">
-                                            <option value="">Chọn giới tính</option>
-                                            <option value="1">Nam</option>
-                                            <option value="2">Nữ</option>
-                                            <option value="3">Khác</option>
+                                        <label for="major" class="form-label medium text-white">Gender<small class="text-danger">*</small></label>
+                                        <select class="form-select" required aria-label="Select Gender">
+                                            <option value="">Select Gender</option>
+                                            <option value="1">Male</option>
+                                            <option value="2">Female</option>
+                                            <option value="3">Other</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -34,16 +34,16 @@
                                         <input type="email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
-                                        <input type="tel" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                                        <label class="form-label medium text-white">Phone Number<small class="text-danger">*</small></label>
+                                        <input type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="date" class="form-label medium text-white">Ngày sinh <small class="text-danger fw-bold">*</small></label>
+                                        <label for="date" class="form-label medium text-white">Date of birth <small class="text-danger fw-bold">*</small></label>
                                         <input type="datetime-local" class="form-control" id="datetime" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="address" class="form-label medium text-white">Địa chỉ <small class="text-danger">*</small></label>
-                                        <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                                        <label for="address" class="form-label medium text-white">Address <small class="text-danger">*</small></label>
+                                        <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Please do not enter spaces." required>
                                     </div>
                                 </div>
                             </div>
@@ -51,22 +51,22 @@
                         <div class="col-md-6 mb-5 offset-md-3">
                             <div class="card mh-100 bg-primary shadow-lg">
                                 <div class="card-body mx-4 my-3 px-5 py-4">
-                                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Thông tin đặt lịch khám</h4>
+                                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Information about booking an appointment</h4>
                                     <div class="mb-3">
-                                        <label for="date" class="form-label medium text-white">Ngày và khung giờ muốn khám <small class="text-danger fw-bold"></small></label>
+                                        <label for="date" class="form-label medium text-white">Date and time you want to be examined <small class="text-danger fw-bold"></small></label>
                                         <input type="datetime-local" class="form-control" id="datetime" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="doctor" class="form-label medium text-white">Bác sĩ</label>
+                                        <label for="doctor" class="form-label medium text-white">Doctor</label>
                                         <input type="text" class="form-control" placeholder="Nguyễn Văn B" pattern="[^\s]+" size=20 readonly="False">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="specialist" class="form-label medium text-white">Chuyên khoa</label>
-                                        <input type="text" class="form-control" placeholder="Chuyên khoa 1" pattern="[^\s]+" size=20 readonly="False">
+                                        <label for="specialist" class="form-label medium text-white">Specialization</label>
+                                        <input type="text" class="form-control" placeholder="Specialization 1" pattern="[^\s]+" size=20 readonly="False">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="service" class="form-label medium text-white">Dịch vụ</label>
-                                        <input type="text" class="form-control" placeholder="Dịch vụ 1" pattern="[^\s]+" size=20 readonly="False">
+                                        <label for="service" class="form-label medium text-white">Service</label>
+                                        <input type="text" class="form-control" placeholder="Service 1" pattern="[^\s]+" size=20 readonly="False">
                                     </div>
 
                                 </div>
@@ -75,8 +75,8 @@
                         <div class="row justify-content-center">
                             <div class="col-md-6">
                                 <div class="btn-group d-flex justify-content-center">
-                                    <a href="doctor/book-appointments" class="btn btn-primary btn-lg mx-5 card-link">Quay lại</a>
-                                    <a href="doctor/book-appointments/confirm/invoice" class="btn btn-primary btn-lg mx-5 card-link">Xác nhận</a>
+                                    <a href="doctor/book-appointments" class="btn btn-primary btn-lg mx-5 card-link">Go back</a>
+                                    <a href="doctor/book-appointments/confirm/invoice" class="btn btn-primary btn-lg mx-5 card-link">Confirm</a>
                                 </div>
                             </div>
                         </div>

@@ -5,7 +5,7 @@
 @using Newtonsoft.Json
 @inject HttpClient Http
 @inject IClinicService clinicService
-<PageTitle>Bác sĩ</PageTitle>
+<PageTitle>Doctor</PageTitle>
 <head>
     <link href="css/doctor.css" rel="stylesheet" />
 </head>
@@ -18,7 +18,7 @@
                     <div class="row gx-5 align-items-center justify-content-center">
                         <div class="col-lg-12">
                             <div class="text-center">
-                                <h1 class="fw-bold text-white text-uppercase">Các bác sĩ chuyên nghiệp của chúng tôi</h1>
+                                <h1 class="fw-bold text-white text-uppercase">Our professional doctors</h1>
                             </div>
                         </div>
                     </div>
@@ -34,27 +34,27 @@
                     <div class="col-lg-9">
                         <div class="row">
                             <div class="col-md-1 d-flex justify-content-center">
-                                <h6 class="my-auto">Bộ lọc:</h6>
+                                <h6 class="my-auto">Filter:</h6>
                             </div>
                             <div class="col-md-5">
                                 <select class="form-select" id="specializationFilter">
-                                    <option selected>Chuyên khoa</option>
-                                    <option value="1">Chuyên khoa 1</option>
-                                    <option value="2">Chuyên khoa 2</option>
+                                    <option selected>Specialization</option>
+                                    <option value="1">Specialization 1</option>
+                                    <option value="2">Specialization 2</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" id="academicRankFilter">
-                                    <option selected>Học vị</option>
-                                    <option value="1">Học vị 1</option>
-                                    <option value="2">Học vị 2</option>
+                                    <option selected>Degree</option>
+                                    <option value="1">Degree 1</option>
+                                    <option value="2">Degree 2</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" id="genderFilter">
-                                    <option selected>Giới tính</option>
-                                    <option value="male">Nam</option>
-                                    <option value="female">Nữ</option>
+                                    <option selected>Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
                                 </select>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                     <!-- Part 2: Search Bar -->
                     <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Tìm kiếm bác sĩ" aria-label="Doctor's name" aria-describedby="searchButton">
+                            <input type="text" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" aria-describedby="searchButton">
                             <button class="btn btn-outline-secondary" type="button" id="searchButton">
                                 <i class="bi bi-search"></i> <!-- Bootstrap icon for search -->
                             </button>
@@ -72,14 +72,6 @@
                 </div>
             </div>
         </section>
-
-        <div class="col-lg-12 bg-warning">
-            <div class="container px-5">
-                <div class="row py-2 align-items-center justify-content-center">
-                    <h5 class="my-auto">Phòng khám số 201</h5>
-                </div>
-            </div>
-        </div>
 
         <!-- Page Content-->
         <section class="py-3">
@@ -100,7 +92,7 @@
                                             <p class="text-muted fw-light mb-2" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">@doctor.Introduction</p>
                                     </div>
                                     <div class="d-flex px-3 justify-content-between">
-                                        <p class="fw-bold my-auto fs-6"> Đánh giá: </p>
+                                        <p class="fw-bold my-auto fs-6"> Rating: </p>
                                         <div class="stars gap-sm-2 fs-5">
                                         @for (int i = 0; i < doctor.AverageRating; i++)
                                         {
@@ -111,8 +103,8 @@
                                     </div>
                                     <div class="d-flex justify-content-between card-body">
                                         <div><a href="#" class="text-primary fs-4 card-link"><i class="bi bi-chat-dots-fill"></i></a></div>
-                                        <a href="/" class="btn btn-navy card-link">Chi tiết</a>
-                                        <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Đặt lịch khám</a>
+                                        <a href="/" class="btn btn-navy card-link">Detail</a>
+                                        <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Booking Appointment</a>
                                     </div>
                                 </div>
                             </div>

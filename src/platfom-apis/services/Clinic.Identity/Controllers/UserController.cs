@@ -18,7 +18,8 @@ namespace Clinic.Identity.Controllers
         private readonly IDistributedCacheService cacheService;
         public UserController(UserManager<ApplicationUser> userManager,
             IMapper autoMapper,
-            IHttpClientFactory httpClientFactory)
+            IHttpClientFactory httpClientFactory,
+            IDistributedCacheService cacheService)
         {
             _userManager = userManager;
             this.autoMapper = autoMapper;
