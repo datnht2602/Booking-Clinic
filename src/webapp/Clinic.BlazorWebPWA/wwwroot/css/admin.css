@@ -1115,7 +1115,7 @@ textarea.form-control {
         color: #2e37a4;
     }
 
-.sidebar-menu ul li .active img {
+.sidebar-menu ul li .active i .icon {
     filter: invert(13%) sepia(85%) saturate(7478%) hue-rotate(266deg) brightness(50%) contrast(340%);
     transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
@@ -13747,7 +13747,7 @@ body[data-layout-mode=dark] .alertify .ajs-header {
         height: auto;
     }
 
-    .feather-chevron-right:before {
+    .bi bi-chevron-right:before {
         top: 2px;
         position: relative;
     }
