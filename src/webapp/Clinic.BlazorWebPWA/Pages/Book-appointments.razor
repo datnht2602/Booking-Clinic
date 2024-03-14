@@ -83,19 +83,27 @@
                                     </select>*@
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="date" class="form-label medium text-white">Chọn ngày và khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
-                                <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="doctor" class="form-select">
-                                    <option value="">-------------------</option>
-                                    @foreach (var timeSlot in timeSlots)
-                                    {
-                                        <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
-                                    }
-                                    @*<option value="">Chọn ngày và khung giờ muốn khám</option>
-                                    <option value="1">Bác sĩ 1</option>
-                                    <option value="2">Bác sĩ 2</option>
-                                    <option value="3">Bác sĩ 3</option>*@
-                                </InputSelect>
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label for="date" class="form-label medium text-white">Chọn ngày muốn khám <small class="text-danger fw-bold">*</small></label>
+                                    <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="date" class="form-select">
+                                        <option value="">-------------------</option>
+                                        @foreach (var timeSlot in timeSlots)
+                                        {
+                                            <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="time" class="form-label medium text-white">Chọn khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
+                                    <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="time" class="form-select">
+                                        <option value="">-------------------</option>
+                                        @foreach (var timeSlot in timeSlots)
+                                        {
+                                            <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
+                                        }
+                                    </InputSelect>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
