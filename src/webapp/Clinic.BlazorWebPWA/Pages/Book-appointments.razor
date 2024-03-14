@@ -6,7 +6,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IClinicService clinicService
 @inject NavigationManager nav
-<PageTitle>Booking Appointment</PageTitle>
+<PageTitle>Đặt lịch khám</PageTitle>
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -53,63 +53,63 @@
      <div class="bg-white">
          <div class="container px-5 py-5 appointments">
              <div>
-                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOKING APPOINTMENT</h2>
+                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">ĐẶT LỊCH KHÁM BỆNH</h2>
                  <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                  <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
                          @*<div class="mb-3">
-                                <label for="fullname" class="form-label medium text-white">Full Name <small class="text-danger">*</small></label>
-                                <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces" required>
+                                <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
+                                <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
                             </div>
                             <div class="mb-3">
-                                <label for="phoneNumbers" class="form-label medium text-white">Phone Number <small class="text-danger">*</small></label>
-                            <input type="tel" id="phoneNumbers" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
+                                <label for="phoneNumbers" class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
+                                <input type="tel" id="phoneNumbers" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
                             </div>*@
                          <div class="row">
                              <div class="mb-3 col-6">
-                                 <label for="major" class="form-label medium text-white">Specialization</label>
+                                 <label for="major" class="form-label medium text-white">Chuyên khoa</label>
                                  <input type="text" class="form-control" placeholder="@booking.Specialization.ConvertSpecEnum()" readonly="False">
-                                 @*<select id="specialization" class="form-select" required aria-label="Select Specializtion">
-                                        <option value="">Select Specializtion</option>
-                                        <option value="1">Specializtion 1</option>
-                                        <option value="2">Specializtion 2</option>
-                                        <option value="3">Specializtion 3</option>
+                                 @*<select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
+                                        <option value="">Chọn chuyên khoa</option>
+                                        <option value="1">Chuyên khoa 1</option>
+                                        <option value="2">Chuyên khoa 2</option>
+                                        <option value="3">Chuyên khoa 3</option>
                                     </select>*@
                              </div>
                              <div class="mb-3 col-6">
-                                 <label for="doctor" class="form-label medium text-white">Doctor</label>
+                                 <label for="doctor" class="form-label medium text-white">Bác sĩ</label>
                                  <input type="text" class="form-control" placeholder="@booking.Name" readonly="False">
                                  
-                                 @*<select id="doctor" class="form-select" required aria-label="Select Doctor">
-                                        <option value="">Select Doctor</option>
-                                        <option value="1">Doctor 1</option>
-                                        <option value="2">Doctor 2</option>
-                                        <option value="3">Doctor 3</option>
+                                 @*<select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
+                                        <option value="">Chọn bác sĩ</option>
+                                        <option value="1">Bác sĩ 1</option>
+                                        <option value="2">Bác sĩ 2</option>
+                                        <option value="3">Bác sĩ 3</option>
                                     </select>*@
                              </div>
                          </div>
                          <div class="mb-3">
-                                <label for="date" class="form-label medium text-white">Select the date and time frame you want to be examined<small class="text-danger fw-bold">*</small></label>
+                             <label for="date" class="form-label medium text-white">Chọn ngày và khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
                              <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="doctor" class="form-select">
                                  <option value="">-------------------</option>
                                  @foreach (var timeSlot in timeSlots)
                                  {
                                      <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
                                  }
-                                    @*<option value="">Select the date and time frame you want to be examined</option>
-                                    <option value="1">Doctor 1</option>
-                                    <option value="2">Doctor 2</option>
-                                    <option value="3">Doctor 3</option>*@
+                                 @*<option value="">Chọn ngày và khung giờ muốn khám</option>
+                                    <option value="1">Bác sĩ 1</option>
+                                    <option value="2">Bác sĩ 2</option>
+                                    <option value="3">Bác sĩ 3</option>*@
                              </InputSelect>
                          </div>
                          <div class="mb-3">
-                                <label class="form-label medium text-white">Enter health condition <small class="text-danger">*</small></label>
-                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions for your doctor, and health problems." required></textarea>
+                             <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
+                             <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi cho bác sĩ và các vấn đề sức khỏe cần khám." required></textarea>
                          </div>
                          <div class="row" id="multiselect">
                              <div class="mb-3 col-6">
                                  <div class="modal-box">
                                      <div class="sd-multiSelect form-group">
-                                         <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
+                                         <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
                                          @if (booking.ProductListViewModels == null)
                                          {
                                              <p><em>Loading....</em></p>
@@ -117,32 +117,37 @@
                                          else
                                          {
                                              <RadzenDropDownDataGrid  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                                                     AllowFiltering="true" AllowClear="true" 
-                                                                     Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                     TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
-                                                                        Placeholder="Select Service"
-                                                                     Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
+                                                                      AllowFiltering="true" AllowClear="true" 
+                                                                      Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
+                                                                      TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
+                                                                      Placeholder="Chọn dịch vụ"
+                                                                      Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
                                          }
                                      </div>
                                  </div>
                              </div>
                              <div class="mb-3 col-6">
-                                 <label for="payment" class="form-label medium text-white">Payment Method <small class="text-danger">*</small></label>
+                                 <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
                                  <InputSelect @bind-Value="createBooking.PaymentMode" class="form-select" >
-                                        <option value="">Payment Method </option>
+                                     <option value="">Chọn phương thức thanh toán</option>
                                      <option value="1">QR Pay</option>
-                                     <option value="2">Banking</option>
+                                     <option value="2">Ngân hàng</option>
                                      <option value="3">Momo</option>
                                  </InputSelect>
                              </div>
                          </div>
                          <div class="mb-3">
-                             <label for="price" class="form-label medium text-white">Total</label>
-                             <input type="text" class="form-control" placeholder="2.000.000 đ" readonly="False">
+                                 <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger">*</small></label>
+                                 <input type="text" @bind-value="@_coupon" class="form-control"/>
+                                 <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
+                         </div>
+                         <div class="mb-3">
+                             <label for="price" class="form-label medium text-white">Tổng cộng</label>
+                             <input type="text" class="form-control" placeholder="@booking.OrderTotal" readonly="False">
                          </div>
                          <div>
                              <div class="text-center col-lg-5 py-4 mx-auto">
-                                 <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Booking</button>
+                                 <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Đặt lịch khám</button>
                              </div>
                          </div>
                  </div>
@@ -164,13 +169,14 @@
     private string accessToken { get; set; }
     private BookingViewModel booking = new();
     string eventValue;
+    private string _coupon;
+    private string Coupon;
     string userId = string.Empty;
     IEnumerable<string> multipleValues;
-    int total = 0;
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
-        total = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
+        booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         StateHasChanged();
     }
     protected async override Task OnInitializedAsync()
@@ -197,6 +203,15 @@
             booking = JsonConvert.DeserializeObject<BookingViewModel>(Convert.ToString((response.Result)));
         }
     }
+    private void HandleAddCoupon()
+    {
+        if (_coupon != string.Empty)
+        {
+            booking.OrderTotal = booking.OrderTotal / 10;
+        }
+           Coupon = _coupon;
+           StateHasChanged();
+    }
     private async Task HandleBookingCreate()
     {
         createBooking.Id = Guid.NewGuid().ToString();
@@ -207,6 +222,7 @@
         createBooking.UserId = userId;
         createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
         createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
+        booking.OrderTotal = createBooking.OrderTotal = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking,accessToken);
         if (response != null && response.IsSuccess)
         {
@@ -217,4 +233,11 @@
 
     // Get the list of time slots
     List<DateTime> timeSlots = Extension.GetTimeSlots();
+
+    public class CouponTotal
+    {
+        public string CouponCode { get; set; }
+        public double Total { get; set; }
+        public bool IsAdded { get; set; }
+    }
 }

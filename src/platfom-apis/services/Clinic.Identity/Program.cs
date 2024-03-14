@@ -1,3 +1,5 @@
+using Clinic.Caching;
+using Clinic.Caching.Interfaces;
 using Clinic.Common.Options;
 using Clinic.Identity;
 using Clinic.Identity.Data;
@@ -20,7 +22,15 @@ builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IDBInitializer,DBInitializer>();
 builder.Services.AddRazorPages();
-
+builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
+builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
+    builder.Services.AddStackExchangeRedisCache(options =>{
+        options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    });
+}else{
+    builder.Services.AddDistributedMemoryCache();
+}
 builder.Services.AddIdentityServer(options =>
 {
     options.Events.RaiseErrorEvents = true;

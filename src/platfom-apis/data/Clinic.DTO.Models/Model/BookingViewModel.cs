@@ -7,4 +7,5 @@ public class BookingViewModel
     public string Name { get; set; }
     public int Specialization { get; set; }
     public List<ProductListViewModel> ProductListViewModels { get; set; }
+    public double OrderTotal { get; set; }
 }
