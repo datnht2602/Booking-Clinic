@@ -12,16 +12,16 @@
 		<_ContentIncludedByDefault Remove="appsettings.json" />
 	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Radzen.Blazor" Version="4.25.12" />
-    <PackageReference Include="Select2-Bootstrap" Version="1.2.0" />
-    <PackageReference Include="Select2.js" Version="4.0.13" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.1" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Radzen.Blazor" Version="4.25.12" />
+		<PackageReference Include="Select2-Bootstrap" Version="1.2.0" />
+		<PackageReference Include="Select2.js" Version="4.0.13" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
@@ -35,61 +35,12 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\platfom-apis\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
-		<None Include="wwwroot\img\icons\calendar-icon.svg" />
-		<None Include="wwwroot\img\icons\calendar.svg" />
-		<None Include="wwwroot\img\icons\camera-icon.svg" />
-		<None Include="wwwroot\img\icons\dep-icon-01.svg" />
-		<None Include="wwwroot\img\icons\dep-icon-02.svg" />
-		<None Include="wwwroot\img\icons\dep-icon-03.svg" />
-		<None Include="wwwroot\img\icons\dep-icon-04.svg" />
-		<None Include="wwwroot\img\icons\dep-icon-05.svg" />
-		<None Include="wwwroot\img\icons\empty-wallet.svg" />
-		<None Include="wwwroot\img\icons\logout.svg" />
-		<None Include="wwwroot\img\icons\medal-01.svg" />
-		<None Include="wwwroot\img\icons\medal-02.svg" />
-		<None Include="wwwroot\img\icons\medal-03.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-01.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-02.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-03.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-04.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-05.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-06.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-07.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-08.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-09.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-10.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-11.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-12.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-13.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-14.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-15.svg" />
-		<None Include="wwwroot\img\icons\menu-icon-16.svg" />
-		<None Include="wwwroot\img\icons\note-icon-01.svg" />
-		<None Include="wwwroot\img\icons\note-icon-02.svg" />
-		<None Include="wwwroot\img\icons\pdf-icon-01.svg" />
-		<None Include="wwwroot\img\icons\pdf-icon-02.svg" />
-		<None Include="wwwroot\img\icons\pdf-icon-03.svg" />
-		<None Include="wwwroot\img\icons\pdf-icon-04.svg" />
-		<None Include="wwwroot\img\icons\plus.svg" />
-		<None Include="wwwroot\img\icons\profile-add.svg" />
-		<None Include="wwwroot\img\icons\re-fresh.svg" />
-		<None Include="wwwroot\img\icons\right-icon.svg" />
-		<None Include="wwwroot\img\icons\scissor.svg" />
-		<None Include="wwwroot\img\icons\search-normal.svg" />
-		<None Include="wwwroot\img\icons\setting-icon-01.svg" />
-		<None Include="wwwroot\img\icons\user-icon.svg" />
 		<None Include="wwwroot\plugins\apexchart\apexcharts.min.js" />
 		<None Include="wwwroot\plugins\apexchart\chart-data.js" />
 		<None Include="wwwroot\plugins\datatables\datatables.min.js" />
 		<None Include="wwwroot\plugins\datatables\jquery.dataTables.min.js" />
-		<None Include="wwwroot\plugins\fontawesome\webfonts\fa-brands-400.woff2" />
-		<None Include="wwwroot\plugins\fontawesome\webfonts\fa-solid-900.woff2" />
 		<None Include="wwwroot\plugins\moment.js" />
 		<None Include="wwwroot\plugins\moment\moment.min.js" />
 		<None Include="wwwroot\plugins\moment\moment.min.jssourcemap" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Pages\Admin\Appointments\" />
 	</ItemGroup>
 </Project>

@@ -13,7 +13,6 @@
                     <li class="nav-item"><NavLink class="nav-link" href="about">About Us</NavLink></li>
                     <li class="nav-item"><NavLink class="nav-link" href="doctor">Doctor</NavLink></li>
                     <li class="nav-item"><NavLink class="nav-link" href="health-packages">Health package</NavLink></li>
-                    <li class="nav-item"><NavLink class="nav-link" href="book-appointments">Booking Appointment</NavLink></li>
                     <li class="nav-item"><NavLink class="nav-link" href="blog">News</NavLink></li>
                     <li class="nav-item dropdown">
                         <NavLink class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Other</NavLink>
@@ -21,12 +20,12 @@
                             <li><NavLink class="dropdown-item px-3 py-2 rounded" href="forgot.html">Forgot Password</NavLink></li>
                             <li><NavLink class="dropdown-item px-3 py-2 rounded" href="404">Not Found 404</NavLink></li>
                         </ul>
-                    </li>
+                    </li> *@
                 </ul>
                 <div class="d-flex gap-4 align-items-center">
                     <AuthorizeView>
                         <Authorized>
-                            <h3 class="fw-bold" style="color:azure">Hello @context.User.Identity.Name</h3>
+                            <h3 class="fw-bold fs-6" style="color:azure">Hello @context.User.Identity.Name</h3>
                             <button type="button" class="btn btn-light" @onclick="LogOut">
                                 Log out
                             </button>

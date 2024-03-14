@@ -11,6 +11,7 @@
 <script>navigator.serviceWorker.register('service-worker.js');</script>
 <!-- Bootstrap JavaScript (includes Popper.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.slimscroll.js" type="51fbd3e3a6c5ef5e7d7547bc-text/javascript"></script>
@@ -145,19 +146,18 @@
                 <li class="submenu">
                     <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-01.svg" alt></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a class="active" href="/">Admin Dashboard</a></li>
-                        <li><a href="/">Doctor Dashboard</a></li>
+                        <li><a href="admin">Tổng quan Admin</a></li>
+                        <li><a href="doctor-dashboard">Tổng quan bác sĩ</a></li>
                         <li><a href="/">Patient Dashboard</a></li>
                     </ul>
                 </li>
-                <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-02.svg" alt></span> <span> Doctors </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="/list-doctor">Doctor List</a></li>
-                        <li><a href="/add-doctor">Add Doctor</a></li>
-                        <li><a href="/edit-doctor">Edit Doctor</a></li>
-                        <li><a href="/profile-doctor">Doctor Profile</a></li>
-                    </ul>
+                <li>
+                    <a href="list-doctor" previewlistener="true">
+                        <span class="menu-side">
+                            <img src="assets/img/icons/menu-icon-10.svg" alt="">
+                            </span> 
+                            <span>Doctor</span>
+                        </a>
                 </li>
                 <li class="submenu">
                     <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-03.svg" alt></span> <span>Patients </span> <span class="menu-arrow"></span></a>
@@ -169,14 +169,12 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-08.svg" alt></span> <span> Staff </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-08.svg" alt></span> <span> Product </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="/">Staff List</a></li>
-                        <li><a href="/">Add Staff</a></li>
-                        <li><a href="/">Staff Profile</a></li>
-                        <li><a href="/">Leaves</a></li>
-                        <li><a href="/">Holidays</a></li>
-                        <li><a href="/">Attendance</a></li>
+                        <li><a href="list-product">Product List</a></li>
+                        <li><a href="add-product">Add Product</a></li>
+                        <li><a href="edit-product">Edit Product</a></li>
+
                     </ul>
                 </li>
                 <li class="submenu">
