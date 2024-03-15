@@ -86,13 +86,7 @@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="date" class="form-label medium text-white">Chọn ngày muốn khám <small class="text-danger fw-bold">*</small></label>
-                                    <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="date" class="form-select">
-                                        <option value="">-------------------</option>
-                                        @foreach (var timeSlot in timeSlots)
-                                        {
-                                            <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
-                                        }
-                                    </InputSelect>
+                                    <input type="date" class="form-control" placeholder="" required/>
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Chọn khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
