@@ -30,7 +30,7 @@ namespace Clinic.Booking.Services
         public async Task<BookingDetailsViewModel> AddBookingAsync(BookingDetailsViewModel booking)
         {
            ArgumentValidation.ThrowIfNull(booking);
-           var getExistingBooking = await this.GetBookingAsync($"e.UserId = '{booking.UserId}' and e.OrderStatus= '{OrderStatus.Cart}'").ConfigureAwait(false);
+           var getExistingBooking = await this.GetBookingAsync($" e.UserId = '{booking.UserId}' and e.OrderStatus= '{OrderStatus.Cart}' and e.id= '{booking.Id}'").ConfigureAwait(false);
            BookingDetailsViewModel? existingBooking = getExistingBooking.FirstOrDefault();
            if(existingBooking != null){
             booking.Id = existingBooking.Id;
@@ -41,8 +41,7 @@ namespace Clinic.Booking.Services
                 booking.Products.AddRange(existingBooking.Products);
                 booking.OrderStatus = OrderStatus.Cart.ToString();
             }
-
-            booking.OrderTotal = booking.Products.Sum(x => x.Price);
+            
             await this.UpdateBookingAsync(booking).ConfigureAwait(false);
             return booking;
            }else{
@@ -106,8 +105,9 @@ namespace Clinic.Booking.Services
            return booking;
         }
 
-        public async Task<HttpResponseMessage> UpdateBookingAsync(BookingDetailsViewModel booking)
+        public async Task<HttpResponseMessage> UpdateBookingAsync(BookingDetailsViewModel bookingUpdate)
         {
+            var booking = autoMapper.Map<Data.Models.Booking>(bookingUpdate);
             using var bookingRequest = new StringContent(JsonSerializer.Serialize(booking),Encoding.UTF8,ContentType);
             var bookingResponse = await httpClient.PutAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getbooking"),bookingRequest).ConfigureAwait(false);
             if(!bookingResponse.IsSuccessStatusCode){

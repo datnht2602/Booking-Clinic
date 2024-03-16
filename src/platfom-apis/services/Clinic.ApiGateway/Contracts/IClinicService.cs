@@ -17,5 +17,6 @@ namespace Clinic.ApiGateway.Contracts
 
         Task<InvoiceDetailsViewModel> SubmitOrder(BookingDetailsViewModel order);
         Task<BookingViewModel> GetBookingDetail(string userId);
+        Task<object> GetDiscountForCode(string code);
     }
 }

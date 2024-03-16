@@ -2,6 +2,7 @@
 @page "/doctor/book-appointments/confirm/{bookingId}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Clinic.DTO.Models.Dto
+@using Clinic.BlazorWebPWA.Extensions
 @inject IClinicService clinicService
 @inject NavigationManager nav
 <PageTitle>Confirm Information</PageTitle>
@@ -10,101 +11,149 @@
         <div class="container px-5 py-5 appointments">
             <div>
                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">CONFIRM INFORMATION</h2>
-                <div class="container">
-                    <div class="row gx-5">
-                        <div class="col-md-6 mb-5 offset-md-3">
-                            <div class="card mh-100 bg-primary shadow-lg">
-                                <div class="card-body mx-4 my-3 px-5 py-4">
-                                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Patient Information</h4>
-                                    <div class="mb-3">
-                                        <label for="fullname" class="form-label medium text-white">Full Name <small class="text-danger">*</small></label>
-                                        <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="major" class="form-label medium text-white">Gender<small class="text-danger">*</small></label>
-                                        <select class="form-select" required aria-label="Select Gender">
-                                            <option value="">Select Gender</option>
-                                            <option value="1">Male</option>
-                                            <option value="2">Female</option>
-                                            <option value="3">Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="emailInput" class="form-label medium text-white">Email <small class="text-danger">*</small></label>
-                                        <input type="email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label medium text-white">Phone Number<small class="text-danger">*</small></label>
-                                        <input type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="date" class="form-label medium text-white">Date of birth <small class="text-danger fw-bold">*</small></label>
-                                        <input type="datetime-local" class="form-control" id="datetime" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label medium text-white">Address <small class="text-danger">*</small></label>
-                                        <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Please do not enter spaces." required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-5 offset-md-3">
-                            <div class="card mh-100 bg-primary shadow-lg">
-                                <div class="card-body mx-4 my-3 px-5 py-4">
-                                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Information about booking an appointment</h4>
-                                    <div class="mb-3">
-                                        <label for="date" class="form-label medium text-white">Date and time you want to be examined <small class="text-danger fw-bold"></small></label>
-                                        <input type="datetime-local" class="form-control" id="datetime" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="doctor" class="form-label medium text-white">Doctor</label>
-                                        <input type="text" class="form-control" placeholder="Nguyễn Văn B" pattern="[^\s]+" size=20 readonly="False">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="specialist" class="form-label medium text-white">Specialization</label>
-                                        <input type="text" class="form-control" placeholder="Specialization 1" pattern="[^\s]+" size=20 readonly="False">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="service" class="form-label medium text-white">Service</label>
-                                        <input type="text" class="form-control" placeholder="Service 1" pattern="[^\s]+" size=20 readonly="False">
-                                    </div>
+                <EditForm Model="viewModel" OnValidSubmit="HandleCreate">
+                    <div class="container">
+                        <div class="row gx-5">
+                            <div class="col-md-6 mb-5 offset-md-3">
+                                <div class="card mh-100 bg-primary shadow-lg">
+                                    <div class="card-body mx-4 my-3 px-5 py-4">
 
+                                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Patient Information</h4>
+                                        <div class="mb-3">
+                                            <label for="fullname" class="form-label medium text-white">Full Name <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.UserName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="major" class="form-label medium text-white">Gender<small class="text-danger">*</small></label>
+                                            <InputSelect @bind-Value="viewModel.Sexual" class="form-select" required aria-label="Select Gender">
+                                                <option value="">Select Gender</option>
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                                <option value="3">Other</option>
+                                            </InputSelect>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="emailInput" class="form-label medium text-white">Email <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.Email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label medium text-white">Phone Number<small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.PhoneNumber" type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="date" class="form-label medium text-white">Date of birth <small class="text-danger fw-bold">*</small></label>
+                                            <InputDate @bind-Value="viewModel.DateOfBirth" class="form-control" id="datetime" required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label medium text-white">Address <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.Address" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" title="Please do not enter spaces." required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label medium text-white">Health Insurance Code <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.HealthInsuranceCode" class="form-control" placeholder="Enter health insurance code" required/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-6">
-                                <div class="btn-group d-flex justify-content-center">
-                                    <a href="doctor/book-appointments" class="btn btn-primary btn-lg mx-5 card-link">Go back</a>
-                                    <a href="doctor/book-appointments/confirm/invoice" class="btn btn-primary btn-lg mx-5 card-link">Confirm</a>
+                            <div class="col-md-6 mb-5 offset-md-3">
+                                <div class="card mh-100 bg-primary shadow-lg">
+                                    <div class="card-body mx-4 my-3 px-5 py-4">
+                                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Information about booking an appointment</h4>
+                                        <div class="mb-3">
+                                            <label for="date" class="form-label medium text-white">Date and time you want to be examined <small class="text-danger fw-bold"></small></label>
+                                            @if (updateModel.OrderPlacedDate == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@updateModel.OrderPlacedDate.GetDateTime()" readonly="False">
+                                            }
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="doctor" class="form-label medium text-white">Doctor</label>
+                                            @if (updateModel.DoctorName == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@updateModel.DoctorName" readonly="False">
+                                            }
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="specialist" class="form-label medium text-white">Specialization</label>
+                                            @if (updateModel.Specialization == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@updateModel.Specialization.ConvertSpecEnum()" readonly="False">
+                                            }
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="service" class="form-label medium text-white">Service</label>
+                                            @if (updateModel.Products == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@string.Join(",", updateModel.Products.Select(x => x.Name))" readonly="False">
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="btn-group d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary btn-lg mx-5 card-link">Confirm</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </EditForm>
             </div>
         </div>
     </div>
 
 </main>
+
 @code
 {
     [Parameter] public string bookingId { get; set; }
-    [Inject]
-    IAccessTokenProvider TokenProvider { get; set; }
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private string accessToken { get; set; }
+    public BookingDetailsViewModel updateModel { get; set; }
+    private BriefViewModel viewModel = new();
+
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
-        
+
         var authState = await authenticationStateTask;
         var user = authState.User;
-        if(!user.Identity.IsAuthenticated)
+        if (!user.Identity.IsAuthenticated)
         {
             nav.NavigateTo("authentication/login");
         }
+
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         accessToken = string.Empty;
 
@@ -112,10 +161,21 @@
         {
             accessToken = token.Value;
         }
-        var response = await clinicService.GetBookingByIdAsync<ResponseDto>(bookingId,accessToken);
+
+        var response = await clinicService.GetBookingByIdAsync<ResponseDto>(bookingId, accessToken);
         if (response != null && response.IsSuccess)
         {
-         
+            updateModel = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+        }
+    }
+
+    private async Task HandleCreate()
+    {
+        updateModel.BriefViewModel = viewModel;
+        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(updateModel, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+
         }
     }
 }

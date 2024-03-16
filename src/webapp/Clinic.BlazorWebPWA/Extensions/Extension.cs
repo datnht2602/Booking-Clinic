@@ -37,4 +37,10 @@ public static class Extension
 
         return timeSlots;
     }
+    public static string GetDateTime(this long ticks)
+    {
+        DateTime result = new DateTime(ticks);
+
+        return result.ToString();
+    }
 }
