@@ -57,7 +57,7 @@ namespace Clinic.DataAccess.EndpointServices
                 .WithOpenApi();
             routes.MapPut("/getbooking", async (IBookingRepository repository, [FromBody] Booking booking) =>
             {
-                if (booking == null || booking.Etag != null)
+                if (booking == null)
                 {
                     return Results.BadRequest();
                 }

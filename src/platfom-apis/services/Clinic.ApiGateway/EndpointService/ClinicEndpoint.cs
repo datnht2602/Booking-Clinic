@@ -46,5 +46,14 @@ public static class ClinicEndpoint
     
             })
             .WithOpenApi();
+        routes.MapGet("/coupon/{coupon}", [Authorize]async (string coupon,[FromServices]IClinicService clinicService) =>
+            {
+                var resultCoupon = await clinicService.GetDiscountForCode(coupon).ConfigureAwait(false);
+                ResponseDto result = new();
+                result.Result = resultCoupon;
+                return result;
+    
+            })
+            .WithOpenApi();
     }
 }

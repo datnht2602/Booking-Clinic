@@ -3,6 +3,7 @@ using BlazorClient.Security;
 using Clinic.BlazorWebPWA;
 using Clinic.BlazorWebPWA.Services;
 using Clinic.BlazorWebPWA.Services.IService;
+using Clinic.Common.Options;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -13,6 +14,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddRadzenComponents();
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddOptions();
+builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
 builder.Services.AddHttpClient(name: "ApiGateway",
     configureClient: options =>
     {

@@ -1,15 +1,17 @@
 using Clinic.BlazorWebPWA.Services.IService;
+using Clinic.Common.Options;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
+using Microsoft.Extensions.Options;
 
 namespace Clinic.BlazorWebPWA.Services;
 
 public class ClinicService :  BaseService,IClinicService
 {
-    private readonly IHttpClientFactory _clientFactory;
-    public ClinicService(IHttpClientFactory httpClient) : base(httpClient)
+    private readonly IOptions<ApplicationSettings> applicationSettings;
+    public ClinicService(IHttpClientFactory httpClient,IOptions<ApplicationSettings> applicationSettings) : base(httpClient)
     {
-        _clientFactory = _clientFactory;
+        this.applicationSettings = applicationSettings;
     }
 
 
@@ -18,7 +20,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = "https://localhost:7244/getdoctors",
+            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/getdoctors",
         });
     }
 
@@ -27,7 +29,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = "https://localhost:7244/getbooking?userId=" + userId,
+            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/getbooking?userId=" + userId,
             AccessToken = accessToken
         });
     }
@@ -43,7 +45,7 @@ public class ClinicService :  BaseService,IClinicService
         {
             ApiType = ApiType.POST,
             Data = model,
-            Url = "https://localhost:7244/upsertbooking",
+            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/upsertbooking",
             AccessToken = accessToken
         });
     }
@@ -53,7 +55,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"https://localhost:7244/getbookingbyid?bookingId={bookingId}",
+            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/getbookingbyid?bookingId={bookingId}",
             AccessToken = accessToken
         });
     }
@@ -66,5 +68,15 @@ public class ClinicService :  BaseService,IClinicService
     public Task<T> SubmitOrder<T>(BookingDetailsViewModel order)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<T> GetCoupon<T>(string coupon, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/coupon/{coupon}",
+            AccessToken = accessToken
+        });
     }
 }

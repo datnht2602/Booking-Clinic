@@ -6,6 +6,7 @@ using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -125,7 +126,28 @@ namespace Clinic.ApiGateway.Services
             {
                 return new BookingViewModel();
             }
-            
+        }
+
+        public async Task<object> GetDiscountForCode(string code)
+        {
+            using var couponRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.CouponApiEndpoint}/getcoupon/{code}");
+            var couponResponse = await httpClient.SendAsync(couponRequest).ConfigureAwait(false);
+
+            if(!couponResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+            }
+            if(couponResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var result = await couponResponse.Content.ReadFromJsonAsync<CouponDto>().ConfigureAwait(false);
+                
+
+                return result;
+            }
+            else
+            {
+                return new CouponDto();
+            }
         }
 
         private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)

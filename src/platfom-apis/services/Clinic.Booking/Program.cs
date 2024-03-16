@@ -55,7 +55,7 @@ app.MapGet("/getbooking/{id}", async (string id,[FromServices] IBookingService b
 })
 .WithOpenApi();
 app.MapPost("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
-     if (booking == null || booking.Etag != null)
+     if (booking == null )
             {
                 return Results.BadRequest();
             }
