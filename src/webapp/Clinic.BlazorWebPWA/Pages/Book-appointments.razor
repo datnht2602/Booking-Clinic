@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
- <body>
- <style>
+<body>
+    <style>
         .btn-group,
         .btn-group-vertical {
             position: relative;
@@ -47,53 +47,53 @@
         }
 
         /* Custom Multi Select */
-       
+
     </style>
- <main>
-     <div class="bg-white">
-         <div class="container px-5 py-5 appointments">
-             <div>
-                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">ĐẶT LỊCH KHÁM BỆNH</h2>
-                 <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
-                 <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
-                         @*<div class="mb-3">
-                                <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
-                                <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+    <main>
+        <div class="bg-white">
+            <div class="container px-5 py-5 appointments">
+                <div>
+                    <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOK APPOINTMENT</h2>
+                    <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
+                        <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
+                            @*<div class="mb-3">
+                            <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
                             </div>
                             <div class="mb-3">
-                                <label for="phoneNumbers" class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
-                                <input type="tel" id="phoneNumbers" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                            <label for="phoneNumbers" class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
+                            <input type="tel" id="phoneNumbers" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
                             </div>*@
-                         <div class="row">
-                             <div class="mb-3 col-6">
-                                 <label for="major" class="form-label medium text-white">Chuyên khoa</label>
-                                 <input type="text" class="form-control" placeholder="@booking.Specialization.ConvertSpecEnum()" readonly="False">
-                                 @*<select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
-                                        <option value="">Chọn chuyên khoa</option>
-                                        <option value="1">Chuyên khoa 1</option>
-                                        <option value="2">Chuyên khoa 2</option>
-                                        <option value="3">Chuyên khoa 3</option>
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label for="major" class="form-label medium text-white">Chuyên khoa</label>
+                                    <input type="text" class="form-control" placeholder="@booking.Specialization.ConvertSpecEnum()" readonly="False">
+                                    @*<select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
+                                    <option value="">Chọn chuyên khoa</option>
+                                    <option value="1">Chuyên khoa 1</option>
+                                    <option value="2">Chuyên khoa 2</option>
+                                    <option value="3">Chuyên khoa 3</option>
                                     </select>*@
-                             </div>
-                             <div class="mb-3 col-6">
-                                 <label for="doctor" class="form-label medium text-white">Bác sĩ</label>
-                                 <input type="text" class="form-control" placeholder="@booking.Name" readonly="False">
-                                 
-                                 @*<select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
-                                        <option value="">Chọn bác sĩ</option>
-                                        <option value="1">Bác sĩ 1</option>
-                                        <option value="2">Bác sĩ 2</option>
-                                        <option value="3">Bác sĩ 3</option>
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="doctor" class="form-label medium text-white">Doctor</label>
+                                    <input type="text" class="form-control" placeholder="@booking.Name" readonly="False">
+
+                                    @*<select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
+                                    <option value="">Chọn bác sĩ</option>
+                                    <option value="1">Bác sĩ 1</option>
+                                    <option value="2">Bác sĩ 2</option>
+                                    <option value="3">Bác sĩ 3</option>
                                     </select>*@
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-6">
-                                    <label for="date" class="form-label medium text-white">Chọn ngày muốn khám <small class="text-danger fw-bold">*</small></label>
-                                    <input type="date" class="form-control" placeholder="" required/>
+                                    <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
+                                    <input type="date" class="form-control" placeholder="" required />
                                 </div>
                                 <div class="mb-3 col-6">
-                                    <label for="time" class="form-label medium text-white">Chọn khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
+                                    <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
                                     <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="time" class="form-select">
                                         <option value="">-------------------</option>
                                         @foreach (var timeSlot in timeSlots)
@@ -148,15 +148,15 @@
                                 </div>
                             </div>
                         </div>
-                 </EditForm>
-             </div>
-         </div>
-     </div>
- </main>
- 
- </body>
- 
-@code{
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+@code {
     [Parameter] public string id { get; set; }
     private BookingDetailsViewModel createBooking = new();
     [Inject]
@@ -178,11 +178,11 @@
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
-        
+
         var authState = await authenticationStateTask;
         var user = authState.User;
         userId = user.FindFirst(c => c.Type == "sub")?.Value;
-        if(!user.Identity.IsAuthenticated)
+        if (!user.Identity.IsAuthenticated)
         {
             nav.NavigateTo("authentication/login");
         }
@@ -193,7 +193,7 @@
         {
             accessToken = token.Value;
         }
-        var response = await clinicService.GetBookingViewAsync<ResponseDto>(id,accessToken);
+        var response = await clinicService.GetBookingViewAsync<ResponseDto>(id, accessToken);
         if (response != null && response.IsSuccess)
         {
             booking = JsonConvert.DeserializeObject<BookingViewModel>(Convert.ToString((response.Result)));
@@ -211,7 +211,7 @@
                 booking.OrderTotal -= booking.OrderTotal * (createBooking.DiscountTotal / 100);
             }
         }
-           StateHasChanged();
+        StateHasChanged();
     }
     private async Task HandleBookingCreate()
     {
@@ -223,13 +223,13 @@
         createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
         createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
         createBooking.OrderTotal = booking.OrderTotal;
-        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking,accessToken);
+        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
         if (response != null && response.IsSuccess)
         {
             nav.NavigateTo($"/doctor/book-appointments/confirm/{createBooking.Id}");
         }
     }
-   
+
 
     // Get the list of time slots
     List<DateTime> timeSlots = Extension.GetTimeSlots();
