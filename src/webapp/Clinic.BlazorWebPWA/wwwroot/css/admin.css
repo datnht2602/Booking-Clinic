@@ -309,17 +309,21 @@ table.table td h2 {
 }
 
 .cal-icon:after {
-    background: transparent url("../img/icons/calendar-icon.svg") no-repeat scroll 0 0;
+    content: "\f073";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
     bottom: 0;
-    content: "";
-    display: block;
-    height: 24px;
-    margin: auto;
     position: absolute;
     right: 15px;
     top: 0;
+    margin: auto;
     width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    font-size: 1.25em;
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .cal-icon {
@@ -881,7 +885,7 @@ textarea.form-control {
 }
 
     .user-menu.nav > li > a {
-        color: #fff;
+        color: #1e3050;
         font-size: 16px;
         line-height: 70px;
         padding: 0 5px;
@@ -1171,8 +1175,8 @@ textarea.form-control {
 }
 
     .sidebar-menu ul .submenu ul .active:before {
-        background-image: url(../img/icons/right-icon.svg);
-        content: "";
+        content: "\f105";
+        font-family: "Font Awesome 6 Free";
         position: absolute;
         width: 10px;
         height: 10px;
@@ -6179,7 +6183,7 @@ a.fc-event:not([href]) {
     }
 
 .user-menu.nav > li > a .badge {
-    color: #fff;
+    color: #1e3050;
     font-size: 60%;
     font-weight: 700;
     position: absolute;
@@ -13747,7 +13751,7 @@ body[data-layout-mode=dark] .alertify .ajs-header {
         height: auto;
     }
 
-    .bi bi-chevron-right:before {
+    .fa-solid fa-chevron-right:before {
         top: 2px;
         position: relative;
     }

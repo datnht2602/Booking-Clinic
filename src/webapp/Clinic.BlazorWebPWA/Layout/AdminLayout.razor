@@ -11,6 +11,8 @@
 <script>navigator.serviceWorker.register('service-worker.js');</script>
 <!-- Bootstrap JavaScript (includes Popper.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 
 <!-- jQuery -->
 <script src="js/jquery.min.js"></script>
@@ -28,12 +30,12 @@
 <div class="header">
     <div class="header-left">
         <a href="/" class="logo">
-            <img src="img/logo.png" width="35" height="35" alt="4Health Clinic Booking">
+            <img src="img/logo.png" height="35" alt="4Health Clinic Booking">
         </a>
     </div>
     <ul class="nav user-menu float-end">
         <li class="nav-item dropdown d-none d-md-block">
-            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><img src="img/icons/note-icon-02.svg" alt><span class="pulse"></span> </a>
+            <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown"><i class="fa-solid fa-envelope"></i><span class="pulse"></span> </a>
             <div class="dropdown-menu notifications">
                 <div class="topnav-dropdown-header">
                     <span>Notifications</span>
@@ -105,7 +107,7 @@
             </div>
         </li>
         <li class="nav-item dropdown d-none d-md-block">
-            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><img src="img/icons/note-icon-01.svg" alt><span class="pulse"></span> </a>
+            <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa-solid fa-bell"></i><span class="pulse"></span> </a>
         </li>
         <li class="nav-item dropdown has-arrow user-profile-list">
             <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
@@ -125,7 +127,7 @@
             </div>
         </li>
         <li class="nav-item ">
-            <a href="settings.html" class="hasnotifications nav-link"><img src="img/icons/setting-icon-01.svg" alt> </a>
+            <a href="settings.html" class="hasnotifications nav-link"><i class="fa-solid fa-gear"></i> </a>
         </li>
     </ul>
     <div class="dropdown mobile-user-menu float-end">
@@ -144,23 +146,23 @@
             <ul>
                 <li class="menu-title">Main</li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-01.svg" alt></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-poll-horizontal"></i></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="admin">Tổng quan Admin</a></li>
-                        <li><a href="doctor-dashboard">Tổng quan bác sĩ</a></li>
-                        <li><a href="/">Patient Dashboard</a></li>
+                        <li><a href="admin">Admin Dashboard</a></li>
+                        <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
+                        <li><a href="patient-dashboard">Patient Dashboard</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="list-doctor" previewlistener="true">
+                    <a href="list-doctor">
                         <span class="menu-side">
-                            <img src="assets/img/icons/menu-icon-10.svg" alt="">
-                            </span> 
-                            <span>Doctor</span>
-                        </a>
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </span>
+                        <span>Doctor</span>
+                    </a>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-03.svg" alt></span> <span>Patients </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-users"></i></span> <span>Patients </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Patients List</a></li>
                         <li><a href="/">Add Patients</a></li>
@@ -169,7 +171,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-08.svg" alt></span> <span> Product </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-hand-holding-heart"></i></span> <span> Product </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="list-product">Product List</a></li>
                         <li><a href="add-product">Add Product</a></li>
@@ -178,7 +180,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-04.svg" alt></span> <span> Appointments </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-regular fa-calendar-check"></i></span> <span> Appointments </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Appointment List</a></li>
                         <li><a href="/">Book Appointment</a></li>
@@ -186,7 +188,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-05.svg" alt></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-calendar-day"></i></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Schedule List</a></li>
                         <li><a href="/">Add Schedule</a></li>
@@ -194,7 +196,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-06.svg" alt></span> <span> Departments </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-house-medical-flag"></i></span> <span> Departments </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Department List</a></li>
                         <li><a href="/">Add Department</a></li>
@@ -202,7 +204,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-07.svg" alt></span> <span> Accounts </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-file-invoice-dollar"></i></span> <span> Accounts </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Invoices</a></li>
                         <li><a href="/">Payments</a></li>
@@ -212,17 +214,17 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-09.svg" alt></span> <span> Payroll </span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-money-check-dollar"></i></span> <span> Payroll </span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/"> Employee Salary </a></li>
                         <li><a href="/"> Payslip </a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-10.svg" alt></span> <span>Chat</span></a>
+                    <a href="/"><span class="menu-side"><i class="fa-solid fa-comment-dots"></i></span> <span>Chat</span></a>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-11.svg" alt></span> <span> Calls</span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-phone"></i></span> <span> Calls</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Voice Call</a></li>
                         <li><a href="/">Video Call</a></li>
@@ -230,7 +232,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-12.svg" alt></span> <span> Email</span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-envelope"></i></span> <span> Email</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Compose Mail</a></li>
                         <li><a href="/">Inbox</a></li>
@@ -238,7 +240,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-13.svg" alt></span> <span> Blog</span> <span class="menu-arrow"></span></a>
+                    <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-book-open"></i></span> <span> Blog</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="/">Blog</a></li>
                         <li><a href="/">Blog View</a></li>
@@ -274,43 +276,6 @@
                     <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-16.svg" alt></span> <span>Settings</span></a>
                 </li>
                 <li class="menu-title">Extras</li>
-                <li class="submenu">
-                    <a style="cursor: pointer"><i class="fa fa-columns"></i> <span>Pages</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="/"> Login </a></li>
-                        <li><a href="/"> Register </a></li>
-                        <li><a href="/"> Forgot Password </a></li>
-                        <li><a href="/"> Change Password </a></li>
-                        <li><a href="/"> Lock Screen </a></li>
-                        <li><a href="/"> Profile </a></li>
-                        <li><a href="/"> Gallery </a></li>
-                        <li><a href="/">404 Error </a></li>
-                        <li><a href="/">500 Error </a></li>
-                        <li><a href="/"> Blank Page </a></li>
-                    </ul>
-                </li>
-                <li class="submenu">
-                    <a href="javascript:void(0);"><i class="fa fa-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li class="submenu">
-                            <a href="javascript:void(0);"><span>Level 1</span> <span class="menu-arrow"></span></a>
-                            <ul style="display: none;">
-                                <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
-                                    <ul style="display: none;">
-                                        <li><a href="javascript:void(0);">Level 3</a></li>
-                                        <li><a href="javascript:void(0);">Level 3</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);"><span>Level 1</span></a>
-                        </li>
-                    </ul>
-                </li>
             </ul>
             <div class="logout-btn">
                 <a href="/"><span class="menu-side"><img src="img/icons/logout.svg" alt></span> <span>Logout</span></a>

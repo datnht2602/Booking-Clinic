@@ -85,72 +85,69 @@
                                         <option value="2">Bác sĩ 2</option>
                                         <option value="3">Bác sĩ 3</option>
                                     </select>*@
-                             </div>
-                         </div>
-                         <div class="mb-3">
-                             <label for="date" class="form-label medium text-white">Chọn ngày và khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
-                             <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="doctor" class="form-select">
-                                 <option value="">-------------------</option>
-                                 @foreach (var timeSlot in timeSlots)
-                                 {
-                                     <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
-                                 }
-                                 @*<option value="">Chọn ngày và khung giờ muốn khám</option>
-                                    <option value="1">Bác sĩ 1</option>
-                                    <option value="2">Bác sĩ 2</option>
-                                    <option value="3">Bác sĩ 3</option>*@
-                             </InputSelect>
-                         </div>
-                         <div class="mb-3">
-                             <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
-                             <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi cho bác sĩ và các vấn đề sức khỏe cần khám." required></textarea>
-                         </div>
-                         <div class="row" id="multiselect">
-                             <div class="mb-3 col-6">
-                                 <div class="modal-box">
-                                     <div class="sd-multiSelect form-group">
-                                         <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
-                                         @if (booking.ProductListViewModels == null)
-                                         {
-                                             <p><em>Loading....</em></p>
-                                         }
-                                         else
-                                         {
-                                             <RadzenDropDownDataGrid  FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                                                      AllowFiltering="true" AllowClear="true" 
-                                                                      Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                      TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
-                                                                      Placeholder="Chọn dịch vụ"
-                                                                      Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
-                                         }
-                                     </div>
-                                 </div>
-                             </div>
-                             <div class="mb-3 col-6">
-                                 <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
-                                 <InputSelect @bind-Value="createBooking.PaymentMode" class="form-select" >
-                                     <option value="">Chọn phương thức thanh toán</option>
-                                     <option value="1">QR Pay</option>
-                                     <option value="2">Ngân hàng</option>
-                                     <option value="3">Momo</option>
-                                 </InputSelect>
-                             </div>
-                         </div>
-                         <div class="mb-3">
-                                 <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger">*</small></label>
-                                 <input type="text" @bind-value="@coupon" class="form-control"/>
-                                 <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
-                         </div>
-                         <div class="mb-3">
-                             <label for="price" class="form-label medium text-white">Tổng cộng</label>
-                             <input type="text" class="form-control" placeholder="@booking.OrderTotal" readonly="False">
-                         </div>
-                         <div>
-                             <div class="text-center col-lg-5 py-4 mx-auto">
-                                 <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Đặt lịch khám</button>
-                             </div>
-                         </div>
-                 </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label for="date" class="form-label medium text-white">Chọn ngày muốn khám <small class="text-danger fw-bold">*</small></label>
+                                    <input type="date" class="form-control" placeholder="" required/>
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="time" class="form-label medium text-white">Chọn khung giờ muốn khám <small class="text-danger fw-bold">*</small></label>
+                                    <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="time" class="form-select">
+                                        <option value="">-------------------</option>
+                                        @foreach (var timeSlot in timeSlots)
+                                        {
+                                            <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
+                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi cho bác sĩ và các vấn đề sức khỏe cần khám." required></textarea>
+                            </div>
+                            <div class="row" id="multiselect">
+                                <div class="mb-3 col-6">
+                                    <div class="modal-box">
+                                        <div class="sd-multiSelect form-group">
+                                            <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
+                                            @if (booking.ProductListViewModels == null)
+                                            {
+                                                <p><em>Loading....</em></p>
+                                            }
+                                            else
+                                            {
+                                                <RadzenDropDownDataGrid FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                                        AllowFiltering="true" AllowClear="true"
+                                                                        Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
+                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
+                                                                        Placeholder="Chọn dịch vụ"
+                                                                        Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
+                                    <InputSelect @bind-Value="createBooking.PaymentMode" class="form-select">
+                                        <option value="">Chọn phương thức thanh toán</option>
+                                        <option value="1">QR Pay</option>
+                                        <option value="2">Ngân hàng</option>
+                                        <option value="3">Momo</option>
+                                    </InputSelect>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label medium text-white">Tổng cộng</label>
+                                <input type="text" class="form-control" placeholder="2.000.000 đ" readonly="False">
+                            </div>
+                            <div>
+                                <div class="text-center col-lg-5 py-4 mx-auto">
+                                    <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Đặt lịch khám</button>
+                                </div>
+                            </div>
+                        </div>
                  </EditForm>
              </div>
          </div>
