@@ -19,7 +19,7 @@ builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection
 builder.Services.AddHttpClient(name: "ApiGateway",
     configureClient: options =>
     {
-        options.BaseAddress = new Uri("https://localhost:7024/");
+        options.BaseAddress = new Uri(builder.Configuration["ApplicationSettings:ApiGatewayEndpoint"]);
         options.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue(
                 mediaType: "application/json", quality: 1.0));
@@ -27,7 +27,7 @@ builder.Services.AddHttpClient(name: "ApiGateway",
 builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddOidcAuthentication(options =>
 {
-    options.ProviderOptions.Authority = "https://localhost:7268";
+    options.ProviderOptions.Authority = builder.Configuration["ApplicationSettings:IdentityApiEndpoint"];
     options.ProviderOptions.ClientId = "Clinic";
     options.ProviderOptions.ResponseType = "code";
     options.ProviderOptions.DefaultScopes.Add("openid");

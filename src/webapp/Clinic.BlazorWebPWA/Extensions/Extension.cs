@@ -1,3 +1,5 @@
+using Clinic.DTO.Models.Dto;
+
 namespace Clinic.BlazorWebPWA.Extensions;
 
 public static class Extension
@@ -42,5 +44,15 @@ public static class Extension
         DateTime result = new DateTime(ticks);
 
         return result.ToString();
+    }
+    public static HttpMethod ConvertMethod(this ApiType type)
+    {
+        return type switch
+        {
+            ApiType.POST => HttpMethod.Post,
+            ApiType.PUT => HttpMethod.Put,
+            ApiType.DELETE => HttpMethod.Delete,
+            _ => HttpMethod.Get
+        };
     }
 }

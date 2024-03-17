@@ -9,9 +9,11 @@ namespace Clinic.BlazorWebPWA.Services;
 public class ClinicService :  BaseService,IClinicService
 {
     private readonly IOptions<ApplicationSettings> applicationSettings;
+    private readonly HttpClient client;
     public ClinicService(IHttpClientFactory httpClient,IOptions<ApplicationSettings> applicationSettings) : base(httpClient)
     {
         this.applicationSettings = applicationSettings;
+        this.client = httpClient.CreateClient("ApiGateway");
     }
 
 
@@ -20,7 +22,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/getdoctors",
+            Url = $"getdoctors",
         });
     }
 
@@ -29,7 +31,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/getbooking?userId=" + userId,
+            Url = "getbooking?userId=" + userId,
             AccessToken = accessToken
         });
     }
@@ -45,7 +47,7 @@ public class ClinicService :  BaseService,IClinicService
         {
             ApiType = ApiType.POST,
             Data = model,
-            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/upsertbooking",
+            Url = "upsertbooking",
             AccessToken = accessToken
         });
     }
@@ -55,7 +57,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/getbookingbyid?bookingId={bookingId}",
+            Url = $"getbookingbyid?bookingId={bookingId}",
             AccessToken = accessToken
         });
     }
@@ -75,7 +77,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"{applicationSettings.Value.ApiGatewayEndpoint}/coupon/{coupon}",
+            Url = $"coupon/{coupon}",
             AccessToken = accessToken
         });
     }

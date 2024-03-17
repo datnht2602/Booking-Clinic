@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text;
+using Clinic.BlazorWebPWA.Extensions;
 using Clinic.BlazorWebPWA.Services.IService;
 using Clinic.DTO.Models.Dto;
 using Microsoft.AspNetCore.Components;
@@ -25,11 +26,8 @@ namespace Clinic.BlazorWebPWA.Services;
         {
             try
             {
-                var client = httpClient.CreateClient("ApiGateway");
-                HttpRequestMessage message = new HttpRequestMessage();
-                message.Headers.Add("Accept", "application/json");
-                message.RequestUri = new Uri(apiRequest.Url);
-                client.DefaultRequestHeaders.Clear();
+                var client = httpClient.CreateClient(name:"ApiGateway");
+                HttpRequestMessage message = new (apiRequest.ApiType.ConvertMethod(),requestUri: apiRequest.Url);
                 if (apiRequest.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data),
@@ -40,25 +38,11 @@ namespace Clinic.BlazorWebPWA.Services;
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.AccessToken);
                 }
-
+                
                 HttpResponseMessage apiResponse = null;
-                switch (apiRequest.ApiType)
-                {
-                    case ApiType.POST:
-                        message.Method = HttpMethod.Post;
-                        break;
-                    case ApiType.PUT:
-                        message.Method = HttpMethod.Put;
-                        break;
-                    case ApiType.DELETE:
-                        message.Method = HttpMethod.Delete;
-                        break;
-                    default :
-                        message.Method = HttpMethod.Get;
-                        break;
-                }
-                apiResponse = await client.SendAsync(message);
 
+                apiResponse = await client.SendAsync(message);
+        
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 var apiResponseDto = JsonConvert.DeserializeObject<T>(apiContent);
                 return apiResponseDto;
