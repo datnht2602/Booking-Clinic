@@ -7,5 +7,6 @@
         Task<BookingDetailsViewModel> AddBookingAsync(BookingDetailsViewModel booking);
         Task<HttpResponseMessage> UpdateBookingAsync(BookingDetailsViewModel booking);
         double ComputeTotalDiscount(double bookingTotal);
+        Task<bool> BookingSucess(string id);
     }
 }

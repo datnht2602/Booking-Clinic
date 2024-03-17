@@ -6,6 +6,8 @@ using Clinic.DTO.Models;
 using Clinic.Invoice;
 using Clinic.Invoice.Contracts;
 using Clinic.Invoice.Services;
+using Clinic.Message;
+using Mango.Services.OrderAPI.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
@@ -25,6 +27,8 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
+builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
 if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");

@@ -37,9 +37,6 @@ namespace Clinic.Booking.Services
             booking.Etag = existingBooking.Etag;
             if(booking.OrderStatus == OrderStatus.Submitted.ToString()){
                 
-            }else{
-                booking.Products.AddRange(existingBooking.Products);
-                booking.OrderStatus = OrderStatus.Cart.ToString();
             }
             
             await this.UpdateBookingAsync(booking).ConfigureAwait(false);
@@ -70,6 +67,22 @@ namespace Clinic.Booking.Services
         public double ComputeTotalDiscount(double orderTotal)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> BookingSucess(string id)
+        {
+            var getExistingBooking = await this
+                .GetBookingAsync(
+                    $" e.id= '{id}'")
+                .ConfigureAwait(false);
+            BookingDetailsViewModel? existingBooking = getExistingBooking.FirstOrDefault();
+            if (existingBooking != null)
+            {
+                existingBooking.OrderStatus = OrderStatus.Submitted.ToString();
+                await this.UpdateBookingAsync(existingBooking).ConfigureAwait(false);
+                return true;
+            }
+            return false;
         }
 
         public async Task<IEnumerable<BookingDetailsViewModel>> GetBookingAsync(string? filterCriteria = null)

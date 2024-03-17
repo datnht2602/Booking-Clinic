@@ -3,8 +3,11 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Clinic.DTO.Models.Dto
 @using Clinic.BlazorWebPWA.Extensions
+@using Net.payOS
+@using Net.payOS.Types
 @inject IClinicService clinicService
 @inject NavigationManager nav
+@inject PayOS _payOS
 <PageTitle>Confirm Information</PageTitle>
 <main>
     <div class="bg-white">
@@ -175,7 +178,27 @@
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(updateModel, accessToken);
         if (response != null && response.IsSuccess)
         {
+            try
+            {
+                int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+                
+                List<ItemData> items = new List<ItemData>();
+                foreach (var product in updateModel.Products)
+                {
+                    ItemData item = new ItemData(product.Name, 1, product.Price);
+                    items.Add(item);
+                }
+                
+                PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:3002/cancel", "https://localhost:3002/success");
 
+                CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+
+                nav.NavigateTo(createPayment.checkoutUrl);
+            }
+            catch (System.Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
         }
     }
 }

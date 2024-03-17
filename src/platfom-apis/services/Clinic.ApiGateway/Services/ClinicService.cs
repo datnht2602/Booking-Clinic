@@ -150,6 +150,25 @@ namespace Clinic.ApiGateway.Services
             }
         }
 
+        public async Task<bool> BookingSuccess(string id)
+        {
+            using var doctorRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.OrdersApiEndpoint}/bookingsucess/{id}");
+            var doctorResponse = await httpClient.SendAsync(doctorRequest).ConfigureAwait(false);
+
+            if(!doctorResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(doctorResponse).ConfigureAwait(false);
+            }
+            if(doctorResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)
         {
             var exceptionReponse = await response.Content.ReadFromJsonAsync<ExceptionResponse>().ConfigureAwait(false);

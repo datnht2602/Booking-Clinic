@@ -26,6 +26,7 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+
 if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
