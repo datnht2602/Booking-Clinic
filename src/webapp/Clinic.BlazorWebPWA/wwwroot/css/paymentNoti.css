@@ -1,0 +1,51 @@
+﻿body {
+    text-align: center;
+    background: #EBF0F5;
+}
+
+h1{
+    color: #88B04B;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+h2{
+    color: #E3566B;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #404F5E;
+    font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-size: 20px;
+    margin: 25px auto;
+}
+
+i1 {
+    color: #9ABC66;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left: -15px;
+    margin-bottom: 25px;
+}
+
+i2 {
+    color: #e3566b;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left: -15px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+    padding: 50px 65px 50px 65px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px #C8D0D8;
+    display: inline-block;
+    margin: 55px;
+}

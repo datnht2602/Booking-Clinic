@@ -1,0 +1,20 @@
+﻿@page "/payment/failed"
+@inject NavigationManager nav
+
+<PageTitle>Payment Failed</PageTitle>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    <link href="css/paymentNoti.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="card">
+        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin: auto; margin-bottom: 30px;">
+            <i2 class="crossmark">✖</i2>
+        </div>
+        <h2>Payment Failed</h2>
+        <p>It's seems like something went wrong!<br/></p>
+        <button type="button" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Try Again</button>
+    </div>
+</body>
