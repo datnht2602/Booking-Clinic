@@ -17,4 +17,5 @@ public interface IClinicService : IBaseService
 
     Task<T> SubmitOrder<T>(BookingDetailsViewModel order);
     Task<T> GetCoupon<T>(string coupon, string accessToken);
+    Task<T> ChangeBookingStatus<T>(string bookingId, string accessToken);
 }

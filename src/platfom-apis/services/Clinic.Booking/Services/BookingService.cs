@@ -7,6 +7,8 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
+using Clinic.DTO.Models.Message;
+using Clinic.Message;
 using Microsoft.Extensions.Options;
 
 namespace Clinic.Booking.Services
@@ -19,13 +21,15 @@ namespace Clinic.Booking.Services
         private readonly HttpClient httpClient;
         private readonly IMapper autoMapper;
         private readonly IDistributedCacheService cacheService;
-        public BookingService(IHttpClientFactory httpClientFactory, IOptions<ApplicationSettings> applicationSettings, IMapper autoMapper, IDistributedCacheService cacheService)
+        private readonly IMessageBus messageBus;
+        public BookingService(IHttpClientFactory httpClientFactory, IOptions<ApplicationSettings> applicationSettings, IMapper autoMapper, IDistributedCacheService cacheService, IMessageBus messageBus)
         {
             ArgumentValidation.ThrowIfNull(applicationSettings);
              httpClient = httpClientFactory.CreateClient();
             this.autoMapper = autoMapper;
             this.cacheService = cacheService;
             this.applicationSettings = applicationSettings;
+            this.messageBus = messageBus;
         }
         public async Task<BookingDetailsViewModel> AddBookingAsync(BookingDetailsViewModel booking)
         {
@@ -80,6 +84,8 @@ namespace Clinic.Booking.Services
             {
                 existingBooking.OrderStatus = OrderStatus.Submitted.ToString();
                 await this.UpdateBookingAsync(existingBooking).ConfigureAwait(false);
+                var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
+                await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
                 return true;
             }
             return false;

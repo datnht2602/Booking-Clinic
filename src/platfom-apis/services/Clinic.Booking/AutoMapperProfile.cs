@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Clinic.DTO.Models.Message;
 
 namespace Clinic.Booking
 {
@@ -15,6 +16,10 @@ namespace Clinic.Booking
                 .ForMember(des => des.AdditionalData,
                     act => act.MapFrom(
                         src => src.BriefViewModel));
+            this.CreateMap<Clinic.DTO.Models.BookingDetailsViewModel, BookingDetailDto>()
+                .ForMember(des => des.BookingId,
+                    act => act.MapFrom(
+                        src => src.Id));
             this.CreateMap<Data.Models.Product, DTO.Models.ProductListViewModel>();
             this.CreateMap<DTO.Models.ProductListViewModel, Data.Models.Product>();
             this.CreateMap<Data.Models.AddtionalData, DTO.Models.BriefViewModel>();

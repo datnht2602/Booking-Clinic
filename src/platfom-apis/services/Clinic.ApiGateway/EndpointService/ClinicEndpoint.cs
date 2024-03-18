@@ -55,13 +55,14 @@ public static class ClinicEndpoint
     
             })
             .WithOpenApi();
-        routes.MapGet("/ordersuccess/{id}", async (string id,[FromServices] IClinicService clinicService) =>
-            {
-                var resultCoupon = await clinicService.BookingSuccess(id).ConfigureAwait(false);
-                ResponseDto result = new();
-                result.Result = resultCoupon;
-                return result;
-            }).AllowAnonymous()
-            .WithOpenApi();
+        routes.MapGet("/changebooking/{bookingId}", [Authorize] async (string bookingId, [FromServices] IClinicService clinicService) =>
+        {
+            var resultCoupon = await clinicService.BookingSuccess(bookingId).ConfigureAwait(false);
+            ResponseDto result = new();
+            result.Result = resultCoupon;
+            return result;
+
+        })
+           .WithOpenApi();
     }
 }

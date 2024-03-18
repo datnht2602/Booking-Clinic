@@ -1,12 +1,13 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Newtonsoft.Json;
-
-using System.Text;
+using Clinic.DTO.Models;
+using Clinic.DTO.Models.Message;
 using Clinic.Invoice.Services;
 using Clinic.Message;
+using Newtonsoft.Json;
+using System.Text;
 
 
-namespace Mango.Services.OrderAPI.Messaging
+namespace Clinic.Invoice.Message
 {
     public class AzureServiceBusConsumer : IAzureServiceBusConsumer
     {
@@ -75,76 +76,54 @@ namespace Mango.Services.OrderAPI.Messaging
             var message = args.Message;
             var body = Encoding.UTF8.GetString(message.Body);
 
-            /*CheckoutHeaderDto checkoutHeaderDto = JsonConvert.DeserializeObject<CheckoutHeaderDto>(body);
+            BookingDetailDto checkoutHeaderDto = JsonConvert.DeserializeObject<BookingDetailDto>(body);
 
-            OrderHeader orderHeader = new()
+            InvoiceDetailsViewModel orderHeader = new()
             {
-                UserId = checkoutHeaderDto.UserId,
-                FirstName = checkoutHeaderDto.FirstName,
-                LastName = checkoutHeaderDto.LastName,
-                OrderDetails = new List<OrderDetails>(),
-                CardNumber = checkoutHeaderDto.CardNumber,
-                CouponCode = checkoutHeaderDto.CouponCode,
-                CVV = checkoutHeaderDto.CVV,
-                DiscountTotal = checkoutHeaderDto.DiscountTotal,
-                Email = checkoutHeaderDto.Email,
-                ExpiryMonthYear = checkoutHeaderDto.ExpiryMonthYear,
-                OrderTime = DateTime.Now,
-                OrderTotal = checkoutHeaderDto.OrderTotal,
-                PaymentStatus = false,
-                Phone = checkoutHeaderDto.Phone,
-                PickupDateTime = checkoutHeaderDto.PickupDateTime
+                OrderId = checkoutHeaderDto.BookingId,
+                BriefViewModel = checkoutHeaderDto.BriefViewModel,
+                PaymentMode = checkoutHeaderDto.PaymentMode,
+                Products = checkoutHeaderDto.Products,
             };
-            foreach(var detailList in checkoutHeaderDto.CartDetails)
-            {
-                OrderDetails orderDetails = new()
-                {
-                    ProductId = detailList.ProductId,
-                    ProductName = detailList.Product.Name,
-                    Price = detailList.Product.Price,
-                    Count = detailList.Count
-                };
-                orderHeader.CartTotalItems += detailList.Count;
-                orderHeader.OrderDetails.Add(orderDetails);
-            }
-
-            await _orderRepository.AddOrder(orderHeader);
 
 
-            PaymentRequestMessage paymentRequestMessage = new()
-            {
-                Name = orderHeader.FirstName + " " + orderHeader.LastName,
-                CardNumber = orderHeader.CardNumber,
-                CVV = orderHeader.CVV,
-                ExpiryMonthYear = orderHeader.ExpiryMonthYear,
-                OrderId = orderHeader.OrderHeaderId,
-                OrderTotal = orderHeader.OrderTotal,
-                Email=orderHeader.Email
-            };*/
+            await repository.AddInvoiceAsync(orderHeader);
 
-            /*try
-            {
-                await _messageBus.PublishMessage(paymentRequestMessage, orderPaymentProcessTopic);
-                await args.CompleteMessageAsync(args.Message);
-            }
-            catch(Exception e)
-            {
-                throw;
-            }
+
+            /*            PaymentRequestMessage paymentRequestMessage = new()
+                        {
+                            Name = orderHeader.FirstName + " " + orderHeader.LastName,
+                            CardNumber = orderHeader.CardNumber,
+                            CVV = orderHeader.CVV,
+                            ExpiryMonthYear = orderHeader.ExpiryMonthYear,
+                            OrderId = orderHeader.OrderHeaderId,
+                            OrderTotal = orderHeader.OrderTotal,
+                            Email = orderHeader.Email
+                        };*/
+
+            /* try
+             {
+                 await _messageBus.PublishMessage(paymentRequestMessage, orderPaymentProcessTopic);
+                 await args.CompleteMessageAsync(args.Message);
+             }
+             catch (Exception e)
+             {
+                 throw;
+             }*/
 
         }
 
-        private async Task OnOrderPaymentUpdateReceived(ProcessMessageEventArgs args)
-        {
-            var message = args.Message;
-            var body = Encoding.UTF8.GetString(message.Body);
+        /* private async Task OnOrderPaymentUpdateReceived(ProcessMessageEventArgs args)
+         {
+             var message = args.Message;
+             var body = Encoding.UTF8.GetString(message.Body);
 
-            UpdatePaymentResultMessage paymentResultMessage = JsonConvert.DeserializeObject<UpdatePaymentResultMessage>(body);
+             UpdatePaymentResultMessage paymentResultMessage = JsonConvert.DeserializeObject<UpdatePaymentResultMessage>(body);
 
-            await _orderRepository.UpdateOrderPaymentStatus(paymentResultMessage.OrderId, paymentResultMessage.Status);
-            await args.CompleteMessageAsync(args.Message);
+             await _orderRepository.UpdateOrderPaymentStatus(paymentResultMessage.OrderId, paymentResultMessage.Status);
+             await args.CompleteMessageAsync(args.Message);
 
-        }*/
-        }
+         }*/
+
     }
 }

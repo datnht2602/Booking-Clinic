@@ -89,15 +89,15 @@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
-                                    <input type="date" class="form-control" placeholder="" required />
+                                    <input @bind-value="DateOnly" type="date" class="form-control" placeholder="" required />
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
-                                    <InputSelect @bind-Value="createBooking.OrderPlacedDate" id="time" class="form-select">
+                                    <InputSelect @bind-Value="TimeOnly" id="time" class="form-select">
                                         <option value="">-------------------</option>
                                         @foreach (var timeSlot in timeSlots)
                                         {
-                                            <option value="@timeSlot.Ticks">@timeSlot.ToString()</option>
+                                            <option value="@timeSlot">@timeSlot.ToString()</option>
                                         }
                                     </InputSelect>
                                 </div>
@@ -138,8 +138,13 @@
                                 </div>
                             </div>
                             <div class="mb-3">
+                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger">*</small></label>
+                                <input type="text" @bind-value="@coupon" class="form-control" />
+                                <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
+                            </div>
+                            <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Tổng cộng</label>
-                                <input type="text" class="form-control" placeholder="2.000.000 đ" readonly="False">
+                                <input type="text" class="form-control" placeholder="@booking.OrderTotal" readonly="False">
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
@@ -168,6 +173,8 @@
     private string coupon;
     string userId = string.Empty;
     IEnumerable<string> multipleValues;
+    private DateTime DateOnly { get; set; }
+    private TimeSpan TimeOnly { get; set; }
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
@@ -222,6 +229,7 @@
         createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
         createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
         createBooking.OrderTotal = booking.OrderTotal;
+        createBooking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
         if (response != null && response.IsSuccess)
         {
@@ -231,5 +239,5 @@
 
 
     // Get the list of time slots
-    List<DateTime> timeSlots = Extension.GetTimeSlots();
+    List<TimeSpan> timeSlots = Extension.GetTimeSlots();
 }

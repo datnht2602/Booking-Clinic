@@ -86,5 +86,14 @@ public class ClinicService :  BaseService,IClinicService
             AccessToken = accessToken
         });
     }
-    
+
+    public async Task<T> ChangeBookingStatus<T>(string bookingId, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"changebooking/{bookingId}",
+            AccessToken = accessToken
+        });
+    }
 }

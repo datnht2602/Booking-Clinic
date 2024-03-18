@@ -7,6 +7,7 @@ using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
+using Clinic.Message;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
@@ -26,8 +27,8 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
-
-if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
+builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
+if (builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
     });
@@ -71,6 +72,11 @@ app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService
                 return Results.BadRequest();
             }
    return (await bookingService.UpdateBookingAsync(booking)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
+})
+.WithOpenApi();
+app.MapGet("/bookingsucess/{id}", async (string id, [FromServices] IBookingService bookingService) =>
+{
+    return await bookingService.BookingSucess(id).ConfigureAwait(false) ? Results.Ok(true) : Results.NotFound();
 })
 .WithOpenApi();
 app.Run();

@@ -5,9 +5,10 @@ using Clinic.Common.Options;
 using Clinic.DTO.Models;
 using Clinic.Invoice;
 using Clinic.Invoice.Contracts;
+using Clinic.Invoice.Extension;
+using Clinic.Invoice.Message;
 using Clinic.Invoice.Services;
 using Clinic.Message;
-using Mango.Services.OrderAPI.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
@@ -63,7 +64,7 @@ app.MapPost("/getinvoice",async (InvoiceDetailsViewModel invoice, IInvoiceServic
             return Results.Created($"/getinvoice/{result.Id}", result);
 })
 .WithOpenApi();
-
+app.UseAzureServiceBusConsumer();
 app.Run();
 
 static IAsyncPolicy<HttpResponseMessage> CircuitBreakerPolicy()

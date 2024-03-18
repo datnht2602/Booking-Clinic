@@ -23,18 +23,17 @@ public static class Extension
         };
         return chuyenKhoa;
     }
-    public static List<DateTime> GetTimeSlots()
+    public static List<TimeSpan> GetTimeSlots()
     {
         TimeSpan startTime = new TimeSpan(8, 30, 0);
         TimeSpan endTime = new TimeSpan(17, 0, 0);
         TimeSpan interval = new TimeSpan(0, 30, 0);
-        List<DateTime> timeSlots = new List<DateTime>();
-        DateTime current = DateTime.Today.Add(startTime);
+        List<TimeSpan> timeSlots = new List<TimeSpan>();
 
-        while (current <= DateTime.Today.Add(endTime))
+        while (startTime <= endTime)
         {
-            timeSlots.Add(current);
-            current = current.Add(interval);
+            timeSlots.Add(startTime);
+            startTime = startTime.Add(interval);
         }
 
         return timeSlots;
