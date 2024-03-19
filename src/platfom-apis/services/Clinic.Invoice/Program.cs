@@ -29,7 +29,6 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
 builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
-builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
 if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
