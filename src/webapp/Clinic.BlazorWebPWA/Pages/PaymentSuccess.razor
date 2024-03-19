@@ -1,6 +1,5 @@
 ﻿@page "/payment/success/{bookingId}"
 @using Clinic.BlazorWebPWA.Services
-@using Clinic.DTO.Models.Dto
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager nav
 @inject IClinicService clinicService
@@ -27,7 +26,7 @@
             <h1>Payment failed</h1>
         }
         <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
-        <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">See Invoice</button>
+        <button type="button" @onclick='() => nav.NavigateTo($"/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}")' class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">See Invoice</button>
     </div>
 </body>
 @code{

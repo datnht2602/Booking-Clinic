@@ -44,6 +44,20 @@ namespace Clinic.DataAccess.EndpointServices
             })
                 .WithName("GetInvoiceById")
                 .WithOpenApi();
+            routes.MapGet("/getinvoicebyorderid/{id}", async (IInvoiceRepository repository, string id) =>
+            {
+                Invoice result = await repository.GetByOrderIdAsync(id).ConfigureAwait(false);
+                if (result != null)
+                {
+                    return Results.Ok(result);
+                }
+                else
+                {
+                    return Results.NoContent();
+                }
+            })
+                .WithName("GetInvoiceByOrderId")
+                .WithOpenApi();
             routes.MapPost("/getinvoice", async (IInvoiceRepository repository, [FromBody] Invoice invoice) =>
             {
                 if (invoice == null)

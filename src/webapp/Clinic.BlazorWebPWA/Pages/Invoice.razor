@@ -1,5 +1,9 @@
-﻿@page "/doctor/doctor-detail/book-appointments/confirm/invoice"
+﻿@page "/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}"
 @page "/doctor/book-appointments/confirm/invoice"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager nav
+@inject IClinicService clinicService
+
 <PageTitle>Invoice Detail</PageTitle>
 
 <main>
@@ -13,19 +17,19 @@
                         <h5 class="m-auto text-center text-white mb-5 mx-auto">Clinic: 4Health Clinic</h5>
                         <div class="mb-3">
                             <label for="fullname" class="form-label medium text-white">Full Name</label>
-                            <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" size=20 readonly="False">
+                            <input type="text" class="form-control" placeholder="@ViewModel?.BriefViewModel?.UserName" pattern="[^\s]+" size=20 readonly="False">
                         </div>
                         <div class="mb-3">
                             <label class="form-label medium text-white">Phone Number</label>
-                            <input type="tel" class="form-control" placeholder="Phone Number" readonly="False">
+                            <input type="tel" class="form-control" placeholder="@ViewModel?.BriefViewModel?.PhoneNumber" readonly="False">
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label medium text-white">Date and time you want to be examined<small class="text-danger fw-bold"></small></label>
-                            <input type="datetime-local" class="form-control" id="datetime" required>
+                            <input type="text" class="form-control" placeholder="@ViewModel?.BriefViewModel?.OrderPlacedTime" id="datetime" required>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label medium text-white">Total</label>
-                            <input type="number" class="form-control" placeholder="150000" readonly="False">
+                            <input type="number" class="form-control" placeholder="@ViewModel?.Products.Sum(x => x.Price)" readonly="False">
                         </div>
                         <div>
                             <div class="d-flex justify-content-center px-3 py-5">
@@ -39,3 +43,39 @@
         </div>
     </div>
 </main>
+@code{
+    @code {
+        [Parameter] public string bookingId { get; set; }
+        [Inject] IAccessTokenProvider TokenProvider { get; set; }
+        [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+        public InvoiceDetailsViewModel ViewModel { get; set; }
+        private string accessToken { get; set; }
+        public bool Notification { get; set; }
+        protected async override Task OnInitializedAsync()
+        {
+            base.OnInitialized();
+
+            var authState = await authenticationStateTask;
+            var user = authState.User;
+            if (!user.Identity.IsAuthenticated)
+            {
+                nav.NavigateTo("authentication/login");
+            }
+
+            var accessTokenResult = await TokenProvider.RequestAccessToken();
+            accessToken = string.Empty;
+
+            if (accessTokenResult.TryGetToken(out var token))
+            {
+                accessToken = token.Value;
+            }
+
+            var response = await clinicService.GetInvoice<ResponseDto>(bookingId, accessToken);
+            if (response != null && response.IsSuccess)
+            {
+                ViewModel = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
+                StateHasChanged();
+            }
+        }
+    }
+}

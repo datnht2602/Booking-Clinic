@@ -67,6 +67,7 @@ namespace Clinic.Identity.Controllers
                     products.Where(x => (int)x.Specialization == userModels.Specialization).ToList();
                 model.OrderedTime = userModels.OrderedTimes;
                 model.DoctorId = userModels.Id;
+                model.ClinicNum = int.Parse(userModels.ClinicNum);
             }
             return Ok(model);
         }

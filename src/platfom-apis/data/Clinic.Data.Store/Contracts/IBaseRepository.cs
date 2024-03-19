@@ -24,6 +24,8 @@ namespace Clinic.Data.Store.Contracts
 
         Task<TEntity> GetByNameCouponAsync(string filterCriteria);
 
+        Task<TEntity> GetByOrderIdAsync(string filterCriteria);
+
         /// <summary>
         /// This method helps in retrieving any record from a container by its id and partition key.
         /// </summary>

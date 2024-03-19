@@ -64,5 +64,14 @@ public static class ClinicEndpoint
 
         })
            .WithOpenApi();
+        routes.MapGet("/getinvoice/{bookingId}", [Authorize] async (string bookingId, [FromServices] IClinicService clinicService) =>
+        {
+            var resultCoupon = await clinicService.GetInvoiceByIdAsync(bookingId).ConfigureAwait(false);
+            ResponseDto result = new();
+            result.Result = resultCoupon;
+            return result;
+
+        })
+           .WithOpenApi();
     }
 }

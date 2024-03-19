@@ -52,7 +52,7 @@ namespace Clinic.Invoice.Services
 
         public async Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string invoiceId)
         {
-            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoice/{invoiceId}");
+            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoicebyorderid/{invoiceId}");
             var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
             if(!invoiceResponse.IsSuccessStatusCode)
             {

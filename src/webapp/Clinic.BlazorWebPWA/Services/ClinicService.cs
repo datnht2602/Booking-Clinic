@@ -96,4 +96,14 @@ public class ClinicService :  BaseService,IClinicService
             AccessToken = accessToken
         });
     }
+
+    public async Task<T> GetInvoice<T>(string bookingId, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getinvoice/{bookingId}",
+            AccessToken = accessToken
+        });
+    }
 }

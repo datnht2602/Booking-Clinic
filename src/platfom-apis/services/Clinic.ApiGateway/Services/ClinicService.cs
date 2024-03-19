@@ -96,9 +96,26 @@ namespace Clinic.ApiGateway.Services
             }
         }
 
-        public Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string orderId)
+        public async Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string orderId)
         {
-            throw new NotImplementedException();
+            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.InvoiceApiEndpoint}/getinvoice/{orderId}");
+            var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
+
+            if (!invoiceResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(invoiceResponse).ConfigureAwait(false);
+            }
+            if (invoiceResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var invoiceModelResponse = await invoiceResponse.Content.ReadFromJsonAsync<InvoiceDetailsViewModel>().ConfigureAwait(false);
+
+
+                return invoiceModelResponse;
+            }
+            else
+            {
+                return new InvoiceDetailsViewModel();
+            }
         }
 
         public Task<InvoiceDetailsViewModel> SubmitOrder(BookingDetailsViewModel order)

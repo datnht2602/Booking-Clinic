@@ -48,11 +48,11 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
-app.MapGet("/getinvoice/{id}", async ([FromServices] IInvoiceService invoiceService,[FromQuery]string id) =>
+app.MapGet("/getinvoice/{id}", async (string id,[FromServices] IInvoiceService invoiceService) =>
 {
   return await invoiceService.GetInvoiceByIdAsync(id) is InvoiceDetailsViewModel invoice ? Results.Ok(invoice) : Results.NotFound();  
 })
-.WithName("GetProductById")
+.WithName("GetInvoiceById")
 .WithOpenApi();
 app.MapPost("/getinvoice",async (InvoiceDetailsViewModel invoice, IInvoiceService invoiceService) =>{
      if (invoice == null || invoice.Etag != null)

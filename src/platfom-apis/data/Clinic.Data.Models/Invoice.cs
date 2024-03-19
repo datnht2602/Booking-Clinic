@@ -15,7 +15,7 @@ namespace Clinic.Data.Models
 
         public string OrderId { get; set; }
 
-
+        public double OrderTotal { get; set; }
         public int PaymentMode { get; set; }
 
 

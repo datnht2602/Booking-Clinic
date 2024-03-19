@@ -230,6 +230,7 @@
         createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
         createBooking.OrderTotal = booking.OrderTotal;
         createBooking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
+        createBooking.ClinicNum = booking.ClinicNum;
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
         if (response != null && response.IsSuccess)
         {
