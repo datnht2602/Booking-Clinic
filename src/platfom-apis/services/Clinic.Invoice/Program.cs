@@ -24,7 +24,7 @@ builder.Services.AddHttpClient<IInvoiceService, InvoiceService>()
     .SetHandlerLifetime(TimeSpan.FromMinutes(5))
     .AddPolicyHandler(RetryPolicy()) // Retry policy
     .AddPolicyHandler(CircuitBreakerPolicy());
-builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddSingleton<IInvoiceService, InvoiceService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();

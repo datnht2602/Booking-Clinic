@@ -1,6 +1,7 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Message;
+using Clinic.Invoice.Contracts;
 using Clinic.Invoice.Services;
 using Clinic.Message;
 using Newtonsoft.Json;
@@ -17,7 +18,7 @@ namespace Clinic.Invoice.Message
         private readonly string orderPaymentProcessTopic;
         private readonly string orderUpdatePaymentResultTopic;
 
-        private readonly InvoiceService repository;
+        private readonly IInvoiceService repository;
 
         private ServiceBusProcessor checkOutProcessor;
         private ServiceBusProcessor orderUpdatePaymentStatusProcessor;
@@ -25,7 +26,7 @@ namespace Clinic.Invoice.Message
         private readonly IConfiguration _configuration;
         private readonly IMessageBus _messageBus;
 
-        public AzureServiceBusConsumer(InvoiceService repository, IConfiguration configuration, IMessageBus messageBus)
+        public AzureServiceBusConsumer(IInvoiceService repository, IConfiguration configuration, IMessageBus messageBus)
         {
             this.repository = repository;
             _configuration = configuration;
@@ -40,9 +41,9 @@ namespace Clinic.Invoice.Message
 
             var client = new ServiceBusClient(serviceBusConnectionString);
 
-            checkOutProcessor = client.CreateProcessor(checkoutMessageTopic);
-            orderUpdatePaymentStatusProcessor =
-                client.CreateProcessor(orderUpdatePaymentResultTopic, subscriptionCheckOut);
+            checkOutProcessor = client.CreateProcessor(checkoutMessageTopic,subscriptionCheckOut);
+           /* orderUpdatePaymentStatusProcessor =
+                client.CreateProcessor(orderUpdatePaymentResultTopic, subscriptionCheckOut);*/
         }
 
         public async Task Start()
@@ -52,8 +53,8 @@ namespace Clinic.Invoice.Message
             await checkOutProcessor.StartProcessingAsync();
 
             //orderUpdatePaymentStatusProcessor.ProcessMessageAsync += OnOrderPaymentUpdateReceived;
-            orderUpdatePaymentStatusProcessor.ProcessErrorAsync += ErrorHandler;
-            await orderUpdatePaymentStatusProcessor.StartProcessingAsync();
+            /*orderUpdatePaymentStatusProcessor.ProcessErrorAsync += ErrorHandler;
+            await orderUpdatePaymentStatusProcessor.StartProcessingAsync();*/
         }
 
         public async Task Stop()

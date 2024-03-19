@@ -46,7 +46,7 @@ namespace Clinic.DataAccess.EndpointServices
                 .WithOpenApi();
             routes.MapPost("/getinvoice", async (IInvoiceRepository repository, [FromBody] Invoice invoice) =>
             {
-                if (invoice == null || invoice.Etag != null)
+                if (invoice == null)
                 {
                     return Results.BadRequest();
                 }

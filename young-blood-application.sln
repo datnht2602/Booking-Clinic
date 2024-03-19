@@ -50,6 +50,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Coupon", "src\platfo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Message", "src\platfom-apis\core\Clinic.Message\Clinic.Message.csproj", "{8A30FEC2-9739-428B-A5F5-DD3618360A58}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.Email", "src\platfom-apis\services\Clinic.Email\Clinic.Email.csproj", "{96BFF9C8-E533-4549-BC1F-960D3D460A1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +122,10 @@ Global
 		{8A30FEC2-9739-428B-A5F5-DD3618360A58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A30FEC2-9739-428B-A5F5-DD3618360A58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A30FEC2-9739-428B-A5F5-DD3618360A58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -141,6 +147,7 @@ Global
 		{1F89C5DD-A552-4FED-B91D-D5FB730B3557} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{203599B7-8CCF-4A8C-B135-993255067091} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{8A30FEC2-9739-428B-A5F5-DD3618360A58} = {E3460D52-B12E-40B4-96B7-843132420739}
+		{96BFF9C8-E533-4549-BC1F-960D3D460A1F} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D82853F-2960-44C3-81E2-DA4597DC4483}

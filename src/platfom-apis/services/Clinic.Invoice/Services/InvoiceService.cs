@@ -3,6 +3,7 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
+using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.Invoice.Contracts;
 using Microsoft.Extensions.Options;
@@ -36,7 +37,8 @@ namespace Clinic.Invoice.Services
                 Phone = "",
                 ManagerName = "Derek"
             };
-            using var invoiceRequest = new StringContent(JsonSerializer.Serialize(invoice),Encoding.UTF8,ContentType);
+            var invoiceEntity = autoMapper.Map<Data.Models.Invoice>(invoice);
+            using var invoiceRequest = new StringContent(JsonSerializer.Serialize(invoiceEntity),Encoding.UTF8,ContentType);
             var invoiceResponse = await httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getinvoice"), invoiceRequest).ConfigureAwait(false);
 
             if(!invoiceResponse.IsSuccessStatusCode)
