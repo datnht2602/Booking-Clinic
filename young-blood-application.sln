@@ -41,11 +41,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.ApiGateway", "src\pl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Identity", "src\platfom-apis\services\Clinic.Identity\Clinic.Identity.csproj", "{1F89C5DD-A552-4FED-B91D-D5FB730B3557}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6655983D-0EFC-4FF8-913C-C32209A2218B}"
-	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Coupon", "src\platfom-apis\services\Clinic.Coupon\Clinic.Coupon.csproj", "{203599B7-8CCF-4A8C-B135-993255067091}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Message", "src\platfom-apis\core\Clinic.Message\Clinic.Message.csproj", "{8A30FEC2-9739-428B-A5F5-DD3618360A58}"

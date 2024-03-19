@@ -29,12 +29,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="..\..\..\.dockerignore">
-			<Link>.dockerignore</Link>
-		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\..\platfom-apis\core\Clinic.Common\Clinic.Common.csproj" />
 		<ProjectReference Include="..\..\platfom-apis\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
 		<None Include="wwwroot\plugins\apexchart\apexcharts.min.js" />
