@@ -7,6 +7,7 @@ using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
+using Clinic.DTO.Models.Dto;
 using Clinic.Message;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
@@ -53,7 +54,7 @@ app.MapGet("/getallbooking", async ([FromServices] IBookingService bookingServic
 .WithOpenApi();
 app.MapGet("/getbooking/{id}", async (string id,[FromServices] IBookingService bookingService) =>
 {
-  return await bookingService.GetBookingByIdAsync(id).ConfigureAwait(false) is BookingDetailsViewModel booking ? Results.Ok(booking) : Results.NotFound();  
+  return await bookingService.GetBookingByIdAsync(id).ConfigureAwait(false) is ResponseDto booking ? Results.Ok(booking) : Results.NotFound();  
 })
 .WithOpenApi();
 app.MapPost("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
@@ -63,7 +64,7 @@ app.MapPost("/getbooking",async (BookingDetailsViewModel booking, IBookingServic
             }
 
             var result = await bookingService.AddBookingAsync(booking).ConfigureAwait(false);
-            return Results.Created($"/getbooking/{result.Id}", result);
+            return Results.Created($"/getbooking/{booking.Id}", result);
 })
 .WithOpenApi();
 app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
@@ -76,7 +77,7 @@ app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService
 .WithOpenApi();
 app.MapGet("/bookingsucess/{id}", async (string id, [FromServices] IBookingService bookingService) =>
 {
-    return await bookingService.BookingSucess(id).ConfigureAwait(false) ? Results.Ok(true) : Results.NotFound();
+    return await bookingService.BookingSucess(id).ConfigureAwait(false) is ResponseDto booking ? Results.Ok(booking) : Results.NotFound();
 })
 .WithOpenApi();
 app.Run();

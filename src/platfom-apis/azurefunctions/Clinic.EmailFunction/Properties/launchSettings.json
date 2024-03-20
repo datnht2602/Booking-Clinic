@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Clinic.EmailFunction": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7234",
+      "launchBrowser": false
+    }
+  }
+}

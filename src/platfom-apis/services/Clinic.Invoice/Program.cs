@@ -3,6 +3,7 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Clinic.Invoice;
 using Clinic.Invoice.Contracts;
 using Clinic.Invoice.Extension;
@@ -49,7 +50,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getinvoice/{id}", async (string id,[FromServices] IInvoiceService invoiceService) =>
 {
-  return await invoiceService.GetInvoiceByIdAsync(id) is InvoiceDetailsViewModel invoice ? Results.Ok(invoice) : Results.NotFound();  
+  return await invoiceService.GetInvoiceByIdAsync(id) is ResponseDto invoice ? Results.Ok(invoice) : Results.NotFound();  
 })
 .WithName("GetInvoiceById")
 .WithOpenApi();

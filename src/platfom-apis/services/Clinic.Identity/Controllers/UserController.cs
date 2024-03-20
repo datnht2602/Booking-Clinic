@@ -38,16 +38,17 @@ namespace Clinic.Identity.Controllers
         [HttpGet]
         public async Task<IActionResult> GetListDoctor()
         {
-            /*var doctors = await this.cacheService.GetCacheAsync<IEnumerable<ApplicationUser>>("listdoctors").ConfigureAwait(false);
+            var doctors = await this.cacheService.GetCacheAsync<IEnumerable<ApplicationUser>>("listdoctors").ConfigureAwait(false);
             if (doctors == null)
             {
-                 doctors =
+                doctors = await _userManager.GetUsersInRoleAsync(SD.DOCTOR);
                 await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<ApplicationUser>>("listdoctors", doctors).ConfigureAwait(false);
-            }*/
-            var doctors = await _userManager.GetUsersInRoleAsync(SD.DOCTOR);
+            }
             var usersDto = autoMapper.Map<List<ApplicationUsersDto>>(doctors);
             var userModels = autoMapper.Map<List<ApplicationUserModel>>(usersDto);
-            return Ok(autoMapper.Map<List<DoctorListViewModel>>(userModels));
+            ResponseDto result = new();
+            result.Result = autoMapper.Map<List<DoctorListViewModel>>(userModels);
+            return Ok(result);
         }
         [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)
@@ -69,7 +70,9 @@ namespace Clinic.Identity.Controllers
                 model.DoctorId = userModels.Id;
                 model.ClinicNum = int.Parse(userModels.ClinicNum);
             }
-            return Ok(model);
+            ResponseDto result = new();
+            result.Result = model;
+            return Ok(result);
         }
     }
 }

@@ -25,9 +25,10 @@ public class CouponService : ICouponService
         this.cacheService = cacheService;
         this.applicationSettings = applicationSettings;
     }
-    public async Task<CouponDto> GetCouponByCode(string couponCode)
+    public async Task<ResponseDto> GetCouponByCode(string couponCode)
     {
         CouponDto? coupon = null;
+        ResponseDto result = new();
         using var couponRequest = new HttpRequestMessage(HttpMethod.Get,$"{applicationSettings.Value.DataStoreEndpoint}getcoupon/{couponCode}");
         var couponResponse = await httpClient.SendAsync(couponRequest).ConfigureAwait(false);
         if(!couponResponse.IsSuccessStatusCode){
@@ -37,7 +38,8 @@ public class CouponService : ICouponService
             var couponModel = await couponResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Coupon>().ConfigureAwait(false);
             coupon = autoMapper.Map<CouponDto>(couponModel);
         }
-        return coupon;
+        result.Result = coupon;
+        return result;
     }
     private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)
     {

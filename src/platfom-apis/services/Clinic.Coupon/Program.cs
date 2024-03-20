@@ -46,7 +46,7 @@ app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 app.MapGet("/getcoupon/{code}", async (string code,[FromServices] ICouponService couponService) =>
     {
-        return await couponService.GetCouponByCode(code).ConfigureAwait(false) is CouponDto coupon ? Results.Ok(coupon) : Results.NotFound();  
+        return await couponService.GetCouponByCode(code).ConfigureAwait(false) is ResponseDto coupon ? Results.Ok(coupon) : Results.NotFound();  
     })
     .WithOpenApi();
 

@@ -15,6 +15,8 @@ using Clinic.DTO.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +45,7 @@ builder.Services.AddAuthentication("Bearer")
         };
 
     });
+builder.Services.AddOcelot();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ApiScope", policy =>
@@ -102,7 +105,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("AllowAll");
 
-app.MapEndpoints();
+await app.UseOcelot();
 
 app.Run();
 
