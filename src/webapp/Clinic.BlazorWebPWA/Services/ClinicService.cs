@@ -1,15 +1,24 @@
 using Clinic.BlazorWebPWA.Services.IService;
+using Clinic.Common.Options;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using Net.payOS;
+using Net.payOS.Types;
 
 namespace Clinic.BlazorWebPWA.Services;
 
 public class ClinicService :  BaseService,IClinicService
 {
-    private readonly IHttpClientFactory _clientFactory;
-    public ClinicService(IHttpClientFactory httpClient) : base(httpClient)
+    private readonly IOptions<ApplicationSettings> applicationSettings;
+    private readonly HttpClient client;
+    private readonly PayOS _payOS;
+    public ClinicService(IHttpClientFactory httpClient,IOptions<ApplicationSettings> applicationSettings,PayOS payOS) : base(httpClient)
     {
-        _clientFactory = _clientFactory;
+        this.applicationSettings = applicationSettings;
+        this.client = httpClient.CreateClient("ApiGateway");
+        _payOS = payOS;
     }
 
 
@@ -18,7 +27,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = "https://localhost:7244/getdoctors",
+            Url = $"getdoctors",
         });
     }
 
@@ -27,7 +36,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = "https://localhost:7244/getbooking?userId=" + userId,
+            Url = "getbooking?userId=" + userId,
             AccessToken = accessToken
         });
     }
@@ -43,7 +52,7 @@ public class ClinicService :  BaseService,IClinicService
         {
             ApiType = ApiType.POST,
             Data = model,
-            Url = "https://localhost:7244/upsertbooking",
+            Url = "upsertbooking",
             AccessToken = accessToken
         });
     }
@@ -53,7 +62,7 @@ public class ClinicService :  BaseService,IClinicService
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"https://localhost:7244/getbookingbyid?bookingId={bookingId}",
+            Url = $"getbookingbyid?bookingId={bookingId}",
             AccessToken = accessToken
         });
     }
@@ -66,5 +75,35 @@ public class ClinicService :  BaseService,IClinicService
     public Task<T> SubmitOrder<T>(BookingDetailsViewModel order)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<T> GetCoupon<T>(string coupon, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"coupon/{coupon}",
+            AccessToken = accessToken
+        });
+    }
+
+    public async Task<T> ChangeBookingStatus<T>(string bookingId, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"changebooking/{bookingId}",
+            AccessToken = accessToken
+        });
+    }
+
+    public async Task<T> GetInvoice<T>(string bookingId, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getinvoice/{bookingId}",
+            AccessToken = accessToken
+        });
     }
 }

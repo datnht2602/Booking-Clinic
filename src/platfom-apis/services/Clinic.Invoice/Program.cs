@@ -3,9 +3,13 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Clinic.Invoice;
 using Clinic.Invoice.Contracts;
+using Clinic.Invoice.Extension;
+using Clinic.Invoice.Message;
 using Clinic.Invoice.Services;
+using Clinic.Message;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
@@ -21,10 +25,11 @@ builder.Services.AddHttpClient<IInvoiceService, InvoiceService>()
     .SetHandlerLifetime(TimeSpan.FromMinutes(5))
     .AddPolicyHandler(RetryPolicy()) // Retry policy
     .AddPolicyHandler(CircuitBreakerPolicy());
-builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddSingleton<IInvoiceService, InvoiceService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
@@ -43,11 +48,11 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
-app.MapGet("/getinvoice/{id}", async ([FromServices] IInvoiceService invoiceService,[FromQuery]string id) =>
+app.MapGet("/getinvoice/{id}", async (string id,[FromServices] IInvoiceService invoiceService) =>
 {
-  return await invoiceService.GetInvoiceByIdAsync(id) is InvoiceDetailsViewModel invoice ? Results.Ok(invoice) : Results.NotFound();  
+  return await invoiceService.GetInvoiceByIdAsync(id) is ResponseDto invoice ? Results.Ok(invoice) : Results.NotFound();  
 })
-.WithName("GetProductById")
+.WithName("GetInvoiceById")
 .WithOpenApi();
 app.MapPost("/getinvoice",async (InvoiceDetailsViewModel invoice, IInvoiceService invoiceService) =>{
      if (invoice == null || invoice.Etag != null)
@@ -59,7 +64,7 @@ app.MapPost("/getinvoice",async (InvoiceDetailsViewModel invoice, IInvoiceServic
             return Results.Created($"/getinvoice/{result.Id}", result);
 })
 .WithOpenApi();
-
+app.UseAzureServiceBusConsumer();
 app.Run();
 
 static IAsyncPolicy<HttpResponseMessage> CircuitBreakerPolicy()

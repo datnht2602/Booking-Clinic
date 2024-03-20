@@ -7,6 +7,9 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
+using Clinic.DTO.Models.Dto;
+using Clinic.DTO.Models.Message;
+using Clinic.Message;
 using Microsoft.Extensions.Options;
 
 namespace Clinic.Booking.Services
@@ -19,32 +22,32 @@ namespace Clinic.Booking.Services
         private readonly HttpClient httpClient;
         private readonly IMapper autoMapper;
         private readonly IDistributedCacheService cacheService;
-        public BookingService(IHttpClientFactory httpClientFactory, IOptions<ApplicationSettings> applicationSettings, IMapper autoMapper, IDistributedCacheService cacheService)
+        private readonly IMessageBus messageBus;
+        public BookingService(IHttpClientFactory httpClientFactory, IOptions<ApplicationSettings> applicationSettings, IMapper autoMapper, IDistributedCacheService cacheService, IMessageBus messageBus)
         {
             ArgumentValidation.ThrowIfNull(applicationSettings);
              httpClient = httpClientFactory.CreateClient();
             this.autoMapper = autoMapper;
             this.cacheService = cacheService;
             this.applicationSettings = applicationSettings;
+            this.messageBus = messageBus;
         }
-        public async Task<BookingDetailsViewModel> AddBookingAsync(BookingDetailsViewModel booking)
+        public async Task<ResponseDto> AddBookingAsync(BookingDetailsViewModel booking)
         {
-           ArgumentValidation.ThrowIfNull(booking);
-           var getExistingBooking = await this.GetBookingAsync($"e.UserId = '{booking.UserId}' and e.OrderStatus= '{OrderStatus.Cart}'").ConfigureAwait(false);
+            ResponseDto result = new();
+            ArgumentValidation.ThrowIfNull(booking);
+           var getExistingBooking = await this.GetBookingAsync($" e.UserId = '{booking.UserId}' and e.OrderStatus= '{OrderStatus.Cart}' and e.id= '{booking.Id}'").ConfigureAwait(false);
            BookingDetailsViewModel? existingBooking = getExistingBooking.FirstOrDefault();
            if(existingBooking != null){
             booking.Id = existingBooking.Id;
             booking.Etag = existingBooking.Etag;
             if(booking.OrderStatus == OrderStatus.Submitted.ToString()){
                 
-            }else{
-                booking.Products.AddRange(existingBooking.Products);
-                booking.OrderStatus = OrderStatus.Cart.ToString();
             }
-
-            booking.OrderTotal = booking.Products.Sum(x => x.Price);
+            
             await this.UpdateBookingAsync(booking).ConfigureAwait(false);
-            return booking;
+            result.Result = booking;
+            return result;
            }else{
             booking.OrderStatus = OrderStatus.Cart.ToString();
             booking.OrderTotal = booking.Products.Sum(x => x.Price);
@@ -58,7 +61,8 @@ namespace Clinic.Booking.Services
             var createdBookingDAO = await bookingResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Booking>().ConfigureAwait(false);
 
             var createdBooking = autoMapper.Map<BookingDetailsViewModel>(createdBookingDAO);
-            return createdBooking;
+                result.Result = booking;
+                return result;
            }
         }
 
@@ -71,6 +75,26 @@ namespace Clinic.Booking.Services
         public double ComputeTotalDiscount(double orderTotal)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ResponseDto> BookingSucess(string id)
+        {
+            ResponseDto result = new();
+            var getExistingBooking = await this
+                .GetBookingAsync(
+                    $" e.id= '{id}'")
+                .ConfigureAwait(false);
+            BookingDetailsViewModel? existingBooking = getExistingBooking.FirstOrDefault();
+            if (existingBooking != null)
+            {
+                existingBooking.OrderStatus = OrderStatus.Submitted.ToString();
+                await this.UpdateBookingAsync(existingBooking).ConfigureAwait(false);
+                var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
+                await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
+                result.Result = true;
+                return result;
+            }
+            return result;
         }
 
         public async Task<IEnumerable<BookingDetailsViewModel>> GetBookingAsync(string? filterCriteria = null)
@@ -91,9 +115,10 @@ namespace Clinic.Booking.Services
             }
         }
 
-        public async Task<BookingDetailsViewModel> GetBookingByIdAsync(string orderId)
+        public async Task<ResponseDto> GetBookingByIdAsync(string orderId)
         {
-           BookingDetailsViewModel? booking = null;
+            ResponseDto result = new();
+            BookingDetailsViewModel? booking = null;
            using var bookingRequest = new HttpRequestMessage(HttpMethod.Get,$"{applicationSettings.Value.DataStoreEndpoint}getbooking/{orderId}");
            var bookingResponse = await httpClient.SendAsync(bookingRequest).ConfigureAwait(false);
            if(!bookingResponse.IsSuccessStatusCode){
@@ -102,12 +127,14 @@ namespace Clinic.Booking.Services
            if(bookingResponse.StatusCode != System.Net.HttpStatusCode.NoContent){
             var bookingDAO = await bookingResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Booking>().ConfigureAwait(false);
             booking = autoMapper.Map<BookingDetailsViewModel>(bookingDAO);
-           }
-           return booking;
+           }          
+            result.Result = booking;
+            return result;
         }
 
-        public async Task<HttpResponseMessage> UpdateBookingAsync(BookingDetailsViewModel booking)
+        public async Task<HttpResponseMessage> UpdateBookingAsync(BookingDetailsViewModel bookingUpdate)
         {
+            var booking = autoMapper.Map<Data.Models.Booking>(bookingUpdate);
             using var bookingRequest = new StringContent(JsonSerializer.Serialize(booking),Encoding.UTF8,ContentType);
             var bookingResponse = await httpClient.PutAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getbooking"),bookingRequest).ConfigureAwait(false);
             if(!bookingResponse.IsSuccessStatusCode){

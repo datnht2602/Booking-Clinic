@@ -29,7 +29,11 @@ namespace Clinic.DTO.Models
         /// <value>
         /// The payment mode.
         /// </value>
-        public string PaymentMode { get; set; }
+        public int PaymentMode { get; set; }
+
+        public double OrderTotal { get; set; }
+
+        public string OrderPlaceTime { get; set; }
 
         /// <summary>
         /// Gets or sets the shipping address.

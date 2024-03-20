@@ -3,7 +3,9 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
+using Clinic.Data.Models;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Clinic.Invoice.Contracts;
 using Microsoft.Extensions.Options;
 using System.Text;
@@ -34,9 +36,10 @@ namespace Clinic.Invoice.Services
             {
                 Email = "",
                 Phone = "",
-                ManagerName = "Packt"
+                ManagerName = "Derek"
             };
-            using var invoiceRequest = new StringContent(JsonSerializer.Serialize(invoice),Encoding.UTF8,ContentType);
+            var invoiceEntity = autoMapper.Map<Data.Models.Invoice>(invoice);
+            using var invoiceRequest = new StringContent(JsonSerializer.Serialize(invoiceEntity),Encoding.UTF8,ContentType);
             var invoiceResponse = await httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getinvoice"), invoiceRequest).ConfigureAwait(false);
 
             if(!invoiceResponse.IsSuccessStatusCode)
@@ -48,9 +51,10 @@ namespace Clinic.Invoice.Services
             return createdInvoice;
         }
 
-        public async Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string invoiceId)
+        public async Task<ResponseDto> GetInvoiceByIdAsync(string invoiceId)
         {
-            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoice/{invoiceId}");
+            ResponseDto result = new();
+            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoicebyorderid/{invoiceId}");
             var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
             if(!invoiceResponse.IsSuccessStatusCode)
             {
@@ -61,11 +65,12 @@ namespace Clinic.Invoice.Services
                 var invoiceDAO = await invoiceResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Invoice>().ConfigureAwait(false);
 
                 var invoice = autoMapper.Map<InvoiceDetailsViewModel>(invoiceDAO);
-                return invoice;
+                result.Result = invoice;
+                return result;
             }
             else
             {
-                return null;
+                return result;
             }
         }
 

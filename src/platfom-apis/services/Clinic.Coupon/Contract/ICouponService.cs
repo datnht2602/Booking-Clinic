@@ -4,5 +4,5 @@ namespace Clinic.Coupon.Contract;
 
 public interface ICouponService
 {
-    Task<CouponDto> GetCouponByCode(string couponCode);
+    Task<ResponseDto> GetCouponByCode(string couponCode);
 }

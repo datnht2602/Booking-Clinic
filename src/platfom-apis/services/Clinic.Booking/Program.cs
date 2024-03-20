@@ -7,6 +7,8 @@ using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
+using Clinic.DTO.Models.Dto;
+using Clinic.Message;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
@@ -26,7 +28,8 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
-if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
+builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
+if (builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
     });
@@ -51,17 +54,17 @@ app.MapGet("/getallbooking", async ([FromServices] IBookingService bookingServic
 .WithOpenApi();
 app.MapGet("/getbooking/{id}", async (string id,[FromServices] IBookingService bookingService) =>
 {
-  return await bookingService.GetBookingByIdAsync(id).ConfigureAwait(false) is BookingDetailsViewModel booking ? Results.Ok(booking) : Results.NotFound();  
+  return await bookingService.GetBookingByIdAsync(id).ConfigureAwait(false) is ResponseDto booking ? Results.Ok(booking) : Results.NotFound();  
 })
 .WithOpenApi();
 app.MapPost("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
-     if (booking == null || booking.Etag != null)
+     if (booking == null )
             {
                 return Results.BadRequest();
             }
 
             var result = await bookingService.AddBookingAsync(booking).ConfigureAwait(false);
-            return Results.Created($"/getbooking/{result.Id}", result);
+            return Results.Created($"/getbooking/{booking.Id}", result);
 })
 .WithOpenApi();
 app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService bookingService) =>{
@@ -70,6 +73,11 @@ app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService
                 return Results.BadRequest();
             }
    return (await bookingService.UpdateBookingAsync(booking)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
+})
+.WithOpenApi();
+app.MapGet("/bookingsucess/{id}", async (string id, [FromServices] IBookingService bookingService) =>
+{
+    return await bookingService.BookingSucess(id).ConfigureAwait(false) is ResponseDto booking ? Results.Ok(booking) : Results.NotFound();
 })
 .WithOpenApi();
 app.Run();

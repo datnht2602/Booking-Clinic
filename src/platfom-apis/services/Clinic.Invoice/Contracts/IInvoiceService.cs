@@ -1,10 +1,11 @@
 ﻿using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 
 namespace Clinic.Invoice.Contracts
 {
     public interface IInvoiceService
     {
-        Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string invoiceId);
+        Task<ResponseDto> GetInvoiceByIdAsync(string invoiceId);
 
         Task<InvoiceDetailsViewModel> AddInvoiceAsync(InvoiceDetailsViewModel invoice);
     }

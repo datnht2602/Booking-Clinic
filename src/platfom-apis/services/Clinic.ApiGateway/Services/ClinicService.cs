@@ -6,6 +6,7 @@ using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -95,9 +96,26 @@ namespace Clinic.ApiGateway.Services
             }
         }
 
-        public Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string orderId)
+        public async Task<InvoiceDetailsViewModel> GetInvoiceByIdAsync(string orderId)
         {
-            throw new NotImplementedException();
+            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.InvoiceApiEndpoint}/getinvoice/{orderId}");
+            var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
+
+            if (!invoiceResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(invoiceResponse).ConfigureAwait(false);
+            }
+            if (invoiceResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var invoiceModelResponse = await invoiceResponse.Content.ReadFromJsonAsync<InvoiceDetailsViewModel>().ConfigureAwait(false);
+
+
+                return invoiceModelResponse;
+            }
+            else
+            {
+                return new InvoiceDetailsViewModel();
+            }
         }
 
         public Task<InvoiceDetailsViewModel> SubmitOrder(BookingDetailsViewModel order)
@@ -125,7 +143,47 @@ namespace Clinic.ApiGateway.Services
             {
                 return new BookingViewModel();
             }
-            
+        }
+
+        public async Task<object> GetDiscountForCode(string code)
+        {
+            using var couponRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.CouponApiEndpoint}/getcoupon/{code}");
+            var couponResponse = await httpClient.SendAsync(couponRequest).ConfigureAwait(false);
+
+            if(!couponResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+            }
+            if(couponResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var result = await couponResponse.Content.ReadFromJsonAsync<CouponDto>().ConfigureAwait(false);
+                
+
+                return result;
+            }
+            else
+            {
+                return new CouponDto();
+            }
+        }
+
+        public async Task<bool> BookingSuccess(string id)
+        {
+            using var doctorRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.OrdersApiEndpoint}/bookingsucess/{id}");
+            var doctorResponse = await httpClient.SendAsync(doctorRequest).ConfigureAwait(false);
+
+            if(!doctorResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(doctorResponse).ConfigureAwait(false);
+            }
+            if(doctorResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)
