@@ -1,0 +1,43 @@
+name: Trigger auto deployment for clinicapigateway-app-20240321105
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ feature-bookingclinic ]
+    paths:
+    - '**'
+    - '.github/workflows/clinicapigateway-app-20240321105-AutoDeployTrigger-6de8eb24-979e-4db3-8676-5186aaa1c99b.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CLINICAPIGATEWAYAPP20240321105_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }} 
+          registryUrl: clinicapigateway20240321110051.azurecr.io
+          registryUsername: ${{ secrets.CLINICAPIGATEWAYAPP20240321105_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.CLINICAPIGATEWAYAPP20240321105_REGISTRY_PASSWORD }}
+          containerAppName: clinicapigateway-app-20240321105
+          resourceGroup: youngblood
+          imageToBuild: clinicapigateway20240321110051.azurecr.io/clinicapigateway-app-20240321105:${{ github.sha }}
+          
+            
+
+     
+
