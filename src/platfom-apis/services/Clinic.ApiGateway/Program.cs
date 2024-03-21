@@ -38,7 +38,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
 
-        options.Authority = "https://clinicidentity20240321115711.azurewebsites.net/";
+        options.Authority = builder.Configuration["ApplicationSettings:IdentityApiEndpoint"];
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false

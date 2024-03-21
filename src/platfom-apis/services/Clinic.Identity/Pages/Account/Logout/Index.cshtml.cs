@@ -1,3 +1,4 @@
+using Clinic.Common.Options;
 using Clinic.Identity.Models;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace webapp.Pages.Logout;
 
@@ -18,15 +20,18 @@ public class Index : PageModel
     private readonly IIdentityServerInteractionService _interaction;
     private readonly IEventService _events;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IOptions<ApplicationSettings> applicationSettings;
     [BindProperty] 
     public string LogoutId { get; set; }
 
     public Index(IIdentityServerInteractionService interaction, IEventService events,
-        SignInManager<ApplicationUser> signInManager)
+        SignInManager<ApplicationUser> signInManager,
+        IOptions<ApplicationSettings> applicationSettings)
     {
 		_signInManager = signInManager;
         _interaction = interaction;
         _events = events;
+        this.applicationSettings = applicationSettings;
     }
 
     public async Task<IActionResult> OnGet(string logoutId)
@@ -95,6 +100,6 @@ public class Index : PageModel
             }
         }
 
-        return Redirect("https://salmon-field-0aa309100.5.azurestaticapps.net/");
+        return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}");
     }
 }

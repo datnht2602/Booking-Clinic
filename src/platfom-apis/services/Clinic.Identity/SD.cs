@@ -1,16 +1,19 @@
-﻿using Duende.IdentityServer;
+﻿using Clinic.Common.Options;
+using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using IdentityModel;
+using Microsoft.Extensions.Options;
 
 namespace Clinic.Identity
 {
     public static class SD
     {
+        public static IConfiguration StaticConfig { get;  set; }
         public const string ADMIN = "admin";
         public const string PATIENT = "patient";
         public const string MANAGER = "manager";
         public const string DOCTOR = "doctor";
-
+        
         public static IEnumerable<IdentityResource> IdentityResource =>
             new List<IdentityResource>
             {
@@ -37,8 +40,8 @@ namespace Clinic.Identity
 					RequirePkce = true,
 			        RequireClientSecret = false,
 					AllowedScopes = { "openid", "profile", "email", "Clinic" },
-                    RedirectUris = { "https://salmon-field-0aa309100.5.azurestaticapps.net/authentication/login-callback" },
-					PostLogoutRedirectUris = { "https://salmon-field-0aa309100.5.azurestaticapps.net/authentication/logout-callback" },
+                    RedirectUris = { StaticConfig.GetSection("ApplicationSettings")["RedirectUris"] },
+					PostLogoutRedirectUris = { StaticConfig.GetSection("ApplicationSettings")["PostLogout"] },
 					Enabled = true
 				}
         };
