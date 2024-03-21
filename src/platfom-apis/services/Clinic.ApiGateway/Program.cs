@@ -38,7 +38,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
 
-        options.Authority = "https://localhost:7268/";
+        options.Authority = "https://clinicidentity20240321115711.azurewebsites.net/";
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false

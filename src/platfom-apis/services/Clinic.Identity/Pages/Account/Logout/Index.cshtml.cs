@@ -95,6 +95,6 @@ public class Index : PageModel
             }
         }
 
-        return Redirect("https://localhost:7072/");
+        return Redirect("https://salmon-field-0aa309100.5.azurestaticapps.net/");
     }
 }
