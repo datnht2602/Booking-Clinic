@@ -180,7 +180,21 @@
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(updateModel, accessToken);
         if (response != null && response.IsSuccess)
         {
-            nav.NavigateTo($"/payment/success/{updateModel.Id}");
+            int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+
+            List<ItemData> items = new List<ItemData>();
+            foreach (var product in updateModel.Products)
+            {
+                ItemData item = new ItemData(product.Name, 1, product.Price);
+                items.Add(item);
+            }
+
+            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{updateModel.Id}");
+
+            CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+
+            nav.NavigateTo(createPayment.checkoutUrl);
+            //nav.NavigateTo($"/payment/success/{updateModel.Id}");
            
         }
     }
