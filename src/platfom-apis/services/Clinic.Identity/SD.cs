@@ -37,8 +37,8 @@ namespace Clinic.Identity
 					RequirePkce = true,
 			        RequireClientSecret = false,
 					AllowedScopes = { "openid", "profile", "email", "Clinic" },
-                    RedirectUris = { "https://localhost:7072/authentication/login-callback" },
-					PostLogoutRedirectUris = { "https://localhost:7072/authentication/logout-callback" },
+                    RedirectUris = { "https://salmon-field-0aa309100.5.azurestaticapps.net/authentication/login-callback" },
+					PostLogoutRedirectUris = { "https://salmon-field-0aa309100.5.azurestaticapps.net/authentication/logout-callback" },
 					Enabled = true
 				}
         };
