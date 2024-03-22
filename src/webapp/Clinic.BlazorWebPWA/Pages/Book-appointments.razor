@@ -5,7 +5,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IClinicService clinicService
 @inject NavigationManager nav
-<PageTitle>Đặt lịch khám</PageTitle>
+<PageTitle>Booking Appointment</PageTitle>
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -56,33 +56,33 @@
                     <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                         <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
                             @*<div class="mb-3">
-                            <label for="fullname" class="form-label medium text-white">Họ và tên người khám <small class="text-danger">*</small></label>
-                            <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Vui lòng không nhập khoảng trắng" required>
+                            <label for="fullname" class="form-label medium text-white">Full name<small class="text-danger">*</small></label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required>
                             </div>
                             <div class="mb-3">
-                            <label for="phoneNumbers" class="form-label medium text-white">Số điện thoại <small class="text-danger">*</small></label>
-                            <input type="tel" id="phoneNumbers" class="form-control" placeholder="Nhập số điện thoại" required pattern="0[0-9]{9}" title="Vui lòng nhập số điện thoại hợp lệ" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Vui lòng nhập số điện thoại hợp lệ và không có khoảng trắng.')">
+                            <label for="phoneNumbers" class="form-label medium text-white">Phone number<small class="text-danger">*</small></label>
+                            <input type="tel" id="phoneNumbers" class="form-control" placeholder="Input phone number" required pattern="0[0-9]{9}" title="Please enter a valid phone number." oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
                             </div>*@
                             <div class="row">
                                 <div class="mb-3 col-6">
-                                    <label for="major" class="form-label medium text-white">Chuyên khoa</label>
+                                    <label for="major" class="form-label medium text-white">Specialization</label>
                                     <input type="text" class="form-control" placeholder="@booking.Specialization.ConvertSpecEnum()" readonly="False">
-                                    @*<select id="specialization" class="form-select" required aria-label="Chọn Chuyên khoa">
-                                    <option value="">Chọn chuyên khoa</option>
-                                    <option value="1">Chuyên khoa 1</option>
-                                    <option value="2">Chuyên khoa 2</option>
-                                    <option value="3">Chuyên khoa 3</option>
+                                    @*<select id="specialization" class="form-select" required aria-label="Select specialization">
+                                    <option value="">Select specialization</option>
+                                    <option value="1">Specialization 1</option>
+                                    <option value="2">Specialization 2</option>
+                                    <option value="3">Specialization 3</option>
                                     </select>*@
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="doctor" class="form-label medium text-white">Doctor</label>
                                     <input type="text" class="form-control" placeholder="@booking.Name" readonly="False">
 
-                                    @*<select id="doctor" class="form-select" required aria-label="Chọn bác sĩ">
-                                    <option value="">Chọn bác sĩ</option>
-                                    <option value="1">Bác sĩ 1</option>
-                                    <option value="2">Bác sĩ 2</option>
-                                    <option value="3">Bác sĩ 3</option>
+                                    @*<select id="doctor" class="form-select" required aria-label="Select Doctor">
+                                    <option value="">Select Doctor</option>
+                                    <option value="1">Doctor 1</option>
+                                    <option value="2">Doctor 2</option>
+                                    <option value="3">Doctor 3</option>
                                     </select>*@
                                 </div>
                             </div>
@@ -103,14 +103,14 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label medium text-white">Nhập tình trạng sức khỏe <small class="text-danger">*</small></label>
-                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi cho bác sĩ và các vấn đề sức khỏe cần khám." required></textarea>
+                                <label class="form-label medium text-white">Enter health status<small class="text-danger">*</small></label>
+                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.." required></textarea>
                             </div>
                             <div class="row" id="multiselect">
                                 <div class="mb-3 col-6">
                                     <div class="modal-box">
                                         <div class="sd-multiSelect form-group">
-                                            <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
+                                            <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
                                             @if (booking.ProductListViewModels == null)
                                             {
                                                 <p><em>Loading....</em></p>
@@ -121,18 +121,18 @@
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
                                                                         TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
-                                                                        Placeholder="Chọn dịch vụ"
+                                                                        Placeholder="Select Service"
                                                                         Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
                                             }
                                         </div>
                                     </div>
                                 </div>
                                 <div class="mb-3 col-6">
-                                    <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
+                                    <label for="payment" class="form-label medium text-white">Payment Method<small class="text-danger">*</small></label>
                                     <InputSelect @bind-Value="createBooking.PaymentMode" class="form-select">
-                                        <option value="">Chọn phương thức thanh toán</option>
+                                        <option value="">Select Payment Method</option>
                                         <option value="1">QR Pay</option>
-                                        <option value="2">Ngân hàng</option>
+                                        <option value="2">Banking</option>
                                         <option value="3">Momo</option>
                                     </InputSelect>
                                 </div>
@@ -143,12 +143,12 @@
                                 <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
                             </div>
                             <div class="mb-3">
-                                <label for="price" class="form-label medium text-white">Tổng cộng</label>
+                                <label for="price" class="form-label medium text-white">Total</label>
                                 <input type="text" class="form-control" placeholder="@booking.OrderTotal" readonly="False">
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
-                                    <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Đặt lịch khám</button>
+                                    <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Submit</button>
                                 </div>
                             </div>
                         </div>
