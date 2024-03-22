@@ -45,7 +45,13 @@
             max-width: 500px;
         }
 
-        /* Custom Multi Select */
+        select:invalid {
+            color: gray;
+        }
+
+        option {
+            color: black;
+        }
 
     </style>
     <main>
@@ -94,7 +100,7 @@
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
                                     <InputSelect @bind-Value="TimeOnly" id="time" class="form-select">
-                                        <option value="">-------------------</option>
+                                        <option value="" disabled selected hidden>Choose time</option>
                                         @foreach (var timeSlot in timeSlots)
                                         {
                                             <option value="@timeSlot">@timeSlot.ToString()</option>
@@ -130,7 +136,7 @@
                                 <div class="mb-3 col-6">
                                     <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
                                     <InputSelect @bind-Value="createBooking.PaymentMode" class="form-select">
-                                        <option value="">Chọn phương thức thanh toán</option>
+                                        <option value="" disabled selected hidden>Chọn phương thức thanh toán</option>
                                         <option value="1">QR Pay</option>
                                         <option value="2">Ngân hàng</option>
                                         <option value="3">Momo</option>

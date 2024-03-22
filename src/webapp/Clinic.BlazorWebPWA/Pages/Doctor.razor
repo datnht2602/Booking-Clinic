@@ -65,7 +65,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" aria-describedby="searchButton">
                             <button class="btn btn-outline-secondary" type="button" id="searchButton">
-                                <i class="bi bi-search"></i> <!-- Bootstrap icon for search -->
+                                <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <div class="col-md-6 col-lg-4">
                         <div class="card mb-5">
                             <div class="bg-white shadow-lg border">
-                                <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="..."></div>
+                                <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="doctor-image"></div>
                                 <div class="card-body align-items-center">
                                     <div class="text-center mb-2">
                                         <h5 class="fw-bold card-title">@doctor.Name </h5>
@@ -96,13 +96,13 @@
                                         <div class="stars gap-sm-2 fs-5">
                                         @for (int i = 0; i < doctor.AverageRating; i++)
                                         {
-                                            <i class="bi bi-star-fill" style="color: rgb(255, 210, 48);"></i>
+                                            <i class="fa-solid fa-star" style="color: rgb(255, 210, 48);"></i>
                                         }
                                         </div>
                                         <p class="fw-bold my-auto fs-6">@doctor.AverageRating </p>
                                     </div>
                                     <div class="d-flex justify-content-between card-body">
-                                        <div><a href="#" class="text-primary fs-4 card-link"><i class="bi bi-chat-dots-fill"></i></a></div>
+                                            <div><a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a></div>
                                         <a href="/" class="btn btn-navy card-link">Detail</a>
                                         <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Booking Appointment</a>
                                     </div>
@@ -139,7 +139,7 @@
 
 <script>
     document.querySelectorAll(".stars").forEach((starsContainer) => {
-        const stars = starsContainer.querySelectorAll(".bi-star-fill");
+        const stars = starsContainer.querySelectorAll(".fa-solid .fa-star");
 
         stars.forEach((star, index1) => {
             star.addEventListener("click", () => {
