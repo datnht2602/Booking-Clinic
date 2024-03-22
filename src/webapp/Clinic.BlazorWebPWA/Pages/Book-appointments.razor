@@ -100,7 +100,7 @@
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
                                     <InputSelect @bind-Value="TimeOnly" id="time" class="form-select">
-                                        <option value="" disabled selected hidden>Choose time</option>
+                                        <option value="" disabled selected>Choose time</option>
                                         @foreach (var timeSlot in timeSlots)
                                         {
                                             <option value="@timeSlot">@timeSlot.ToString()</option>
@@ -113,7 +113,7 @@
                                 <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi cho bác sĩ và các vấn đề sức khỏe cần khám." required></textarea>
                             </div>
                             <div class="row" id="multiselect">
-                                <div class="mb-3 col-6">
+                                <div class="mb-3 col-12">
                                     <div class="modal-box">
                                         <div class="sd-multiSelect form-group">
                                             <label for="current-job-role" class="form-label medium text-white">Chọn dịch vụ <small class="text-danger">*</small></label>
@@ -132,15 +132,6 @@
                                             }
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mb-3 col-6">
-                                    <label for="payment" class="form-label medium text-white">Phương thức thanh toán <small class="text-danger">*</small></label>
-                                    <InputSelect @bind-Value="createBooking.PaymentMode" class="form-select">
-                                        <option value="" disabled selected hidden>Chọn phương thức thanh toán</option>
-                                        <option value="1">QR Pay</option>
-                                        <option value="2">Ngân hàng</option>
-                                        <option value="3">Momo</option>
-                                    </InputSelect>
                                 </div>
                             </div>
                             <div class="mb-3">
