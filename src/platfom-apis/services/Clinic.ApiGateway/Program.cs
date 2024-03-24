@@ -12,6 +12,7 @@ using Clinic.Common.Middlewares;
 using Clinic.ApiGateway;
 using Clinic.ApiGateway.EndpointService;
 using Clinic.DTO.Models.Dto;
+using Clinic.Message;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
@@ -25,12 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
-builder.Services.AddHttpClient<IClinicService, ClinicService>()
-    .SetHandlerLifetime(TimeSpan.FromMinutes(5))
-    .AddPolicyHandler(RetryPolicy()) // Retry policy
-    .AddPolicyHandler(CircuitBreakerPolicy());
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddSingleton<IEntitySerializer, EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
 builder.Services.AddDistributedMemoryCache();
@@ -104,25 +100,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("AllowAll");
-
 await app.UseOcelot();
 
 app.Run();
 
-
-static IAsyncPolicy<HttpResponseMessage> CircuitBreakerPolicy()
-{
-    return HttpPolicyExtensions.HandleTransientHttpError()
-        .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
-}
-static IAsyncPolicy<HttpResponseMessage> RetryPolicy()
-{
-    Random random = new();
-    var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
-        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
-        .WaitAndRetryAsync(
-        5, retry => TimeSpan.FromSeconds(Math.Pow(2, retry))
-        + TimeSpan.FromMicroseconds(random.Next(0, 100)));
-    return retryPolicy;
-}
 

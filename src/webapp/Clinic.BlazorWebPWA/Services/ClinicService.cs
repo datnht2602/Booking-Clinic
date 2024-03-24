@@ -2,10 +2,9 @@ using Clinic.BlazorWebPWA.Services.IService;
 using Clinic.Common.Options;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
-using Microsoft.AspNetCore.Http;
+using Clinic.Message;
 using Microsoft.Extensions.Options;
 using Net.payOS;
-using Net.payOS.Types;
 
 namespace Clinic.BlazorWebPWA.Services;
 
@@ -14,11 +13,13 @@ public class ClinicService :  BaseService,IClinicService
     private readonly IOptions<ApplicationSettings> applicationSettings;
     private readonly HttpClient client;
     private readonly PayOS _payOS;
+
     public ClinicService(IHttpClientFactory httpClient,IOptions<ApplicationSettings> applicationSettings,PayOS payOS) : base(httpClient)
     {
         this.applicationSettings = applicationSettings;
         this.client = httpClient.CreateClient("ApiGateway");
         _payOS = payOS;
+
     }
 
 
@@ -106,4 +107,5 @@ public class ClinicService :  BaseService,IClinicService
             AccessToken = accessToken
         });
     }
+    
 }

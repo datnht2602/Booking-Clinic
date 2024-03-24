@@ -1,4 +1,8 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Clinic.Identity;
+using Clinic.Identity.Data;
+using Clinic.Identity.Models;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Services;
@@ -6,6 +10,7 @@ using Duende.IdentityServer.Test;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -15,20 +20,29 @@ namespace webapp.Pages.ExternalLogin;
 [SecurityHeaders]
 public class Callback : PageModel
 {
-    private readonly TestUserStore _users;
+
     private readonly IIdentityServerInteractionService _interaction;
     private readonly ILogger<Callback> _logger;
     private readonly IEventService _events;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ApplicationDbContext _db;
 
     public Callback(
         IIdentityServerInteractionService interaction,
         IEventService events,
         ILogger<Callback> logger,
-        TestUserStore users = null)
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext db)
     {
         // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
-        _users = users ?? throw new Exception("Please call 'AddTestUsers(TestUsers.Users)' on the IIdentityServerBuilder in Startup or remove the TestUserStore from the AccountController.");
-
+        _db = db;
+        _roleManager = roleManager;
+        _userManager = userManager;
+        _signInManager = signInManager;
         _interaction = interaction;
         _logger = logger;
         _events = events;
@@ -63,17 +77,12 @@ public class Callback : PageModel
         var providerUserId = userIdClaim.Value;
 
         // find external user
-        var user = _users.FindByExternalProvider(provider, providerUserId);
+        var user = await _userManager.FindByIdAsync(providerUserId);
         if (user == null)
         {
-            // this might be where you might initiate a custom workflow for user registration
-            // in this sample we don't show how that would be done, as our sample implementation
-            // simply auto-provisions new external user
-            //
-            // remove the user id claim so we don't include it as an extra claim if/when we provision the user
             var claims = externalUser.Claims.ToList();
             claims.Remove(userIdClaim);
-            user = _users.AutoProvisionUser(provider, providerUserId, claims.ToList());
+            user = AutoProvisionUser(provider, providerUserId, externalUser.Claims.ToList());
         }
 
         // this allows us to collect any additional claims or properties
@@ -84,9 +93,9 @@ public class Callback : PageModel
         CaptureExternalLoginContext(result, additionalLocalClaims, localSignInProps);
             
         // issue authentication cookie for user
-        var isuser = new IdentityServerUser(user.SubjectId)
+        var isuser = new IdentityServerUser(user.Id)
         {
-            DisplayName = user.Username,
+            DisplayName = user.Name,
             IdentityProvider = provider,
             AdditionalClaims = additionalLocalClaims
         };
@@ -101,7 +110,7 @@ public class Callback : PageModel
 
         // check if external login is in the context of an OIDC request
         var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-        await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.SubjectId, user.Username, true, context?.Client.ClientId));
+        await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id, user.Name, true, context?.Client.ClientId));
 
         if (context != null)
         {
@@ -135,4 +144,76 @@ public class Callback : PageModel
             localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = idToken } });
         }
     }
+    public ApplicationUser AutoProvisionUser(string provider, string userId, List<Claim> claims)
+        {
+            // create a list of claims that we want to transfer into our store
+            var filtered = new List<Claim>();
+
+            foreach (var claim in claims)
+            {
+                // if the external system sends a display name - translate that to the standard OIDC name claim
+                if (claim.Type == ClaimTypes.Name)
+                {
+                    filtered.Add(new Claim(JwtClaimTypes.Name, claim.Value));
+                }
+                // if the JWT handler has an outbound mapping to an OIDC claim use that
+                else if (JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.ContainsKey(claim.Type))
+                {
+                    filtered.Add(new Claim(JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap[claim.Type], claim.Value));
+                }
+                // copy the claim as-is
+                else
+                {
+                    filtered.Add(claim);
+                }
+            }
+
+            // if no display name was provided, try to construct by first and/or last name
+            if (!filtered.Any(x => x.Type == JwtClaimTypes.Name))
+            {
+                var first = filtered.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value;
+                var last = filtered.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value;
+                if (first != null && last != null)
+                {
+                    filtered.Add(new Claim(JwtClaimTypes.Name, first + " " + last));
+                }
+                else if (first != null)
+                {
+                    filtered.Add(new Claim(JwtClaimTypes.Name, first));
+                }
+                else if (last != null)
+                {
+                    filtered.Add(new Claim(JwtClaimTypes.Name, last));
+                }
+            }
+
+            // create a new unique subject id
+            var sub = CryptoRandom.CreateUniqueId(format: CryptoRandom.OutputFormat.Hex);
+
+            // check if a display name is available, otherwise fallback to subject id
+            var name = filtered.FirstOrDefault(c => c.Type == JwtClaimTypes.Name)?.Value ?? sub;
+            var email = filtered.FirstOrDefault(c => c.Type == JwtClaimTypes.Email).Value ?? string.Empty;
+            // create new user
+            var user = new ApplicationUser()
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = true,
+                PhoneNumber = "",
+                Name = name,
+                Id = userId,
+            };
+            
+            _userManager.CreateAsync(user).GetAwaiter().GetResult();
+            _userManager.AddToRoleAsync(user, SD.PATIENT).GetAwaiter().GetResult();
+
+            var temp1 = _userManager.AddClaimsAsync(user, new Claim[]
+            {
+                new Claim(JwtClaimTypes.Name, user.Name),
+                new Claim(JwtClaimTypes.Role, SD.PATIENT),
+                new Claim("dob", user.DateOfBirth.ToString())
+            }).Result;
+
+            return user;
+        }
 }

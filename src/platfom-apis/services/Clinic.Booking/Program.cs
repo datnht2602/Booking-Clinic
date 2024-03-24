@@ -2,12 +2,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using Clinic.Booking;
 using Clinic.Booking.Contracts;
+using Clinic.Booking.Message;
 using Clinic.Booking.Services;
 using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
 using Clinic.DTO.Models.Dto;
+using Clinic.Invoice.Extension;
 using Clinic.Message;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
@@ -24,11 +26,12 @@ builder.Services.AddHttpClient<IBookingService, BookingService>()
     .SetHandlerLifetime(TimeSpan.FromMinutes(5))
     .AddPolicyHandler(RetryPolicy()) // Retry policy
     .AddPolicyHandler(CircuitBreakerPolicy());
-builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddSingleton<IBookingService, BookingService>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
 builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
+builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 if (builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
     builder.Services.AddStackExchangeRedisCache(options =>{
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
@@ -80,6 +83,7 @@ app.MapGet("/bookingsucess/{id}", async (string id, [FromServices] IBookingServi
     return await bookingService.BookingSucess(id).ConfigureAwait(false) is ResponseDto booking ? Results.Ok(booking) : Results.NotFound();
 })
 .WithOpenApi();
+app.UseAzureServiceBusConsumer();
 app.Run();
 
 static IAsyncPolicy<HttpResponseMessage> CircuitBreakerPolicy()

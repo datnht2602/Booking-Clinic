@@ -4,6 +4,7 @@ using Clinic.BlazorWebPWA;
 using Clinic.BlazorWebPWA.Services;
 using Clinic.BlazorWebPWA.Services.IService;
 using Clinic.Common.Options;
+using Clinic.Message;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
@@ -30,6 +31,7 @@ builder.Services.AddHttpClient(name: "ApiGateway",
             new MediaTypeWithQualityHeaderValue(
                 mediaType: "application/json", quality: 1.0));
     });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["API_Prefix"] ?? builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddOidcAuthentication(options =>
 {

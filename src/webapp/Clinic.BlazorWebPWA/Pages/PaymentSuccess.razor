@@ -1,9 +1,10 @@
-﻿@page "/payment/success"
-@using Clinic.BlazorWebPWA.Services
+﻿@page "/payment/success/{bookingId}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Clinic.Message
+@using System.Text
 @inject NavigationManager nav
 @inject IClinicService clinicService
-
+@inject IHttpClientFactory ClientFactory
 <PageTitle>Payment Success</PageTitle>
 
 <head>
@@ -12,59 +13,32 @@
 </head>
 
 <body>
-    <div class="card">
-        @if(Notification is true)
-        {
-            <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="height: 200px; width: 200px; margin: auto; margin-bottom: 30px;">
-                <i1 class="checkmark justify-content-center align-items-center">✓</i1>
-            </div>
-            <h1>Payment successful</h1>
-            <p>We received your purchase request!<br /></p>
-            <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
-            <button type="button" @onclick='() => nav.NavigateTo($"/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">See Invoice</button>
-        }
-        else
-        {
-            <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="height: 200px; width: 200px; margin: auto; margin-bottom: 30px;">
-                <i2 class="crossmark justify-content-center align-items-center">✖</i2>
-            </div>
-            <h2>Payment failed</h2>
-            <p>It's seems like something went wrong!<br />Your order is still in cart.</p>
-            <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
-            <button type="button" @onclick='() => nav.NavigateTo($"/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Try Again</button>
-        }
-    </div>
+<div class="card">
+
+        <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="height: 200px; width: 200px; margin: auto; margin-bottom: 30px;">
+            <i1 class="checkmark justify-content-center align-items-center">✓</i1>
+        </div>
+        <h1>Payment successful</h1>
+        <p>We received your purchase request!<br/></p>
+        <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
+        <button type="button" @onclick='() => nav.NavigateTo($"/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">See Invoice</button>
+    
+</div>
 </body>
 @code{
     [Parameter] public string bookingId { get; set; }
-    [Inject] IAccessTokenProvider TokenProvider { get; set; }
-    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
-    private string accessToken { get; set; }
-    public bool Notification { get; set; }
     protected async override Task OnInitializedAsync()
     {
+        BaseMessage message = new()
+        {
+            Id = bookingId,
+            MessageCreated = DateTime.Now
+        };
         base.OnInitialized();
+        var httpClient = ClientFactory.CreateClient();
+        HttpRequestMessage requestMessage = new(HttpMethod.Post, "http://localhost:7071/api/MessageReceiver");
+        requestMessage.Content = new StringContent(JsonConvert.SerializeObject(message), Encoding.UTF8, "application/json");
 
-        var authState = await authenticationStateTask;
-        var user = authState.User;
-        if (!user.Identity.IsAuthenticated)
-        {
-            nav.NavigateTo("authentication/login");
-        }
-
-        var accessTokenResult = await TokenProvider.RequestAccessToken();
-        accessToken = string.Empty;
-
-        if (accessTokenResult.TryGetToken(out var token))
-        {
-            accessToken = token.Value;
-        }
-
-        var response = await clinicService.ChangeBookingStatus<ResponseDto>(bookingId, accessToken);
-        if (response != null && response.IsSuccess)
-        {
-            Notification = (bool)response.Result;
-            StateHasChanged();
-        }
+        await httpClient.SendAsync(requestMessage);
     }
 }

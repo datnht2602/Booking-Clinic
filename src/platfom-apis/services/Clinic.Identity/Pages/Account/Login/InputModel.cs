@@ -9,9 +9,12 @@ namespace webapp.Pages.Login;
 public class InputModel
 {
     [Required]
-    public string Username { get; set; }
-        
+    [EmailAddress]
+    public string Email { get; set; }
+
     [Required]
+    [StringLength(100, ErrorMessage = "{0} dài từ {2} đến {1} ký tự.", MinimumLength = 3)]
+    [DataType(DataType.Password)]
     public string Password { get; set; }
         
     public bool RememberLogin { get; set; }

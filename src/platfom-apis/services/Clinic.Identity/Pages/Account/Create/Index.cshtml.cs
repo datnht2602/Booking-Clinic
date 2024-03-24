@@ -1,11 +1,17 @@
+using System.Security.Claims;
+using Clinic.Identity;
+using Clinic.Identity.Data;
+using Clinic.Identity.Models;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
 using Duende.IdentityServer.Test;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -15,7 +21,10 @@ namespace webapp.Pages.Create;
 [AllowAnonymous]
 public class Index : PageModel
 {
-    private readonly TestUserStore _users;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ApplicationDbContext _db;
     private readonly IIdentityServerInteractionService _interaction;
 
     [BindProperty]
@@ -23,11 +32,15 @@ public class Index : PageModel
         
     public Index(
         IIdentityServerInteractionService interaction,
-        TestUserStore users = null)
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
+        RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext db)
     {
-        // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
-        _users = users ?? throw new Exception("Please call 'AddTestUsers(TestUsers.Users)' on the IIdentityServerBuilder in Startup or remove the TestUserStore from the AccountController.");
-            
+        _db = db;
+        _roleManager = roleManager;
+        _userManager = userManager;
+        _signInManager = signInManager;
         _interaction = interaction;
     }
 
@@ -69,19 +82,34 @@ public class Index : PageModel
             }
         }
 
-        if (_users.FindByUsername(Input.Username) != null)
+        if ( await _userManager.FindByEmailAsync(Input.Email) != null)
         {
-            ModelState.AddModelError("Input.Username", "Invalid username");
+            ModelState.AddModelError("Input.Email", "Email existed");
         }
 
         if (ModelState.IsValid)
         {
-            var user = _users.CreateUser(Input.Username, Input.Password, Input.Name, Input.Email);
-
-            // issue authentication cookie with subject ID and username
-            var isuser = new IdentityServerUser(user.SubjectId)
+            var createUser = new ApplicationUser()
             {
-                DisplayName = user.Username
+                UserName = Input.Email,
+                Email = Input.Email,
+                EmailConfirmed = true,
+                PhoneNumber = Input.Phone,
+                Name = Input.Name,
+            };
+            await _userManager.CreateAsync(createUser, Input.Password);
+             await _userManager.AddToRoleAsync(createUser, SD.PATIENT);
+
+            var temp1 = _userManager.AddClaimsAsync(createUser, new Claim[]
+            {
+                new Claim(JwtClaimTypes.Name, createUser.Name),
+                new Claim(JwtClaimTypes.Role, SD.PATIENT),
+                new Claim("dob", createUser.DateOfBirth.ToString())
+            }).Result;
+            // issue authentication cookie with subject ID and username
+            var isuser = new IdentityServerUser(createUser.Id)
+            {
+                DisplayName = createUser.Name
             };
 
             await HttpContext.SignInAsync(isuser);

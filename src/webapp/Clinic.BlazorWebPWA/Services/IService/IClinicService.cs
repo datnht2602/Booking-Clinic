@@ -19,4 +19,5 @@ public interface IClinicService : IBaseService
     Task<T> GetCoupon<T>(string coupon, string accessToken);
     Task<T> ChangeBookingStatus<T>(string bookingId, string accessToken);
     Task<T> GetInvoice<T>(string bookingId, string accessToken);
+
 }

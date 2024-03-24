@@ -2,51 +2,53 @@
 @model webapp.Pages.Login.Index
 
 <div class="container vh-100">
-    <partial name="_ValidationSummary" />
+    <partial name="_ValidationSummary"/>
 
     <div class="row d-flex h-75 align-content-center">
 
         @if (Model.View.EnableLocalLogin)
         {
-                <div class="col-lg-7 pt-5">
-                    <h1 class="fw-bold">LOGIN</h1>
-                    <h3>Welcome to 4Health Clinic!</h3>
-                    <h5>Please sign-in tp your account and start to booking!</h5>
-                </div>
-                <div class="card col-lg-5 shadow-lg">
-                    <div class="card-body">
-                            <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">Local Account</h2>
-                        <form asp-page="/Account/Login/Index">
-                            <input type="hidden" asp-for="Input.ReturnUrl" />
+            <div class="col-lg-7 pt-5">
+                <h1 class="fw-bold">LOGIN</h1>
+                <h3>Welcome to 4Health Clinic!</h3>
+                <h5>Please sign-in tp your account and start to booking!</h5>
+            </div>
+            <div class="card col-lg-5 shadow-lg">
+                <div class="card-body">
+                    <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">Local Account</h2>
+                    <form asp-page="/Account/Login/Index">
+                        <input type="hidden" asp-for="Input.ReturnUrl"/>
 
+                        <div class="form-group">
+                            <label class="fs-5" asp-for="Input.Username"></label>
+                            <input class="form-control" placeholder="Username" asp-for="Input.Username" autofocus>
+                        </div>
+                        <div class="form-group py-3">
+                            <label class="fs-5" asp-for="Input.Password"></label>
+                            <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
+                        </div>
+
+                        @if (Model.View.AllowRememberLogin)
+                        {
                             <div class="form-group">
-                                <label class="fs-5" asp-for="Input.Username"></label>
-                                <input class="form-control" placeholder="Username" asp-for="Input.Username" autofocus>
-                            </div>
-                            <div class="form-group py-3">
-                                <label class="fs-5" asp-for="Input.Password"></label>
-                                <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
-                            </div>
-
-                            @if (Model.View.AllowRememberLogin)
-                            {
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" asp-for="Input.RememberLogin">
-                                        <label class="form-check-label" asp-for="Input.RememberLogin">
-                                            Remember My Login
-                                        </label>
-                                    </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" asp-for="Input.RememberLogin">
+                                    <label class="form-check-label" asp-for="Input.RememberLogin">
+                                        Remember My Login
+                                    </label>
                                 </div>
-                            }
-                            <div class="btn-group d-flex justify-content-center pt-3">
-                                <button class="btn btn-primary mx-4" name="Input.Button" value="login">Login</button>
-                                <button class="btn btn-primary mx-4" name="Input.Button" value="cancel">Cancel</button>
                             </div>
-                        </form>
-                    </div>
+                        }
+                        <div class="btn-group d-flex justify-content-center pt-3">
+                            <button class="btn btn-primary mx-4" name="Input.Button" value="login">Login</button>
+                            <button class="btn btn-primary mx-4" name="Input.Button" value="cancel">Cancel</button>
+                        </div>
+                    </form>
                 </div>
-
+                <div class="card-footer">
+                    <a class="btn btn-secondary" asp-page="/Account/Create/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">New User? Register</a>
+                </div>
+            </div>
         }
 
         @if (Model.View.VisibleExternalProviders.Any())

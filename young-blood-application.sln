@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Email", "src\platfom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{0DD1582B-4DE7-4801-8CA2-CE4D5913256D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.EmailFunction", "src\platfom-apis\azurefunctions\Clinic.EmailFunction\Clinic.EmailFunction.csproj", "{11835500-6421-413F-A7F5-30383C4152B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.OrderMessage", "src\platfom-apis\azurefunctions\Clinic.OrderMessage\Clinic.OrderMessage.csproj", "{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,10 +125,10 @@ Global
 		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96BFF9C8-E533-4549-BC1F-960D3D460A1F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{11835500-6421-413F-A7F5-30383C4152B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{11835500-6421-413F-A7F5-30383C4152B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{11835500-6421-413F-A7F5-30383C4152B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{11835500-6421-413F-A7F5-30383C4152B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,7 +151,7 @@ Global
 		{203599B7-8CCF-4A8C-B135-993255067091} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
 		{8A30FEC2-9739-428B-A5F5-DD3618360A58} = {E3460D52-B12E-40B4-96B7-843132420739}
 		{96BFF9C8-E533-4549-BC1F-960D3D460A1F} = {8E134DE3-6FF1-4C88-8CE4-9F99B55F2151}
-		{11835500-6421-413F-A7F5-30383C4152B8} = {0DD1582B-4DE7-4801-8CA2-CE4D5913256D}
+		{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24} = {0DD1582B-4DE7-4801-8CA2-CE4D5913256D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0D82853F-2960-44C3-81E2-DA4597DC4483}
