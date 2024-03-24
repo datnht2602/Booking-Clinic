@@ -31,6 +31,14 @@ builder.Services.AddHttpClient(name: "ApiGateway",
             new MediaTypeWithQualityHeaderValue(
                 mediaType: "application/json", quality: 1.0));
     });
+builder.Services.AddHttpClient(name: "OrderMessage",
+    configureClient: options =>
+    {
+        options.BaseAddress = new Uri(builder.Configuration["API_Prefix"] ?? builder.HostEnvironment.BaseAddress);
+        options.DefaultRequestHeaders.Accept.Add(
+            new MediaTypeWithQualityHeaderValue(
+                mediaType: "application/json", quality: 1.0));
+    });
 builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddOidcAuthentication(options =>
 {

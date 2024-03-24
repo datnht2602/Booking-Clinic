@@ -35,8 +35,8 @@
             MessageCreated = DateTime.Now
         };
         base.OnInitialized();
-        var httpClient = ClientFactory.CreateClient();
-        HttpRequestMessage requestMessage = new(HttpMethod.Post, "http://localhost:7071/api/MessageReceiver");
+        var httpClient = ClientFactory.CreateClient("OrderMessage");
+        HttpRequestMessage requestMessage = new(HttpMethod.Post, "/api/MessageReceiver");
         requestMessage.Content = new StringContent(JsonConvert.SerializeObject(message), Encoding.UTF8, "application/json");
 
         await httpClient.SendAsync(requestMessage);
