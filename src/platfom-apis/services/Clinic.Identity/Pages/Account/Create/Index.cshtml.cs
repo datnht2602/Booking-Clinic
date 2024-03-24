@@ -98,8 +98,8 @@ public class Index : PageModel
                 PhoneNumber = Input.Phone,
                 Name = Input.Name,
             };
-            await _userManager.CreateAsync(createUser, Input.Password);
-             await _userManager.AddToRoleAsync(createUser, SD.PATIENT);
+              _userManager.CreateAsync(createUser, Input.Password).GetAwaiter().GetResult();
+              _userManager.AddToRoleAsync(createUser, SD.PATIENT).GetAwaiter().GetResult();
 
             var temp1 = _userManager.AddClaimsAsync(createUser, new Claim[]
             {
@@ -108,7 +108,7 @@ public class Index : PageModel
                 new Claim("dob", createUser.DateOfBirth.ToString())
             }).Result;
             // issue authentication cookie with subject ID and username
-            var isuser = new IdentityServerUser(createUser.Id)
+            var isuser = new IdentityServerUser(createUser.Id )
             {
                 DisplayName = createUser.Name
             };
