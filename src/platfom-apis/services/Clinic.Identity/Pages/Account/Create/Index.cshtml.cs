@@ -46,6 +46,7 @@ public class Index : PageModel
 
     public IActionResult OnGet(string returnUrl)
     {
+        if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
         Input = new InputModel { ReturnUrl = returnUrl };
         return Page();
     }

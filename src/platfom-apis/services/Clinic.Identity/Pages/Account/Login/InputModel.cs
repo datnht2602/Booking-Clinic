@@ -10,7 +10,7 @@ public class InputModel
 {
     [Required]
     [EmailAddress]
-    public string Email { get; set; }
+    public string Username { get; set; }
 
     [Required]
     [StringLength(100, ErrorMessage = "{0} dài từ {2} đến {1} ký tự.", MinimumLength = 3)]
