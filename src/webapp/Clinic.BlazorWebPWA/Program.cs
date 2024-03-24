@@ -34,7 +34,7 @@ builder.Services.AddHttpClient(name: "ApiGateway",
 builder.Services.AddHttpClient(name: "OrderMessage",
     configureClient: options =>
     {
-        options.BaseAddress = new Uri(builder.Configuration["API_Prefix"] ?? builder.HostEnvironment.BaseAddress);
+        options.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
         options.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue(
                 mediaType: "application/json", quality: 1.0));
