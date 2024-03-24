@@ -1,6 +1,4 @@
 using System.Text;
-using Clinic.ApiGateway.Contracts;
-using Clinic.ApiGateway.Services;
 using Clinic.Common.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +8,6 @@ using Clinic.Caching.Interfaces;
 using Clinic.Caching;
 using Clinic.Common.Middlewares;
 using Clinic.ApiGateway;
-using Clinic.ApiGateway.EndpointService;
 using Clinic.DTO.Models.Dto;
 using Clinic.Message;
 using Microsoft.AspNetCore.Authorization;
