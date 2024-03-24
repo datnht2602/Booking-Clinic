@@ -114,21 +114,24 @@
                             </div>
                             <div class="row" id="multiselect">
                                 <div class="mb-3 col-12">
-                                    <div class="modal-box">
+                                    <div class="">
                                         <div class="sd-multiSelect form-group">
                                             <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
                                             @if (booking.ProductListViewModels == null)
                                             {
-                                                <p><em>Loading....</em></p>
+                                                <p class="text-white"><em>Loading....</em></p>
                                             }
                                             else
                                             {
-                                                <RadzenDropDownDataGrid FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                <RadzenDropDownDataGrid class="form-select"
+                                                                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px"
-                                                                        Placeholder="Select Service"    
-                                                                        Change="@(args => Change(args,"DropDown"))"></RadzenDropDownDataGrid>
+                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px, width: 100%"
+                                                                        Placeholder="Select Service" MaxSelectedLabels="4" 
+                                                                        SelectAllText="Select all items" SelectedItemsText="are now selected"
+                                                                        Change="@(args => Change(args,"DropDown"))">
+                                                </RadzenDropDownDataGrid>
                                             }
                                         </div>
                                     </div>
