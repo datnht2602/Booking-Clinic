@@ -123,15 +123,32 @@
                                             }
                                             else
                                             {
-                                                <RadzenDropDownDataGrid class="form-select"
+                                                <RadzenDropDownDataGrid class="form-select" @ref="ServiceGrids"
                                                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
                                                                         TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px, width: 100%"
-                                                                        Placeholder="Select Service" MaxSelectedLabels="4" 
+                                                                        Placeholder="Select Service" MaxSelectedLabels="4"
                                                                         SelectAllText="Select all items" SelectedItemsText="are now selected"
                                                                         Change="@(args => Change(args,"DropDown"))">
+                                                    @* <Columns>
+                                                        <RadzenDropDownDataGridColumn Sortable="false">
+                                                            <HeaderTemplate>
+                                                                <RadzenCheckBox TValue="bool" TriState="false" Value="@(booking.ProductListViewModels != null && multipleValues != null && multipleValues.Count() == booking.ProductListViewModels.Count())"
+                                                                                Change="@((bool args) => SelectAllServices(args))" />
+                                                            </HeaderTemplate>
+                                                            <Template Context="data">
+                                                                <RadzenCheckBox TriState="false" TValue="bool"
+                                                                                Value="@(multipleValues != null && multipleValues.Contains(((ProductListViewModel)data).Id))"
+                                                                                Change="@((bool args) => ToggleServiceSelection(args, ((ProductListViewModel)data).Id))" />
+                                                            </Template>
+                                                        </RadzenDropDownDataGridColumn>
+
+                                                        <RadzenDropDownDataGridColumn Property="Name" Title="Service Name" Width="200px" />
+                                                        <RadzenDropDownDataGridColumn Property="Price" Title="Price" Width="100px" />
+                                                    </Columns> *@
                                                 </RadzenDropDownDataGrid>
+
                                             }
                                         </div>
                                     </div>
@@ -161,6 +178,7 @@
 </body>
 
 @code {
+    RadzenDropDownDataGrid<IEnumerable<string>> ServiceGrids;
     [Parameter] public string id { get; set; }
     private BookingDetailsViewModel createBooking = new();
     [Inject]
@@ -173,11 +191,15 @@
     private string coupon;
     string userId = string.Empty;
     IEnumerable<string> multipleValues;
+
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
+
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
+
+
         booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         StateHasChanged();
     }
