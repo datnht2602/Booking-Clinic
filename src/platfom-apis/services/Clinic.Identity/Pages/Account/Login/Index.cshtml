@@ -1,31 +1,30 @@
 @page
 @model webapp.Pages.Login.Index
 
-<div class="container vh-100">
+<div class="container vh-100 px-5 py-5 mt-lg-5">
     <partial name="_ValidationSummary"/>
 
     <div class="row d-flex h-75 align-content-center">
 
         @if (Model.View.EnableLocalLogin)
         {
-            <div class="col-lg-7 pt-5">
-                <h1 class="fw-bold">LOGIN</h1>
-                <h3>Welcome to 4Health Clinic!</h3>
-                <h5>Please sign-in tp your account and start to booking!</h5>
+            <div class="col-lg-7 px-5 py-5 pt-40 mt-3">
+                <h2 class="fw-bold">Welcome to 4Health Clinic!</h2>
+                <h3>Please sign-in to your account and start booking!</h3>
             </div>
-            <div class="card col-lg-5 shadow-lg">
+            <div class="card col-lg-5 px-5 py-3 pt-40 shadow-lg mt-3">
                 <div class="card-body">
-                    <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">Local Account</h2>
+                    <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">Login</h2>
                     <form asp-page="/Account/Login/Index">
                         <input type="hidden" asp-for="Input.ReturnUrl"/>
 
                         <div class="form-group">
-                            <label class="fs-5" asp-for="Input.Username"></label>
-                            <input class="form-control" placeholder="Username" asp-for="Input.Username" autofocus>
+                            <label class="fs-5 form-label small text-muted" asp-for="Input.Username">Username <small class="text-danger">*</small></label>
+                            <input class="form-control" placeholder="abc@gmail.com" asp-for="Input.Username" autofocus>
                         </div>
                         <div class="form-group py-3">
-                            <label class="fs-5" asp-for="Input.Password"></label>
-                            <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
+                            <label class="fs-5 form-label small text-muted" asp-for="Input.Password">Password <small class="text-danger">*</small></label>
+                            <input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off">
                         </div>
 
                         @if (Model.View.AllowRememberLogin)
@@ -40,49 +39,43 @@
                             </div>
                         }
                         <div class="btn-group d-flex justify-content-center pt-3">
-                            <button class="btn btn-primary mx-4" name="Input.Button" value="login">Login</button>
-                            <button class="btn btn-primary mx-4" name="Input.Button" value="cancel">Cancel</button>
+                            <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 w-50 border-0 px-3 py-3 mx-4 text-uppercase">Login</button>
+                            <button type="reset" class="btn btn-warning fw-bold fs-7 rounded-3 w-50 border-0 px-3 py-3 mx-4 text-uppercase">Cancel</button>
                         </div>
                     </form>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-secondary" asp-page="/Account/Create/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">New User? Register</a>
+                    <p class="text-muted small text-align-center px-2">OR</p>
+                    @if (Model.View.VisibleExternalProviders.Any())
+                    {
+                        <div class="card">
+                            <ul class="list-inline">
+                                @foreach (var provider in Model.View.VisibleExternalProviders)
+                                {
+                                    <li class="list-inline-item align-items-center">
+                                        <a class="btn btn-light btn-outline-warning align-items-center text-dark fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3"
+                                           asp-page="/ExternalLogin/Challenge"
+                                           asp-route-scheme="@provider.AuthenticationScheme"
+                                           asp-route-returnUrl="@Model.Input.ReturnUrl">
+                                           <img src="img/google-icon.png">  
+                                           Continue with @provider.DisplayName Account
+                                        </a>
+                                    </li>
+                                }
+                            </ul>  
+                        </div>
+                    }
+
+                    @if (!Model.View.EnableLocalLogin && !Model.View.VisibleExternalProviders.Any())
+                    {
+                        <div class="alert alert-warning">
+                            <strong>Invalid login request</strong>
+                            There are no login schemes configured for this request.
+                        </div>
+                    }
+                    <a class="btn align-items-center btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3" asp-page="/Account/Create/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">New User? Register</a>
                 </div>
             </div>
-        }
-
-        @if (Model.View.VisibleExternalProviders.Any())
-        {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>External Account</h2>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-inline">
-                            @foreach (var provider in Model.View.VisibleExternalProviders)
-                            {
-                                <li class="list-inline-item">
-                                    <a class="btn btn-secondary"
-                                       asp-page="/ExternalLogin/Challenge"
-                                       asp-route-scheme="@provider.AuthenticationScheme"
-                                       asp-route-returnUrl="@Model.Input.ReturnUrl">
-                                        @provider.DisplayName
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        }
-
-        @if (!Model.View.EnableLocalLogin && !Model.View.VisibleExternalProviders.Any())
-        {
-            <div class="alert alert-warning">
-                <strong>Invalid login request</strong>
-                There are no login schemes configured for this request.
-            </div>
-        }
+        }        
     </div>
 </div>
