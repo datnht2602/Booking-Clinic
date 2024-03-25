@@ -18,14 +18,14 @@ public static class MessageReceiver
 {
     [FunctionName("MessageReceiver")]
     public static async Task<IActionResult> RunAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req, ILogger log)
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequest req, ILogger log)
     {
         log.LogInformation("C# HTTP trigger function processed a request.");
         
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
         // Read the connection string from configurations
-        string connectionstring= Environment.GetEnvironmentVariable("asbconnectionstring");
+        string connectionstring= "Endpoint=sb://youngblood.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=zqAp8DvJzPVgHynD34FMI9a4clU3gcOMW+ASbHjnC+4=";
 
         // Initialize Service bus connection 
         await using ServiceBusClient serviceBusClient = new(connectionstring);
