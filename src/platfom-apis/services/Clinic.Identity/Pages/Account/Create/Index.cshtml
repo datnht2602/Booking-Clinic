@@ -1,50 +1,46 @@
 @page
 @model webapp.Pages.Create.Index
-<div class="bg-primary">
-    <div class="container px-5 py-5 signup">
-        <partial name="_ValidationSummary"/>
-        <div>
-            <div class="m-auto bg-white shadow-sm p-5 rounded-3 text-center col-lg-5 mx-auto">
-                <h3 class="fw-bold text-black mb-2">Sign Up</h3>
-                <form asp-page="/Account/Create/Index">
-                    <div class="row">
-                        <input type="hidden" asp-for="Input.ReturnUrl"/>
 
-                        <div class="mb-3">
-                            <label asp-for="Input.Email">
-                                <small class="text-danger">*</small>
-                            </label>
-                            <input class="form-control" placeholder="Email" asp-for="Input.Email" autofocus>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Input.Name">
-                                <small class="text-danger">*</small>
-                            </label>
-                            <input type="text" class="form-control" placeholder="Name" asp-for="Input.Name">
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Input.Phone">
-                                <small class="text-danger">*</small>
-                            </label>
-                            <input type="text" class="form-control" placeholder="Phone Number" asp-for="Input.Phone">
-                        </div>
-                        <div class="mb-3 input-group align-items-center">
-                            <label asp-for="Input.Password">
-                                <small class="text-danger">*</small>
-                            </label>
-                            <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
-                        </div>
-                        <div class="mb-3 input-group align-items-center">
-                            <label asp-for="Input.Password">
-                                <small class="text-danger">*</small>
-                            </label>
-                            <input type="password" class="form-control" placeholder="Password" asp-for="Input.ConfirmPassword" autocomplete="off">
-                        </div>
-                        <button class="btn btn-primary" name="Input.Button" value="create">Create</button>
-                        <button class="btn btn-secondary" name="Input.Button" value="cancel">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="container vh-100 pt-5">
+	<partial name="_ValidationSummary" />
+	<div class=" row d-flex h-75 align-content-center pt-5">
+		<div class="col-lg-7 align-content-center ">
+			<h1>Welcome to 4HEALTH CLINIC!</h1>
+			<h3>Create your new account for booking appointment!</h3>
+		</div>
+		<div class="card col-lg-5 shadow-lg">
+			<div class="card-body">
+				<h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">Register</h2>
+				<form class="p-3" asp-page="/Account/Create/Index">
+					<div class="row">
+						<input type="hidden" asp-for="Input.ReturnUrl" />
+						<div class="mb-3">
+							<label class="fs-5" asp-for="Input.Name">Name<small class="text-danger">*</small></label>
+							<input class="form-control" placeholder="Input Name" asp-for="Input.Name">
+						</div>
+						<div class="mb-3">
+							<label class="fs-5" asp-for="Input.Email">Email<small class="text-danger">*</small></label>
+							<input class="form-control" placeholder="name@example.com" asp-for="Input.Email" autofocus>
+						</div>
+						<div class="mb-3">
+							<label class="fs-5" asp-for="Input.Phone">Phone Number<small class="text-danger">*</small></label>
+							<input type="tel" class="form-control" placeholder="Input Phone Number" asp-for="Input.Phone">
+						</div>
+						<div class="mb-3">
+							<label class="fs-5" asp-for="Input.Password">Password<small class="text-danger">*</small></label>
+							<input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off">
+						</div>
+						<div class="mb-3">
+							<label class="fs-5" asp-for="Input.Password">Confirm Password<small class="text-danger">*</small></label>
+							<input type="password" class="form-control" placeholder="Input Confirm Password" asp-for="Input.ConfirmPassword" autocomplete="off">
+						</div>
+						<div class="btn-group d-flex justify-content-between py-3">
+							<button class="btn btn-primary mx-5" name="Input.Button" value="create">CREATE</button>
+							<button class="btn btn-primary mx-5" name="Input.Button" value="cancel">CANCEL</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

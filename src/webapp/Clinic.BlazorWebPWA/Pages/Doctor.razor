@@ -10,7 +10,7 @@
     <link href="css/doctor.css" rel="stylesheet" />
 </head>
 
-<body >
+<body style="background: none !important">
     <main class="flex-shrink-0">
         <div class="bg-primary">
             <header class="bg-primary py-4 inner-header">
@@ -83,7 +83,7 @@
                         <div class="card mb-5">
                             <div class="bg-white shadow-lg border">
                                 <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="doctor-image"></div>
-                                <div class="card-body align-items-center">
+                                    <div class="card-body align-items-center" style="height: 18em">
                                     <div class="text-center mb-2">
                                         <h5 class="fw-bold card-title">@doctor.Name </h5>
                                         <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
@@ -104,7 +104,7 @@
                                     <div class="d-flex justify-content-between card-body">
                                             <div><a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a></div>
                                         <a href="/" class="btn btn-navy card-link">Detail</a>
-                                        <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Booking Appointment</a>
+                                        <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Appointment</a>
                                     </div>
                                 </div>
                             </div>
