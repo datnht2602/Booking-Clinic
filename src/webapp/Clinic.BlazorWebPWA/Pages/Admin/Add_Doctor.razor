@@ -1,6 +1,11 @@
 ﻿@page "/add-doctor"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Text
 @* //sử dựng layout cho admin *@
 @layout AdminLayout
+@inject IClinicService clinicService
+@inject NavigationManager nav
+@inject IHttpClientFactory Client
 <PageTitle>Add Doctor</PageTitle>
 
 <link href="css/admin.css" rel="stylesheet" />
@@ -24,119 +29,95 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-heading">
-                                        <h4>Doctor Details</h4>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>Username <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>Password <span class="login-danger">*</span></label>
-                                        <input class="form-control"
-                                               type="password"
-                                               placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>
-                                            Confirm Password
-                                            <span class="login-danger">*</span>
-                                        </label>
-                                        <input class="form-control"
-                                               type="password"
-                                               placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms">
-                                        <label>Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-forms">
-                                        <label>Email <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email" placeholder="" />
-                                    </div>
-                                </div>
-
-
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>
-                                            Date Of Birth
-                                            <span class="login-danger">*</span>
-                                        </label>
-                                        <input class="form-control datetimepicker"
-                                               type="date"
-                                               placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>
-                                            Specialization <span class="login-danger">*</span>
-                                        </label>
-                                        <input class="form-control" type="text" placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>Achievement <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>WorkingExperience <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" />
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="input-block local-forms">
-                                        <label>ClinicNum <span class="login-danger">*</span></label>
-                                        <textarea class="form-control"
-                                                  rows="3"
-                                                  cols="30"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-top-form">
-                                        <label class="local-top">Avartar <span class="login-danger">*</span></label>
-                                        <div class="settings-btn upload-files-avator">
-                                            <input type="file"
-                                                   accept="image/*"
-                                                   name="image"
-                                                   id="file"
-                                                   onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)"
-                                                   class="hide-input" />
-                                            <label for="file" class="upload">Choose File</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="doctor-submit text-end">
-                                        <button type="submit"
-                                                class="btn btn-primary submit-form me-2">
-                                            Submit
-                                        </button>
-                                        <button type="submit" class="btn btn-primary cancel-form">
-                                            Cancel
-                                        </button>
-                                    </div>
+                        <EditForm Model="createDoctor" OnValidSubmit="HandleDoctorCreate">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Doctor Details</h4>
                                 </div>
                             </div>
-                        </form>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>Username <span class="login-danger">*</span></label>
+                                    <input @bind-value="@createDoctor.UserName" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>Password <span class="login-danger">*</span></label>
+                                    <input @bind-value="@createDoctor.Password" class="form-control"
+                                               
+                                           type="text"
+                                           placeholder="" />
+                                </div>
+                            </div>
+                         
+                            <div class="col-12 col-md-6 col-xl-6">
+                                <div class="input-block local-forms">
+                                    <label>Name <span class="login-danger">*</span></label>
+                                    <input @bind-value="@createDoctor.Name" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>
+                                        Date Of Birth
+                                        <span class="login-danger">*</span>
+                                    </label>
+                                    <input @bind-value="@createDoctor.DateOfBirth" class="form-control datetimepicker"
+                                           type="date"
+                                           placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>
+                                        Specialization <span class="login-danger">*</span>
+                                    </label>
+                                    <input @bind-value="@createDoctor.Specialization" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>Achievement <span class="login-danger">*</span></label>
+                                    <InputText @bind-Value="createDoctor.Title" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>WorkingExperience <span class="login-danger">*</span></label>
+                                    <InputNumber @bind-Value="createDoctor.ExperienceYear" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="input-block local-forms">
+                                    <label>ClinicNum <span class="login-danger">*</span></label>
+                                    <InputText @bind-Value="createDoctor.ClinicNum" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-xl-6">
+                                <div class="input-block local-top-form">
+                                    <label class="local-top">Avartar <span class="login-danger">*</span></label>
+                                      <InputText @bind-Value="createDoctor.ImageUrl" class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="doctor-submit text-end">
+                                    <button type="submit"
+                                            class="btn btn-primary submit-form me-2">
+                                        Submit
+                                    </button>
+                                    <button type="submit" class="btn btn-primary cancel-form">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                          </EditForm>
                     </div>
                 </div>
             </div>
@@ -367,5 +348,47 @@
     </div>
 </div>
 @code {
+    
+    [Inject]
+    IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    private DoctorDto createDoctor = new();
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
 
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+    }
+    private async Task HandleDoctorCreate()
+    {
+        
+        /*var test = createDoctor;
+        HttpClient client = Client.CreateClient();
+        HttpRequestMessage message = new HttpRequestMessage();
+        message.Method = HttpMethod.Post;
+        message.RequestUri = new Uri("https://localhost:7268/user/CreateOrUpdateDoctor");
+       message.Content = new StringContent(JsonConvert.SerializeObject(createDoctor),
+            Encoding.UTF8,"application/json");
+       var apiResponse = await client.SendAsync(message);
+       var apiContent = await apiResponse.Content.ReadAsStringAsync();*/
+       var response = await clinicService.CreateOrUpdateDoctor<ResponseDto>(createDoctor,accessToken);
+       if (response != null && response.IsSuccess)
+       {
+          nav.NavigateTo("/list-doctor");
+       }
+    }
 }

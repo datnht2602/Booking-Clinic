@@ -107,5 +107,23 @@ public class ClinicService :  BaseService,IClinicService
             AccessToken = accessToken
         });
     }
-    
+    public async Task<T> GetHealthPackages<T>(string filterCriteria = null)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"gethealthpackge/{filterCriteria}",
+        });
+    }
+
+    public async Task<T> CreateOrUpdateDoctor<T>(DoctorDto model, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = $"createdoctor",
+            //AccessToken = accessToken,
+            Data = model
+        });
+    }
 }

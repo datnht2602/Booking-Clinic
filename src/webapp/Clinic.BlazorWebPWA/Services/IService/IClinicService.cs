@@ -1,4 +1,5 @@
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 
 namespace Clinic.BlazorWebPWA.Services.IService;
 
@@ -19,5 +20,8 @@ public interface IClinicService : IBaseService
     Task<T> GetCoupon<T>(string coupon, string accessToken);
     Task<T> ChangeBookingStatus<T>(string bookingId, string accessToken);
     Task<T> GetInvoice<T>(string bookingId, string accessToken);
+
+    Task<T> GetHealthPackages<T>(string filterCriteria = null);
+    Task<T> CreateOrUpdateDoctor<T>(DoctorDto model,string accessToken);
 
 }

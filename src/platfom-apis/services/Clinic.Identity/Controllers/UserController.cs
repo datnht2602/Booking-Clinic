@@ -1,14 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Options;
 using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.Identity.Models;
+using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace Clinic.Identity.Controllers
 {
@@ -73,6 +76,42 @@ namespace Clinic.Identity.Controllers
             ResponseDto result = new();
             result.Result = model;
             return Ok(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateOrUpdateDoctor([FromBody] DoctorDto doctorDto)
+        {
+            if (doctorDto == null)
+            {
+                return BadRequest();
+            }
+
+            Detail detail = new()
+            {
+                ClinicNum = doctorDto.ClinicNum,
+                ExperienceYear = doctorDto.ExperienceYear,
+                Specialization = doctorDto.Specialization,
+                Title = doctorDto.Title
+            };
+            ApplicationUser customerUser = new()
+            {
+                UserName = doctorDto.UserName,
+                Email = doctorDto.UserName,
+                EmailConfirmed = true,
+                PhoneNumber = "1111111111",
+                Name = doctorDto.Name,
+                DateOfBirth = doctorDto.DateOfBirth.Ticks,
+                Detail = JsonConvert.SerializeObject(detail)
+            };
+
+            await _userManager.CreateAsync(customerUser, doctorDto.Password);
+            await _userManager.AddToRoleAsync(customerUser, SD.DOCTOR);
+
+            var temp2 = _userManager.AddClaimsAsync(customerUser, new Claim[]
+            {
+                new Claim(JwtClaimTypes.Name, customerUser.Name),
+                new Claim(JwtClaimTypes.Role, SD.PATIENT),
+            }).Result;
+            return Ok();
         }
     }
 }
