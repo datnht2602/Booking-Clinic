@@ -109,8 +109,8 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label medium text-white">Enter health status<small class="text-danger">*</small></label>
-                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.." required></textarea>
+                                <label class="form-label medium text-white">Your current health status<small class="text-danger">*</small></label>
+                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider  ." required></textarea>
                             </div>
                             <div class="row" id="multiselect">
                                 <div class="mb-3 col-12">
@@ -127,26 +127,26 @@
                                                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
+                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px, width: 100%"
                                                                         Placeholder="Select Service" MaxSelectedLabels="4"
                                                                         SelectAllText="Select all items" SelectedItemsText="are now selected"
                                                                         Change="@(args => Change(args,"DropDown"))">
                                                     @* <Columns>
-                                                        <RadzenDropDownDataGridColumn Sortable="false">
-                                                            <HeaderTemplate>
-                                                                <RadzenCheckBox TValue="bool" TriState="false" Value="@(booking.ProductListViewModels != null && multipleValues != null && multipleValues.Count() == booking.ProductListViewModels.Count())"
-                                                                                Change="@((bool args) => SelectAllServices(args))" />
-                                                            </HeaderTemplate>
-                                                            <Template Context="data">
-                                                                <RadzenCheckBox TriState="false" TValue="bool"
-                                                                                Value="@(multipleValues != null && multipleValues.Contains(((ProductListViewModel)data).Id))"
-                                                                                Change="@((bool args) => ToggleServiceSelection(args, ((ProductListViewModel)data).Id))" />
-                                                            </Template>
-                                                        </RadzenDropDownDataGridColumn>
+                                                <RadzenDropDownDataGridColumn Sortable="false">
+                                                <HeaderTemplate>
+                                                <RadzenCheckBox TValue="bool" TriState="false" Value="@(booking.ProductListViewModels != null && multipleValues != null && multipleValues.Count() == booking.ProductListViewModels.Count())"
+                                                Change="@((bool args) => SelectAllServices(args))" />
+                                                </HeaderTemplate>
+                                                <Template Context="data">
+                                                <RadzenCheckBox TriState="false" TValue="bool"
+                                                Value="@(multipleValues != null && multipleValues.Contains(((ProductListViewModel)data).Id))"
+                                                Change="@((bool args) => ToggleServiceSelection(args, ((ProductListViewModel)data).Id))" />
+                                                </Template>
+                                                </RadzenDropDownDataGridColumn>
 
-                                                        <RadzenDropDownDataGridColumn Property="Name" Title="Service Name" Width="200px" />
-                                                        <RadzenDropDownDataGridColumn Property="Price" Title="Price" Width="100px" />
-                                                    </Columns> *@
+                                                <RadzenDropDownDataGridColumn Property="Name" Title="Service Name" Width="200px" />
+                                                <RadzenDropDownDataGridColumn Property="Price" Title="Price" Width="100px" />
+                                                </Columns> *@
                                                 </RadzenDropDownDataGrid>
 
                                             }
@@ -155,9 +155,12 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
-                                <input type="text" @bind-value="@coupon" class="form-control" />
-                                <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
+                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger">*</small></label>
+                                <div class="input-group ">
+                                    <input type="text" @bind-value="@coupon" class="form-control" />
+                                    <button type="button" @onclick="HandleAddCoupon" class="btn btn-success"> Apply </button>
+                                </div>
+
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Total</label>
