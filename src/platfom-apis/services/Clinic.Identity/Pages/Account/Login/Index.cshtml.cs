@@ -1,3 +1,4 @@
+using Clinic.Common.Options;
 using Clinic.Identity.Data;
 using Clinic.Identity.Models;
 using Duende.IdentityServer;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace webapp.Pages.Login;
 
@@ -26,6 +28,7 @@ public class Index : PageModel
     private readonly IEventService _events;
     private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IIdentityProviderStore _identityProviderStore;
+    private readonly IOptions<ApplicationSettings> applicationSettings;
 
     public ViewModel View { get; set; }
         
@@ -40,7 +43,8 @@ public class Index : PageModel
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         RoleManager<IdentityRole> roleManager,
-        ApplicationDbContext db
+        ApplicationDbContext db,
+        IOptions<ApplicationSettings> applicationSettings
         )
     {
         // this is where you would plug in your own custom identity management library (e.g. ASP.NET Identity)
@@ -53,6 +57,7 @@ public class Index : PageModel
         _schemeProvider = schemeProvider;
         _identityProviderStore = identityProviderStore;
         _events = events;
+        this.applicationSettings = applicationSettings;
     }
 
     public async Task<IActionResult> OnGet(string returnUrl)
@@ -88,15 +93,15 @@ public class Index : PageModel
                 {
                     // The client is native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return this.LoadingPage(Input.ReturnUrl);
+                    return this.LoadingPage($"{this.applicationSettings.Value.IdentityApiEndpoint}");
                 }
 
-                return Redirect(Input.ReturnUrl);
+                return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}");
             }
             else
             {
                 // since we don't have a valid context, then we just go back to the home page
-                return Redirect("~/");
+                return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}");
             }
         }
 
