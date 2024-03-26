@@ -59,35 +59,58 @@
             <div class="container px-5 py-5 appointments">
                 <div>
                     <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOK APPOINTMENT</h2>
-                    @if(ErrorMessage != string.Empty)
-                    {
-                        <h3>@ErrorMessage</h3>
-                    }
                     <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                         <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
+                            @*<div class="mb-3">
+                            <label for="fullname" class="form-label medium text-white">Full name<small class="text-danger">*</small></label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required>
+                            </div>
+                            <div class="mb-3">
+                            <label for="phoneNumbers" class="form-label medium text-white">Phone number<small class="text-danger">*</small></label>
+                            <input type="tel" id="phoneNumbers" class="form-control" placeholder="Input phone number" required pattern="0[0-9]{9}" title="Please enter a valid phone number." oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
+                            </div>*@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="major" class="form-label medium text-white">Specialization</label>
                                     <input type="text" class="form-control" placeholder="@booking.Specialization.ConvertSpecEnum()" readonly="False">
+                                    @*<select id="specialization" class="form-select" required aria-label="Select specialization">
+                                    <option value="">Select specialization</option>
+                                    <option value="1">Specialization 1</option>
+                                    <option value="2">Specialization 2</option>
+                                    <option value="3">Specialization 3</option>
+                                    </select>*@
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="doctor" class="form-label medium text-white">Doctor</label>
                                     <input type="text" class="form-control" placeholder="@booking.Name" readonly="False">
+
+                                    @*<select id="doctor" class="form-select" required aria-label="Select Doctor">
+                                    <option value="">Select Doctor</option>
+                                    <option value="1">Doctor 1</option>
+                                    <option value="2">Doctor 2</option>
+                                    <option value="3">Doctor 3</option>
+                                    </select>*@
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
-                                    <RadzenDatePicker @bind-Value=@DateOnly DateFormat="MM/dd/yyyy" Change="@(args => SelectDate(args))" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                                    <input @bind-value="DateOnly" type="date" class="form-control" placeholder="" required />
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
-                                    <RadzenDropDown TValue="TimeSpan"   Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />                               
+                                    <InputSelect @bind-Value="TimeOnly" id="time" class="form-select">
+                                        <option value="" disabled selected>Choose time</option>
+                                        @foreach (var timeSlot in timeSlots)
+                                        {
+                                            <option value="@timeSlot">@timeSlot.ToString()</option>
+                                        }
+                                    </InputSelect>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label medium text-white">Enter health status<small class="text-danger">*</small></label>
-                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.." required></textarea>
+                                <label class="form-label medium text-white">Your current health status<small class="text-danger">*</small></label>
+                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider  ." required></textarea>
                             </div>
                             <div class="row" id="multiselect">
                                 <div class="mb-3 col-12">
@@ -104,10 +127,26 @@
                                                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
+                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px, width: 100%"
                                                                         Placeholder="Select Service" MaxSelectedLabels="4"
                                                                         SelectAllText="Select all items" SelectedItemsText="are now selected"
                                                                         Change="@(args => Change(args,"DropDown"))">
+                                                    @* <Columns>
+                                                <RadzenDropDownDataGridColumn Sortable="false">
+                                                <HeaderTemplate>
+                                                <RadzenCheckBox TValue="bool" TriState="false" Value="@(booking.ProductListViewModels != null && multipleValues != null && multipleValues.Count() == booking.ProductListViewModels.Count())"
+                                                Change="@((bool args) => SelectAllServices(args))" />
+                                                </HeaderTemplate>
+                                                <Template Context="data">
+                                                <RadzenCheckBox TriState="false" TValue="bool"
+                                                Value="@(multipleValues != null && multipleValues.Contains(((ProductListViewModel)data).Id))"
+                                                Change="@((bool args) => ToggleServiceSelection(args, ((ProductListViewModel)data).Id))" />
+                                                </Template>
+                                                </RadzenDropDownDataGridColumn>
+
+                                                <RadzenDropDownDataGridColumn Property="Name" Title="Service Name" Width="200px" />
+                                                <RadzenDropDownDataGridColumn Property="Price" Title="Price" Width="100px" />
+                                                </Columns> *@
                                                 </RadzenDropDownDataGrid>
 
                                             }
@@ -116,9 +155,12 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
-                                <input type="text" @bind-value="@coupon" class="form-control" />
-                                <button type="button" @onclick="HandleAddCoupon" class="btn-success"> Apply </button>
+                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger">*</small></label>
+                                <div class="input-group ">
+                                    <input type="text" @bind-value="@coupon" class="form-control" />
+                                    <button type="button" @onclick="HandleAddCoupon" class="btn btn-success"> Apply </button>
+                                </div>
+
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Total</label>
@@ -155,7 +197,7 @@
 
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
-    string ErrorMessage = string.Empty;
+
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
@@ -163,44 +205,6 @@
 
         booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         StateHasChanged();
-    }
-    async Task SelectDate(object value)
-    {
-        DateOnly = (DateTime)value;
-        var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
-        if (response != null && response.IsSuccess)
-        {
-            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
-            if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
-            {
-                ErrorMessage = "Schedule has been booked";
-                Console.WriteLine("trung");
-            }
-            else
-            {
-                ErrorMessage = string.Empty;
-            }
-            StateHasChanged();
-        }
-    }
-    async Task SelectTime(object value)
-    {
-        TimeOnly = (TimeSpan)value;
-        var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
-        if (response != null && response.IsSuccess)
-        {
-            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
-            if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
-            {
-                ErrorMessage = "Schedule has been booked";
-                Console.WriteLine("trung");
-            }
-            else
-            {
-                ErrorMessage = string.Empty;
-            }
-            StateHasChanged();
-        }           
     }
     protected async override Task OnInitializedAsync()
     {
