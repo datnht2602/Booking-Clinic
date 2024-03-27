@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Text;
 using AutoMapper;
 using Clinic.Booking.Contracts;
+using Clinic.DTO.Models.Model;
 
 
 namespace Clinic.Booking.Message
@@ -79,6 +80,12 @@ namespace Clinic.Booking.Message
                 {
                     existingBooking.OrderStatus = OrderStatus.Submitted.ToString();
                     await repository.UpdateBookingAsync(existingBooking).ConfigureAwait(false);
+                    UpdateSchedule item = new()
+                    {
+                        UserId = existingBooking.DoctorId,
+                        OrderTime = existingBooking.OrderPlacedDate
+                    };
+                    await repository.UpdateSchedule(item).ConfigureAwait(false);
                     var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
                     await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
                 }

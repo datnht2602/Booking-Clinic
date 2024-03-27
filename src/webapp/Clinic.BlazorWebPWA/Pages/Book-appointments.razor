@@ -59,6 +59,10 @@
             <div class="container px-5 py-5 appointments">
                 <div>
                     <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOK APPOINTMENT</h2>
+                    @if(ErrorMessage != string.Empty)
+                    {
+                        <h3>@ErrorMessage</h3>
+                    }
                     <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                         <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
                             @*<div class="mb-3">
@@ -95,17 +99,11 @@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
-                                    <input @bind-value="DateOnly" type="date" class="form-control" placeholder="" required />
+                                    <RadzenDatePicker @bind-Value=@DateOnly DateFormat="MM/dd/yyyy" Change="@(args => SelectDate(args))" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
-                                    <InputSelect @bind-Value="TimeOnly" id="time" class="form-select">
-                                        <option value="" disabled selected>Choose time</option>
-                                        @foreach (var timeSlot in timeSlots)
-                                        {
-                                            <option value="@timeSlot">@timeSlot.ToString()</option>
-                                        }
-                                    </InputSelect>
+                                    <RadzenDropDown TValue="TimeSpan"   Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />                               
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -194,13 +192,42 @@
 
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
-
+    string ErrorMessage = string.Empty;
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
 
 
         booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
+        StateHasChanged();
+    }
+    void SelectDate(object value)
+    {
+        DateOnly = (DateTime)value;
+        if (booking.OrderedTime.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+        {
+            ErrorMessage = "Schedule has been booked";
+        }
+        else
+        {
+            ErrorMessage = string.Empty;
+        }
+        StateHasChanged();
+    }
+    void SelectTime(object value)
+    {
+        TimeOnly = (TimeSpan)value;
+        Console.WriteLine(value);
+        Console.WriteLine(DateOnly.Add(TimeOnly).Ticks);
+        if (booking.OrderedTime.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+        {
+            ErrorMessage = "Schedule has been booked";
+            Console.WriteLine("trung");
+        }
+        else
+        {
+            ErrorMessage = string.Empty;
+        }
         StateHasChanged();
     }
     protected async override Task OnInitializedAsync()

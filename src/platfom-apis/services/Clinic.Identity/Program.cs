@@ -6,10 +6,8 @@ using Clinic.Identity.Data;
 using Clinic.Identity.IDBInitializer;
 using Clinic.Identity.Models;
 using Duende.IdentityServer;
-using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +18,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 SD.StaticConfig = builder.Configuration;
-builder.Services.AddIdentity<ApplicationUser,IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-builder.Services.Configure<IdentityOptions> (options => {
+builder.Services.Configure<IdentityOptions>(options =>
+{
     // Thiết lập về Password
     options.Password.RequireDigit = false; // Không bắt phải có số
     options.Password.RequireLowercase = false; // Không bắt phải có chữ thường
@@ -32,16 +31,20 @@ builder.Services.Configure<IdentityOptions> (options => {
     options.Password.RequiredUniqueChars = 1; // Số ký tự riêng biệt
 
 });
-builder.Services.AddScoped<IDBInitializer,DBInitializer>();
+//builder.Services.AddScoped<IDBInitializer,DBInitializer>();
 builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<IEntitySerializer,EntitySerializer>();
+builder.Services.AddSingleton<IEntitySerializer, EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
-if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
-    builder.Services.AddStackExchangeRedisCache(options =>{
+if (builder.Configuration.GetValue<bool>("ApplicationSettings:Redis"))
+{
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
         options.Configuration = builder.Configuration.GetConnectionString("Redis");
     });
-}else{
+}
+else
+{
     builder.Services.AddDistributedMemoryCache();
 }
 builder.Services.AddIdentityServer(options =>
@@ -63,7 +66,7 @@ builder.Services.AddAuthentication()
     {
         // Đọc thông tin Authentication:Google từ appsettings.json
         IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
- 
+
         // Thiết lập ClientID và ClientSecret để truy cập API google
         googleOptions.ClientId = googleAuthNSection["ClientId"];
         googleOptions.ClientSecret = googleAuthNSection["ClientSecret"];
@@ -83,9 +86,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseCors(x => x
-			.AllowAnyOrigin()
-			.AllowAnyMethod()
-			.AllowAnyHeader());
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 //SeedDatabase();

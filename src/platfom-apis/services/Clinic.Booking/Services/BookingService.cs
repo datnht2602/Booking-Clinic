@@ -7,8 +7,10 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Models;
 using Clinic.Common.Options;
 using Clinic.Common.Validator;
+using Clinic.Data.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.DTO.Models.Message;
+using Clinic.DTO.Models.Model;
 using Clinic.Message;
 using Microsoft.Extensions.Options;
 
@@ -143,6 +145,17 @@ namespace Clinic.Booking.Services
                 await ThrowServiceToServiceErrors(bookingResponse).ConfigureAwait(false);
             }
             return bookingResponse;
+        }
+
+        public async Task<HttpResponseMessage> UpdateSchedule(UpdateSchedule schedule)
+        {
+            using var userRequest = new StringContent(JsonSerializer.Serialize(schedule), Encoding.UTF8, ContentType);
+            var userResponse = await httpClient.PutAsync(new Uri($"{applicationSettings.Value.IdentityApiEndpoint}/UpdateSchedule"), userRequest).ConfigureAwait(false);
+            if (!userResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(userResponse).ConfigureAwait(false);
+            }
+            return userResponse;
         }
     }
 }

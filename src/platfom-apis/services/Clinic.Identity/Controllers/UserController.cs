@@ -7,6 +7,7 @@ using Clinic.Common.Options;
 using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
+using Clinic.DTO.Models.Model;
 using Clinic.Identity.Models;
 using Duende.IdentityServer.Extensions;
 using IdentityModel;
@@ -67,6 +68,21 @@ namespace Clinic.Identity.Controllers
                 }  
                 result.Result = listDoctors;
                 return Ok(result);                                
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateSchedule([FromBody] UpdateSchedule dto)
+        {
+            var items = await _userManager.Users.Include(x => x.ScheduleTimes).FirstOrDefaultAsync(u => u.Id == dto.UserId);
+            if (items == null)
+            {
+                items.ScheduleTimes.Add(new ScheduleTime
+                {
+                    UserId = dto.UserId,
+                    Time = dto.OrderTime
+                });
+                await _userManager.UpdateAsync(items);
+            }
+            return Ok();
         }
         [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)
