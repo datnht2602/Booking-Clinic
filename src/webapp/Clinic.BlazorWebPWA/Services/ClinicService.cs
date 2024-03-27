@@ -23,12 +23,13 @@ public class ClinicService :  BaseService,IClinicService
     }
 
 
-    public async Task<T> GetDoctorsAsync<T>(string filterCriteria = null)
+    public async Task<T> GetDoctorsAsync<T>(FilterDto dto)
     {
         return await this.SendAsync<T>(new ApiRequest()
         {
-            ApiType = ApiType.GET,
+            ApiType = ApiType.POST,
             Url = $"getdoctors",
+            Data = dto,
         });
     }
 

@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Security.Claims;
 using AutoMapper;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Options;
@@ -6,6 +8,7 @@ using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.Identity.Models;
+using Duende.IdentityServer.Extensions;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -38,20 +41,32 @@ namespace Clinic.Identity.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public async Task<IActionResult> GetListDoctor()
+        [HttpPost]
+        public async Task<IActionResult> GetListDoctor([FromBody] FilterDto dto)
         {
-            var doctors = await this.cacheService.GetCacheAsync<IEnumerable<ApplicationUser>>("listdoctors").ConfigureAwait(false);
-            if (doctors == null)
-            {
-                doctors = await _userManager.GetUsersInRoleAsync(SD.DOCTOR);
-                await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<ApplicationUser>>("listdoctors", doctors).ConfigureAwait(false);
-            }
-            var usersDto = autoMapper.Map<List<ApplicationUsersDto>>(doctors);
-            var userModels = autoMapper.Map<List<ApplicationUserModel>>(usersDto);
+            List<ApplicationUserModel> userModels;
             ResponseDto result = new();
-            result.Result = autoMapper.Map<List<DoctorListViewModel>>(userModels);
-            return Ok(result);
+            var doctors = await _userManager.GetUsersInRoleAsync(SD.DOCTOR);
+            var usersDto = autoMapper.Map<List<ApplicationUsersDto>>(doctors.ToList());
+            userModels = autoMapper.Map<List<ApplicationUserModel>>(usersDto);
+            var listDoctors = autoMapper.Map<List<DoctorListViewModel>>(userModels);
+
+                Console.WriteLine("Specialization : " + dto.Specialization);
+                if (dto.Specialization != 0)
+                {
+                    
+                    listDoctors = listDoctors.Where(x => x.Specialization == dto.Specialization).ToList();
+                }
+                if (!dto.DoctorName.IsNullOrEmpty())
+                {
+                    listDoctors = listDoctors.Where(x => x.Title.Contains(dto.Title)).ToList();
+                }
+                if (!dto.DoctorName.IsNullOrEmpty())
+                {
+                    listDoctors = listDoctors.Where(x => x.Name.Contains(dto.DoctorName)).ToList();
+                }  
+                result.Result = listDoctors;
+                return Ok(result);                                
         }
         [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)

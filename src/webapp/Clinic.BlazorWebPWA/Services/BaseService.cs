@@ -31,7 +31,7 @@ namespace Clinic.BlazorWebPWA.Services;
                 if (apiRequest.Data != null)
                 {
                     message.Content = new StringContent(JsonConvert.SerializeObject(apiRequest.Data),
-                        Encoding.UTF8,"application/json");
+                        Encoding.UTF8, "application/json");
                 }
 
                 if (!string.IsNullOrEmpty(apiRequest.AccessToken))

@@ -37,24 +37,13 @@
                                 <h6 class="my-auto">Filter:</h6>
                             </div>
                             <div class="col-md-5">
-                                <select class="form-select" id="specializationFilter">
-                                    <option selected>Specialization</option>
-                                    <option value="1">Specialization 1</option>
-                                    <option value="2">Specialization 2</option>
-                                </select>
+                                <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@doctorFilter Change="@(args => FilterSpec(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" id="academicRankFilter">
                                     <option selected>Degree</option>
                                     <option value="1">Degree 1</option>
                                     <option value="2">Degree 2</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-select" id="genderFilter">
-                                    <option selected>Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
                                 </select>
                             </div>
                         </div>
@@ -161,12 +150,30 @@
 @code
 {
     List<DoctorListViewModel> doctors = new();
+    Dictionary<int, string> doctorFilter = new();
+    int value;
+    FilterDto filter = new();
     protected override async Task OnInitializedAsync()
     {
-        var response = await clinicService.GetDoctorsAsync<ResponseDto>();
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
         }
+        var listSpecialization = doctors.Select(x => x.Specialization).Distinct().Order().ToList();
+        listSpecialization?.ForEach(x =>
+        {
+            doctorFilter.TryAdd(x, x.ConvertSpecEnum());
+        });
+    }
+    async Task FilterSpec(object value)
+    {
+        filter.Specialization = (int)value;
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+        }
+        StateHasChanged();
     }
 }
