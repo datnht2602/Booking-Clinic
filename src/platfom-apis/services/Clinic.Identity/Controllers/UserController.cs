@@ -144,5 +144,13 @@ namespace Clinic.Identity.Controllers
             }).Result;
             return Ok();
         }
+        [HttpGet]
+        public async Task<IActionResult> GetSchedule(string doctorId)
+        {
+            var items = await _userManager.Users.Include(x => x.ScheduleTimes).FirstOrDefaultAsync(u => u.Id == doctorId);
+            ResponseDto result = new();
+            result.Result = items.ScheduleTimes.Select(x => x.Time).ToList();
+            return Ok(result);
+        }
     }
 }

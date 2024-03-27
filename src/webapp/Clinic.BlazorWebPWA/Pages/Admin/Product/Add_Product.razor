@@ -48,12 +48,14 @@
                                 <div class="col-12 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Specialization<span class="login-danger">*</span></label>
-                                        <select class="form-control select">
-                                            <option>Select Specialization</option>
-                                            <option>Specialization 1</option>
-                                            <option>Specialization 2</option>
-                                            <option>Specialization 3</option>
-                                        </select>
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@specFilter Change="@(args => SpecSelect(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <div class="input-block local-forms">
+                                        <label>Service In Combo<span class="login-danger">*</span></label>
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@specFilter Change="@(args => SpecSelect(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                                     </div>
                                 </div>
 

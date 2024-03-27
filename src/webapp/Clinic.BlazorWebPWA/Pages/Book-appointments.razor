@@ -201,34 +201,43 @@
         booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
         StateHasChanged();
     }
-    void SelectDate(object value)
+    async Task SelectDate(object value)
     {
         DateOnly = (DateTime)value;
-        if (booking.OrderedTime.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+        var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
+        if (response != null && response.IsSuccess)
         {
-            ErrorMessage = "Schedule has been booked";
+            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+            if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+            {
+                ErrorMessage = "Schedule has been booked";
+                Console.WriteLine("trung");
+            }
+            else
+            {
+                ErrorMessage = string.Empty;
+            }
+            StateHasChanged();
         }
-        else
-        {
-            ErrorMessage = string.Empty;
-        }
-        StateHasChanged();
     }
-    void SelectTime(object value)
+    async Task SelectTime(object value)
     {
         TimeOnly = (TimeSpan)value;
-        Console.WriteLine(value);
-        Console.WriteLine(DateOnly.Add(TimeOnly).Ticks);
-        if (booking.OrderedTime.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+        var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
+        if (response != null && response.IsSuccess)
         {
-            ErrorMessage = "Schedule has been booked";
-            Console.WriteLine("trung");
-        }
-        else
-        {
-            ErrorMessage = string.Empty;
-        }
-        StateHasChanged();
+            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+            if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+            {
+                ErrorMessage = "Schedule has been booked";
+                Console.WriteLine("trung");
+            }
+            else
+            {
+                ErrorMessage = string.Empty;
+            }
+            StateHasChanged();
+        }           
     }
     protected async override Task OnInitializedAsync()
     {

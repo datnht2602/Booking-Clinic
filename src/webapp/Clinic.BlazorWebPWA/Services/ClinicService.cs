@@ -5,6 +5,7 @@ using Clinic.DTO.Models.Dto;
 using Clinic.Message;
 using Microsoft.Extensions.Options;
 using Net.payOS;
+using System.Reflection;
 
 namespace Clinic.BlazorWebPWA.Services;
 
@@ -125,6 +126,16 @@ public class ClinicService :  BaseService,IClinicService
             Url = $"createdoctor",
             //AccessToken = accessToken,
             Data = model
+        });
+    }
+
+    public async Task<T> GetScheduleAsync<T>(string doctorId)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getschedule/{doctorId}",
+            //AccessToken = accessToken,
         });
     }
 }

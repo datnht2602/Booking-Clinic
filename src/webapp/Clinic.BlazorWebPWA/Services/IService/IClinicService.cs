@@ -6,6 +6,7 @@ namespace Clinic.BlazorWebPWA.Services.IService;
 public interface IClinicService : IBaseService
 {
     Task<T> GetDoctorsAsync<T>(FilterDto dto);
+    Task<T> GetScheduleAsync<T>(string doctorId);
     Task<T> GetBookingViewAsync<T>(string userId,string accessToken);
 
     Task<T> GetDoctorByIdAsync<T>(string id);
