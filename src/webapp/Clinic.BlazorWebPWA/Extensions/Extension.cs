@@ -9,17 +9,21 @@ public static class Extension
         string chuyenKhoa = value switch
         {
             0 => "None",
-            1 => "Khoa Nội Tim Mạch",
-            2 => "Khoa Nội Tổng Hợp",
-            3 => "Khoa Chẩn Đoán Hình Ảnh Và Thăm Dò Chức Năng",
-            4 => "Khoa Nội Tổng Quát",
-            5 => "Khoa Khám Bệnh",
-            6 => "Khoa Nhi",
-            7 => "Khoa Ung Bướu",
-            8 => "Khoa Nội Thần Kinh",
-            9 => "Khoa Y Học Cổ Truyền",
-            10 => "Khoa Nội Thần Kinh Đột Quỵ",
-            11 => "Khoa Răng Hàm mặt"
+            1 => "Cardiology", //Khoa tim mạch
+            2 => "Ophthalmology", //Khoa mắt
+            3 => "Otorhinolaryngology", //Khoa tai mũi họng
+            4 => "Dermatology", //Khoa da liễu
+            5 => "Gastroenterology", //Khoa tiêu hóa
+            6 => "Pediatrician", //Khoa nhi
+            7 => "Obstetrician", //Khoa sản
+            8 => "Neurology", //Khoa thần kinh
+            9 => "Traditional Medicine", //Khoa y học cổ truyền
+            10 => "Hematology", //Khoa huyết học
+            11 => "Oral maxillofacial", //Khoa răng hàm mặt
+            12 => "Oncology", //Khoa ung thư
+            13 => "Orthopedics", //Khoa ngoại chỉnh hình
+            14 => "Traumatology", //Khoa chấn thương
+            15 => "Pathology" //Khoa bệnh lý học
         };
         return chuyenKhoa;
     }
