@@ -1,3 +1,4 @@
+using Clinic.BlazorWebPWA.Pages;
 using Clinic.BlazorWebPWA.Services.IService;
 using Clinic.Common.Options;
 using Clinic.DTO.Models;
@@ -135,6 +136,16 @@ public class ClinicService :  BaseService,IClinicService
         {
             ApiType = ApiType.GET,
             Url = $"getschedule/{doctorId}",
+            //AccessToken = accessToken,
+        });
+    }
+
+    public async Task<T> GetListProducts<T>(string filterCriteria)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getproducts?filterCriteria={filterCriteria}",
             //AccessToken = accessToken,
         });
     }

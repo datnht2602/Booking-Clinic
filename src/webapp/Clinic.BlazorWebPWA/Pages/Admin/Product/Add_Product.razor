@@ -1,6 +1,9 @@
 ﻿@page "/add-product"
 @layout AdminLayout
-
+@using Clinic.Data.Models
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IClinicService clinicService
+@inject NavigationManager nav
 <PageTitle>Add Service</PageTitle>
 
 <link href="css/admin.css" rel="stylesheet" />
@@ -24,76 +27,65 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form>
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
                                         <h4>Service detail</h4>
                                     </div>
                                 </div>
+                            <EditForm Model="createProduct" OnValidSubmit="HandleBookingCreate">
                                 <div class="col-12">
                                     <div class="input-block local-forms">
                                         <label>Service's Name<span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <InputText @bind-Value="createProduct.Name" class="form-control" type="text"/>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Creator<span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <InputText @bind-Value="createProduct.Authors" class="form-control" type="text"/>
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-6 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Specialization<span class="login-danger">*</span></label>
-                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@specFilter Change="@(args => SpecSelect(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                                     </div>
                                 </div>
-
+                                <div class="col-6 col-md-6">
+                                    <div class="input-block local-forms">
+                                    <RadzenCheckBox @bind-Value=@createProduct.IsMainCombo Name="CheckBox1" />
+                                    <RadzenLabel Text="IsMainCombo" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
+                                     </div>
+                                </div>
                                 <div class="col-12 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Service In Combo<span class="login-danger">*</span></label>
-                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@specFilter Change="@(args => SpecSelect(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                                        <RadzenDropDownDataGrid class="form-select" 
+                                                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                                                AllowFiltering="true" AllowClear="true"
+                                                                Data="@GetListProducts" @bind-Value="multipleValues" Multiple="true"
+                                                                Disabled="@(createProduct.IsMainCombo == false)"
+                                                                TextProperty="Name" ValueProperty="Id" Style=" width: 100%"
+                                                                Placeholder="Select Service" MaxSelectedLabels="4"
+                                                                SelectAllText="Select all items" SelectedItemsText="are now selected"
+                                                                Change="@(args => Change(args,"DropDown"))">
+                                        </RadzenDropDownDataGrid>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-sm-12">
                                     <div class="input-block local-forms">
                                         <label>Description<span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block local-top-form">
-                                        <label class="local-top">Upload image<span class="login-danger">*</span></label>
-                                        <div class="settings-btn upload-files-avator">
-                                            <input type="file" accept="image/*" name="image" id="file" onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)" class="hide-input" data-cf-modified-e8088f475d55c291364b1df7->
-                                            <label for="file" class="upload">Choose File</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="input-block select-gender">
-                                        <label class="gen-label">Service Package<span class="login-danger">*</span></label>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="True" class="form-check-input">True
-                                            </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="False" class="form-check-input">False
-                                            </label>
-                                        </div>
+                                        <textarea @bind="@createProduct.Description" class="form-control" rows="3" cols="30"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">
                                     <div class="input-block local-forms">
                                         <label>Price<span class="login-danger">*</span></label>
-                                        <input class="form-control" type="number" required>
+                                        <input class="form-control" type="number" value="@Total" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -102,11 +94,59 @@
                                         <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>
+                            </EditForm>
                             </div>
-                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+@code{
+    int value;
+    private Dictionary<int,string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
+    private Product createProduct = new();
+    private List<Product> GetListProducts = new();
+    IEnumerable<string> multipleValues;
+    [Inject]
+    IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    string eventValue;
+    public double Total { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+        var response = await clinicService.GetListProducts<ResponseDto>("e.IsMainCombo == false");
+        if (response != null && response.IsSuccess)
+        {
+            GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+        }
+        
+    }
+    void Change(object value, string name)
+    {
+        eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
+        Total = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList().Sum(x => x.Price);      
+        createProduct.Products = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList();
+        StateHasChanged();
+    }
+    private async Task HandleBookingCreate()
+    {
+        
+    }
+}

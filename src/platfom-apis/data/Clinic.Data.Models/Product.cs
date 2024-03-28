@@ -33,8 +33,8 @@ namespace Clinic.Data.Models
         public string Description { get; set; }
         
         public bool IsMainCombo { get; set; }
-        
-        public string Combo { get; set; }
+
+        public List<Product> Products { get; set; }
 
 
         [JsonProperty("_etag")]

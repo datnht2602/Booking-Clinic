@@ -5,6 +5,7 @@ using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Clinic.Product;
 using Clinic.Product.Contracts;
 using Clinic.Product.Services;
@@ -49,13 +50,15 @@ app.UseHttpsRedirection();
 //app.UseAuthorization();
 app.MapGet("/getproducts", async ([FromServices] IProductService productService,[FromQuery]string? filterCriteria= null) =>
 {
-  return await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false);  
+    ResponseDto result = new();
+    result.Result = await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false);
+  return result;  
 })
 .WithName("GetProduct")
 .WithOpenApi();
-app.MapGet("/getproduct/{id}", async (string id,[FromQuery][Required] string name ,[FromServices] IProductService productService) =>
+app.MapGet("/getproduct/{id}", async (string id, [FromQuery][Required] string name, [FromServices] IProductService productService) =>
 {
-  return await productService.GetProductByIdASync(id,name).ConfigureAwait(false) is ProductDetailsViewModel product ? Results.Ok(product) : Results.NotFound();  
+    return await productService.GetProductByIdASync(id, name).ConfigureAwait(false) is ProductDetailsViewModel product ? Results.Ok(product) : Results.NotFound();
 })
 .WithOpenApi();
 app.MapPost("/getproduct",async (List<ProductDetailsViewModel> product, IProductService productService) =>{

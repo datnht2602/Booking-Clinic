@@ -30,6 +30,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\platfom-apis\core\Clinic.Common\Clinic.Common.csproj" />
+		<ProjectReference Include="..\..\platfom-apis\data\Clinic.Data.Models\Clinic.Data.Models.csproj" />
 		<ProjectReference Include="..\..\platfom-apis\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
 		<None Include="wwwroot\plugins\apexchart\apexcharts.min.js" />
 		<None Include="wwwroot\plugins\apexchart\chart-data.js" />

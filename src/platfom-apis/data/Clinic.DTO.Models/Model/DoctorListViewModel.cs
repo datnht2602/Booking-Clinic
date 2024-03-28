@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Clinic.DTO.Models
+﻿namespace Clinic.DTO.Models
 {
     public class DoctorListViewModel
     {
@@ -22,16 +17,20 @@ namespace Clinic.DTO.Models
     public enum Specialization
     {
         None,
-        KhoaNoiTimMach,
-        KhoaNoiTongHop,
-        KhoaChanDoanHinhAnhVaThamDoChucNang,
-        KhoaNoiTongQuat,
-        KhoaKhambenh,
-        KhoaNhi,
-        KhoaUngBuou,
-        KhoaNoiThanKinh,
-        KhoaYHocCoTruyen,
-        KhoaNoiThanKinhDotQuy,
-        KhoaRangHamMat,
+        Cardiology, //Khoa tim mạch
+        Ophthalmology, //Khoa mắt
+        Otorhinolaryngology, //Khoa tai mũi họng
+        Dermatology, //Khoa da liễu
+        Gastroenterology, //Khoa tiêu hóa
+        Pediatrician, //Khoa nhi
+        Obstetrician, //Khoa sản
+        Neurology, //Khoa thần kinh
+        TraditionalMedicine, //Khoa y học cổ truyền
+        Hematology, //Khoa huyết học
+        Oralmaxillofacial, //Khoa răng hàm mặt
+        Oncology, //Khoa ung thư
+        Orthopedics, //Khoa ngoại chỉnh hình
+        Traumatology, //Khoa chấn thương
+        Pathology //Khoa bệnh lý học
     }
 }
