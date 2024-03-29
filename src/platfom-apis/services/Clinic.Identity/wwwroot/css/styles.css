@@ -11827,6 +11827,14 @@ label.error {
 }
 
 .social-icon {
-    max-height: 5%;
-    max-width: 5%;
+    max-height: 7%;
+    max-width: 7%;
+}
+
+.image-frame {
+    border: 2px solid #ccc; /* Định nghĩa kiểu đường viền và màu sắc */
+    padding: 10px;
+    width: calc(100% - 30px); /* Tính toán kích thước của khung ảnh, trừ đi padding của hai bên */
+    margin-right: auto; /* Căn giữa khung ảnh */
+    margin-left: auto;
 }

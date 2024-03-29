@@ -1,81 +1,88 @@
 @page
 @model webapp.Pages.Login.Index
 
-<div class="container vh-100 px-5 py-5 mt-lg-5">
-    <partial name="_ValidationSummary"/>
+<main>
+    <div class="container mt-5">
+        <partial name="_ValidationSummary" />
 
-    <div class="row d-flex h-75 align-content-center">
+        <div class="card bold-border mb-4 shadow-lg" style="border-radius: 40px">
 
-        @if (Model.View.EnableLocalLogin)
-        {
-            <div class="col-lg-7 px-5 py-5 pt-40 mt-3">
-                <h2 class="fw-bold">Welcome to 4Health Clinic!</h2>
-                <h3>Please sign-in to your account and start booking!</h3>
-            </div>
-            <div class="card col-lg-5 px-5 py-3 pt-40 shadow-lg mt-3">
-                <div class="card-body">
-                    <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">Login</h2>
-                    <form asp-page="/Account/Login/Index">
-                        <input type="hidden" asp-for="Input.ReturnUrl"/>
-
-                        <div class="form-group">
-                            <label class="fs-5 form-label small text-muted" asp-for="Input.Username">Username <small class="text-danger">*</small></label>
-                            <input class="form-control" placeholder="abc@gmail.com" asp-for="Input.Username" autofocus>
-                        </div>
-                        <div class="form-group py-3">
-                            <label class="fs-5 form-label small text-muted" asp-for="Input.Password">Password <small class="text-danger">*</small></label>
-                            <input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off">
-                        </div>
-
-                        @if (Model.View.AllowRememberLogin)
-                        {
+            @if (Model.View.EnableLocalLogin)
+            {
+                <div class="row no-gutters mx-2 my-3 px-3 py-4">
+                    <div class="col-md-8 pr-5">
+                        <img class="card-img-top image-left" src="/img/background.png" alt="background-photo" style="margin: 0; padding: 0">
+                    </div>
+                    <div class="col-md-4 px-5">
+                        <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2 text-uppercase">Login</h2>
+                        <form asp-page="/Account/Login/Index">
+                            <input type="hidden" asp-for="Input.ReturnUrl" />
                             <div class="form-group">
-                                <div class="form-check">
-                                    <input class="form-check-input" asp-for="Input.RememberLogin">
-                                    <label class="form-check-label" asp-for="Input.RememberLogin">
-                                        Remember My Login
-                                    </label>
+                                <label class="fs-4 form-label small text-muted" asp-for="Input.Username">Username <small class="text-danger">*</small></label>
+                                <input class="form-control" placeholder="abc@gmail.com" asp-for="Input.Username" autofocus>
+                            </div>
+                            <div class="form-group py-3">
+                                <label class="fs-4 form-label small text-muted" asp-for="Input.Password">Password <small class="text-danger">*</small></label>
+                                <input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off">
+                            </div>
+
+                            @if (Model.View.AllowRememberLogin)
+                            {
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" asp-for="Input.RememberLogin">
+                                        <label class="form-check-label" asp-for="Input.RememberLogin">
+                                            Remember My Login
+                                        </label>
+                                    </div>
                                 </div>
+                            }
+                            <div class="btn-group d-flex justify-content-center pt-3">
+                                <button name="Input.Button" value="login" class="btn btn-warning fw-bold fs-7 rounded-3 w-30 h-10 border-0 mx-3 text-uppercase">Login</button>
+                                <button name="Input.Button" value="cancel" class="btn btn-warning fw-bold fs-7 rounded-3 w-30 h-10 border-0 mx-3 text-uppercase">Cancel</button>
+                            </div>
+                        </form>
+                        <div class="d-flex align-items-center justify-content-between divide my-3">
+                            <hr class="w-100">
+                            <span class="text-muted small px-2">OR</span>
+                            <hr class="w-100">
+                        </div>
+                        @if (Model.View.VisibleExternalProviders.Any())
+                        {
+                            <div class="social-btn d-flex justify-content-center align-items-center">
+                                <ul class="list-inline">
+                                    @foreach (var provider in Model.View.VisibleExternalProviders)
+                                    {
+                                        <li class="list-inline-item align-items-center">
+                                            <a class="btn btn-light btn-outline-warning align-items-center text-dark fw-bold fs-10 rounded-3 w-100 border-0 py-3"
+                                               asp-page="/ExternalLogin/Challenge"
+                                               asp-route-scheme="@provider.AuthenticationScheme"
+                                               asp-route-returnUrl="@Model.Input.ReturnUrl">
+                                                <img src="/img/google-icon.png" alt="Google Icon" class="img-fluid social-icon mr-3">
+                                                <span class="continue-text ml-5">   Continue with @provider.DisplayName Account</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
                             </div>
                         }
-                        <div class="btn-group d-flex justify-content-center pt-3">
-                            <button name="Input.Button" value="login" class="btn btn-warning fw-bold fs-7 rounded-3 w-50 border-0 px-3 py-3 mx-4 text-uppercase">Login</button>
-                            <button name="Input.Button" value="cancel" class="btn btn-warning fw-bold fs-7 rounded-3 w-50 border-0 px-3 py-3 mx-4 text-uppercase">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <p class="text-muted small text-align-center px-2">OR</p>
-                    @if (Model.View.VisibleExternalProviders.Any())
-                    {
-                        <div class="card">
-                            <ul class="list-inline">
-                                @foreach (var provider in Model.View.VisibleExternalProviders)
-                                {
-                                    <li class="list-inline-item align-items-center">
-                                        <a class="btn btn-light btn-outline-warning align-items-center text-dark fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3"
-                                           asp-page="/ExternalLogin/Challenge"
-                                           asp-route-scheme="@provider.AuthenticationScheme"
-                                           asp-route-returnUrl="@Model.Input.ReturnUrl">
-                                           <img src="img/google-icon.png">  
-                                           Continue with @provider.DisplayName Account
-                                        </a>
-                                    </li>
-                                }
-                            </ul>  
-                        </div>
-                    }
 
-                    @if (!Model.View.EnableLocalLogin && !Model.View.VisibleExternalProviders.Any())
-                    {
-                        <div class="alert alert-warning">
-                            <strong>Invalid login request</strong>
-                            There are no login schemes configured for this request.
+                        @if (!Model.View.EnableLocalLogin && !Model.View.VisibleExternalProviders.Any())
+                        {
+                            <div class="alert alert-warning">
+                                <strong>Invalid login request</strong>
+                                There are no login schemes configured for this request.
+                            </div>
+                        }
+                        <div class="text-center">
+                            <p class="text-muted mb-0 fs-9">New User? <a asp-page="/Account/Create/Index" class="text-mdinfo" asp-route-returnUrl="@Model.Input.ReturnUrl">Register here</a></p>
                         </div>
-                    }
-                    <a class="btn align-items-center btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3" asp-page="/Account/Create/Index" asp-route-returnUrl="@Model.Input.ReturnUrl">New User? Register</a>
+                    </div>
                 </div>
-            </div>
-        }        
+            }
+        </div>
     </div>
-</div>
+    <div class="align-items-center text-bold text-center">
+        <h5 class="text-xs">Identity Server</h5>
+    </div>
+</main>
