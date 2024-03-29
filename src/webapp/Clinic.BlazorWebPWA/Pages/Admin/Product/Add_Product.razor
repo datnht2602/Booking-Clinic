@@ -1,8 +1,9 @@
-﻿@page "/add-product"
+﻿@page "/upsert-product"
+@page "/upsert-product/{id}"
 @layout AdminLayout
 @using Clinic.Data.Models
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@inject IClinicService clinicService
+@inject IProductService productService
 @inject NavigationManager nav
 <PageTitle>Add Service</PageTitle>
 
@@ -51,7 +52,7 @@
                                 <div class="col-6 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Specialization<span class="login-danger">*</span></label>
-                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Change="@(args => SpecSelect(args))" Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-6">
@@ -85,7 +86,7 @@
                                 <div class="col-12 col-sm-12">
                                     <div class="input-block local-forms">
                                         <label>Price<span class="login-danger">*</span></label>
-                                        <input class="form-control" type="number" value="@Total" required>
+                                        <input @bind="@createProduct.Price" class="form-control" type="number" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -116,6 +117,8 @@
     private string accessToken { get; set; }
     string eventValue;
     public double Total { get; set; }
+    [Parameter]
+    public string? id { get; set; }
     protected async override Task OnInitializedAsync()
     {
         var authState = await authenticationStateTask;
@@ -131,22 +134,35 @@
         {
             accessToken = token.Value;
         }
-        var response = await clinicService.GetListProducts<ResponseDto>("e.IsMainCombo == false");
+        var response = await productService.GetListProducts<ResponseDto>("e.IsMainCombo == false");
         if (response != null && response.IsSuccess)
         {
             GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
         }
-        
+        if (!string.IsNullOrEmpty(id))
+        {
+
+        }
+    }
+    void SpecSelect(object value)
+    {
+        createProduct.Specialization = (int)value;
+        StateHasChanged();
     }
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
-        Total = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList().Sum(x => x.Price);      
+        createProduct.Price = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList().Sum(x => x.Price);      
         createProduct.Products = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList();
         StateHasChanged();
     }
     private async Task HandleBookingCreate()
     {
-        
+        createProduct.Id = Guid.NewGuid().ToString();
+        var response = await productService.CreateOrUpdateBooking<ResponseDto>(createProduct,accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            nav.NavigateTo("/list-product");
+        }
     }
 }

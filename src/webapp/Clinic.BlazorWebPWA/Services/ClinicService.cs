@@ -140,13 +140,4 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
-    public async Task<T> GetListProducts<T>(string filterCriteria)
-    {
-        return await this.SendAsync<T>(new ApiRequest()
-        {
-            ApiType = ApiType.GET,
-            Url = $"getproducts?filterCriteria={filterCriteria}",
-            //AccessToken = accessToken,
-        });
-    }
 }

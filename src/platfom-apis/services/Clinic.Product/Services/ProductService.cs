@@ -8,6 +8,7 @@ using Clinic.Common.Options;
 using Clinic.Common.Validator;
 using Clinic.Data.Models;
 using Clinic.DTO.Models;
+using Clinic.DTO.Models.Dto;
 using Clinic.Product.Contracts;
 using Microsoft.Extensions.Options;
 
@@ -29,53 +30,55 @@ namespace Clinic.Product.Services
             this.autoMapper = autoMapper;
             this.cacheService = cacheService;
         }
-        public async Task<List<ProductDetailsViewModel>> AddProductAsync(List<ProductDetailsViewModel> product)
+        public async Task<ResponseDto> AddProductAsync(Data.Models.Product product)
         {
             ArgumentValidation.ThrowIfNull(product);
-            product.Select(x => x.CreatedDate = DateTime.UtcNow);
-            var productEntity = autoMapper.Map<List<Data.Models.Product>>(product);
-            using var productRequest = new StringContent(JsonSerializer.Serialize(productEntity),Encoding.UTF8,ContentType);
+            ResponseDto result = new();
+            product.CreatedDate = DateTime.UtcNow;
+            using var productRequest = new StringContent(JsonSerializer.Serialize(product),Encoding.UTF8,ContentType);
             var productResponse = await httpClient.PostAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct"),productRequest).ConfigureAwait(false);
 
             if(!productResponse.IsSuccessStatusCode){
                 await ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
-            var createdProductDAO = await productResponse.Content.ReadFromJsonAsync<List<Data.Models.Product>>().ConfigureAwait(false);
+            var createdProductDAO = await productResponse.Content.ReadFromJsonAsync<Data.Models.Product>().ConfigureAwait(false);
 
             await cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
-
-            var createdProduct = autoMapper.Map<List<ProductDetailsViewModel>>(createdProductDAO);
-            return createdProduct;
+            if(createdProductDAO != null)
+            {
+                result.Result = createdProductDAO;
+            }
+            return result;
         }
 
-        public async Task<HttpResponseMessage> DeleteProductAsync(string productId, string productName)
+        public async Task<ResponseDto> DeleteProductAsync(string productId, string productName)
         {
             var productResponse = await httpClient.DeleteAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}?name={productName}")).ConfigureAwait(false);
             if(!productResponse.IsSuccessStatusCode){
                 await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
             await cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
-            return productResponse;
+            return new ResponseDto();
         }
 
-        public async Task<ProductDetailsViewModel> GetProductByIdASync(string productId, string productName)
+        public async Task<ResponseDto> GetProductByIdASync(string productId)
         {
-            using var productRequest = new HttpRequestMessage(HttpMethod.Get,$"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}?name={productName}");
+            using var productRequest = new HttpRequestMessage(HttpMethod.Get,$"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}");
             var productResponse = await httpClient.SendAsync(productRequest).ConfigureAwait(false);
+            ResponseDto result = new();
             if(!productResponse.IsSuccessStatusCode){
                 await ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
             if(productResponse.StatusCode != System.Net.HttpStatusCode.NoContent){
                 var productDAO = await productResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Product>().ConfigureAwait(false);
-
-                var product = autoMapper.Map<ProductDetailsViewModel>(productDAO);
-                return product;
+                result.Result = productDAO;
+                return result;
             }else{
-                return null;
+                return result;
             }
         }
 
-        public async Task<IEnumerable<ProductListViewModel>> GetProductsAsync(string filterCriteria = null)
+        public async Task<ResponseDto> GetProductsAsync(string filterCriteria = null)
         {
             var products = await this.cacheService.GetCacheAsync<IEnumerable<Clinic.Data.Models.Product>>($"products{filterCriteria}").ConfigureAwait(false);
             if(products == null)
@@ -88,17 +91,17 @@ namespace Clinic.Product.Services
                 }
                 if(productResponse.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return new List<ProductListViewModel>();
+                    return new ResponseDto();
                 }
                 products = await productResponse.Content.ReadFromJsonAsync<IEnumerable<Clinic.Data.Models.Product>>().ConfigureAwait(false);
                 await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<Clinic.Data.Models.Product>>($"products{filterCriteria}", products).ConfigureAwait(false);
             }
 
-            var productList = this.autoMapper.Map<List<ProductListViewModel>>(products);
-            return productList;
+
+            return new ResponseDto { Result = products.ToList()};
         }
 
-        public async Task<HttpResponseMessage> UpdateProductAsync(ProductDetailsViewModel product)
+        public async Task<ResponseDto> UpdateProductAsync(Data.Models.Product product)
         {
              using var productRequest = new StringContent(JsonSerializer.Serialize(product), Encoding.UTF8, ContentType);
             var productResponse = await this.httpClient.PutAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct"), productRequest).ConfigureAwait(false);
@@ -110,7 +113,7 @@ namespace Clinic.Product.Services
             // clearning the cache
             await this.cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
 
-            return productResponse;
+            return new ResponseDto();
         }
         private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)
         {

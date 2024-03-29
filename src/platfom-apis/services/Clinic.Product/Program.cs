@@ -4,6 +4,7 @@ using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
 using Clinic.Common.Options;
+using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.Product;
@@ -50,37 +51,35 @@ app.UseHttpsRedirection();
 //app.UseAuthorization();
 app.MapGet("/getproducts", async ([FromServices] IProductService productService,[FromQuery]string? filterCriteria= null) =>
 {
-    ResponseDto result = new();
-    result.Result = await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false);
-  return result;  
+    return await productService.GetProductsAsync(filterCriteria).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
 })
 .WithName("GetProduct")
 .WithOpenApi();
-app.MapGet("/getproduct/{id}", async (string id, [FromQuery][Required] string name, [FromServices] IProductService productService) =>
+app.MapGet("/getproduct/{id}", async (string id, [FromServices] IProductService productService) =>
 {
-    return await productService.GetProductByIdASync(id, name).ConfigureAwait(false) is ProductDetailsViewModel product ? Results.Ok(product) : Results.NotFound();
+    return await productService.GetProductByIdASync(id).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
 })
 .WithOpenApi();
-app.MapPost("/getproduct",async (List<ProductDetailsViewModel> product, IProductService productService) =>{
+app.MapPost("/getproduct",async (Product product, IProductService productService) =>{
      if (product == null )
             {
                 return Results.BadRequest();
             }
 
             var result = await productService.AddProductAsync(product).ConfigureAwait(false);
-            return Results.CreatedAtRoute($"/getproducts/", result);
+            return Results.Ok(result);
 })
 .WithOpenApi();
-app.MapPut("/getproduct",async (ProductDetailsViewModel product, IProductService productService) =>{
+app.MapPut("/getproduct",async (Product product, IProductService productService) =>{
     if (product == null || product.Etag == null || product.Id == null)
             {
                 return Results.BadRequest();
             }
-   return (await productService.UpdateProductAsync(product)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
+   return await productService.UpdateProductAsync(product) is ResponseDto productResult  ? Results.Ok(productResult) : Results.NotFound();
 })
 .WithOpenApi();
 app.MapDelete("/getproduct",async (string id,[FromQuery][Required] string name, IProductService productService) =>{
-   return (await productService.DeleteProductAsync(id,name)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
+   return await productService.DeleteProductAsync(id,name) is ResponseDto productResult ? Results.Ok(productResult) : Results.NotFound();
 })
 .WithOpenApi();
 app.Run();

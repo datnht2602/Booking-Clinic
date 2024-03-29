@@ -46,17 +46,14 @@ namespace Clinic.DataAccess.EndpointServices
                 .WithName("GetProductById")
                 .WithOpenApi();
             
-            routes.MapPost("/getproduct", async (IProductRepository repository, [FromBody] List<Product> product) =>
+            routes.MapPost("/getproduct", async (IProductRepository repository, [FromBody] Product product) =>
             {
                 if (product == null )
                 {
                     return Results.BadRequest();
                 }
 
-                product.ForEach(async x =>
-                {
-                    var resul = await repository.AddAsync(x, x.Id).ConfigureAwait(false);
-                });
+                var result = await repository.AddAsync(product, product.Id).ConfigureAwait(false);
                 return Results.Ok(product);
             })
                 .WithOpenApi();
