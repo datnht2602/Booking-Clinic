@@ -5,7 +5,7 @@
     <div class="container mt-5">
         <partial name="_ValidationSummary" />
 
-        <div class="card bold-border mb-4 shadow-lg" style="border-radius: 40px">
+        <div class="card bold-border mb-4 shadow-lg">
 
             @if (Model.View.EnableLocalLogin)
             {
@@ -18,11 +18,11 @@
                         <form asp-page="/Account/Login/Index">
                             <input type="hidden" asp-for="Input.ReturnUrl" />
                             <div class="form-group">
-                                <label class="fs-4 form-label small text-muted" asp-for="Input.Username">Username <small class="text-danger">*</small></label>
+                                <label class="fs-4 text-sm text-muted" asp-for="Input.Username">Username <small class="text-danger">*</small></label>
                                 <input class="form-control" placeholder="abc@gmail.com" asp-for="Input.Username" autofocus>
                             </div>
                             <div class="form-group py-3">
-                                <label class="fs-4 form-label small text-muted" asp-for="Input.Password">Password <small class="text-danger">*</small></label>
+                                <label class="fs-4 text-sm text-muted" asp-for="Input.Password">Password <small class="text-danger">*</small></label>
                                 <input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off">
                             </div>
 
@@ -39,7 +39,7 @@
                             }
                             <div class="btn-group d-flex justify-content-center pt-3">
                                 <button name="Input.Button" value="login" class="btn btn-warning fw-bold fs-7 rounded-3 w-30 h-10 border-0 mx-3 text-uppercase">Login</button>
-                                <button name="Input.Button" value="cancel" class="btn btn-warning fw-bold fs-7 rounded-3 w-30 h-10 border-0 mx-3 text-uppercase">Cancel</button>
+                                <button name="Input.Button" value="cancel" class="btn btn-warning fw-bold fs-7 rounded-3 w-25 h-10 border-0 mx-2 text-uppercase">Cancel</button>
                             </div>
                         </form>
                         <div class="d-flex align-items-center justify-content-between divide my-3">
