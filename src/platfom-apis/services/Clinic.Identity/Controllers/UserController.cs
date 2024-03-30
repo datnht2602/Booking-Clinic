@@ -58,13 +58,13 @@ namespace Clinic.Identity.Controllers
                     
                     listDoctors = listDoctors.Where(x => x.Specialization == dto.Specialization).ToList();
                 }
-                if (!dto.DoctorName.IsNullOrEmpty())
+                if (!dto.Title.IsNullOrEmpty())
                 {
-                    listDoctors = listDoctors.Where(x => x.Title.Contains(dto.Title)).ToList();
+                    listDoctors = listDoctors.Where(x => x.Title.ContainsCaseInsensitive(dto.Title)).ToList();
                 }
                 if (!dto.DoctorName.IsNullOrEmpty())
                 {
-                    listDoctors = listDoctors.Where(x => x.Name.Contains(dto.DoctorName)).ToList();
+                    listDoctors = listDoctors.Where(x => x.Name.ContainsCaseInsensitive(dto.DoctorName)).ToList();
                 }  
                 result.Result = listDoctors;
                 return Ok(result);                                
@@ -95,7 +95,8 @@ namespace Clinic.Identity.Controllers
             var productResponse = await httpClient.SendAsync(productsRequest).ConfigureAwait(false);
             if (productResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
             {
-                var products = await productResponse.Content.ReadFromJsonAsync<List<ProductListViewModel>>().ConfigureAwait(false);
+                var productResult = await productResponse.Content.ReadFromJsonAsync<ResponseDto>().ConfigureAwait(false);
+                var products = JsonConvert.DeserializeObject<List<ProductListViewModel>>(Convert.ToString((productResult.Result)));
                 model.Name = userModels.Name;
                 model.Specialization = userModels.Specialization;
                 model.ProductListViewModels =

@@ -40,11 +40,7 @@
                                 <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@doctorFilter Change="@(args => FilterSpec(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                             </div>
                             <div class="col-md-3">
-                                <select class="form-select" id="academicRankFilter">
-                                    <option selected>Degree</option>
-                                    <option value="1">Degree 1</option>
-                                    <option value="2">Degree 2</option>
-                                </select>
+                                  <RadzenDropDown @bind-Value=@titleValue Data=@Title Change="@(args => FilterTitle(args))" Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
                             </div>
                         </div>
                     </div>
@@ -52,8 +48,8 @@
                     <!-- Part 2: Search Bar -->
                     <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" aria-describedby="searchButton">
-                            <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                            <input type="text" @bind-value="@doctorName" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" aria-describedby="searchButton">
+                            <button class="btn btn-outline-secondary" @onclick="SearchName" type="button" id="searchButton">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>
@@ -66,44 +62,52 @@
         <section class="py-3">
             <div class="container px-5 mt-3">
                 <div class="row gx-5">
-                    @foreach (var doctor in doctors)
+                    @if (doctors == null)
+                    {
+                        <h2>There is no doctors</h2>
+                    }
+                    else
+                    {
+                        @foreach (var doctor in doctors)
                     {
                         <div class="col-md-6 col-lg-4">
-                        <div class="card mb-5">
-                            <div class="bg-white shadow-lg border">
-                                <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="doctor-image"></div>
+                            <div class="card mb-5">
+                                <div class="bg-white shadow-lg border">
+                                    <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="doctor-image"></div>
                                     <div class="card-body align-items-center" style="height: 18em">
-                                    <div class="text-center mb-2">
-                                        <h5 class="fw-bold card-title">@doctor.Name </h5>
-                                        <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
-                                    </div>
+                                        <div class="text-center mb-2">
+                                            <h5 class="fw-bold card-title">@doctor.Title @doctor.Name </h5>
+                                            <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
+                                        </div>
                                         <div class="card-text px-3">
                                             <p class="text-muted fw-light mb-2" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">@doctor.Introduction</p>
-                                    </div>
-                                    <div class="d-flex px-3 justify-content-between">
-                                        <p class="fw-bold my-auto fs-6"> Rating: </p>
-                                        <div class="stars gap-sm-2 fs-5">
-                                        @for (int i = 0; i < doctor.AverageRating; i++)
-                                        {
-                                            <i class="fa-solid fa-star" style="color: rgb(255, 210, 48);"></i>
-                                        }
                                         </div>
-                                        <p class="fw-bold my-auto fs-6">@doctor.AverageRating </p>
-                                    </div>
-                                    <div class="d-flex justify-content-between card-body">
+                                        <div class="d-flex px-3 justify-content-between">
+                                            <p class="fw-bold my-auto fs-6"> Rating: </p>
+                                            <div class="stars gap-sm-2 fs-5">
+                                                @for (int i = 0; i < doctor.AverageRating; i++)
+                                                {
+                                                    <i class="fa-solid fa-star" style="color: rgb(255, 210, 48);"></i>
+                                                }
+                                            </div>
+                                            <p class="fw-bold my-auto fs-6">@doctor.AverageRating </p>
+                                        </div>
+                                        <div class="d-flex justify-content-between card-body">
                                             <div><a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a></div>
-                                        <a href="/" class="btn btn-navy card-link">Detail</a>
-                                        <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Appointment</a>
+                                            <a href="/" class="btn btn-navy card-link">Detail</a>
+                                            <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Appointment</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     }
+                    }
+                    
                 </div>
             </div>
         </section>
-        <section class="p-3 d-flex justify-content-center">
+        @*<section class="p-3 d-flex justify-content-center">
             <nav aria-label="Page navigation example">
                 <ul class="pagination mb-0">
                     <li class="page-item">
@@ -121,7 +125,7 @@
                     </li>
                 </ul>
             </nav>
-        </section>
+        </section>*@
     </main>
 </body>
 
@@ -153,27 +157,58 @@
     Dictionary<int, string> doctorFilter = new();
     int value;
     FilterDto filter = new();
+    List<string> Title = new();
+    string titleValue = String.Empty;
+    string doctorName = string.Empty;
     protected override async Task OnInitializedAsync()
     {
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+            var listSpecialization = doctors.Select(x => x.Specialization).Distinct().Order().ToList();
+            listSpecialization?.ForEach(x =>
+            {
+                doctorFilter.TryAdd(x, x.ConvertSpecEnum());
+            });
+            Title = doctors.Select(x => x.Title).Distinct().ToList();
         }
-        var listSpecialization = doctors.Select(x => x.Specialization).Distinct().Order().ToList();
-        listSpecialization?.ForEach(x =>
-        {
-            doctorFilter.TryAdd(x, x.ConvertSpecEnum());
-        });
+       
     }
     async Task FilterSpec(object value)
     {
         filter.Specialization = (int)value;
+        doctors = null;
+        await this.InvokeAsync(StateHasChanged);
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+            await this.InvokeAsync(StateHasChanged);
         }
-        StateHasChanged();
+    }
+    async Task FilterTitle(object value)
+    {
+        filter.Title = (string)value;
+        doctors = null;
+        await this.InvokeAsync(StateHasChanged);
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }
+    private async Task SearchName()
+    {
+        filter.DoctorName = doctorName;
+        doctors = null;
+        await this.InvokeAsync(StateHasChanged);
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+            await this.InvokeAsync(StateHasChanged);
+        }
     }
 }
