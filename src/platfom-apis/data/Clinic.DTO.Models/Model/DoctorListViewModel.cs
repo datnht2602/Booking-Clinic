@@ -14,6 +14,7 @@ namespace Clinic.DTO.Models
         public string Title { get; set; }
         public int Specialization { get; set; }
         public string ClinicNum { get; set; }
+        public string PhoneNumber { get; set; }
         public double AverageRating { get; set; }
         public string Introduction { get; set; }
     }

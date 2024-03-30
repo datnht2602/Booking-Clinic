@@ -8,6 +8,7 @@
         public string Name { get; set; }
 
         public string DateTime { get; set; }
+        public string PhoneNumber { get; set; }
 
         public string Introduction { get; set; }
 
