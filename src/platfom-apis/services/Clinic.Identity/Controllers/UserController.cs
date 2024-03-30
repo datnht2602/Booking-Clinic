@@ -91,7 +91,8 @@ namespace Clinic.Identity.Controllers
             var items = await _userManager.Users.Include(x => x.ScheduleTimes).FirstOrDefaultAsync(u => u.Id == userId);
             var usersDto = autoMapper.Map<ApplicationUsersDto>(items);
             var userModels = autoMapper.Map<ApplicationUserModel>(usersDto);
-            using var productsRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.ProductsApiEndpoint}/getproducts");
+            string filterCriteria = $"e.Specialization = {userModels.Specialization}";
+            using var productsRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.ProductsApiEndpoint}/getproducts?filterCriteria={filterCriteria}");
             var productResponse = await httpClient.SendAsync(productsRequest).ConfigureAwait(false);
             if (productResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
             {
@@ -99,8 +100,7 @@ namespace Clinic.Identity.Controllers
                 var products = JsonConvert.DeserializeObject<List<ProductListViewModel>>(Convert.ToString((productResult.Result)));
                 model.Name = userModels.Name;
                 model.Specialization = userModels.Specialization;
-                model.ProductListViewModels =
-                    products.Where(x => (int)x.Specialization == userModels.Specialization).ToList();
+                model.ProductListViewModels = products;
                 model.OrderedTime = userModels.OrderedTimes;
                 model.DoctorId = userModels.Id;
                 model.ClinicNum = int.Parse(userModels.ClinicNum);

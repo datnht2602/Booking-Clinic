@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IProductService productService
 @inject NavigationManager nav
+@inject NotificationService NotificationService
 <PageTitle>Add Service</PageTitle>
 
 <link href="css/admin.css" rel="stylesheet" />
@@ -62,14 +63,14 @@
                                      </div>
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <div class="input-block local-forms">
+                                    <div class="sd-multiSelect form-group">
                                         <label>Service In Combo<span class="login-danger">*</span></label>
                                         <RadzenDropDownDataGrid class="form-select" 
                                                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                 AllowFiltering="true" AllowClear="true"
-                                                                Data="@GetListProducts" @bind-Value="multipleValues" Multiple="true"
+                                                                Data="@GetListProducts" @bind-Value=@multipleValues Multiple="true"
                                                                 Disabled="@(createProduct.IsMainCombo == false)"
-                                                                TextProperty="Name" ValueProperty="Id" Style=" width: 100%"
+                                                                TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
                                                                 Placeholder="Select Service" MaxSelectedLabels="4"
                                                                 SelectAllText="Select all items" SelectedItemsText="are now selected"
                                                                 Change="@(args => Change(args,"DropDown"))">
@@ -92,7 +93,7 @@
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
                                         <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
-                                        <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
+                                        <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-product", true))" class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>
                             </EditForm>
@@ -134,15 +135,22 @@
         {
             accessToken = token.Value;
         }
-        var response = await productService.GetListProducts<ResponseDto>("e.IsMainCombo == false");
+        if (!string.IsNullOrEmpty(id))
+        {
+            var responseProduct = await productService.GetProduct<ResponseDto>(id);
+            if (responseProduct != null && responseProduct.IsSuccess)
+            {
+                createProduct = JsonConvert.DeserializeObject<Product>(Convert.ToString((responseProduct.Result)));
+                value = createProduct.Specialization;
+                multipleValues = createProduct.Products != null ? createProduct.Products.Select(x => x.Id).AsEnumerable() : [];
+            }
+        }
+        var response = await productService.GetListProducts<ResponseDto>("e.IsMainCombo = false");
         if (response != null && response.IsSuccess)
         {
             GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
         }
-        if (!string.IsNullOrEmpty(id))
-        {
 
-        }
     }
     void SpecSelect(object value)
     {
@@ -158,11 +166,10 @@
     }
     private async Task HandleBookingCreate()
     {
-        createProduct.Id = Guid.NewGuid().ToString();
         var response = await productService.CreateOrUpdateBooking<ResponseDto>(createProduct,accessToken);
         if (response != null && response.IsSuccess)
         {
-            nav.NavigateTo("/list-product");
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully"});
         }
     }
 }

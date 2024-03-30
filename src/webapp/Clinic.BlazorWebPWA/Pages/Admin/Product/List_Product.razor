@@ -1,8 +1,11 @@
 ﻿@page "/list-product"
 @layout AdminLayout
 @using Clinic.Data.Models
+@using Clinic.BlazorWebPWA.Extensions
 @inject IProductService productService
 @inject NavigationManager nav
+@inject DialogService DialogService
+@inject NotificationService NotificationService
 <PageTitle>List of Health Packages</PageTitle>
 
 <link href="css/admin.css" rel="stylesheet" />
@@ -35,13 +38,12 @@
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <form>
-                                                    <input type="text" class="form-control" placeholder="Search here">
+                                                    <input type="text" value="@productName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                                     <a class="btn"><img src="assets/img/icons/search-normal.svg" alt></a>
                                                 </form>
                                             </div>
                                             <div class="add-group">
-                                                <a href="add-product" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt></a>
-                                                <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt></a>
+                                                <a href="upsert-product" class="btn btn-primary add-pluss ms-2"><i class="fa fa-plus" aria-hidden="true"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -59,11 +61,6 @@
                             <table class="table border-0 custom-table comman-table datatable mb-0">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </th>
                                         <th>Name</th>
                                         <th>Specialization</th>
                                         <th>Price</th>
@@ -78,25 +75,17 @@
                                         @foreach (var item in GetListProducts)
                                         {
                                             <tr>
-                                                <td>
-                                                    <div class="form-check check-tables">
-                                                        <input class="form-check-input" type="checkbox" value="something">
-                                                    </div>
-                                                </td>
                                                 <td class="profile-image"><a href=@($"upsert-product/{item.Id}")>@item.Name</a></td>
                                                 <td>@item.Specialization</td>
                                                 <td>@item.Price</td>
                                                 <td>@item.Description</td>
                                                 <td>@item.IsMainCombo</td>
-                                                <td class="text-end">
-                                                    <div class="dropdown dropdown-action">
-                                                        <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                        <div class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item" href=@($"upsert-product/{item.Id}")><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                                <RadzenMenu>
+                                                <RadzenMenuItem Text="More">
+                                                    <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-product/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
+                                                    <RadzenMenuItem Click="@(args => ConfirmDelete(@item.Id))" @onclick:stopPropagation="true" Text="Delete"></RadzenMenuItem>
+                                                </RadzenMenuItem>
+                                                </RadzenMenu>
                                             </tr>
                                         }
                                     }                                   
@@ -109,23 +98,10 @@
         </div>
     </div>
 </div>
-<div id="delete_patient" class="modal fade delete-modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <img src="assets/img/sent.png" alt width="50" height="46">
-                <h3>Are you sure want to delete this ?</h3>
-                <div class="m-t-20">
-                    <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @code{
     private List<Product> GetListProducts = new();
-    protected async override Task OnInitializedAsync(){
+    string productName = string.Empty;
+    protected override async Task OnInitializedAsync(){
 
         var response = await productService.GetListProducts<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
@@ -134,4 +110,38 @@
             StateHasChanged();
         }
     }
+
+    public async Task ConfirmDelete(string id)
+    {
+        var confirmationResult = await this.DialogService.Confirm("Are you sure?", "Delete Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (confirmationResult == true)
+        {
+            var responseDelete = await productService.DeleteProduct<ResponseDto>(id);
+            if (responseDelete != null && responseDelete.IsSuccess)
+            {
+                GetListProducts = null;
+                await this.InvokeAsync(StateHasChanged);
+                var response =  await productService.GetListProducts<ResponseDto>(productName);
+                if (response != null && response.IsSuccess)
+                {
+                    GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+                    await this.InvokeAsync(StateHasChanged);
+                }
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully"});
+            }
+        }
+    }
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        productName = e?.Value?.ToString();
+        GetListProducts = null;
+        await this.InvokeAsync(StateHasChanged);
+        var response =  await productService.GetListProducts<ResponseDto>(string.Empty);
+        if (response != null && response.IsSuccess)
+        {
+            GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+            GetListProducts = GetListProducts.Where(x => x.Name.ContainsCaseInsensitive(productName)).ToList();
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }   
 }

@@ -34,6 +34,12 @@ namespace Clinic.Product.Services
         {
             ArgumentValidation.ThrowIfNull(product);
             ResponseDto result = new();
+            var existingProduct = await GetProductByIdASync(productId: product.Id);
+            if (existingProduct != null && existingProduct.IsSuccess)
+            {
+                 return await UpdateProductAsync(product);
+            }
+            product.Id = Guid.NewGuid().ToString();
             product.CreatedDate = DateTime.UtcNow;
             using var productRequest = new StringContent(JsonSerializer.Serialize(product),Encoding.UTF8,ContentType);
             var productResponse = await httpClient.PostAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct"),productRequest).ConfigureAwait(false);
@@ -51,9 +57,9 @@ namespace Clinic.Product.Services
             return result;
         }
 
-        public async Task<ResponseDto> DeleteProductAsync(string productId, string productName)
+        public async Task<ResponseDto> DeleteProductAsync(string productId)
         {
-            var productResponse = await httpClient.DeleteAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}?name={productName}")).ConfigureAwait(false);
+            var productResponse = await httpClient.DeleteAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}")).ConfigureAwait(false);
             if(!productResponse.IsSuccessStatusCode){
                 await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }

@@ -10,6 +10,6 @@ namespace Clinic.Product.Contracts
         Task<ResponseDto> GetProductByIdASync(string productId);
         Task<ResponseDto> AddProductAsync(Data.Models.Product product);
         Task<ResponseDto> UpdateProductAsync(Data.Models.Product product);
-        Task<ResponseDto> DeleteProductAsync(string productId,string productName);
+        Task<ResponseDto> DeleteProductAsync(string productId);
     }
 }

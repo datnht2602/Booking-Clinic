@@ -61,11 +61,6 @@ app.MapGet("/getproduct/{id}", async (string id, [FromServices] IProductService 
 })
 .WithOpenApi();
 app.MapPost("/getproduct",async (Product product, IProductService productService) =>{
-     if (product == null )
-            {
-                return Results.BadRequest();
-            }
-
             var result = await productService.AddProductAsync(product).ConfigureAwait(false);
             return Results.Ok(result);
 })
@@ -78,8 +73,8 @@ app.MapPut("/getproduct",async (Product product, IProductService productService)
    return await productService.UpdateProductAsync(product) is ResponseDto productResult  ? Results.Ok(productResult) : Results.NotFound();
 })
 .WithOpenApi();
-app.MapDelete("/getproduct",async (string id,[FromQuery][Required] string name, IProductService productService) =>{
-   return await productService.DeleteProductAsync(id,name) is ResponseDto productResult ? Results.Ok(productResult) : Results.NotFound();
+app.MapDelete("/getproduct/{id}",async (string id, IProductService productService) =>{
+   return await productService.DeleteProductAsync(id) is ResponseDto productResult ? Results.Ok(productResult) : Results.NotFound();
 })
 .WithOpenApi();
 app.Run();

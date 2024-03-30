@@ -48,10 +48,7 @@
                     <!-- Part 2: Search Bar -->
                     <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text" @bind-value="@doctorName" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" aria-describedby="searchButton">
-                            <button class="btn btn-outline-secondary" @onclick="SearchName" type="button" id="searchButton">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
+                            <input type="text"  value="@doctorName" @onchange="HandleChange" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" >
                         </div>
                     </div>
                 </div>
@@ -64,7 +61,7 @@
                 <div class="row gx-5">
                     @if (doctors == null)
                     {
-                        <h2>There is no doctors</h2>
+                        <h2>Loading</h2>
                     }
                     else
                     {
@@ -172,6 +169,7 @@
                 doctorFilter.TryAdd(x, x.ConvertSpecEnum());
             });
             Title = doctors.Select(x => x.Title).Distinct().ToList();
+            Title.Insert(0, "None");
         }
        
     }
@@ -189,7 +187,7 @@
     }
     async Task FilterTitle(object value)
     {
-        filter.Title = (string)value;
+        filter.Title = ((string)value).Equals("None") ? string.Empty : (string)value;
         doctors = null;
         await this.InvokeAsync(StateHasChanged);
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
@@ -201,6 +199,19 @@
     }
     private async Task SearchName()
     {
+        filter.DoctorName = doctorName;
+        doctors = null;
+        await this.InvokeAsync(StateHasChanged);
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+            await this.InvokeAsync(StateHasChanged);
+        }
+    }
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        doctorName = e?.Value?.ToString();
         filter.DoctorName = doctorName;
         doctors = null;
         await this.InvokeAsync(StateHasChanged);
