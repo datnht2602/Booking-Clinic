@@ -1,6 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject SignOutSessionStateManager SignOutManager
 @inject NavigationManager nav
+
+<style>
+    .dropdown-menu-end[data-bs-popper] {
+        right: auto;
+        left: auto;
+    }
+</style>
+
 <div class="bg-primary">
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0 osahan-nav">
@@ -31,12 +39,12 @@
                                 <li><NavLink class="dropdown-item px-3 py-2 rounded" href="list-doctor">Manage doctors</NavLink></li>
                                 <li>
                                     <NavLink class="dropdown-item px-3 py-2 rounded" @onclick="LogOut">
-                                            <i class="fa-solid fa-right-from-bracket"></i> Log out
+                                        <i class="fa-solid fa-right-from-bracket"></i> Log out
                                     </NavLink>
                                 </li>
                             </ul>
-@*                             <button type="button" class="btn btn-light" @onclick="LogOut">
-                                Log out
+                            @*                             <button type="button" class="btn btn-light" @onclick="LogOut">
+                            Log out
                             </button> *@
                         </Authorized>
                         <NotAuthorized>
