@@ -1,5 +1,229 @@
-﻿<h3>Edit_Patient</h3>
+﻿@page "/edit-patient"
 
-@code {
+@layout AdminLayout
 
-}
+<PageTitle>Edit Patient</PageTitle>
+
+<link href="css/admin.css" rel="stylesheet" />
+
+<div class="page-wrapper" style="min-height: 271px;">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="patients.html" previewlistener="true">Patients </a></li>
+                        <li class="breadcrumb-item"><i class="feather-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Edit Patient</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-heading">
+                                        <h4>Patinets Details</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>First Name <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="Daniel">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Last Name <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="Bruk">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>User Name <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="Daniel Bruk">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms">
+                                        <label>Mobile <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="+1 23 456890">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms">
+                                        <label>Email <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="email" value="example@email.com">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms">
+                                        <label>Password <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="password" value="password">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms">
+                                        <label>Confirm Password <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="password" value="password">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms cal-icon">
+                                        <label>Date Of Birth <span class="login-danger">*</span></label>
+                                        <input class="form-control datetimepicker" type="text" value="24-11-2022">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block select-gender">
+                                        <label class="gen-label">Gender<span class="login-danger">*</span></label>
+                                        <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" name="gender" class="form-check-input" checked="">Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" name="gender" class="form-check-input">Female
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Education <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="M.B.B.S, M.S.">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Designation <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="Physician">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Department <span class="login-danger">*</span></label>
+                                        <select class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                            <option>Select Department</option>
+                                            <option>Orthopedics</option>
+                                            <option>Radiology</option>
+                                            <option>Dentist</option>
+                                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-qrfu-container"><span class="select2-selection__rendered" id="select2-qrfu-container" title="Select Department">Select Department</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12">
+                                    <div class="input-block local-forms">
+                                        <label>Address <span class="login-danger">*</span></label>
+<textarea class="form-control" rows="3" cols="30">101, Elanxa Apartments, 340 N Madison Avenue</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="input-block local-forms">
+                                        <label>City <span class="login-danger">*</span></label>
+                                        <select class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                            <option>Select City</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-ulsz-container"><span class="select2-selection__rendered" id="select2-ulsz-container" title="Select City">Select City</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="input-block local-forms">
+                                        <label>Country <span class="login-danger">*</span></label>
+                                        <select class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                            <option>Select Country </option>
+                                            <option>Usa</option>
+                                            <option>Uk</option>
+                                            <option>Italy</option>
+                                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-f1z9-container"><span class="select2-selection__rendered" id="select2-f1z9-container" title="Select Country ">Select Country </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="input-block local-forms">
+                                        <label>State/Province <span class="login-danger">*</span></label>
+                                        <select class="form-control select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                                            <option>Select State</option>
+                                            <option>Alaska</option>
+                                            <option>California</option>
+                                        </select><span class="select2 select2-container select2-container--default" dir="ltr" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-1d9c-container"><span class="select2-selection__rendered" id="select2-1d9c-container" title="Select State">Select State</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="input-block local-forms">
+                                        <label>Postal Code <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" value="91403">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12">
+                                    <div class="input-block local-forms">
+                                        <label>Start Biography <span class="login-danger">*</span></label>
+<textarea class="form-control" rows="3" cols="30">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliquat enim ad minim veniam, quriesstrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-top-form">
+                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
+                                        <div class="settings-btn upload-files-avator">
+                                            <input type="file" accept="image/*" name="image" id="file" onchange="if (!window.__cfRLUnblockHandlers) return false; loadFile(event)" class="hide-input">
+                                            <label for="file" class="upload">Choose File</label>
+                                        </div>
+                                        <div class="upload-images upload-size">
+                                            <img src="assets/img/favicon.png" alt="Image">
+                                            <a href="javascript:void(0);" class="btn-icon logo-hide-btn">
+                                                <i class="feather-x-circle"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block select-gender">
+                                        <label class="gen-label">Status <span class="login-danger">*</span></label>
+                                        <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" name="gender1" class="form-check-input" checked="">Active
+                                            </label>
+                                        </div>
+                                        <div class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" name="gender1" class="form-check-input">In Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="doctor-submit text-end">
+                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
+                                        <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="delete_patient" class="modal fade delete-modal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <img src="assets/img/sent.png" alt="" width="50" height="46">
+                <h3>Are you sure want to delete this ?</h3>
+                <div class="m-t-20">
+                    <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sidebar-overlay" data-reff></div>

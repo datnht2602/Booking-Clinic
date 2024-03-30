@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.Email", "src\platfom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{0DD1582B-4DE7-4801-8CA2-CE4D5913256D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clinic.OrderMessage", "src\platfom-apis\azurefunctions\Clinic.OrderMessage\Clinic.OrderMessage.csproj", "{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clinic.OrderMessage", "src\platfom-apis\azurefunctions\Clinic.OrderMessage\Clinic.OrderMessage.csproj", "{98B561A7-BAA0-4FCA-BCFE-8CD860B01D24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

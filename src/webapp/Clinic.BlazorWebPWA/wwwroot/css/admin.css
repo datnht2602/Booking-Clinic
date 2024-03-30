@@ -1176,7 +1176,7 @@ textarea.form-control {
 
     .sidebar-menu ul .submenu ul .active:before {
         content: "\f105";
-        font-family: "Font Awesome 6 Free";
+        font-family: 'FontAwesome';
         position: absolute;
         width: 10px;
         height: 10px;
