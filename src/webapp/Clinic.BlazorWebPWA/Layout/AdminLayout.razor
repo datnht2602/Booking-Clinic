@@ -276,7 +276,22 @@
 @Body
 </Authorized>
 <NotAuthorized>
-    <h2>You are not allowed to access admin page</h2>
+    <div class="main-wrapper">
+        <div class="container">
+            <img class="" src="/img/doctor-cannot.png" alt="Doctor says no"/>
+            <h2 class="">You are not allowed to access admin page</h2>
+        </div>
+        <div class="container">
+            <a href="/" class="btn btn-primary">
+                    <span><i class="fa-solid fa-house"></i> Homepage</span>
+                </a>
+                <a href="authentication/login" class="btn btn-primary">
+                    <span>
+                        <i class="fa-solid fa-user"></i> Log in
+                    </span>
+            </a>
+        </div>
+    </div>
     </NotAuthorized>
 </AuthorizeView>
 
