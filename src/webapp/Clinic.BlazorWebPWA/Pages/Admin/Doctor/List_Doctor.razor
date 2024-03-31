@@ -1,6 +1,12 @@
 ﻿@page "/list-doctor"
+@using Clinic.BlazorWebPWA.Extensions
 @layout AdminLayout
-<link href="css/admin.css" rel="stylesheet" />
+@inject IClinicService clinicService
+@inject IDoctorService doctorService
+@inject NavigationManager nav
+@inject DialogService DialogService
+@inject NotificationService NotificationService
+<link href="css/admin.css" rel="stylesheet"/>
 
 <PageTitle>List Doctors</PageTitle>
 <div class="page-wrapper">
@@ -10,8 +16,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="doctor">Doctors </a></li>
-                        <li class="breadcrumb-item"><i class="fa-solid fa-chevron-right"></i></li>
+                        <li class="breadcrumb-item">
+                            <a href="doctor">Doctors </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
                         <li class="breadcrumb-item active">Doctors List</li>
                     </ul>
                 </div>
@@ -30,21 +40,21 @@
                                         <h3>Doctors List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
-                                                <form>
-                                                    <input type="text" class="form-control" placeholder="Search here">
-                                                    <a class="btn"><i class="bi bi-search"></i></a>
-                                                </form>
+                                                <input type="text" value="@doctorName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
-                                                <a href="add-doctor" class="btn btn-primary add-pluss ms-2"><i class="icon bi bi-plus-square"></i></a>
-                                                <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><i class="bi bi-arrow-clockwise"></i></a>
+                                                <RadzenButton Click=@(args => AddDoctor()) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="javascript:;" class=" me-2"><i class="bi bi-file-earmark-pdf"></i></a>
-                                    <a href="javascript:;" class=" me-2"><i class="bi bi-file-earmark-excel"></i></a>
+                                    <a href="javascript:;" class=" me-2">
+                                        <i class="bi bi-file-earmark-pdf"></i>
+                                    </a>
+                                    <a href="javascript:;" class=" me-2">
+                                        <i class="bi bi-file-earmark-excel"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -52,207 +62,42 @@
                         <div class="table-responsive">
                             <table class="table border-0 custom-table comman-table datatable mb-0">
                                 <thead>
-                                    <tr>
-                                        <th>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </th>
-                                        <th>Name</th>
-                                        <th>Department</th>
-                                        <th>Specialization</th>
-                                        <th>Degree</th>
-                                        <th>Mobile</th>
-                                        <th>Email</th>
-                                        <th>Joining Date</th>
-                                        <th></th>
-                                    </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Clinic Num</th>
+                                    <th>Specialization</th>
+                                    <th>Title</th>
+                                    <th>Introduction</th>
+                                    <th></th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-01.jpg" class="rounded-circle m-r-5" alt> Andrea Lalema</a></td>
-                                        <td>Otolaryngology</td>
-                                        <td>Infertility</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c7a2bfa6aab7aba287a2aaa6aeabe9a4a8aa">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-@*                                     <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-02.jpg" class="rounded-circle m-r-5" alt> Dr.Smith Bruklin</a></td>
-                                        <td>Urology</td>
-                                        <td>Prostate</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dabfa2bbb7aab6bf9abfb7bbb3b6f4b9b5b7">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-03.jpg" class="rounded-circle m-r-5" alt> Dr.William Stephin</a></td>
-                                        <td>Radiology</td>
-                                        <td>Cancer</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f99c81989489959cb99c94989095d79a9694">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-04.jpg" class="rounded-circle m-r-5" alt> Bernardo James</a></td>
-                                        <td>Dentist</td>
-                                        <td>Prostate</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c8adb0a9a5b8a4ad88ada5a9a1a4e6aba7a5">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-06.jpg" class="rounded-circle m-r-5" alt>Cristina Groves</a></td>
-                                        <td>Gynocolgy</td>
-                                        <td>Prostate</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b1e031a160b171e3b1e161a121755181416">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-05.jpg" class="rounded-circle m-r-5" alt> Mark Hay Smith</a></td>
-                                        <td>Gynocolgy</td>
-                                        <td>Prostate</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d8bda0b9b5a8b4bd98bdb5b9b1b4f6bbb7b5">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-01.jpg" class="rounded-circle m-r-5" alt> Andrea Lalema</a></td>
-                                        <td>Otolaryngology</td>
-                                        <td>Infertility</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="afcad7cec2dfc3caefcac2cec6c381ccc0c2">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a href="profile.html"><img width="28" height="28" src="~/img/profiles/avatar-02.jpg" class="rounded-circle m-r-5" alt> Dr.Smith Bruklin</a></td>
-                                        <td>Urology</td>
-                                        <td>Prostate</td>
-                                        <td>MBBS, MS</td>
-                                        <td><a href="javascript:;">+1 23 456890</a></td>
-                                        <td><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="52372a333f223e3712373f333b3e7c313d3f">[email&#160;protected]</a></td>
-                                        <td>01.10.2022</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" href="edit-doctor.html"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr> *@
+                                @if (doctors == null)
+                                {
+                                    <h3>Loading...</h3>
+                                }
+                                else
+                                {
+                                    @foreach (var item in doctors)
+                                    {
+                                        <tr>
+                                            <td class="profile-image">
+                                                    <img width="28" height="28" src="@item.ImageUrl" class="rounded-circle m-r-5" alt>@item.Name
+                                            </td>
+                                            <td>@item.ClinicNum</td>
+                                            <td>@item.Specialization.ConvertSpecEnum()</td>
+                                            <td>@item.Title</td>
+                                            <td class="description-cell"><div class="ellipsis">@item.Introduction</div></td>
+                                            <RadzenMenu>
+                                                <RadzenMenuItem Text="More">
+                                                    <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-doctor/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
+                                                    <RadzenMenuItem Click="@(args => ConfirmDelete(@item.Id))" @onclick:stopPropagation="true" Text="Delete"></RadzenMenuItem>
+                                                </RadzenMenuItem>
+                                            </RadzenMenu>
+                                        </tr>
+                                    }
+                                }
+
                                 </tbody>
                             </table>
                         </div>
@@ -261,230 +106,66 @@
             </div>
         </div>
     </div>
-    <div class="notification-box">
-        <div class="msg-sidebar notifications msg-noti">
-            <div class="topnav-dropdown-header">
-                <span>Messages</span>
-            </div>
-            <div class="drop-scroll msg-list-scroll" id="msg_list">
-                <ul class="list-box">
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">R</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">Richard Miles </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item new-message">
-                                <div class="list-left">
-                                    <span class="avatar">J</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">John Doe</span>
-                                    <span class="message-time">1 Aug</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">T</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author"> Tarah Shropshire </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">M</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">Mike Litorus</span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">C</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author"> Catherine Manseau </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">D</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author"> Domenic Houston </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">B</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author"> Buster Wigton </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">R</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author"> Rolland Webber </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">C</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author"> Claire Mapes </span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">M</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">Melita Faucher</span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">J</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">Jeffery Lalor</span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">L</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">Loren Gatlin</span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="chat.html">
-                            <div class="list-item">
-                                <div class="list-left">
-                                    <span class="avatar">T</span>
-                                </div>
-                                <div class="list-body">
-                                    <span class="message-author">Tarah Shropshire</span>
-                                    <span class="message-time">12:28 AM</span>
-                                    <div class="clearfix"></div>
-                                    <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="topnav-dropdown-footer">
-                <a href="chat.html">See all messages</a>
-            </div>
-        </div>
-    </div>
 </div>
-<div id="delete_patient" class="modal fade delete-modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <img src="~/img/sent.png" alt width="50" height="46">
-                <h3>Are you sure want to delete this ?</h3>
-                <div class="m-t-20">
-                    <a href="#" class="btn btn-white" data-bs-dismiss="modal">Close</a>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@code {
 
+@code {
+    FilterDto filter = new();
+    List<DoctorListViewModel> doctors = new();
+    string doctorName = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+        }
+    }
+    public async Task ConfirmDelete(string id)
+    {
+        var confirmationResult = await this.DialogService.Confirm("Are you sure?", "Delete Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (confirmationResult == true)
+        {
+            var responseDelete = await doctorService.DeleteDoctor<ResponseDto>(id);
+            if (responseDelete != null && responseDelete.IsSuccess)
+            {
+                doctors = null;
+                StateHasChanged();
+                var response =   await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+                if (response != null && response.IsSuccess)
+                {
+                    doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+                    StateHasChanged();
+                }
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully"});
+            }
+        }
+    }
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        doctorName = e?.Value?.ToString();
+        filter.DoctorName = doctorName;
+        doctors = null;
+        StateHasChanged();
+        var response =  await clinicService.GetDoctorsAsync<ResponseDto>(filter);
+        if (response != null && response.IsSuccess)
+        {
+            doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
+            StateHasChanged();
+        }
+    }
+    void AddDoctor()
+    {
+        nav.NavigateTo("/upsert-doctor",true);
+    }
 }
+<style>
+
+td.description-cell {
+   max-width: 15em;
+}
+div.ellipsis {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+</style>

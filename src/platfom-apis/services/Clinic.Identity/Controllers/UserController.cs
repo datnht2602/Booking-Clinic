@@ -112,15 +112,14 @@ namespace Clinic.Identity.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdateDoctor([FromBody] DoctorDto doctorDto)
         {
+            ResponseDto result = new();
             if (doctorDto == null)
             {
                 return BadRequest();
             }
-
             Detail detail = new()
             {
                 ClinicNum = doctorDto.ClinicNum,
-                ExperienceYear = doctorDto.ExperienceYear,
                 Specialization = doctorDto.Specialization,
                 Title = doctorDto.Title
             };
@@ -129,21 +128,39 @@ namespace Clinic.Identity.Controllers
                 UserName = doctorDto.UserName,
                 Email = doctorDto.UserName,
                 EmailConfirmed = true,
-                PhoneNumber = "1111111111",
+                PhoneNumber = doctorDto.PhoneNumber,
                 Name = doctorDto.Name,
                 DateOfBirth = doctorDto.DateOfBirth.Ticks,
-                Detail = JsonConvert.SerializeObject(detail)
+                Detail = JsonConvert.SerializeObject(detail),
+                AverageRating = doctorDto.Rating,
+                ImageUrl = doctorDto.ImageUrl,
+                Introduction = doctorDto.Introduction
             };
-
-            await _userManager.CreateAsync(customerUser, doctorDto.Password);
-            await _userManager.AddToRoleAsync(customerUser, SD.DOCTOR);
-
-            var temp2 = _userManager.AddClaimsAsync(customerUser, new Claim[]
+            var item = await _userManager.Users.FirstOrDefaultAsync(u => u.Id ==doctorDto.Id);
+            if (item != null)
             {
-                new Claim(JwtClaimTypes.Name, customerUser.Name),
-                new Claim(JwtClaimTypes.Role, SD.PATIENT),
-            }).Result;
-            return Ok();
+                item.UserName = doctorDto.UserName;
+                item.Email = doctorDto.UserName;
+                item.PhoneNumber = doctorDto.PhoneNumber;
+                item.Name = doctorDto.Name;
+                item.DateOfBirth = doctorDto.DateOfBirth.Ticks;
+                item.Detail = JsonConvert.SerializeObject(detail);
+                item.AverageRating = doctorDto.Rating;
+                item.Introduction = doctorDto.Introduction;
+                await _userManager.UpdateAsync(item);
+            }
+            else
+            {
+                await _userManager.CreateAsync(customerUser, doctorDto.Password);
+                await _userManager.AddToRoleAsync(customerUser, SD.DOCTOR);
+
+                var temp2 = _userManager.AddClaimsAsync(customerUser, new Claim[]
+                {
+                    new Claim(JwtClaimTypes.Name, customerUser.Name),
+                    new Claim(JwtClaimTypes.Role, SD.DOCTOR),
+                }).Result;
+            }
+            return Ok(result);
         }
         [HttpGet]
         public async Task<IActionResult> GetSchedule(string doctorId)
@@ -152,6 +169,46 @@ namespace Clinic.Identity.Controllers
             ResponseDto result = new();
             result.Result = items.ScheduleTimes.Select(x => x.Time).ToList();
             return Ok(result);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteDoctor(string id)
+        {
+            var item = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+           
+            if (item != null)
+            {
+                ResponseDto result = new();
+                await _userManager.DeleteAsync(item);
+                return Ok(result);
+            }
+            return BadRequest();
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetDoctor(string id)
+        {
+            var item = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (item != null)
+            {
+                ResponseDto result = new();
+                Detail detail = JsonConvert.DeserializeObject<Detail>(item.Detail);
+                DoctorDto doctor = new()
+                {
+                    Id = item.Id,
+                    UserName = item.UserName,
+                    PhoneNumber = item.PhoneNumber,
+                    Name = item.Name,
+                    DateOfBirth = new DateTime(item.DateOfBirth),
+                    ClinicNum = detail.ClinicNum,
+                    Title = detail.Title,
+                    Specialization = detail.Specialization,
+                    ImageUrl = item.ImageUrl,
+                    Rating = (int)item.AverageRating,
+                    Introduction = item.Introduction
+                };
+                result.Result = doctor;
+                return Ok(result);
+            }
+            return BadRequest();
         }
     }
 }

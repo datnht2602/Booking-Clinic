@@ -276,20 +276,27 @@
     }
     private async Task HandleBookingCreate()
     {
-        createBooking.Id = Guid.NewGuid().ToString();
-        createBooking.DoctorId = booking.DoctorId;
-        createBooking.Specialization = booking.Specialization;
-        createBooking.DoctorName = booking.Name;
-        createBooking.UserId = userId;
-        createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
-        createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
-        createBooking.OrderTotal = booking.OrderTotal;
-        createBooking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
-        createBooking.ClinicNum = booking.ClinicNum;
-        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
-        if (response != null && response.IsSuccess)
+        if (ErrorMessage != string.Empty)
         {
-            nav.NavigateTo($"/doctor/book-appointments/confirm/{createBooking.Id}");
+            ErrorMessage = "You cannot book appointment";
+        }
+        else
+        {
+            createBooking.Id = Guid.NewGuid().ToString();
+            createBooking.DoctorId = booking.DoctorId;
+            createBooking.Specialization = booking.Specialization;
+            createBooking.DoctorName = booking.Name;
+            createBooking.UserId = userId;
+            createBooking.Products = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList();
+            createBooking.CartTotalItems = booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).Count();
+            createBooking.OrderTotal = booking.OrderTotal;
+            createBooking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
+            createBooking.ClinicNum = booking.ClinicNum;
+            var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
+            if (response != null && response.IsSuccess)
+            {
+                nav.NavigateTo($"/doctor/book-appointments/confirm/{createBooking.Id}");
+            }
         }
     }
 

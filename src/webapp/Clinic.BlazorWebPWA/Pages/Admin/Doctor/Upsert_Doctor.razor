@@ -1,0 +1,199 @@
+﻿@page "/upsert-doctor"
+@page "/upsert-doctor/{id}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Text
+@using Clinic.Data.Models
+@* //sử dựng layout cho admin *@
+@layout AdminLayout
+@inject IClinicService clinicService
+@inject IDoctorService doctorService
+@inject NavigationManager nav
+@inject NotificationService NotificationService
+<PageTitle>Add Doctor</PageTitle>
+
+<link href="css/admin.css" rel="stylesheet"/>
+
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="doctors.html">Doctors </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Add Doctor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <EditForm Model="createDoctor" OnValidSubmit="HandleDoctorCreate">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-heading">
+                                        <h4>Doctor Details</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Username <span class="login-danger">*</span></label>
+                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Password <span class="login-danger">*</span></label>
+                                        <input @bind-value="@createDoctor.Password" class="form-control"
+
+                                               type="text"
+                                               placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms">
+                                        <label>Name <span class="login-danger">*</span></label>
+                                        <input @bind-value="@createDoctor.Name" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-forms">
+                                        <label>Phone Number <span class="login-danger">*</span></label>
+                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>
+                                            Date Of Birth
+                                            <span class="login-danger">*</span>
+                                        </label>
+                                        <RadzenDatePicker @bind-Value=@createDoctor.DateOfBirth DateFormat="dd/MM/yyyy" Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>
+                                            Specialization <span class="login-danger">*</span>
+                                        </label>
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Change="@(args => SpecSelect(args))" Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent"/>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Achievement <span class="login-danger">*</span></label>
+                                        <InputText @bind-Value="createDoctor.Title" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>WorkingExperience <span class="login-danger">*</span></label>
+                                        <RadzenTextArea Placeholder="Enter introduction here..." @bind-Value=@createDoctor.Introduction class="w-100" aria-label="TextArea with placeholder"/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Rating <span class="login-danger">*</span></label>
+                                        <InputNumber @bind-Value="createDoctor.Rating" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>ClinicNum <span class="login-danger">*</span></label>
+                                        <InputText @bind-Value="createDoctor.ClinicNum" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-top-form">
+                                        <label class="local-top">Avartar <span class="login-danger">*</span></label>
+                                        <InputText @bind-Value="createDoctor.ImageUrl" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="doctor-submit text-end">
+                                        <button type="submit"
+                                                class="btn btn-primary submit-form me-2">
+                                            Submit
+                                        </button>
+                                        <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-doctor", true))" class="btn btn-primary cancel-form">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
+    private string accessToken { get; set; }
+    private DoctorDto createDoctor = new();
+    int value;
+    [Parameter] public string? id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        if (!string.IsNullOrEmpty(id))
+        {
+            var responseDoctor = await doctorService.GetDoctorById<ResponseDto>(id);
+            if (responseDoctor != null && responseDoctor.IsSuccess)
+            {
+                createDoctor = JsonConvert.DeserializeObject<DoctorDto>(Convert.ToString((responseDoctor.Result)));
+            }
+        }
+    }
+
+    void SpecSelect(object value)
+    {
+        createDoctor.Specialization = (int)value;
+        StateHasChanged();
+    }
+
+    private async Task HandleDoctorCreate()
+    {
+        var response = await clinicService.CreateOrUpdateDoctor<ResponseDto>(createDoctor, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
+        }
+    }
+
+}
