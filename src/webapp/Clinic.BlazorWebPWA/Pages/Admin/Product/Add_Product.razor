@@ -8,7 +8,7 @@
 @inject NotificationService NotificationService
 <PageTitle>Add Service</PageTitle>
 
-<link href="css/admin.css" rel="stylesheet" />
+<link href="css/admin.css" rel="stylesheet"/>
 
 <div class="page-wrapper">
     <div class="content">
@@ -17,8 +17,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="list-product">Services</a></li>
-                        <li class="breadcrumb-item"><i class="fa-solid fa-chevron-right"></i></li>
+                        <li class="breadcrumb-item">
+                            <a href="list-product">Services</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
                         <li class="breadcrumb-item active">Edit Service</li>
                     </ul>
                 </div>
@@ -29,12 +33,12 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-heading">
-                                        <h4>Service detail</h4>
-                                    </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Service detail</h4>
                                 </div>
+                            </div>
                             <EditForm Model="createProduct" OnValidSubmit="HandleBookingCreate">
                                 <div class="col-12">
                                     <div class="input-block local-forms">
@@ -53,19 +57,19 @@
                                 <div class="col-6 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Specialization<span class="login-danger">*</span></label>
-                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Change="@(args => SpecSelect(args))" Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Change="@(args => SpecSelect(args))" Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent"/>
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-6">
                                     <div class="input-block local-forms">
-                                    <RadzenCheckBox @bind-Value=@createProduct.IsMainCombo Name="CheckBox1" />
-                                    <RadzenLabel Text="IsMainCombo" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
-                                     </div>
+                                        <RadzenCheckBox @bind-Value=@createProduct.IsMainCombo Name="CheckBox1"/>
+                                        <RadzenLabel Text="IsMainCombo" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;"/>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <div class="sd-multiSelect form-group">
                                         <label>Service In Combo<span class="login-danger">*</span></label>
-                                        <RadzenDropDownDataGrid class="form-select" 
+                                        <RadzenDropDownDataGrid class="form-select"
                                                                 FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                 AllowFiltering="true" AllowClear="true"
                                                                 Data="@GetListProducts" @bind-Value=@multipleValues Multiple="true"
@@ -73,7 +77,7 @@
                                                                 TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
                                                                 Placeholder="Select Service" MaxSelectedLabels="4"
                                                                 SelectAllText="Select all items" SelectedItemsText="are now selected"
-                                                                Change="@(args => Change(args,"DropDown"))">
+                                                                Change="@(args => Change(args, "DropDown"))">
                                         </RadzenDropDownDataGrid>
                                     </div>
                                 </div>
@@ -82,6 +86,12 @@
                                     <div class="input-block local-forms">
                                         <label>Description<span class="login-danger">*</span></label>
                                         <textarea @bind="@createProduct.Description" class="form-control" rows="3" cols="30"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12">
+                                    <div class="input-block local-forms">
+                                        <label>Rating<span class="login-danger">*</span></label>
+                                        <input @bind="@createProduct.Rating" class="form-control" type="number" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">
@@ -97,7 +107,7 @@
                                     </div>
                                 </div>
                             </EditForm>
-                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -105,29 +115,29 @@
         </div>
     </div>
 </div>
+
 @code{
     int value;
-    private Dictionary<int,string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
+    private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
     private Product createProduct = new();
     private List<Product> GetListProducts = new();
     IEnumerable<string> multipleValues;
-    [Inject]
-    IAccessTokenProvider TokenProvider { get; set; }
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private string accessToken { get; set; }
     string eventValue;
     public double Total { get; set; }
-    [Parameter]
-    public string? id { get; set; }
+    [Parameter] public string? id { get; set; }
+
     protected async override Task OnInitializedAsync()
     {
         var authState = await authenticationStateTask;
         var user = authState.User;
         if (!user.Identity.IsAuthenticated)
         {
-            nav.NavigateTo("authentication/login");
+            nav.NavigateTo("authentication/login", true);
         }
+
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         accessToken = string.Empty;
 
@@ -135,6 +145,7 @@
         {
             accessToken = token.Value;
         }
+
         if (!string.IsNullOrEmpty(id))
         {
             var responseProduct = await productService.GetProduct<ResponseDto>(id);
@@ -145,31 +156,35 @@
                 multipleValues = createProduct.Products != null ? createProduct.Products.Select(x => x.Id).AsEnumerable() : [];
             }
         }
+
         var response = await productService.GetListProducts<ResponseDto>("e.IsMainCombo = false");
         if (response != null && response.IsSuccess)
         {
             GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
         }
-
     }
+
     void SpecSelect(object value)
     {
         createProduct.Specialization = (int)value;
         StateHasChanged();
     }
+
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
-        createProduct.Price = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList().Sum(x => x.Price);      
+        createProduct.Price = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList().Sum(x => x.Price);
         createProduct.Products = GetListProducts.Where(x => eventValue.Contains(x.Id)).ToList();
         StateHasChanged();
     }
+
     private async Task HandleBookingCreate()
     {
-        var response = await productService.CreateOrUpdateBooking<ResponseDto>(createProduct,accessToken);
+        var response = await productService.CreateOrUpdateBooking<ResponseDto>(createProduct, accessToken);
         if (response != null && response.IsSuccess)
         {
-            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully"});
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
         }
     }
+
 }

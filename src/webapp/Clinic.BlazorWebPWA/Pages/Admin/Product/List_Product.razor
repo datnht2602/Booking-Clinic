@@ -43,7 +43,7 @@
                                                 </form>
                                             </div>
                                             <div class="add-group">
-                                                <a href="upsert-product" class="btn btn-primary add-pluss ms-2"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                <RadzenButton Click=@(args => AddProduct()) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
                                             </div>
                                         </div>
                                     </div>
@@ -120,12 +120,12 @@
             if (responseDelete != null && responseDelete.IsSuccess)
             {
                 GetListProducts = null;
-                await this.InvokeAsync(StateHasChanged);
+               StateHasChanged();
                 var response =  await productService.GetListProducts<ResponseDto>(productName);
                 if (response != null && response.IsSuccess)
                 {
                     GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
-                    await this.InvokeAsync(StateHasChanged);
+                    StateHasChanged();
                 }
                 NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully"});
             }
@@ -135,13 +135,17 @@
     {
         productName = e?.Value?.ToString();
         GetListProducts = null;
-        await this.InvokeAsync(StateHasChanged);
+        StateHasChanged();
         var response =  await productService.GetListProducts<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
         {
             GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
             GetListProducts = GetListProducts.Where(x => x.Name.ContainsCaseInsensitive(productName)).ToList();
-            await this.InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
-    }   
+    }
+    void AddProduct()
+    {
+        nav.NavigateTo("/upsert-product",true);
+    }
 }

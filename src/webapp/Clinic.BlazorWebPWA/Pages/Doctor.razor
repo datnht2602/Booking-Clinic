@@ -177,36 +177,36 @@
     {
         filter.Specialization = (int)value;
         doctors = null;
-        await this.InvokeAsync(StateHasChanged);
+        StateHasChanged();
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
-            await this.InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
     }
     async Task FilterTitle(object value)
     {
         filter.Title = ((string)value).Equals("None") ? string.Empty : (string)value;
         doctors = null;
-        await this.InvokeAsync(StateHasChanged);
+        StateHasChanged();
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
-            await this.InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
     }
     private async Task SearchName()
     {
         filter.DoctorName = doctorName;
         doctors = null;
-        await this.InvokeAsync(StateHasChanged);
+        StateHasChanged();
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
-            await this.InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
     }
     private async Task HandleChange(ChangeEventArgs e)
@@ -214,12 +214,12 @@
         doctorName = e?.Value?.ToString();
         filter.DoctorName = doctorName;
         doctors = null;
-        await this.InvokeAsync(StateHasChanged);
+        StateHasChanged();
         var response = await clinicService.GetDoctorsAsync<ResponseDto>(filter);
         if (response != null && response.IsSuccess)
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
-            await this.InvokeAsync(StateHasChanged);
+            StateHasChanged();
         }
     }
 }

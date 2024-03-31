@@ -21,6 +21,7 @@ namespace Clinic.Product.Services
         private readonly HttpClient httpClient;
         private readonly IMapper autoMapper;
         private readonly IDistributedCacheService cacheService;
+        public string FilterString = "e.IsMainCombo = true";
         public ProductService(IHttpClientFactory httpClientFactory, IOptions<ApplicationSettings> applicationSettings,
         IMapper autoMapper, IDistributedCacheService cacheService)
         {
@@ -49,11 +50,14 @@ namespace Clinic.Product.Services
             }
             var createdProductDAO = await productResponse.Content.ReadFromJsonAsync<Data.Models.Product>().ConfigureAwait(false);
 
-            await cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
+            await cacheService.RemoveCacheAsync($"products{FilterString}").ConfigureAwait(false);
             if(createdProductDAO != null)
             {
                 result.Result = createdProductDAO;
+                return result;
             }
+
+            result.IsSuccess = false;
             return result;
         }
 
@@ -63,12 +67,16 @@ namespace Clinic.Product.Services
             if(!productResponse.IsSuccessStatusCode){
                 await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
-            await cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
+            await cacheService.RemoveCacheAsync($"products{FilterString}").ConfigureAwait(false);
             return new ResponseDto();
         }
 
         public async Task<ResponseDto> GetProductByIdASync(string productId)
         {
+            if (productId == null)
+            {
+                return null;
+            }
             using var productRequest = new HttpRequestMessage(HttpMethod.Get,$"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}");
             var productResponse = await httpClient.SendAsync(productRequest).ConfigureAwait(false);
             ResponseDto result = new();
@@ -99,6 +107,7 @@ namespace Clinic.Product.Services
                 {
                     return new ResponseDto();
                 }
+                
                 products = await productResponse.Content.ReadFromJsonAsync<IEnumerable<Clinic.Data.Models.Product>>().ConfigureAwait(false);
                 await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<Clinic.Data.Models.Product>>($"products{filterCriteria}", products).ConfigureAwait(false);
             }
@@ -117,7 +126,7 @@ namespace Clinic.Product.Services
             }
 
             // clearning the cache
-            await this.cacheService.RemoveCacheAsync("products").ConfigureAwait(false);
+            await this.cacheService.RemoveCacheAsync($"products{FilterString}").ConfigureAwait(false);
 
             return new ResponseDto();
         }

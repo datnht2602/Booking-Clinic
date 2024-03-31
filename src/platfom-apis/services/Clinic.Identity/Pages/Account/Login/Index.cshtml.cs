@@ -145,6 +145,10 @@ public class Index : PageModel
                     }
 
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                    if (user.UserName == "admin@gmail.com")
+                    {
+                        return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}admin");
+                    }
                     return Redirect(Input.ReturnUrl);
                 }
 

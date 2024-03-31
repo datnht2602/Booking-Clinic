@@ -1,5 +1,7 @@
 ﻿@page "/health-packages"
-
+@using Clinic.Data.Models
+@inject IProductService productService
+@inject DialogService DialogService
 <PageTitle>Health Packages</PageTitle>
 
 <head>
@@ -27,182 +29,58 @@
         <section class="py-3">
             <div class="container px-5 mt-3">
                 <div class="row gx-5">
-                    <div class="col-12">
+                    @if (GetListProducts == null)
+                    {
+                        <h3>Loading...</h3>
+                    }
+                    else
+                    {
+                        @foreach (var item in GetListProducts)
+                        {
+                            <div class="col-12">
                         <div class="card mb-5">
                             <div class="bg-white shadow-sm border">
                                 <div class="card-body align-items-center mx-3">
                                     <div class="mb-2">
-                                        <h4 class="fw-bold card-title">Periodic health check package</h4>
-                                        <h5 class="card-subtitle mb-0">Neurosurgeon</h5>
+                                        <h4 class="fw-bold card-title">@item.Name</h4>
+                                        @*<h5 class="card-subtitle mb-0">@item.</h5>*@
                                     </div>
 
                                     <div class="card-text">
-                                        <p class="text-muted mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
+                                        <p class="text-muted mb-2">@item.Description</p>
                                     </div>
                                     <div class="d-flex justify-content-start gap-3">
                                         <p class="fw-bold my-auto fs-6"> Rating: </p>
                                         <div class="stars gap-2 fs-5">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
+                                            @for (int i = 0; i < item.Rating; i++)
+                                            {
+                                                <i class="fa-solid fa-star" style="color: rgb(255, 210, 48);"></i>
+                                            }
                                         </div>
-                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
+                                        <p class="fw-bold my-auto fs-6">@item.Rating/5 </p>
                                     </div>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between card-footer">
                                     <div class="mx-3">
-                                        <h6 class="my-auto fw-bold">Price: 1900000đ</h6>
+                                        <h6 class="my-auto fw-bold">Price: @item.Price đ</h6>
                                     </div>
 
                                     <div class="d-flex mx-3 gap-2">
-                                        <a href="/" class="btn btn-navy card-link">Detail</a>
-                                        <a href="/health-packages" class="btn btn-navy card-link">Booking Appointment</a>
+                                         <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info"
+                                                          Click=@(args => ShowDetail(@item.Id)) />
+                                        <a href="/health-packages" class="btn btn-info card-link">Booking Appointment</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
-                        <div class="card mb-5">
-                            <div class="bg-white shadow-sm border">
-                                <div class="card-body align-items-center mx-3">
-                                    <div class="mb-2">
-                                        <h4 class="fw-bold card-title">General health check-up package Standard Female (under 40 years old)</h4>
-                                        <h5 class="card-subtitle mb-0">Neurosurgeon</h5>
-                                    </div>
-
-                                    <div class="card-text">
-                                        <p class="text-muted mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                                    </div>
-                                    <div class="d-flex justify-content-start gap-3">
-                                        <p class="fw-bold my-auto fs-6"> Rating: </p>
-                                        <div class="stars gap-2 fs-5">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center justify-content-between card-footer">
-                                    <div class="mx-3">
-                                        <h6 class="my-auto fw-bold">Price: 1900000đ</h6>
-                                    </div>
-
-                                    <div class="d-flex mx-3 gap-2">
-                                        <a href="/" class="btn btn-navy card-link">Detail</a>
-                                        <a href="/health-packages" class="btn btn-navy card-link">Booking Appointment</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card mb-5">
-                            <div class="bg-white shadow-sm border">
-                                <div class="card-body align-items-center mx-3">
-                                    <div class="mb-2">
-                                        <h4 class="fw-bold card-title">General health check-up package Standard Male (under 40 years old)</h4>
-                                        <h5 class="card-subtitle mb-0">Neurosurgeon</h5>
-                                    </div>
-
-                                    <div class="card-text">
-                                        <p class="text-muted mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                                    </div>
-                                    <div class="d-flex justify-content-start gap-3">
-                                        <p class="fw-bold my-auto fs-6"> Rating: </p>
-                                        <div class="stars gap-2 fs-5">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center justify-content-between card-footer">
-                                    <div class="mx-3">
-                                        <h6 class="my-auto fw-bold">Price: 1900000đ</h6>
-                                    </div>
-
-                                    <div class="d-flex mx-3 gap-2">
-                                        <a href="/" class="btn btn-navy card-link">Detail</a>
-                                        <a href="/health-packages" class="btn btn-navy card-link">Booking Appointment</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card mb-5">
-                            <div class="bg-white shadow-sm border">
-                                <div class="card-body align-items-center mx-3">
-                                    <div class="mb-2">
-                                        <h4 class="fw-bold card-title">Children's general health check-up package</h4>
-                                        <h5 class="card-subtitle mb-0">Neurosurgeon</h5>
-                                    </div>
-
-                                    <div class="card-text">
-                                        <p class="text-muted mb-2">The sunrise and sunset gorges. Horses and local natural products. We are happy family. We look forward to host you.</p>
-                                    </div>
-                                    <div class="d-flex justify-content-start gap-3">
-                                        <p class="fw-bold my-auto fs-6"> Rating: </p>
-                                        <div class="stars gap-2 fs-5">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                        </div>
-                                        <p class="fw-bold my-auto fs-6">A.a/5 </p>
-                                    </div>
-                                </div>
-
-                                <div class="d-flex align-items-center justify-content-between card-footer">
-                                    <div class="mx-3">
-                                        <h6 class="my-auto fw-bold">Price: 1900000đ</h6>
-                                    </div>
-
-                                    <div class="d-flex mx-3 gap-2">
-                                        <a href="/" class="btn btn-navy card-link">Detail</a>
-                                        <a href="/health-packages" class="btn btn-navy card-link">Booking Appointment</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        }
+                    }
                 </div>
             </div>
         </section>
-
-        <!--Pagination-->
-        <section class="p-3 d-flex justify-content-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination mb-0">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">«</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">»</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </section>
+        
     </main>
 
     <script>
@@ -226,4 +104,32 @@
     </script>
 
 </body>
-
+@code{
+    private List<Product> GetListProducts = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await productService.GetListProducts<ResponseDto>("e.IsMainCombo = true");
+        if (response != null && response.IsSuccess)
+        {
+            GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+        }
+    }
+    async Task ShowDetail(string id)
+    {
+        var product = GetListProducts.FirstOrDefault(x => x.Id == id);
+        await DialogService.OpenAsync("Detail", ds =>
+            @<div>
+                List Services Include:
+                @if (product.Products != null)
+                {
+                    @foreach (var item in product.Products)
+                    {
+                        <div>Name: @item.Name</div>
+                    }  
+                }
+        </div>, new DialogOptions() {
+            CssClass = "custom-dialog-class",
+            WrapperCssClass = "custom-dialog-wrapper-class"
+        });
+    }
+}

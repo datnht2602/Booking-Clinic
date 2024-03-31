@@ -150,7 +150,7 @@ namespace Clinic.Booking.Services
         public async Task<HttpResponseMessage> UpdateSchedule(UpdateSchedule schedule)
         {
             using var userRequest = new StringContent(JsonSerializer.Serialize(schedule), Encoding.UTF8, ContentType);
-            var userResponse = await httpClient.PutAsync(new Uri($"{applicationSettings.Value.IdentityApiEndpoint}/UpdateSchedule"), userRequest).ConfigureAwait(false);
+            var userResponse = await httpClient.PostAsync(new Uri($"{applicationSettings.Value.IdentityApiEndpoint}/user/UpdateSchedule"), userRequest).ConfigureAwait(false);
             if (!userResponse.IsSuccessStatusCode)
             {
                 await ThrowServiceToServiceErrors(userResponse).ConfigureAwait(false);

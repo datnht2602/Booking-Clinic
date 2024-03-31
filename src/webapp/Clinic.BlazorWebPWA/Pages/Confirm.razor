@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="date" class="form-label medium text-white">Date of birth <small class="text-danger fw-bold">*</small></label>
-                                            <InputDate @bind-Value="viewModel.DateOfBirth" class="form-control" id="datetime" required/>
+                                            <RadzenDatePicker @bind-Value=@viewModel.DateOfBirth DateFormat="dd/MM/yyyy" required Name="RadzenDatePickerBindValue" ShowCalendarWeek />
                                         </div>
                                         <div class="mb-3">
                                             <label for="address" class="form-label medium text-white">Address <small class="text-danger">*</small></label>
@@ -189,7 +189,7 @@
                 items.Add(item);
             }
 
-            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://salmon-field-0aa309100.5.azurestaticapps.net/payment/failed", $"https://salmon-field-0aa309100.5.azurestaticapps.net/payment/success/{updateModel.Id}");
+            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{updateModel.Id}");
 
             CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 

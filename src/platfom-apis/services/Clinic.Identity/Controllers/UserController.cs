@@ -73,7 +73,7 @@ namespace Clinic.Identity.Controllers
         public async Task<IActionResult> UpdateSchedule([FromBody] UpdateSchedule dto)
         {
             var items = await _userManager.Users.Include(x => x.ScheduleTimes).FirstOrDefaultAsync(u => u.Id == dto.UserId);
-            if (items == null)
+            if (items != null)
             {
                 items.ScheduleTimes.Add(new ScheduleTime
                 {
