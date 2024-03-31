@@ -151,7 +151,7 @@
 @code
 {
     List<DoctorListViewModel> doctors = new();
-    Dictionary<int, string> doctorFilter = new();
+    Dictionary<int, string> doctorFilter = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
     int value;
     FilterDto filter = new();
     List<string> Title = new();
@@ -164,14 +164,9 @@
         {
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
             var listSpecialization = doctors.Select(x => x.Specialization).Distinct().Order().ToList();
-            listSpecialization?.ForEach(x =>
-            {
-                doctorFilter.TryAdd(x, x.ConvertSpecEnum());
-            });
             Title = doctors.Select(x => x.Title).Distinct().ToList();
             Title.Insert(0, "None");
         }
-       
     }
     async Task FilterSpec(object value)
     {

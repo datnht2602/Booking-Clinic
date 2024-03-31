@@ -106,7 +106,7 @@
                             <div class="row">
                                 <div class="mb-3 col-6">
                                     <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
-                                    <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                                    <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Style="width: 100%" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>

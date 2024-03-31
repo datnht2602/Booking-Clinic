@@ -46,7 +46,7 @@ namespace Clinic.Data.Store
             }
             else
             {
-                filterCriteria = $"select * from e where e.CouponCode = \"{filterCriteria}\"";
+                filterCriteria = $"select * from e where e.CouponCode = \"{filterCriteria}\" and e.IsEnable = true ";
             }
 
             var iterator = this.container.GetItemQueryIterator<TEntity>(new QueryDefinition(filterCriteria));

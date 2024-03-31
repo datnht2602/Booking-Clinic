@@ -7,7 +7,7 @@ namespace Clinic.Message;
 public class AzureServiceBusMessageBus : IMessageBus
 {
     private string connectionString =
-        "Endpoint=sb://youngblood.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=zqAp8DvJzPVgHynD34FMI9a4clU3gcOMW+ASbHjnC+4=";
+        "Endpoint=sb://clinicsp.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=QxSugQSghx2aVDBESG6sx6aUdwANHx7Cx+ASbMqsYS0=";
     public async Task PublishMessage(BaseMessage message, string topicName)
     {
         await using var client = new ServiceBusClient(connectionString);

@@ -39,6 +39,7 @@ builder.Services.AddHttpClient(name: "OrderMessage",
 builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddOidcAuthentication(options =>
 {
     options.ProviderOptions.Authority = builder.Configuration["ApplicationSettings:IdentityApiEndpoint"];

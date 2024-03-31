@@ -6,6 +6,7 @@ using Clinic.Common.Options;
 using Clinic.Coupon;
 using Clinic.Coupon.Contract;
 using Clinic.Coupon.Services;
+using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +50,35 @@ app.MapGet("/getcoupon/{code}", async (string code,[FromServices] ICouponService
         return await couponService.GetCouponByCode(code).ConfigureAwait(false) is ResponseDto coupon ? Results.Ok(coupon) : Results.NotFound();  
     })
     .WithOpenApi();
-
+app.MapGet("/getcoupons", async ([FromServices] ICouponService couponService,[FromQuery]string? filterCriteria= null) =>
+    {
+        return await couponService.GetCoupons(filterCriteria).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
+    })
+    .WithName("GetProduct")
+    .WithOpenApi();
+app.MapGet("/getcoupons/{id}", async (string id, [FromServices] ICouponService couponService) =>
+    {
+        return await couponService.GetCouponByIdASync(id).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
+    })
+    .WithOpenApi();
+app.MapPost("/getcoupons",async (Coupon coupon, ICouponService couponService) =>{
+        var result = await couponService.AddCouponAsync(coupon).ConfigureAwait(false);
+        return Results.Ok(result);
+    })
+    .WithOpenApi();
+app.MapPut("/getcoupons",async (Coupon coupon, ICouponService couponService) =>{
+        if (coupon == null  || coupon.Id == null)
+        {
+            return Results.BadRequest();
+        }
+        return await couponService.UpdateCouponAsync(coupon) is ResponseDto productResult  ? Results.Ok(productResult) : Results.NotFound();
+    })
+    .WithOpenApi();
+app.MapDelete("/getcoupons/{id}",async (string id, ICouponService couponService) =>{
+        return await couponService.DeleteCouponAsync(id) is ResponseDto productResult ? Results.Ok(productResult) : Results.NotFound();
+    })
+    .WithOpenApi();
+app.Run();
 app.Run();
 
 static IAsyncPolicy<HttpResponseMessage> CircuitBreakerPolicy()

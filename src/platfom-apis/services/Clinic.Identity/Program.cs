@@ -36,6 +36,7 @@ builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IEntitySerializer, EntitySerializer>();
 builder.Services.AddSingleton<IDistributedCacheService, DistributedCacheService>();
+builder.Services.AddScoped<IDBInitializer, DBInitializer>();
 if (builder.Configuration.GetValue<bool>("ApplicationSettings:Redis"))
 {
     builder.Services.AddStackExchangeRedisCache(options =>

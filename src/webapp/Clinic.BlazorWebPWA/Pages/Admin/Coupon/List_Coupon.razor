@@ -1,12 +1,12 @@
-﻿@page "/list-product"
+﻿@page "/list-coupon"
 @layout AdminLayout
 @using Clinic.Data.Models
 @using Clinic.BlazorWebPWA.Extensions
-@inject IProductService productService
+@inject ICouponService couponService
 @inject NavigationManager nav
 @inject DialogService DialogService
 @inject NotificationService NotificationService
-<PageTitle>List of Health Packages</PageTitle>
+<PageTitle>List of Coupons</PageTitle>
 
 <link href="css/admin.css" rel="stylesheet" />
 
@@ -17,9 +17,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="list-product">Health Packages </a></li>
+                        <li class="breadcrumb-item"><a href="list-product">Coupons </a></li>
                         <li class="breadcrumb-item"><i class="fa-solid fa-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">List of Health Packages</li>
+                        <li class="breadcrumb-item active">List of Coupons</li>
                     </ul>
                 </div>
             </div>
@@ -34,10 +34,10 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Packages List</h3>
+                                        <h3>Coupons List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
-                                                    <input type="text" value="@productName" @onchange="HandleChange" class="form-control" placeholder="Search here">
+                                                    <input type="text" value="@couponName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
                                                 <RadzenButton Click=@(args => AddProduct()) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
@@ -58,28 +58,24 @@
                             <table class="table border-0 custom-table comman-table datatable mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Specialization</th>
-                                        <th>Price</th>
-                                        <th>Description</th>
-                                        <th>IsMainCombo</th>
+                                        <th>Code</th>
+                                        <th>DiscountAmount</th>
+                                        <th>IsEnable</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(GetListProducts is not null)
+                                    @if(GetListCoupons is not null)
                                     {
-                                        @foreach (var item in GetListProducts)
+                                        @foreach (var item in GetListCoupons)
                                         {
                                             <tr>
-                                                <td class="profile-image"><a href=@($"upsert-product/{item.Id}")>@item.Name</a></td>
-                                                <td>@item.Specialization.ConvertSpecEnum()</td>
-                                                <td>@item.Price</td>
-                                                <td>@item.Description</td>
-                                                <td>@item.IsMainCombo</td>
+                                                <td>@item.CouponCode</td>
+                                                <td>@item.DiscountAmount</td>
+                                                <td>@item.IsEnable</td>
                                                 <RadzenMenu>
                                                 <RadzenMenuItem Text="More">
-                                                    <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-product/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
+                                                    <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-coupon/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
                                                     <RadzenMenuItem Click="@(args => ConfirmDelete(@item.Id))" @onclick:stopPropagation="true" Text="Delete"></RadzenMenuItem>
                                                 </RadzenMenuItem>
                                                 </RadzenMenu>
@@ -96,14 +92,14 @@
     </div>
 </div>
 @code{
-    private List<Product> GetListProducts = new();
-    string productName = string.Empty;
+    private List<CouponDto> GetListCoupons = new();
+    string couponName = string.Empty;
     protected override async Task OnInitializedAsync(){
 
-        var response = await productService.GetListProducts<ResponseDto>(string.Empty);
+        var response = await couponService.GetListCoupons<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
         {
-            GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+            GetListCoupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString((response.Result)));
             StateHasChanged();
         }
     }
@@ -113,15 +109,15 @@
         var confirmationResult = await this.DialogService.Confirm("Are you sure?", "Delete Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
         if (confirmationResult == true)
         {
-            var responseDelete = await productService.DeleteProduct<ResponseDto>(id);
+            var responseDelete = await couponService.DeleteCoupon<ResponseDto>(id);
             if (responseDelete != null && responseDelete.IsSuccess)
             {
-                GetListProducts = null;
+                GetListCoupons = null;
                StateHasChanged();
-                var response =  await productService.GetListProducts<ResponseDto>(productName);
+                var response =  await couponService.GetListCoupons<ResponseDto>(string.Empty);
                 if (response != null && response.IsSuccess)
                 {
-                    GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+                    GetListCoupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString((response.Result)));
                     StateHasChanged();
                 }
                 NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully"});
@@ -130,14 +126,14 @@
     }
     private async Task HandleChange(ChangeEventArgs e)
     {
-        productName = e?.Value?.ToString();
-        GetListProducts = null;
+        couponName = e?.Value?.ToString();
+        GetListCoupons = null;
         StateHasChanged();
-        var response =  await productService.GetListProducts<ResponseDto>(string.Empty);
+        var response =  await couponService.GetListCoupons<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
         {
-            GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
-            GetListProducts = GetListProducts.Where(x => x.Name.ContainsCaseInsensitive(productName)).ToList();
+            GetListCoupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString((response.Result)));
+            GetListCoupons = GetListCoupons.Where(x => x.CouponCode.ContainsCaseInsensitive(couponName)).ToList();
             StateHasChanged();
         }
     }

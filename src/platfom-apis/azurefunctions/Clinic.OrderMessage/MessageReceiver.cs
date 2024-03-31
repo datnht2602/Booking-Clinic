@@ -24,11 +24,9 @@ public static class MessageReceiver
         
 
         string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        // Read the connection string from configurations
-        string connectionstring= Environment.GetEnvironmentVariable("asbconnectionstring");
 
         // Initialize Service bus connection 
-        await using ServiceBusClient serviceBusClient = new(connectionstring);
+        await using ServiceBusClient serviceBusClient = new("Endpoint=sb://clinicsp.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=QxSugQSghx2aVDBESG6sx6aUdwANHx7Cx+ASbMqsYS0=");
 
         // Initialize a sender object with queue name
         var sender = serviceBusClient.CreateSender("ordermessagetopic");
