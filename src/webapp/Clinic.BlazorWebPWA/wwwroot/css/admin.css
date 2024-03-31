@@ -12,7 +12,7 @@ body {
     font-family: 'Readex Pro', sans-serif;
     font-size: 16px;
     color: #333448;
-    background: linear-gradient(0deg, rgba(51, 53, 72, 0.05), rgba(51, 53, 72, 0.05)), #FFFFFF;
+    background: #FFFFFF;
     overflow-x: hidden;
     height: 100%;
 }
