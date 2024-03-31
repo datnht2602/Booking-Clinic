@@ -53,6 +53,22 @@
             color: black;
         }
 
+        .error-message-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999; /* Đảm bảo thông báo hiển thị trên các phần tử khác */
+        }
+
+        .error-message {
+            background-color: #ffcccc; 
+            padding: 20px; 
+            border-radius: 5px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
     </style>
     <main>
         <div class="bg-white">
@@ -61,7 +77,19 @@
                     <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOK APPOINTMENT</h2>
                     @if(ErrorMessage != string.Empty)
                     {
-                        <h3>@ErrorMessage</h3>
+                        <div class="error-message-container">
+                            <div class="error-message">
+                                <h5 class="error-message-content m-0">@ErrorMessage</h5>
+                            </div>
+                        </div>
+                        <script>
+                            @* Hàm đóng thông báo *@
+                            function closeErrorMessage() {
+                                var errorMessageContainer = document.querySelector('.error-message-container');
+                                errorMessageContainer.parentNode.removeChild(errorMessageContainer);
+                            }
+                            setTimeout(closeErrorMessage, 5000);
+                        </script>
                     }
                     <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                         <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
@@ -115,10 +143,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
-                                <input type="text" @bind-value="@coupon" class="form-control" />
-                                <button type="button" @onclick="HandleAddCoupon" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase"> Apply </button>
+                            <div class="row mb-3">
+                                <div class="col-md-9">
+                                    <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
+                                    <input type="text" @bind-value="@coupon" class="form-control" />
+                                </div>
+                                <div class="col-md-3 d-flex justify-content-md-center align-items-md-end">
+                                    <button type="button" @onclick="HandleAddCoupon" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-2 text-uppercase">Apply</button>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Total</label>
@@ -193,7 +225,7 @@
             var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
             if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
             {
-                ErrorMessage = "Schedule has been booked";
+                ErrorMessage = "Schedule has been booked! Please choose another schedule.";
                 Console.WriteLine("trung");
             }
             else
