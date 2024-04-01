@@ -1,0 +1,138 @@
+﻿@page "/upsert-coupon"
+@page "/upsert-coupon/{id}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Text
+@using Clinic.Data.Models
+@* //sử dựng layout cho admin *@
+@layout AdminLayout
+@inject IClinicService clinicService
+@inject ICouponService couponService
+@inject NavigationManager nav
+@inject NotificationService NotificationService
+<PageTitle>Add Coupon</PageTitle>
+
+<link href="css/admin.css" rel="stylesheet" />
+
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="doctors.html">Doctors </a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Add Doctor</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <EditForm Model="createCoupon" OnValidSubmit="HandleCouponCreate">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-heading">
+                                        <h4>Doctor Details</h4>
+                                    </div>
+                                </div>
+                                 <div class="col-12 col-md-6 col-xl-4">
+                                     <div class="input-block local-forms">
+                                         <label>Coupon Code <span class="login-danger">*</span></label>
+                                        <InputText @bind-Value="createCoupon.CouponCode" class="form-control" type="text" placeholder="" />
+                                     </div>
+                                 </div>
+                                 <div class="col-12 col-md-6 col-xl-4">
+                                     <div class="input-block local-forms">
+                                         <label>Discount Amount <span class="login-danger">*</span></label>
+                                        <InputNumber @bind-Value="createCoupon.DiscountAmount" class="form-control" type="text" placeholder="" />
+                                     </div>
+                                 </div>
+                                 <div class="col-12 col-md-6 col-xl-6">
+                                     <div class="input-block local-top-form">
+                                        <RadzenCheckBox @bind-Value=@createCoupon.IsEnable Name="CheckBox1" />
+                                        <RadzenLabel Text="Enable" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
+                                     </div>
+                                 </div>
+
+                                 <div class="col-12">
+                                     <div class="doctor-submit text-end">
+                                         <button type="submit"
+                                                 class="btn btn-primary submit-form me-2">
+                                             Submit
+                                         </button>
+                                         <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-coupon", true))" class="btn btn-primary cancel-form">
+                                             Cancel
+                                         </button>
+                                     </div>
+                                 </div>
+                             </div>
+                         </EditForm>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+ @code {
+
+    [Inject]
+    IAccessTokenProvider TokenProvider { get; set; }
+    NavigationManager NavigationManager { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
+    private string accessToken { get; set; }
+    private Coupon createCoupon = new();
+    int value;
+    [Parameter] public string? id { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        if (!string.IsNullOrEmpty(id))
+        {
+            var responseDoctor = await couponService.GetCoupon<ResponseDto>(id);
+            if (responseDoctor != null && responseDoctor.IsSuccess)
+            {
+                createCoupon = JsonConvert.DeserializeObject<Coupon>(Convert.ToString((responseDoctor.Result)));
+            }
+        }
+    }
+
+
+    private async Task HandleCouponCreate()
+    {
+        var response = await couponService.CreateOrUpdateCoupon<ResponseDto>(createCoupon, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
+            await Task.Delay(3000);
+            NavigationManager.NavigateTo("/list-coupon", forceLoad: true);
+        }
+    }
+
+}

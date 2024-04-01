@@ -1,4 +1,5 @@
 using Clinic.BlazorWebPWA.Services.IService;
+using Clinic.Data.Models;
 using Clinic.DTO.Models.Dto;
 
 namespace Clinic.BlazorWebPWA.Services;
@@ -11,7 +12,7 @@ public class CouponService : BaseService, ICouponService
         this.client = httpClient.CreateClient();
     }
 
-    public async Task<T> CreateOrUpdateCoupon<T>(CouponDto model, string accessToken)
+    public async Task<T> CreateOrUpdateCoupon<T>(Coupon model, string accessToken)
     {
         return await this.SendAsync<T>(new ApiRequest()
         {

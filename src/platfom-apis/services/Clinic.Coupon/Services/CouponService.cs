@@ -7,6 +7,8 @@ using Clinic.Coupon.Contract;
 using Clinic.Data.Models;
 using Clinic.DTO.Models.Dto;
 using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Json;
 
 namespace Clinic.Coupon.Services;
 
@@ -46,7 +48,7 @@ public class CouponService : ICouponService
 
     public async Task<ResponseDto> GetCoupons(string filterCriteria = null)
     {
-        var coupons = await this.cacheService.GetCacheAsync<IEnumerable<Clinic.Data.Models.Coupon>>($"coupons{filterCriteria}").ConfigureAwait(false);
+        var coupons = await this.cacheService.GetCacheAsync<IEnumerable<Clinic.Data.Models.Coupon>>($"coupons").ConfigureAwait(false);
         if(coupons == null)
         {
             using var couponRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.DataStoreEndpoint}getallcoupons?filterCriteria={filterCriteria}");
@@ -61,32 +63,91 @@ public class CouponService : ICouponService
             }
                 
             coupons = await couponResponse.Content.ReadFromJsonAsync<IEnumerable<Clinic.Data.Models.Coupon>>().ConfigureAwait(false);
-            await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<Clinic.Data.Models.Coupon>>($"coupons{filterCriteria}", coupons).ConfigureAwait(false);
+            await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<Clinic.Data.Models.Coupon>>($"coupons", coupons).ConfigureAwait(false);
         }
 
 
         return new ResponseDto { Result = coupons.ToList()};
     }
 
-    public Task<ResponseDto> GetCouponByIdASync(string couponId)
+    public async Task<ResponseDto> GetCouponByIdASync(string couponId)
     {
-        return couponServiceImplementation.GetCouponByIdASync(couponId);
+        if (couponId == null)
+        {
+            return null;
+        }
+        using var couponRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.DataStoreEndpoint}getcoupons/{couponId}");
+        var couponResponse = await httpClient.SendAsync(couponRequest).ConfigureAwait(false);
+        ResponseDto result = new();
+        if (!couponResponse.IsSuccessStatusCode)
+        {
+            await ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+        }
+        if (couponResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+        {
+            var productDAO = await couponResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Coupon>().ConfigureAwait(false);
+            result.Result = productDAO;
+            return result;
+        }
+        else
+        {
+            return result;
+        }
     }
 
-    public Task<ResponseDto> AddCouponAsync(Data.Models.Coupon coupon)
+    public async Task<ResponseDto> AddCouponAsync(Data.Models.Coupon coupon)
     {
-        throw new NotImplementedException();
+        ArgumentValidation.ThrowIfNull(coupon);
+        ResponseDto result = new();
+        var existingProduct = await GetCouponByIdASync(couponId: coupon.Id);
+        if (existingProduct != null && existingProduct.IsSuccess)
+        {
+            return await UpdateCouponAsync(coupon);
+        }
+        coupon.Id = Guid.NewGuid().ToString();
+        using var couponRequest = new StringContent(JsonSerializer.Serialize(coupon), Encoding.UTF8, ContentType);
+        var couponResponse = await httpClient.PostAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getcoupons"), couponRequest).ConfigureAwait(false);
+
+        if (!couponResponse.IsSuccessStatusCode)
+        {
+            await ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+        }
+        var createdCouponDAO = await couponResponse.Content.ReadFromJsonAsync<Data.Models.Coupon>().ConfigureAwait(false);
+        await cacheService.RemoveCacheAsync($"coupons").ConfigureAwait(false);
+        if (createdCouponDAO != null)
+        {
+            result.Result = createdCouponDAO;
+            return result;
+        }
+
+        result.IsSuccess = false;
+        return result;
     }
 
-    public Task<ResponseDto> UpdateCouponAsync(Data.Models.Coupon coupon)
+    public async Task<ResponseDto> UpdateCouponAsync(Data.Models.Coupon coupon)
     {
-        throw new NotImplementedException();
+        using var couponRequest = new StringContent(JsonSerializer.Serialize(coupon), Encoding.UTF8, ContentType);
+        var couponResponse = await this.httpClient.PutAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getcoupons"), couponRequest).ConfigureAwait(false);
+        if (!couponResponse.IsSuccessStatusCode)
+        {
+            await this.ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+        }
+
+        // clearning the cache
+        await cacheService.RemoveCacheAsync($"coupons").ConfigureAwait(false);
+        return new ResponseDto();
     }
 
 
-    public Task<ResponseDto> DeleteCouponAsync(string couponId)
+    public async Task<ResponseDto> DeleteCouponAsync(string couponId)
     {
-        return couponServiceImplementation.DeleteCouponAsync(couponId);
+        var couponResponse = await httpClient.DeleteAsync(new Uri($"{this.applicationSettings.Value.DataStoreEndpoint}getcoupons/{couponId}")).ConfigureAwait(false);
+        if (!couponResponse.IsSuccessStatusCode)
+        {
+            await this.ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+        }
+        await cacheService.RemoveCacheAsync($"coupons").ConfigureAwait(false);
+        return new ResponseDto();
     }
 
     private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)

@@ -50,7 +50,7 @@ app.MapGet("/getcoupon/{code}", async (string code,[FromServices] ICouponService
         return await couponService.GetCouponByCode(code).ConfigureAwait(false) is ResponseDto coupon ? Results.Ok(coupon) : Results.NotFound();  
     })
     .WithOpenApi();
-app.MapGet("/getcoupons", async ([FromServices] ICouponService couponService,[FromQuery]string? filterCriteria= null) =>
+app.MapGet("/getlistcoupon", async ([FromServices] ICouponService couponService,[FromQuery]string? filterCriteria= null) =>
     {
         return await couponService.GetCoupons(filterCriteria).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
     })

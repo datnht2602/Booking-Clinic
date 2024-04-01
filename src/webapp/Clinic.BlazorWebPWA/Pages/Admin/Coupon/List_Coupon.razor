@@ -40,16 +40,10 @@
                                                     <input type="text" value="@couponName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
-                                                <RadzenButton Click=@(args => AddProduct()) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
+                                                <RadzenButton Click=@(_ => nav.NavigateTo($"upsert-coupon", true)) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt></a>
-                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt></a>
                                 </div>
                             </div>
                         </div>
@@ -92,14 +86,14 @@
     </div>
 </div>
 @code{
-    private List<CouponDto> GetListCoupons = new();
+    private List<Coupon> GetListCoupons = new();
     string couponName = string.Empty;
     protected override async Task OnInitializedAsync(){
 
         var response = await couponService.GetListCoupons<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
         {
-            GetListCoupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString((response.Result)));
+            GetListCoupons = JsonConvert.DeserializeObject<List<Coupon>>(Convert.ToString((response.Result)));
             StateHasChanged();
         }
     }
@@ -117,7 +111,7 @@
                 var response =  await couponService.GetListCoupons<ResponseDto>(string.Empty);
                 if (response != null && response.IsSuccess)
                 {
-                    GetListCoupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString((response.Result)));
+                    GetListCoupons = JsonConvert.DeserializeObject<List<Coupon>>(Convert.ToString((response.Result)));
                     StateHasChanged();
                 }
                 NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully"});
@@ -132,7 +126,7 @@
         var response =  await couponService.GetListCoupons<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
         {
-            GetListCoupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString((response.Result)));
+            GetListCoupons = JsonConvert.DeserializeObject<List<Coupon>>(Convert.ToString((response.Result)));
             GetListCoupons = GetListCoupons.Where(x => x.CouponCode.ContainsCaseInsensitive(couponName)).ToList();
             StateHasChanged();
         }

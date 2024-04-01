@@ -9,5 +9,7 @@ namespace Clinic.Data.Models
         public string CouponCode { get; set; }
         public double DiscountAmount { get; set; }
         public bool IsEnable { get; set; }
+        [JsonProperty("_etag")]
+        public string Etag { get; set; }
     }
 }
