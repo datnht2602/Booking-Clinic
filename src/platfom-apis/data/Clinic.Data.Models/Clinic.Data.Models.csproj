@@ -2,6 +2,21 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Clinic.SharedLibrary.DataModels</PackageId>
+		<PackageVersion>8.0.0.0</PackageVersion>
+		<Title>Young Blood Shared Library Models</Title>
+		<Authors>Derek Nguyen</Authors>
+		<PackageLicenseExpression>
+			MS-PL
+		</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageReleaseNotes>
+			 shared library packaged for Young Blood.
+		</PackageReleaseNotes>
+		<Description>
+			Data Models class.
+		</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
