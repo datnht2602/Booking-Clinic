@@ -42,7 +42,7 @@
                                 <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Data=@doctorFilter Change="@(args => FilterSpec(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                             </div>
                             <div class="col-md-3">
-                                  <RadzenDropDown @bind-Value=@titleValue Data=@Title Change="@(args => FilterTitle(args))" Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
+                                <RadzenDropDown @bind-Value=@titleValue Data=@Title Change="@(args => FilterTitle(args))" Style="width: 100%; max-width: 400px;" Name="DropDownBindValue" />
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <!-- Part 2: Search Bar -->
                     <div class="col-lg-3">
                         <div class="input-group">
-                            <input type="text"  value="@doctorName" @onchange="HandleChange" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name" >
+                            <input type="text" value="@doctorName" @onchange="HandleChange" class="form-control" placeholder="Search for a doctor" aria-label="Doctor's name">
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="card mb-5">
                                 <div class="bg-white shadow-lg border">
-                                    <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="doctor-image"></div>
+                                    <div class="mx-auto"><img class="img-fluid card-img-top" src="@doctor.ImageUrl" alt="doctor-image" style="height: 45em"></div>
                                     <div class="card-body align-items-center" style="height: 18em">
                                         <div class="text-center mb-2">
                                             <h5 class="fw-bold card-title">@doctor.Title @doctor.Name </h5>
@@ -104,28 +104,28 @@
                         </div>
                     }
                     }
-                    
+
                 </div>
             </div>
         </section>
         @*<section class="p-3 d-flex justify-content-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination mb-0">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">«</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">»</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <nav aria-label="Page navigation example">
+        <ul class="pagination mb-0">
+        <li class="page-item">
+        <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">«</span>
+        </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">»</span>
+        </a>
+        </li>
+        </ul>
+        </nav>
         </section>*@
     </main>
 </body>
