@@ -117,6 +117,8 @@
 </div>
 
 @code{
+    [Inject]
+    NavigationManager NavigationManager { get; set; }
     int value;
     private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
     private Product createProduct = new();
@@ -184,6 +186,8 @@
         if (response != null && response.IsSuccess)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
+            await Task.Delay(3000);
+            NavigationManager.NavigateTo("/list-product", forceLoad: true);
         }
     }
 
