@@ -1,6 +1,4 @@
-﻿using Clinic.Data.Models;
-using Clinic.DTO.Models;
-using Clinic.DTO.Models.Dto;
+﻿using Clinic.DTO.Models.Dto;
 
 namespace Clinic.Product.Contracts
 {
