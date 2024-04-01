@@ -51,6 +51,7 @@ namespace Clinic.Product.Services
             var createdProductDAO = await productResponse.Content.ReadFromJsonAsync<Data.Models.Product>().ConfigureAwait(false);
 
             await cacheService.RemoveCacheAsync($"products{FilterString}").ConfigureAwait(false);
+            await cacheService.RemoveCacheAsync($"products").ConfigureAwait(false);
             if(createdProductDAO != null)
             {
                 result.Result = createdProductDAO;
@@ -68,6 +69,7 @@ namespace Clinic.Product.Services
                 await this.ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
             }
             await cacheService.RemoveCacheAsync($"products{FilterString}").ConfigureAwait(false);
+            await cacheService.RemoveCacheAsync($"products").ConfigureAwait(false);
             return new ResponseDto();
         }
 
@@ -127,7 +129,7 @@ namespace Clinic.Product.Services
 
             // clearning the cache
             await this.cacheService.RemoveCacheAsync($"products{FilterString}").ConfigureAwait(false);
-
+            await cacheService.RemoveCacheAsync($"products").ConfigureAwait(false);
             return new ResponseDto();
         }
         private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)

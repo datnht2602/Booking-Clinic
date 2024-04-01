@@ -75,7 +75,7 @@
                                                 <td class="profile-image"><a href=@($"upsert-product/{item.Id}")>@item.Name</a></td>
                                                 <td>@item.Specialization.ConvertSpecEnum()</td>
                                                 <td>@item.Price</td>
-                                                <td>@item.Description</td>
+                                                <td class="description-cell"><div class="ellipsis">@item.Description</div></td>
                                                 <td>@item.IsMainCombo</td>
                                                 <RadzenMenu>
                                                 <RadzenMenuItem Text="More">
@@ -146,3 +146,15 @@
         nav.NavigateTo("/upsert-product",true);
     }
 }
+
+<style>
+
+td.description-cell {
+   max-width: 15em;
+}
+div.ellipsis {
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+</style>
