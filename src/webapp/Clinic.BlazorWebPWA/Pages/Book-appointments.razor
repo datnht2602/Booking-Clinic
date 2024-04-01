@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IClinicService clinicService
 @inject NavigationManager nav
+@inject DialogService DialogService
 <PageTitle>Booking Appointment</PageTitle>
 
 <head>
@@ -12,85 +13,12 @@
 </head>
 
 <body>
-    <style>
-        .btn-group,
-        .btn-group-vertical {
-            position: relative;
-            display: inline-flex;
-            vertical-align: middle;
-            width: 100%;
-        }
-
-        .multiselect-container {
-            position: absolute;
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0px
-        }
-        /* Modal Box  */
-        :root {
-            --theme-color: #041150;
-            --theme-color-hover: #041150;
-            --theme-color2: #041150;
-        }
-
-        .modal-box {
-            width: 100%;
-            max-width: 500px;
-        }
-
-        select:invalid {
-            color: gray;
-        }
-
-        option {
-            color: black;
-        }
-
-        .error-message-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 9999; /* Đảm bảo thông báo hiển thị trên các phần tử khác */
-        }
-
-        .error-message {
-            background-color: #ffcccc; 
-            padding: 20px; 
-            border-radius: 5px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-    </style>
     <main>
         <div class="bg-white">
             <div class="container px-5 py-5 appointments">
                 <div>
                     <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOK APPOINTMENT</h2>
-                    @if(ErrorMessage != string.Empty)
-                    {
-                        <div class="error-message-container">
-                            <div class="error-message">
-                                <h5 class="error-message-content m-0">@ErrorMessage</h5>
-                            </div>
-                        </div>
-                        <script>
-                            @* Hàm đóng thông báo *@
-                            function closeErrorMessage() {
-                                var errorMessageContainer = document.querySelector('.error-message-container');
-                                errorMessageContainer.parentNode.removeChild(errorMessageContainer);
-                            }
-                            setTimeout(closeErrorMessage, 5000);
-                        </script>
-                    }
+                
                     <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                         <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
                             <div class="row">
@@ -199,41 +127,72 @@
     }
     async Task SelectDate(object value)
     {
+        InvokeAsync(async () =>
+     {
+         // Simulate background task
+         await Task.Delay(2000);
+
+         // Close the dialog
+         DialogService.Close();
+     });
         DateOnly = (DateTime)value;
-        var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
-        if (response != null && response.IsSuccess)
-        {
-            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
-            if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
-            {
-                ErrorMessage = "Schedule has been booked";
-                Console.WriteLine("trung");
-            }
-            else
-            {
-                ErrorMessage = string.Empty;
-            }
-            StateHasChanged();
+        if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks){
+            ErrorMessage = "You can not book time before";
+            await BusyDialog(ErrorMessage);
         }
+        else
+        {
+            var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
+            if (response != null && response.IsSuccess)
+            {
+                var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+                if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+                {
+                    ErrorMessage = "Schedule has been booked";
+                    await BusyDialog(ErrorMessage);
+                }
+                else
+                {
+                    ErrorMessage = string.Empty;
+                }
+                StateHasChanged();
+            }
+        }      
     }
     async Task SelectTime(object value)
     {
+        InvokeAsync(async () =>
+      {
+      // Simulate background task
+      await Task.Delay(2000);
+
+      // Close the dialog
+      DialogService.Close();
+      });
         TimeOnly = (TimeSpan)value;
-        var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
-        if (response != null && response.IsSuccess)
+        if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
         {
-            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
-            if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+            ErrorMessage = "You can not book time before";
+            await BusyDialog(ErrorMessage);
+        }
+        else
+        {
+            var response = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
+            if (response != null && response.IsSuccess)
             {
-                ErrorMessage = "Schedule has been booked! Please choose another schedule.";
-                Console.WriteLine("trung");
+                var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+                if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+                {
+                    ErrorMessage = "Schedule has been booked";
+                        await BusyDialog(ErrorMessage);                 
+                }
+                else
+                {
+                    ErrorMessage = string.Empty;
+                }
+                StateHasChanged();
             }
-            else
-            {
-                ErrorMessage = string.Empty;
-            }
-            StateHasChanged();
-        }           
+        }
     }
     protected async override Task OnInitializedAsync()
     {
@@ -276,9 +235,18 @@
     }
     private async Task HandleBookingCreate()
     {
+        InvokeAsync(async () =>
+      {
+      // Simulate background task
+      await Task.Delay(2000);
+
+      // Close the dialog
+      DialogService.Close();
+      });
         if (ErrorMessage != string.Empty)
         {
             ErrorMessage = "You cannot book appointment";
+            await BusyDialog(ErrorMessage);
         }
         else
         {
@@ -299,7 +267,83 @@
             }
         }
     }
+    async Task BusyDialog(string message)
+    {
+        await DialogService.OpenAsync("", ds =>
+        {
+            RenderFragment content = b =>
+            {
+                b.OpenElement(0, "RadzenRow");
 
+                b.OpenElement(1, "RadzenColumn");
+                b.AddAttribute(2, "Size", "12");
+
+                b.AddContent(3, message);
+
+                b.CloseElement();
+                b.CloseElement();
+            };
+            return content;
+        }, new DialogOptions() { ShowTitle = false, Style = "min-height:auto;min-width:auto;width:auto", CloseDialogOnEsc = false });
+    }
 
 
 }
+<style>
+    .btn-group,
+    .btn-group-vertical {
+        position: relative;
+        display: inline-flex;
+        vertical-align: middle;
+        width: 100%;
+    }
+
+    .multiselect-container {
+        position: absolute;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0px
+    }
+    /* Modal Box  */
+    :root {
+        --theme-color: #041150;
+        --theme-color-hover: #041150;
+        --theme-color2: #041150;
+    }
+
+    .modal-box {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    select:invalid {
+        color: gray;
+    }
+
+    option {
+        color: black;
+    }
+
+    .error-message-container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999; /* Đảm bảo thông báo hiển thị trên các phần tử khác */
+    }
+
+    .error-message {
+        background-color: #ffcccc;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+</style>
