@@ -43,7 +43,7 @@
                                                 <input type="text" value="@doctorName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
-                                                <RadzenButton Click=@(args => AddDoctor()) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary"/>
+                                                <RadzenButton Click=@(_ => nav.NavigateTo($"upsert-doctor", true)) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
                                             </div>
                                         </div>
                                     </div>

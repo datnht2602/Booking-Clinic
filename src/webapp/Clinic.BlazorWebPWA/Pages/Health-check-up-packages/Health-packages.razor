@@ -2,6 +2,7 @@
 @using Clinic.Data.Models
 @inject IProductService productService
 @inject DialogService DialogService
+@inject NavigationManager nav
 <PageTitle>Health Packages</PageTitle>
 
 <head>
@@ -69,7 +70,8 @@
                                     <div class="d-flex mx-3 gap-2">
                                          <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info"
                                                           Click=@(args => ShowDetail(@item.Id)) />
-                                        <a href="/health-packages" class="btn btn-info card-link">Booking Appointment</a>
+                                                <RadzenButton Text="Booking" ButtonStyle="ButtonStyle.Info"
+                                                              Click=@(_ => nav.NavigateTo($"doctor/book-appointments", true)) />
                                     </div>
                                 </div>
                             </div>

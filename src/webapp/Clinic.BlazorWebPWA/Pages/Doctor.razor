@@ -5,6 +5,8 @@
 @using Newtonsoft.Json
 @inject HttpClient Http
 @inject IClinicService clinicService
+@inject NavigationManager nav
+@inject DialogService DialogService
 <PageTitle>Doctor</PageTitle>
 <head>
     <link href="css/doctor.css" rel="stylesheet" />
@@ -91,8 +93,10 @@
                                         </div>
                                         <div class="d-flex justify-content-between card-body">
                                             <div><a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a></div>
-                                            <a href="/" class="btn btn-navy card-link">Detail</a>
-                                            <a href="doctor/book-appointments/@doctor.Id" class="btn btn-navy card-link">Booking Appointment</a>
+                                                <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info"
+                                                              Click=@(args => ShowDetail(doctor.Id)) />
+                                                <RadzenButton Text="Booking Appointment" ButtonStyle="ButtonStyle.Info"
+                                                              Click=@(_ => nav.NavigateTo($"doctor/book-appointments/{doctor.Id}", true)) />
                                         </div>
                                     </div>
                                 </div>
@@ -216,5 +220,21 @@
             doctors = JsonConvert.DeserializeObject<List<DoctorListViewModel>>(Convert.ToString((response.Result)));
             StateHasChanged();
         }
+    }
+    async Task ShowDetail(string id)
+    {
+        var doctor = doctors.FirstOrDefault(x => x.Id == id);
+        await DialogService.OpenAsync("Detail", ds =>
+        @<div>
+        Infor Detail:
+        <div>Introdcution: @doctor.Introduction</div>
+        <div>Clinicnum: @doctor.ClinicNum</div>
+        <div>Email: @doctor.Email</div>
+        <div>Date Of Birth: @doctor.DateOfBirth.GetDateTime()</div>
+    </div>, new DialogOptions()
+          {
+              CssClass = "custom-dialog-class",
+              WrapperCssClass = "custom-dialog-wrapper-class"
+          });
     }
 }
