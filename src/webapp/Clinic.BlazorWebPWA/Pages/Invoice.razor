@@ -1,9 +1,9 @@
-﻿@page "/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}"
-@page "/doctor/book-appointments/confirm/invoice"
+﻿@page "/invoice/{bookingId}"
+@page "/invoice"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Clinic.BlazorWebPWA.Services.IService
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Web
+@using InvoiceSamurai.Shared
+@using InvoiceSamurai.Client.Documents
+@using QuestPDF.Fluent
 @inject NavigationManager nav
 @inject IClinicService clinicService
 
@@ -15,40 +15,40 @@
             <div>
                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">INVOICE DETAILS</h2>
                 <div class="m-auto bg-primary shadow-lg px-5 pt-3 rounded-3 col-lg-8 mx-auto">
-                    <form action="/" class="text-start pt-4">
-                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Medcial Report</h4>
-                        <h5 class="m-auto text-center text-white mb-5 mx-auto">Clinic: 4Health Clinic</h5>
-                        <div class="mb-3">
-                            <label for="fullname" class="form-label medium text-white">Full Name</label>
-                            <input type="text" class="form-control" placeholder="@ViewModel?.BriefViewModel?.UserName" pattern="[^\s]+" size=20 readonly="False">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label medium text-white">Phone Number</label>
-                            <input type="tel" class="form-control" placeholder="@ViewModel?.BriefViewModel?.PhoneNumber" readonly="False">
-                        </div>
-                        <div class="mb-3">
-                            <label for="date" class="form-label medium text-white">Date and time you want to be examined<small class="text-danger fw-bold"></small></label>
-                            <input type="text" class="form-control" placeholder="@ViewModel?.BriefViewModel?.OrderPlacedTime" id="datetime" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label medium text-white">Total</label>
-                            <input type="number" class="form-control" placeholder="@ViewModel?.Products.Sum(x => x.Price)" readonly="False">
-                        </div>
- 
-                    </form>
+                    <h4 class="m-auto text-center text-white mb-2 mx-auto">Medcial Report</h4>
+                    <h5 class="m-auto text-center text-white mb-5 mx-auto">Clinic: 4Health Clinic</h5>
+                      
+                        
                 </div>
             </div>
         </div>
+         @{  RenderPdf();}
+                               @if (PdfBody.Length == 0)
+                               {
+                                   <div class="d-flex justify-content-center mt-3" style="width: 100%;">
+                                       <div class="spinner-border" role="status">
+                                           <span class="visually-hidden">Rendering pdf</span>
+                                       </div>
+                                       <div class="h3 ml-2">Rendering pdf...</div>
+                                   </div>
+                              
+                               } 
+        <canvas id="pdf-canvas"> </canvas>
     </div>
 </main>
 @code{
-    @code {
         [Parameter] public string bookingId { get; set; }
         [Inject] IAccessTokenProvider TokenProvider { get; set; }
         [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
         public InvoiceDetailsViewModel ViewModel { get; set; }
         private string accessToken { get; set; }
         public bool Notification { get; set; }
+        [Inject] IJSRuntime JSRuntime { get; set; }
+        protected InvoiceModel InvoiceModel { get; set; } = new();
+        protected CustomerModel CustomModel { get; set; } = new();
+        protected GeneratePdfCommand pdfCommand = new ();
+        protected byte[] PdfBody = Array.Empty<byte>();
+        protected event EventHandler<int> RaiseNewHashCode;
         protected async override Task OnInitializedAsync()
         {
             base.OnInitialized();
@@ -74,6 +74,35 @@
                 ViewModel = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
                 StateHasChanged();
             }
+        }
+        private void  HandleIncomingPdf(byte[] pdfBody)
+        {
+            PdfBody = pdfBody;
+             JSRuntime.InvokeVoidAsync("PdfRenderer.renderPdf", pdfBody);
+            StateHasChanged();
+        }
+        int previousCommand = -1;
+        protected  void RenderPdf()
+        {
+            InvoiceModel.Coupon = ViewModel.Coupon;
+            InvoiceModel.Itens = ViewModel.Products;
+            CustomModel.Dob = ViewModel.BriefViewModel.DateOfBirth;
+            pdfCommand = pdfCommand with
+            {
+                Invoice = InvoiceModel,
+                Customer = CustomModel
+            };
+              if (pdfCommand.GetHashCode() == previousCommand)
+        {
+            return;
+        }
+        previousCommand = pdfCommand.GetHashCode();
+        RaiseNewHashCode?.Invoke(this, previousCommand);
+
+        PdfBody = Array.Empty<byte>();
+            //JSRuntime?.InvokeVoidAsync("PdfRenderer.clearCanvas");
+            var document = new InvoiceDocument(pdfCommand);
+             HandleIncomingPdf(document.GeneratePdf());
         }
     }
 }

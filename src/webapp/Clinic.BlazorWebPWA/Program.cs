@@ -1,15 +1,18 @@
 using System.Net.Http.Headers;
+using System.Reflection;
 using BlazorClient.Security;
 using Clinic.BlazorWebPWA;
 using Clinic.BlazorWebPWA.Services;
 using Clinic.BlazorWebPWA.Services.IService;
 using Clinic.Common.Options;
 using Clinic.Message;
+using InvoiceSamurai.Client.Documents;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Net.payOS;
+using QuestPDF.Drawing;
 using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -36,6 +39,8 @@ builder.Services.AddHttpClient(name: "OrderMessage",
             new MediaTypeWithQualityHeaderValue(
                 mediaType: "application/json", quality: 1.0));
     });
+
+
 builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
@@ -53,6 +58,15 @@ builder.Services.AddOidcAuthentication(options =>
     options.ProviderOptions.RedirectUri = "authentication/login-callback";
     options.UserOptions.RoleClaim = "role";
 });
-
+using (Stream streamBarcode = Assembly
+           .GetExecutingAssembly()
+           .GetManifestResourceStream(AppFonts.LibreBarcode39Resourcename))
+using (Stream streamRoboto = Assembly
+           .GetExecutingAssembly()
+           .GetManifestResourceStream(AppFonts.RobotoResourcename))
+{
+    FontManager.RegisterFontType(AppFonts.LibreBarcode39, streamBarcode);
+    FontManager.RegisterFontType(AppFonts.Roboto, streamRoboto);
+}
 await builder.Build().RunAsync();
 

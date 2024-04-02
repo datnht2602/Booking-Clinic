@@ -12,11 +12,13 @@ namespace Clinic.DTO.Models
 
 
         public string Name { get; set; }
-
+        public string Description { get; set; }
 
         public Specialization Specialization { get; set; }
 
 
         public int Price { get; set; }
+        
+        public string FormattedTotal => $"$ {Price:n2}";
     }
 }

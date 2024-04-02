@@ -35,6 +35,8 @@ namespace Clinic.DTO.Models
 
         public string OrderPlaceTime { get; set; }
 
+        public string Coupon { get; set; }
+
         /// <summary>
         /// Gets or sets the shipping address.
         /// </summary>
