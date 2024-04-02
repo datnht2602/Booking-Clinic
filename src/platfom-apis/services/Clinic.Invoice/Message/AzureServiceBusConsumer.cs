@@ -75,7 +75,8 @@ namespace Clinic.Invoice.Message
                 BriefViewModel = checkoutHeaderDto.BriefViewModel,
                 PaymentMode = checkoutHeaderDto.PaymentMode,
                 Products = checkoutHeaderDto.Products,
-                OrderTotal = checkoutHeaderDto.OrderTotal
+                OrderTotal = checkoutHeaderDto.OrderTotal,
+                Coupon = checkoutHeaderDto.CouponCode
             };
 
 

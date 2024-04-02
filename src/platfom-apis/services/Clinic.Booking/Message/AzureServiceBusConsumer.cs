@@ -82,8 +82,10 @@ namespace Clinic.Booking.Message
                     await repository.UpdateBookingAsync(existingBooking).ConfigureAwait(false);
                     UpdateSchedule item = new()
                     {
-                        UserId = existingBooking.DoctorId,
-                        OrderTime = existingBooking.OrderPlacedDate
+                        DoctorId = existingBooking.DoctorId,
+                        OrderTime = existingBooking.OrderPlacedDate,
+                        Detail =  existingBooking.BriefViewModel,
+                        UserId = existingBooking.UserId
                     };
                     await repository.UpdateSchedule(item).ConfigureAwait(false);
                     var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);

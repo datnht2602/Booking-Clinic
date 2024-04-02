@@ -93,9 +93,9 @@
                                         </div>
                                         <div class="d-flex justify-content-between card-body">
                                             <div><a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a></div>
-                                                    <RadzenButton Text="Detail" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.ExtraSmall"
+                                                    <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
                                                               Click=@(args => ShowDetail(doctor.Id)) />
-                                                <RadzenButton Text="Booking" Variant="Variant.Flat" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.ExtraSmall"
+                                                <RadzenButton Text="Booking"  ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
                                                               Click=@(_ => nav.NavigateTo($"doctor/book-appointments/{doctor.Id}", true)) />
                                         </div>
                                     </div>

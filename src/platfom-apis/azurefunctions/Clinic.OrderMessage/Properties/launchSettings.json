@@ -1,9 +1,9 @@
 {
   "profiles": {
     "Clinic.OrderMessage": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7217",
-      "launchBrowser": false
+        "commandName": "Project",
+        "commandLineArgs": "--port 7071",
+        "launchBrowser": false
     }
   }
 }

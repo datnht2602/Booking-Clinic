@@ -37,42 +37,47 @@
     </div>
 </main>
 @code{
-        [Parameter] public string bookingId { get; set; }
-        [Inject] IAccessTokenProvider TokenProvider { get; set; }
-        [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
-        public InvoiceDetailsViewModel ViewModel { get; set; }
-        private string accessToken { get; set; }
-        public bool Notification { get; set; }
-        [Inject] IJSRuntime JSRuntime { get; set; }
-        protected InvoiceModel InvoiceModel { get; set; } = new();
-        protected CustomerModel CustomModel { get; set; } = new();
-        protected GeneratePdfCommand pdfCommand = new ();
-        protected byte[] PdfBody = Array.Empty<byte>();
-        protected event EventHandler<int> RaiseNewHashCode;
-        protected async override Task OnInitializedAsync()
+    [Parameter] public string bookingId { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    public InvoiceDetailsViewModel ViewModel { get; set; }
+    private string accessToken { get; set; }
+    public bool Notification { get; set; }
+    [Inject] IJSRuntime JSRuntime { get; set; }
+    protected InvoiceModel InvoiceModel { get; set; } = new();
+    protected CustomerModel CustomModel { get; set; } = new();
+    protected GeneratePdfCommand pdfCommand = new ();
+    protected byte[] PdfBody = Array.Empty<byte>();
+    protected event EventHandler<int> RaiseNewHashCode;
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
         {
-            base.OnInitialized();
+            nav.NavigateTo("authentication/login");
+        }
 
-            var authState = await authenticationStateTask;
-            var user = authState.User;
-            if (!user.Identity.IsAuthenticated)
-            {
-                nav.NavigateTo("authentication/login");
-            }
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
 
-            var accessTokenResult = await TokenProvider.RequestAccessToken();
-            accessToken = string.Empty;
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
 
-            if (accessTokenResult.TryGetToken(out var token))
-            {
-                accessToken = token.Value;
-            }
-
-            var response = await clinicService.GetInvoice<ResponseDto>(bookingId, accessToken);
-            if (response != null && response.IsSuccess)
-            {
-                ViewModel = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
-                StateHasChanged();
+        var response = await clinicService.GetInvoice<ResponseDto>(bookingId, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            ViewModel = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
+            InvoiceModel.Coupon = ViewModel.Coupon;
+            InvoiceModel.Itens = ViewModel.Products;
+            CustomModel.Dob = ViewModel.BriefViewModel.DateOfBirth;
+            CustomModel.Name = ViewModel.BriefViewModel.UserName;
+            InvoiceModel.Number = ViewModel.Id;
+            StateHasChanged();
             }
         }
         private void  HandleIncomingPdf(byte[] pdfBody)
@@ -84,9 +89,7 @@
         int previousCommand = -1;
         protected  void RenderPdf()
         {
-            InvoiceModel.Coupon = ViewModel.Coupon;
-            InvoiceModel.Itens = ViewModel.Products;
-            CustomModel.Dob = ViewModel.BriefViewModel.DateOfBirth;
+
             pdfCommand = pdfCommand with
             {
                 Invoice = InvoiceModel,

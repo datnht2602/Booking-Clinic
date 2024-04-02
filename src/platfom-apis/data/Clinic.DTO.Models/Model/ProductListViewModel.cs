@@ -16,9 +16,8 @@ namespace Clinic.DTO.Models
 
         public Specialization Specialization { get; set; }
 
-
         public int Price { get; set; }
         
-        public string FormattedTotal => $"$ {Price:n2}";
+        public string FormattedTotal => $"{Price.ToString("C")} vnd";
     }
 }

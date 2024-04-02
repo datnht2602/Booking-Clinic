@@ -246,14 +246,15 @@ public class InvoiceDocument : IDocument
             });
 
             static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(3);
+            int i = 0;
             foreach (var item in invoice.Itens)
             {
-                int i = 0;
-                table.Cell().Element(CellStyle).Text(i++);
+                ++i;
+                table.Cell().Element(CellStyle).Text(i.ToString());
                 table.Cell().Element(CellStyle).Text(item.Name);
                 table.Cell().Element(CellStyle).Text(item.Description);
                 table.Cell().Element(CellStyle).AlignRight().Text($"1");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{item.Price}");
+                table.Cell().Element(CellStyle).AlignRight().Text($"{item.Price.ToString("C")}");
 
                 table.Cell().Element(CellStyle).AlignRight().Text($"{item.FormattedTotal}");
 

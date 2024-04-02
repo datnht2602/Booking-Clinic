@@ -7,9 +7,6 @@ using Clinic.DTO.Models;
 namespace InvoiceSamurai.Shared;
 public record InvoiceModel
 {
-
-
-    private int _collectionHaschanged = -1;
     public InvoiceModel()
     {
         Itens = new();
@@ -17,7 +14,7 @@ public record InvoiceModel
     
     public CustomerModel Customer { get; set; }
 
-    public int Number { get; set; } = 58656;
+    public string Number { get; set; }
     public string BusinessRegistrationNumber { get; set; } = "25.888.666/0000-88";
     public string CompanyName { get; set; } = "Young Blood Clinic";
     public string Coupon { get; set; } = "Young Blood Clinic";
@@ -26,7 +23,7 @@ public record InvoiceModel
 
 
 
-    public string FormattedPrice => $"$ {Itens.Sum(c => c.Price):n2}";
+    public string FormattedPrice => $"{Itens.Sum(c => c.Price).ToString("C")} vnd";
 
 
 }

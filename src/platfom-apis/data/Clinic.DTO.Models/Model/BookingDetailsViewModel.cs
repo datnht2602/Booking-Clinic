@@ -33,6 +33,7 @@ namespace Clinic.DTO.Models
         [Required]
         public double OrderTotal { get; set; }
         public int PaymentMode { get; set; }
+        public bool SaveInformation { get; set; }
         public string Etag { get; set; }
 
     }

@@ -13,6 +13,7 @@ using Clinic.DTO.Models.Message;
 using Clinic.DTO.Models.Model;
 using Clinic.Message;
 using Microsoft.Extensions.Options;
+using StackExchange.Redis;
 
 namespace Clinic.Booking.Services
 {
@@ -44,18 +45,18 @@ namespace Clinic.Booking.Services
                 //if appointment exists according to the given condition, it will take the first appointment from the list and assign it to the existingBooking variable.
             if (existingBooking != null){ //if appointment not null, method will update booking ID and Etag from existingBooking
             booking.Id = existingBooking.Id;
-            booking.Etag = existingBooking.Etag;
-            if(booking.OrderStatus == OrderStatus.Submitted.ToString()){
-                
-            }
-            
+            booking.Etag = existingBooking.Etag;           
             await this.UpdateBookingAsync(booking).ConfigureAwait(false);//calls the UpdateBookingAsync method to update the appointment and then returns the results.
                 result.Result = booking;
             return result;
            }else{
             booking.OrderStatus = OrderStatus.Cart.ToString();
             booking.OrderTotal = booking.Products.Sum(x => x.Price);
-            var bookingModel = autoMapper.Map<Data.Models.Booking>(booking);//maps the booking to a Booking object in database form and creates a StringContent from this object.
+
+                using var userRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.IdentityApiEndpoint}/user/GetDetail?userId={booking.UserId}");
+                var userResponse = await httpClient.SendAsync(userRequest).ConfigureAwait(false);
+                booking.BriefViewModel = await userResponse.Content.ReadFromJsonAsync<BriefViewModel>().ConfigureAwait(false);
+                var bookingModel = autoMapper.Map<Data.Models.Booking>(booking);//maps the booking to a Booking object in database form and creates a StringContent from this object.
                 using var bookingRequest = new StringContent(JsonSerializer.Serialize(bookingModel),Encoding.UTF8,ContentType);
             var bookingResponse = await this.httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getbooking"),bookingRequest).ConfigureAwait(false);
                 //request to the backend API to create a new appointment
@@ -65,7 +66,7 @@ namespace Clinic.Booking.Services
             var createdBookingDAO = await bookingResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Booking>().ConfigureAwait(false);
                 //reads the generated appointment information from the response.
             var createdBooking = autoMapper.Map<BookingDetailsViewModel>(createdBookingDAO);//new appointment result is mapped to a BookingDetailsViewModel object and the result is returned
-                result.Result = booking;
+                result.Result = createdBooking;
                 return result;
            }
         }

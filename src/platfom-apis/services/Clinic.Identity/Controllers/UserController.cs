@@ -72,15 +72,21 @@ namespace Clinic.Identity.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateSchedule([FromBody] UpdateSchedule dto)
         {
-            var items = await _userManager.Users.Include(x => x.ScheduleTimes).FirstOrDefaultAsync(u => u.Id == dto.UserId);
-            if (items != null)
+            var doctor = await _userManager.Users.Include(x => x.ScheduleTimes).FirstOrDefaultAsync(u => u.Id == dto.DoctorId);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == dto.UserId);
+            if (doctor != null)
             {
-                items.ScheduleTimes.Add(new ScheduleTime
+                doctor.ScheduleTimes.Add(new ScheduleTime
                 {
                     UserId = dto.UserId,
                     Time = dto.OrderTime
                 });
-                await _userManager.UpdateAsync(items);
+                await _userManager.UpdateAsync(doctor);
+            }
+            if(user != null)
+            {
+                user.Detail = dto.Detail != null && dto.Detail.UserName != null ? JsonConvert.SerializeObject(dto.Detail) : null;
+                await _userManager.UpdateAsync(user);
             }
             return Ok();
         }
@@ -108,6 +114,14 @@ namespace Clinic.Identity.Controllers
             ResponseDto result = new();
             result.Result = model;
             return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetDetail(string userId)
+        {
+            BriefViewModel model = new();
+            var items = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            model = !items.Detail.IsNullOrEmpty() ? JsonConvert.DeserializeObject<BriefViewModel>(items.Detail) : new();
+            return Ok(model);
         }
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdateDoctor([FromBody] DoctorDto doctorDto)

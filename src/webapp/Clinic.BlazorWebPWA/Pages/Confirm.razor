@@ -124,7 +124,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-6">
                                     <div class="btn-group d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-primary btn-lg mx-5 card-link">Confirm</button>
+                                        <button type="submit" disabled="@Creating" class="btn btn-primary btn-lg mx-5 card-link">Confirm</button>
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
     private string accessToken { get; set; }
     public BookingDetailsViewModel updateModel { get; set; }
     private BriefViewModel viewModel = new();
-
+    public bool Creating { get; set; }
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
@@ -169,14 +169,21 @@
         if (response != null && response.IsSuccess)
         {
             updateModel = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+            updateModel.SaveInformation = updateModel.BriefViewModel.UserName == null ? true : false;
         }
     }
 
     private async Task HandleCreate()
     {
+        if (updateModel.SaveInformation)
+        {
+            var confirmationResult = await this.DialogService.Confirm("Do you want save your information for next time?", "Notification", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+            updateModel.SaveInformation = confirmationResult == true ? true : false;
+        }
         viewModel.ClinicNumber = updateModel.ClinicNum;
         viewModel.OrderPlacedTime = updateModel.OrderPlacedDate.GetDateTime();
         updateModel.BriefViewModel = viewModel;
+        Creating = true;
         var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(updateModel, accessToken);
         if (response != null && response.IsSuccess)
         {
@@ -195,7 +202,11 @@
 
             nav.NavigateTo(createPayment.checkoutUrl);
             //nav.NavigateTo($"/payment/success/{updateModel.Id}");
-           
+
+        }
+        else
+        {
+            Creating = false;
         }
     }
 }

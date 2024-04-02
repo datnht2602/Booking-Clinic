@@ -56,7 +56,7 @@
                                             }
                                             else
                                             {
-                                                <RadzenDropDownDataGrid class="form-select" @ref="ServiceGrids"
+                                                <RadzenDropDownDataGrid class="form-select"
                                                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
@@ -82,11 +82,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Total</label>
-                                <input type="text" class="form-control" placeholder="@booking.OrderTotal" readonly="False">
+                                <input type="text" class="form-control" placeholder="@FormattedTotal" readonly="False">
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
-                                    <button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Submit</button>
+                                    <button type="submit" disabled="@Creating" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,6 @@
 </body>
 
 @code {
-    RadzenDropDownDataGrid<IEnumerable<string>> ServiceGrids;
     [Parameter] public string id { get; set; }
     private BookingDetailsViewModel createBooking = new();
     [Inject]
@@ -112,12 +111,14 @@
     private string coupon;
     string userId = string.Empty;
     public bool ExistCoupon { get; set; }
+    public bool Creating { get; set; }
     IEnumerable<string> multipleValues;
     // Get the list of time slots
     List<TimeSpan> timeSlots = Extension.GetTimeSlots();
     public string NameApplyCoupon  = "Apply";
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
+    public string FormattedTotal => $"{booking.OrderTotal:C} vnd";
     string ErrorMessage = string.Empty;
     void Change(object value, string name)
     {
@@ -165,11 +166,11 @@
     {
         InvokeAsync(async () =>
       {
-      // Simulate background task
-      await Task.Delay(2000);
+          // Simulate background task
+          await Task.Delay(2000);
 
-      // Close the dialog
-      DialogService.Close();
+          // Close the dialog
+          DialogService.Close();
       });
         TimeOnly = (TimeSpan)value;
         if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
@@ -186,7 +187,7 @@
                 if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
                 {
                     ErrorMessage = "Schedule has been booked";
-                        await BusyDialog(ErrorMessage);                 
+                    await BusyDialog(ErrorMessage);                 
                 }
                 else
                 {
@@ -242,17 +243,17 @@
             coupon = string.Empty;
             StateHasChanged();
         }
-        
+
     }
     private async Task HandleBookingCreate()
     {
         InvokeAsync(async () =>
       {
-      // Simulate background task
-      await Task.Delay(2000);
+          // Simulate background task
+          await Task.Delay(2000);
 
-      // Close the dialog
-      DialogService.Close();
+          // Close the dialog
+          DialogService.Close();
       });
         if (ErrorMessage != string.Empty)
         {
@@ -261,6 +262,17 @@
         }
         else
         {
+            var checkSchedule = await clinicService.GetScheduleAsync<ResponseDto>(booking.DoctorId);
+            if (checkSchedule != null && checkSchedule.IsSuccess)
+            {
+                var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((checkSchedule.Result)));
+                if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+                {
+                    ErrorMessage = "Schedule has been booked";
+                    await BusyDialog(ErrorMessage);
+                }
+            }
+            Creating = true;
             createBooking.Id = Guid.NewGuid().ToString();
             createBooking.DoctorId = booking.DoctorId;
             createBooking.Specialization = booking.Specialization;
@@ -275,6 +287,10 @@
             if (response != null && response.IsSuccess)
             {
                 nav.NavigateTo($"/doctor/book-appointments/confirm/{createBooking.Id}");
+            }
+            else
+            {
+                Creating = false;
             }
         }
     }
