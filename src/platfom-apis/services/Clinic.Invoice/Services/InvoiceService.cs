@@ -31,7 +31,6 @@ namespace Clinic.Invoice.Services
         public async Task<InvoiceDetailsViewModel> AddInvoiceAsync(InvoiceDetailsViewModel invoice)
         {
             ArgumentValidation.ThrowIfNull(invoice, nameof(invoice));
-            invoice.Id = Guid.NewGuid().ToString();
             invoice.SoldBy = new SoldByViewModel()
             {
                 Email = "",
@@ -54,7 +53,7 @@ namespace Clinic.Invoice.Services
         public async Task<ResponseDto> GetInvoiceByIdAsync(string invoiceId)
         {
             ResponseDto result = new();
-            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoicebyorderid/{invoiceId}");
+            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoice/{invoiceId}");
             var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
             if(!invoiceResponse.IsSuccessStatusCode)
             {

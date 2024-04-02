@@ -8,7 +8,7 @@ namespace Clinic.DTO.Models.Message
     {
         public string BookingId { get; set; }
         public string UserName { get; set; }
-
+        public string InvoiceId { get; set; }
         public string UserId { get; set; }
         public int Specialization { get; set; }
         public string DoctorId { get; set; }

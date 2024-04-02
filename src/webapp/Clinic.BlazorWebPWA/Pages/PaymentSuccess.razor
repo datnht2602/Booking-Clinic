@@ -1,4 +1,5 @@
 ﻿@page "/payment/success/{bookingId}"
+@using Clinic.DTO.Models.Message
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Clinic.Message
 @using System.Text
@@ -21,18 +22,20 @@
         <h1>Payment successful</h1>
         <p>We received your purchase request!<br/></p>
         <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
-        <button type="button" @onclick='() => nav.NavigateTo($"/doctor/doctor-detail/book-appointments/confirm/invoice/{bookingId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">See Invoice</button>
+        <button type="button" @onclick='() => nav.NavigateTo($"/invoice/{invoiceId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">See Invoice</button>
     
 </div>
 </body>
 @code{
     [Parameter] public string bookingId { get; set; }
+    string invoiceId = Guid.NewGuid().ToString();
     protected async override Task OnInitializedAsync()
     {
-        BaseMessage message = new()
+        InvoiceMessage message = new()
         {
             Id = bookingId,
-            MessageCreated = DateTime.Now
+            MessageCreated = DateTime.Now,
+            InvoiceId = invoiceId
         };
         base.OnInitialized();
         var httpClient = ClientFactory.CreateClient("OrderMessage");

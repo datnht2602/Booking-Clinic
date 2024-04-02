@@ -31,7 +31,7 @@ namespace Clinic.Invoice
                            (src => src.Products))
                 .ForMember(des => des.SoldBy,
                            act => act.MapFrom
-                           (src => src.SoldBy)); ;
+                           (src => src.SoldBy)); 
             this.CreateMap<Data.Models.Product, DTO.Models.ProductListViewModel>();
                 this.CreateMap<DTO.Models.ProductListViewModel, Data.Models.Product>();
             this.CreateMap<Data.Models.AddtionalData, DTO.Models.BriefViewModel>();

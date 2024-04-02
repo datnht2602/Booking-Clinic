@@ -169,6 +169,7 @@
         if (response != null && response.IsSuccess)
         {
             updateModel = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+            viewModel = updateModel.BriefViewModel;
             updateModel.SaveInformation = updateModel.BriefViewModel.UserName == null ? true : false;
         }
     }

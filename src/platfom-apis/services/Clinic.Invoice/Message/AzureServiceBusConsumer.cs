@@ -71,6 +71,7 @@ namespace Clinic.Invoice.Message
 
             InvoiceDetailsViewModel orderHeader = new()
             {
+                Id = checkoutHeaderDto.InvoiceId,
                 OrderId = checkoutHeaderDto.BookingId,
                 BriefViewModel = checkoutHeaderDto.BriefViewModel,
                 PaymentMode = checkoutHeaderDto.PaymentMode,

@@ -23,7 +23,7 @@ public record InvoiceModel
 
 
 
-    public string FormattedPrice => $"{Itens.Sum(c => c.Price).ToString("C")} vnd";
+    public string FormattedPrice => $"{Itens.Sum(c => c.Price):N0} vnd";
 
 
 }

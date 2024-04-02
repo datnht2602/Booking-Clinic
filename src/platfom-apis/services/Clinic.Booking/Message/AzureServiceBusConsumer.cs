@@ -68,7 +68,7 @@ namespace Clinic.Booking.Message
             var message = args.Message;
             var body = Encoding.UTF8.GetString(message.Body);
 
-            BaseMessage orderMessage = JsonConvert.DeserializeObject<BaseMessage>(body);
+            InvoiceMessage orderMessage = JsonConvert.DeserializeObject<InvoiceMessage>(body);
             try
             {
                 var getExistingBooking = await repository
@@ -87,9 +87,13 @@ namespace Clinic.Booking.Message
                         Detail =  existingBooking.BriefViewModel,
                         UserId = existingBooking.UserId
                     };
-                    await repository.UpdateSchedule(item).ConfigureAwait(false);
-                    var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
-                    await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
+                    var userResponse = await repository.UpdateSchedule(item).ConfigureAwait(false);
+                    if (userResponse.IsSuccessStatusCode)
+                    {
+                        var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
+                        bookingDto.InvoiceId = orderMessage.InvoiceId;
+                        await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
+                    }                    
                 }
                 await args.CompleteMessageAsync(args.Message);
             }

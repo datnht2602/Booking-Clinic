@@ -118,7 +118,7 @@
     public string NameApplyCoupon  = "Apply";
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
-    public string FormattedTotal => $"{booking.OrderTotal:C} vnd";
+    public string FormattedTotal => $"{booking.OrderTotal:N0} vnd";
     string ErrorMessage = string.Empty;
     void Change(object value, string name)
     {
@@ -283,6 +283,7 @@
             createBooking.OrderTotal = booking.OrderTotal;
             createBooking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
             createBooking.ClinicNum = booking.ClinicNum;
+            createBooking.CouponCode = coupon;
             var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
             if (response != null && response.IsSuccess)
             {

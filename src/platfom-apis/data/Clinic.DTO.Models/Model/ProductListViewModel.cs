@@ -18,6 +18,6 @@ namespace Clinic.DTO.Models
 
         public int Price { get; set; }
         
-        public string FormattedTotal => $"{Price.ToString("C")} vnd";
+        public string FormattedTotal => $"{Price:N0} vnd";
     }
 }

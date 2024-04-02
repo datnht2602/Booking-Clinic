@@ -14,7 +14,7 @@ using TextStyle = QuestPDF.Infrastructure.TextStyle;
 namespace InvoiceSamurai.Client.Documents;
 public class InvoiceDocument : IDocument
 {
-    private readonly static string _loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dictum felis ut turpis viverra, a ultrices nisi tempor. Aliquam suscipit dui sit amet facilisis aliquam. In scelerisque sem ut elit molestie tempor. In finibus sagittis nulla, vitae vestibulum ante tristique sit amet. Phasellus facilisis rhoncus nunc id scelerisque. Praesent cursus erat nec turpis interdum condimentum. Aenean ut facilisis eros. Nam semper tincidunt libero in porttitor. Praesent nec dui vitae leo vulputate varius ut non risus. Quisque imperdiet euismod ipsum facilisis finibus. Duis ac felis eget leo malesuada gravida id at felis. Cras posuere, tortor sit amet bibendum tincidunt, augue lectus pulvinar nisl, ac blandit velit arcu sed nulla. Mauris id venenatis turpis, ut fringilla nunc. Aenean commodo fermentum nulla, non porta sapien viverra sed. Sed sed risus interdum, maximus sapien ac, bibendum diam.";
+    //private readonly static string _loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dictum felis ut turpis viverra, a ultrices nisi tempor. Aliquam suscipit dui sit amet facilisis aliquam. In scelerisque sem ut elit molestie tempor. In finibus sagittis nulla, vitae vestibulum ante tristique sit amet. Phasellus facilisis rhoncus nunc id scelerisque. Praesent cursus erat nec turpis interdum condimentum. Aenean ut facilisis eros. Nam semper tincidunt libero in porttitor. Praesent nec dui vitae leo vulputate varius ut non risus. Quisque imperdiet euismod ipsum facilisis finibus. Duis ac felis eget leo malesuada gravida id at felis. Cras posuere, tortor sit amet bibendum tincidunt, augue lectus pulvinar nisl, ac blandit velit arcu sed nulla. Mauris id venenatis turpis, ut fringilla nunc. Aenean commodo fermentum nulla, non porta sapien viverra sed. Sed sed risus interdum, maximus sapien ac, bibendum diam.";
 
     private string purpleTheme = "#30115e";
     private TextStyle baseStyle = TextStyle.Default.FontType(AppFonts.Roboto);
@@ -131,12 +131,12 @@ public class InvoiceDocument : IDocument
 
             c.Item().Element(ComposeTable);
             c.Item().Element(ComposeBarCode);
-            c.Item().Element(ComposeContractTerm);
+            //c.Item().Element(ComposeContractTerm);
         });
 
 
     }
-    void ComposeContractTerm(IContainer container)
+    /*void ComposeContractTerm(IContainer container)
     {
 
         container
@@ -166,7 +166,7 @@ public class InvoiceDocument : IDocument
 
 
         });
-    }
+    }*/
     void ComposeBarCode(IContainer container)
     {
         StringBuilder sb = new StringBuilder();
@@ -228,8 +228,7 @@ public class InvoiceDocument : IDocument
                 columns.ConstantColumn(10);
                 columns.RelativeColumn();
                 columns.RelativeColumn();
-                columns.RelativeColumn();
-                columns.RelativeColumn();
+
                 columns.RelativeColumn();
             });
 
@@ -238,11 +237,10 @@ public class InvoiceDocument : IDocument
                 header.Cell().Text("#", headerStyle);
                 header.Cell().Text("Sku", headerStyle);
                 header.Cell().Text("Description", headerStyle);
-                header.Cell().AlignRight().Text("Quantity", headerStyle);
-                header.Cell().AlignRight().Text("Unit price", headerStyle);
-                header.Cell().AlignRight().Text("Total", headerStyle);
 
-                header.Cell().ColumnSpan(6).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
+                header.Cell().AlignRight().Text("Price", headerStyle);
+
+                //header.Cell().ColumnSpan(6).PaddingTop(5).BorderBottom(1).BorderColor(Colors.Black);
             });
 
             static IContainer CellStyle(IContainer container) => container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(3);
@@ -253,17 +251,14 @@ public class InvoiceDocument : IDocument
                 table.Cell().Element(CellStyle).Text(i.ToString());
                 table.Cell().Element(CellStyle).Text(item.Name);
                 table.Cell().Element(CellStyle).Text(item.Description);
-                table.Cell().Element(CellStyle).AlignRight().Text($"1");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{item.Price.ToString("C")}");
+
 
                 table.Cell().Element(CellStyle).AlignRight().Text($"{item.FormattedTotal}");
 
             }
             table.Cell().Element(CellStyle).Text("");
             table.Cell().Element(CellStyle).Text("");
-            table.Cell().Element(CellStyle).Text("");
-            table.Cell().Element(CellStyle).AlignRight().Text("");
-            table.Cell().Element(CellStyle).AlignRight().Text("Total:");
+            table.Cell().Element(CellStyle).Text("Total:");
             table.Cell().Element(CellStyle).AlignRight().Text($"{invoice.FormattedPrice}");
 
         });

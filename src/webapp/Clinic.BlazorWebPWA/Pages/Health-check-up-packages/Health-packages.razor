@@ -71,7 +71,7 @@
                                          <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info"
                                                           Click=@(args => ShowDetail(@item.Id)) />
                                                 <RadzenButton Text="Booking" ButtonStyle="ButtonStyle.Info"
-                                                              Click=@(_ => nav.NavigateTo($"doctor/book-appointments", true)) />
+                                                              Click=@(_ => nav.NavigateTo($"booking-health-packages/{item.Id}", true)) />
                                     </div>
                                 </div>
                             </div>
@@ -85,25 +85,6 @@
         
     </main>
 
-    <script>
-        document.querySelectorAll(".stars").forEach((starsContainer) => {
-            const stars = starsContainer.querySelectorAll(".bi-star-fill");
-
-            stars.forEach((star, index1) => {
-                star.addEventListener("click", () => {
-                    stars.forEach((otherStar, index2) => {
-                        index1 >= index2
-                            ? otherStar.classList.add("active")
-                            : otherStar.classList.remove("active");
-                    });
-
-                    // Update the rating display based on the clicked star
-                    const ratingDisplay = starsContainer.nextElementSibling.querySelector(".fw-bold.my-auto.fs-6");
-                    ratingDisplay.textContent = `${index1 + 1}/5`;
-                });
-            });
-        });
-    </script>
 
 </body>
 @code{

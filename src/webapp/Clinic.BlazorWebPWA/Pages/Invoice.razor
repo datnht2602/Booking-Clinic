@@ -1,5 +1,4 @@
 ﻿@page "/invoice/{bookingId}"
-@page "/invoice"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using InvoiceSamurai.Shared
 @using InvoiceSamurai.Client.Documents
@@ -34,6 +33,8 @@
                               
                                } 
         <canvas id="pdf-canvas"> </canvas>
+        <RadzenButton Text="Export" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
+                      Click=@(_ => ExportPDF()) />
     </div>
 </main>
 @code{
@@ -49,6 +50,16 @@
     protected GeneratePdfCommand pdfCommand = new ();
     protected byte[] PdfBody = Array.Empty<byte>();
     protected event EventHandler<int> RaiseNewHashCode;
+    private void ExportPDF()
+    {
+        pdfCommand = pdfCommand with
+            {
+                Invoice = InvoiceModel,
+                Customer = CustomModel
+            };
+        var document = new InvoiceDocument(pdfCommand);
+        document.GeneratePdf();
+    }
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
@@ -103,7 +114,7 @@
         RaiseNewHashCode?.Invoke(this, previousCommand);
 
         PdfBody = Array.Empty<byte>();
-            //JSRuntime?.InvokeVoidAsync("PdfRenderer.clearCanvas");
+            JSRuntime?.InvokeVoidAsync("PdfRenderer.clearCanvas");
             var document = new InvoiceDocument(pdfCommand);
              HandleIncomingPdf(document.GeneratePdf());
         }
