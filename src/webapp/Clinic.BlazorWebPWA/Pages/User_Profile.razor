@@ -24,7 +24,7 @@
                             </div>
                             <div class="user-menu">
                                 <ul>
-                                    <li class="user-profile ">
+                                    <li class="user-profile active">
                                         <a href="profile"><i class="fa-solid fa-user-injured"></i>Profile</a>
                                     </li>
                                     <li class="user-appointments">
@@ -40,7 +40,7 @@
                                         <a href=""><i class="fa-solid fa-envelope-open-text"></i>Requests</a>
                                     </li>
                                     <li class="user-change-password ">
-                                        <a href="/"><i class="fa-solid fa-unlock"></i>Change Password</a>
+                                        <a href="change-password"><i class="fa-solid fa-unlock"></i>Change Password</a>
                                     </li>
                                 </ul>
                             </div>
@@ -49,89 +49,91 @@
                             <h1 class="user-ttl">Profile</h1>
                             <div class="user-container">
                                 <div class="user-body">
-                                    <div class="m-auto rounded-3 mx-auto">
-                                        <div class="row">
-                                            <div class="mb-3 col-md-6">
-                                                <label for="Fname" class="form-label medium text-navy fw-bold">First Name</label>
-                                                <input type="text" class="form-control" required>
+                                    <form>
+                                        <div class="m-auto rounded-3 mx-auto">
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="Fname" class="form-label medium text-navy fw-bold">First Name</label>
+                                                    <input type="text" class="form-control" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="Lname" class="form-label medium text-navy fw-bold">Last Name</label>
+                                                    <input type="text" class="form-control" required>
+                                                </div>
                                             </div>
-                                            <div class="mb-3 col-md-6">
-                                                <label for="Lname" class="form-label medium text-navy fw-bold">Last Name</label>
-                                                <input type="text" class="form-control" required>
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="Pnumbers" class="form-label medium text-navy fw-bold">Phone numbers</label>
+                                                    <input type="text" class="form-control" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="email" class="form-label medium text-navy fw-bold">Email</label>
+                                                    <input type="email" class="form-control" required>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="mb-3 col-md-6">
-                                                <label for="Pnumbers" class="form-label medium text-navy fw-bold">Phone numbers</label>
-                                                <input type="text" class="form-control" required>
+                                            <div class="row">
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="Dob" class="form-label medium text-navy fw-bold">Date of birth</label>
+                                                    <input input type="date" name="date" id="date" class="form-control" required>
+                                                </div>
+                                                <div class="mb-3 col-md-6">
+                                                    <label for="gender" class="form-label medium text-navy fw-bold">Gender</label>
+                                                    <select class="form-select">
+                                                        <option selected>Choose gender</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                        <option value="3">Other</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="mb-3 col-md-6">
-                                                <label for="email" class="form-label medium text-navy fw-bold">Email</label>
-                                                <input type="email" class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="mb-3 col-md-6">
-                                                <label for="Dob" class="form-label medium text-navy fw-bold">Date of birth</label>
-                                                <input input type="date" name="date" id="date" class="form-control" required>
-                                            </div>
-                                            <div class="mb-3 col-md-6">
-                                                <label for="gender" class="form-label medium text-navy fw-bold">Gender</label>
-                                                <select class="form-select">
-                                                    <option selected>Choose gender</option>
-                                                    <option value="1">Male</option>
-                                                    <option value="2">Female</option>
-                                                    <option value="3">Other</option>
-                                                </select>
-                                            </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="mb-3 col-md-4">
-                                                <label for="city" class="form-label medium text-navy fw-bold">City</label>
-                                                <select class="form-select">
-                                                    <option selected>Choose your city</option>
-                                                    <option value="1">Male</option>
-                                                    <option value="2">Female</option>
-                                                    <option value="3">Other</option>
-                                                </select>
+                                            <div class="row">
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="city" class="form-label medium text-navy fw-bold">City</label>
+                                                    <select class="form-select">
+                                                        <option selected>Choose your city</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                        <option value="3">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="district" class="form-label medium text-navy fw-bold">District</label>
+                                                    <select class="form-select">
+                                                        <option selected>Choose your district</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                        <option value="3">Other</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3 col-md-4">
+                                                    <label for="ward" class="form-label medium text-navy fw-bold">Ward</label>
+                                                    <select class="form-select">
+                                                        <option selected>Choose ward</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                        <option value="3">Other</option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="mb-3 col-md-4">
-                                                <label for="district" class="form-label medium text-navy fw-bold">District</label>
-                                                <select class="form-select">
-                                                    <option selected>Choose your district</option>
-                                                    <option value="1">Male</option>
-                                                    <option value="2">Female</option>
-                                                    <option value="3">Other</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3 col-md-4">
-                                                <label for="ward" class="form-label medium text-navy fw-bold">Ward</label>
-                                                <select class="form-select">
-                                                    <option selected>Choose ward</option>
-                                                    <option value="1">Male</option>
-                                                    <option value="2">Female</option>
-                                                    <option value="3">Other</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
+                                            <div class="mb-3">
                                                 <label for="address" class="form-label medium text-navy fw-bold">Address</label>
                                                 <input type="text" class="form-control" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="formFile" class="form-label medium text-navy">Upload your avatar</label>
+                                                <input class="form-control" type="file" id="formFile" accept="image/*">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="link" class="form-label medium text-navy fw-bold">Facebook</label>
+                                                <input type="text" class="form-control" required>
+                                            </div>
+                                            <div class="float-end">
+                                                <button type="button" class="btn btn-outline-primary mx-3">Update</button>
+                                                <button type="button" class="btn btn-outline-primary">Cancel</button>
+                                            </div>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="formFile" class="form-label medium text-navy">Upload your avatar</label>
-                                            <input class="form-control" type="file" id="formFile" accept="image/*>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="link" class="form-label medium text-navy fw-bold">Facebook</label>
-                                            <input type="text" class="form-control" required>
-                                        </div>
-                                    </div>
-                                    <div class="float-end">
-                                        <button type="button" class="btn btn-outline-primary mx-3">Update</button>
-                                        <button type="button" class="btn btn-outline-primary">Cancel</button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
