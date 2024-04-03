@@ -1,0 +1,91 @@
+﻿@page "/upsert-news"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Text
+@layout AdminLayout
+@inject NavigationManager nav
+@inject NotificationService NotificationService
+<PageTitle>Add News</PageTitle>
+
+<link href="css/admin.css" rel="stylesheet" />
+
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="doctors.html">Medical News</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </li>
+                        <li class="breadcrumb-item active">Add News</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Medical News Details</h4>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="input-block local-forms">
+                                    <label>Title <span class="login-danger">*</span></label>
+                                    <input class="form-control" type="text" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="input-block local-forms">
+                                    <label>Creator<span class="login-danger">*</span></label>
+                                <input class="form-control" type="text" />
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <div class="input-block local-forms">
+                                    <label>Summary<span class="login-danger">*</span></label>
+                                    <textarea class="form-control" rows="3" cols="30"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-12">
+                                <div class="input-block local-forms">
+                                    <label>Description<span class="login-danger">*</span></label>
+                                    <textarea class="form-control" rows="3" cols="30"></textarea>
+                                </div>
+                            </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-top-form">
+                                        <label class="local-top">Image <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="news-submit text-end">
+                                        <button type="submit"
+                                                class="btn btn-primary submit-form me-2">
+                                            Submit
+                                        </button>
+                                        <button type="submit" class="btn btn-primary cancel-form">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+@code {
+
+}
