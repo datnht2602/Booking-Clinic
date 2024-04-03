@@ -1,0 +1,85 @@
+﻿@page "/change-password"
+@using Clinic.DTO.Models.Dto
+@using Clinic.BlazorWebPWA.Extensions
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IClinicService clinicService
+@inject NavigationManager nav
+
+<PageTitle>Change Password</PageTitle>
+
+<head>
+    <link rel="stylesheet" href="css/user.css" />
+</head>
+
+<body style="background: none !important">
+    <main class="flex-shrink-0">
+        <div class="container px-5">
+            <div class="user-wrapper">
+                <div>
+                    <div class="row usr-hdr">
+                        <div class="col-md-3 col-lg-2 p-0">
+                            <div class="user-name">
+                                <div class="tbl-cell"><i class="fa-solid fa-circle-user"></i></div>
+                                <div class="tbl-cell">
+                                    <span>Hello</span>
+                                    <h2>PepDev Team</h2>
+                                </div>
+                            </div>
+                            <div class="user-menu">
+                                <ul>
+                                    <li class="user-profile ">
+                                        <a href="profile"><i class="fa-solid fa-user-injured"></i>Profile</a>
+                                    </li>
+                                    <li class="user-appointments">
+                                        <a href="view-appointment"><i class="fa-solid fa-calendar-days"></i>Appointments</a>
+                                    </li>
+                                    <li class="user-records ">
+                                        <a href=""><i class="fa-solid fa-laptop-medical"></i>History</a>
+                                    </li>
+                                    <li class="user-invoices ">
+                                        <a href=""><i class="fa-solid fa-money-bill"></i>Invoices</a>
+                                    </li>
+                                    <li class="user-request ">
+                                        <a href=""><i class="fa-solid fa-envelope-open-text"></i>Requests</a>
+                                    </li>
+                                    <li class="user-change-password ">
+                                        <a href="change-password"><i class="fa-solid fa-unlock"></i>Change Password</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-lg-10 p-0">
+                            <h1 class="user-ttl">Change Password</h1>
+                            <div class="user-container">
+                                <div class="user-body">
+                                    <form class="my-2">
+                                        <div class="col-md-8 mx-2">
+                                            <div class="mb-3 d-flex">
+                                                <div>
+                                                    <label for="Oldpw" class="form-label medium text-navy fw-bold fs-6 col-md-3">Current password <small class="text-danger fw-bold">*</small></label>
+                                                    <input type="password" class="form-control" placeholder="Enter your current password" autofocus required>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3 d-flex">
+                                                <label for="Newpw" class="form-label medium text-navy fw-bold fs-6 col-md-3">New password <small class="text-danger fw-bold">*</small></label>
+                                                <input type="password" class="form-control" placeholder="Enter your new password" autofocus required>
+                                            </div>
+                                            <div class="mb-3 d-flex">
+                                                <label for="CNewpw" class="form-label medium text-navy fw-bold fs-6 col-md-3">Confirm new password <small class="text-danger fw-bold">*</small></label>
+                                                <input type="password" class="form-control" placeholder="Confirm your new password" autofocus required>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+@code {
+
+}
