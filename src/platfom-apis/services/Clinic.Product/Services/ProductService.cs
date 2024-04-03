@@ -9,6 +9,7 @@ using Clinic.Common.Validator;
 using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
+using Clinic.DTO.Models.Model;
 using Clinic.Product.Contracts;
 using Microsoft.Extensions.Options;
 
@@ -31,6 +32,28 @@ namespace Clinic.Product.Services
             this.autoMapper = autoMapper;
             this.cacheService = cacheService;
         }
+
+        public async Task<ResponseDto> GetHealthPackage(string productId)
+        {
+            if (productId == null)
+            {
+                return null;
+            }
+            using var productRequest = new HttpRequestMessage(HttpMethod.Get,$"{this.applicationSettings.Value.DataStoreEndpoint}getproduct/{productId}");
+            var productResponse = await httpClient.SendAsync(productRequest).ConfigureAwait(false);
+            ResponseDto result = new();
+            if(!productResponse.IsSuccessStatusCode){
+                await ThrowServiceToServiceErrors(productResponse).ConfigureAwait(false);
+            }
+            if(productResponse.StatusCode != System.Net.HttpStatusCode.NoContent){
+                var productDAO = await productResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Product>().ConfigureAwait(false);
+                result.Result = autoMapper.Map<HealthPackageModel>(productDAO);
+                return result;
+            }else{
+                return result;
+            }
+        }
+
         public async Task<ResponseDto> AddProductAsync(Data.Models.Product product)
         {
             ArgumentValidation.ThrowIfNull(product);

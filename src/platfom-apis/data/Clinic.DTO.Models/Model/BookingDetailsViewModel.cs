@@ -18,9 +18,10 @@ namespace Clinic.DTO.Models
         public string DoctorId { get; set; }
 
         public string DoctorName { get; set; }
+        public string ComboName { get; set; }
         public string Description { get; set; }
         public string CouponCode { get; set; }
-        public double DiscountTotal { get; set; }
+        public int DiscountTotal { get; set; }
         public int ClinicNum { get; set; }
         public List<ProductListViewModel> Products { get; set; }
         public string OrderStatus { get; set; }

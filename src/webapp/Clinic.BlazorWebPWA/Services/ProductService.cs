@@ -41,6 +41,14 @@ namespace Clinic.BlazorWebPWA.Services
                 Url = $"getproduct/{id}",
             });
         }
+        public async Task<T> GetHealthPackage<T>(string id)
+        {
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = ApiType.GET,
+                Url = $"gethealthpackage/{id}",
+            });
+        }
 
         public async Task<T> DeleteProduct<T>(string id)
         {

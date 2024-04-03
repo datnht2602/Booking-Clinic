@@ -15,6 +15,7 @@ namespace Clinic.Data.Models
         public int Specialization { get; set; }
         public string DoctorId { get; set; }
         public string DoctorName { get; set; }
+        public string ComboName { get; set; }
         public string Description { get; set; }
         public string CouponCode { get; set; }
         public double DiscountTotal { get; set; }

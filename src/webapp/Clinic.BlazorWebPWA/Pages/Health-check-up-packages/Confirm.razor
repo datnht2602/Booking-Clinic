@@ -1,0 +1,198 @@
+﻿@page "/healthpackage/confirm/{bookingId}"
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Clinic.DTO.Models.Dto
+@using Clinic.BlazorWebPWA.Extensions
+@using Net.payOS
+@using Net.payOS.Types
+@inject IClinicService clinicService
+@inject NavigationManager nav
+@inject PayOS _payOS
+<PageTitle>Confirm Information</PageTitle>
+<main>
+    <div class="bg-white">
+        <div class="container px-5 py-5 appointments">
+            <div>
+                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">CONFIRM INFORMATION</h2>
+                <EditForm Model="viewModel" OnValidSubmit="HandleCreate">
+                    <div class="container">
+                        <div class="row gx-5">
+                            <div class="col-md-6 mb-5 offset-md-3">
+                                <div class="card mh-100 bg-primary shadow-lg">
+                                    <div class="card-body mx-4 my-3 px-5 py-4">
+
+                                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Patient Information</h4>
+                                        <div class="mb-3">
+                                            <label for="fullname" class="form-label medium text-white">Full Name <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.UserName" class="form-control" placeholder="Nguyễn Văn A"  required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="major" class="form-label medium text-white">Gender<small class="text-danger">*</small></label>
+                                            <InputSelect @bind-Value="viewModel.Sexual" class="form-select" required aria-label="Select Gender">
+                                                <option value="">Select Gender</option>
+                                                <option value="1">Male</option>
+                                                <option value="2">Female</option>
+                                                <option value="3">Other</option>
+                                            </InputSelect>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="emailInput" class="form-label medium text-white">Email <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.Email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label medium text-white">Phone Number<small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.PhoneNumber" type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="date" class="form-label medium text-white">Date of birth <small class="text-danger fw-bold">*</small></label>
+                                            <RadzenDatePicker @bind-Value=@viewModel.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label medium text-white">Address <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.Address" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" title="Please do not enter spaces." required/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label medium text-white">Social security number <small class="text-danger">*</small></label>
+                                            <InputText @bind-Value="viewModel.HealthInsuranceCode" class="form-control" placeholder="Enter health insurance code" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-5 offset-md-3">
+                                <div class="card mh-100 bg-primary shadow-lg">
+                                    <div class="card-body mx-4 my-3 px-5 py-4">
+                                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Information about booking an appointment</h4>
+                                        <div class="mb-3">
+                                            <label for="date" class="form-label medium text-white">Date and time you want to be examined <small class="text-danger fw-bold"></small></label>
+                                            @if (updateModel.OrderPlacedDate == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@updateModel.OrderPlacedDate.GetDateTime()" readonly="False">
+                                            }
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="doctor" class="form-label medium text-white">Combo Name</label>
+                                            @if (updateModel.ComboName == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@updateModel.ComboName" readonly="False">
+                                            }
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="service" class="form-label medium text-white">Service</label>
+                                            @if (updateModel.Products == null)
+                                            {
+                                                <p>
+                                                    <em>Loading....</em>
+                                                </p>
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control" placeholder="@string.Join(",", updateModel.Products.Select(x => x.Name))" readonly="False">
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <div class="btn-group d-flex justify-content-center">
+                                        <button type="submit" disabled="@Creating" class="btn btn-primary btn-lg mx-5 card-link">Confirm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+@code
+{
+    [Parameter] public string bookingId { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    public BookingDetailsViewModel updateModel { get; set; }
+    private BriefViewModel viewModel = new();
+    public bool Creating { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        var response = await clinicService.GetBookingByIdAsync<ResponseDto>(bookingId, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            updateModel = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+            viewModel = updateModel.BriefViewModel;
+            updateModel.SaveInformation = updateModel.BriefViewModel.UserName == null ? true : false;
+        }
+    }
+
+    private async Task HandleCreate()
+    {
+        if (updateModel.SaveInformation)
+        {
+            var confirmationResult = await this.DialogService.Confirm("Do you want save your information for next time?", "Notification", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+            updateModel.SaveInformation = confirmationResult == true ? true : false;
+        }
+        viewModel.ClinicNumber = updateModel.ClinicNum;
+        viewModel.OrderPlacedTime = updateModel.OrderPlacedDate.GetDateTime();
+        updateModel.BriefViewModel = viewModel;
+        Creating = true;
+        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(updateModel, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+
+            List<ItemData> items = new List<ItemData>();
+            foreach (var product in updateModel.Products)
+            {
+                ItemData item = new ItemData(product.Name, 1, product.Price);
+                items.Add(item);
+            }
+
+            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{updateModel.Id}");
+
+            CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+
+            nav.NavigateTo(createPayment.checkoutUrl);
+            //nav.NavigateTo($"/payment/success/{updateModel.Id}");
+
+        }
+        else
+        {
+            Creating = false;
+        }
+    }
+}

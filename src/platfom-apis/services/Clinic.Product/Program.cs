@@ -60,6 +60,11 @@ app.MapGet("/getproduct/{id}", async (string id, [FromServices] IProductService 
     return await productService.GetProductByIdASync(id).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
 })
 .WithOpenApi();
+app.MapGet("/gethealthpackage/{id}", async (string id, [FromServices] IProductService productService) =>
+    {
+        return await productService.GetHealthPackage(id).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
+    })
+    .WithOpenApi();
 app.MapPost("/getproduct",async (Product product, IProductService productService) =>{
             var result = await productService.AddProductAsync(product).ConfigureAwait(false);
             return Results.Ok(result);

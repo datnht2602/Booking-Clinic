@@ -6,7 +6,12 @@ Timer = {
     start: () => new Date().getTime(),
     partial: (startTime) => `${new Date().getTime() - startTime}ms`,
 }
-
+function Print(){
+    console.log(`start printing`);
+    $(".hideWhenPrint").hide();
+    window.print();
+     $(".hideWhenPrint").show();
+}
 PdfRenderer = {};
 
 PdfRenderer.clearCanvas = () => {

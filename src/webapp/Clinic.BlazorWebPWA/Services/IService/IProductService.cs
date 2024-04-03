@@ -9,5 +9,6 @@ namespace Clinic.BlazorWebPWA.Services.IService
         Task<T> GetListProducts<T>(string filterCriteria = null);
         Task<T> GetProduct<T>(string id);
         Task<T> DeleteProduct<T>(string id);
+        Task<T> GetHealthPackage<T>(string id);
     }
 }
