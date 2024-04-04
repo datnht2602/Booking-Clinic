@@ -1,0 +1,52 @@
+﻿@page "/doctor/doctor-detail-component/{doctorId}"
+
+@using Clinic.DTO.Models.Dto
+@using Clinic.BlazorWebPWA.Extensions
+@if (Doctor != null)
+{
+	<RadzenStack Gap="1rem" Orientation="Orientation.Vertical" JustifyContent="JustifyContent.SpaceBetween">
+		<RadzenStack >
+			<RadzenRow Style="height: 275px">
+				<RadzenColumn Size="12" SizeMD="5" Class="rz-p-4 rz-border-radius-1 border-0">
+@* 					<RadzenText TextStyle="TextStyle.Subtitle1" Style="color: darkblue;">Info Detail</RadzenText> *@
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+						<RadzenImage Path="@Doctor.ImageUrl" Style="width: auto; height: 200px" />
+						<RadzenStack Gap="1" Class="rz-text-truncate" Style="overflow: visible;">
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-2 rz-my-0" Style="color: var(--rz-text-tertiary-color);">Name</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Doctor.Name)</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">ClinicNum</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Doctor.ClinicNum</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Specialization</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Doctor.Specialization.ConvertSpecEnum()</b></RadzenText>
+						</RadzenStack>
+					</RadzenStack>
+				</RadzenColumn>
+				<RadzenColumn Size="12" SizeMD="7" Class="rz-p-4 rz-border-radius-1 border-0">
+					<RadzenText TextStyle="TextStyle.Subtitle1" Style="color: darkblue;">INTRODUCTION</RadzenText>
+					<RadzenStack Gap="0" Class="rz-text-truncate" style="white-space: pre-wrap;">
+						<RadzenText TextStyle="TextStyle.Body1" Style="width:100%"><b>@(Doctor.Introduction)</b></RadzenText>
+					</RadzenStack>
+				</RadzenColumn>
+			</RadzenRow>
+			<RadzenColumn Style="padding-left: 30px">
+				<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
+					<RadzenText TextStyle="TextStyle.Subtitle1" Class="rz-m-0" Style="color: darkblue;">FEEDBACK</RadzenText>
+				</RadzenStack>
+				<div class="py-2">
+					<div class="mx-2 fw-bold"><b>Nguyễn Thị Hồng Hạnh</b><span> ★★★★</span></div>
+					<div class="mx-4 px-2">This doctor has very good expertise.</div>
+				</div>
+				<div>
+					<div class="mx-2 fw-bold"><b>Phạm Văn Nam</b><span> ★★★★★</span></div>
+					<div class="mx-4 px-2">This doctor is very good and cured all my diseases.</div>
+				</div>
+			</RadzenColumn>
+		</RadzenStack>
+	</RadzenStack>
+}
+
+
+@code {
+	[Parameter]
+	public DoctorListViewModel Doctor { get; set; }
+}
