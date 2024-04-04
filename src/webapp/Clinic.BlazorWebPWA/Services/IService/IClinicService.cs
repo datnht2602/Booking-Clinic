@@ -23,5 +23,6 @@ public interface IClinicService : IBaseService
     Task<T> GetInvoice<T>(string bookingId, string accessToken);
     Task<T> GetHealthPackages<T>(string filterCriteria = null);
     Task<T> CreateOrUpdateDoctor<T>(DoctorDto model,string accessToken);
+    Task<T> GetListBooking<T>(string id, string accessToken);
 
 }

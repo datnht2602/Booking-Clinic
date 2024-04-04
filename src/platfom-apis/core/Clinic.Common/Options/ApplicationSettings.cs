@@ -17,5 +17,6 @@ namespace Clinic.Common.Options
         public string IdentityApiEndpoint { get; set; }
         public string CouponApiEndpoint { get; set; }
         public string ApiGatewayEndpoint { get; set; }
+        public string EmailEndpoint { get; set; }
     }
 }

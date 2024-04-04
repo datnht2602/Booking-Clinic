@@ -1,3 +1,4 @@
+using Clinic.DTO.Models.Dto;
 using Clinic.Email.Extension;
 using Clinic.Email.MailKitService;
 using Mango.Services.Email.Messaging;
@@ -23,7 +24,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.MapPost("/resetpassword",async (SendMailDto dto,IEmailSender _emailSender) =>{
+        await _emailSender.SendEmailAsync(dto.Email, $"Reset Password",
+            $"To Reset Password click the link <a href='{dto.CallBackUrl}'>link here</a>." );
+        return Results.Ok();
+    })
+    .WithOpenApi();
 app.UseAzureServiceBusConsumer();
 app.Run();
 

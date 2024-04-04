@@ -13,15 +13,29 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-0 osahan-nav">
         <div class="container px-5">
-            <NavLink class="navbar-brand" href="/"><img class="img-fluid" src="img/logo.png" alt="..." /></NavLink>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <NavLink class="navbar-brand" href="/">
+                <img class="img-fluid" src="img/logo.png" alt="..."/>
+            </NavLink>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Homepage</NavLink></li>
-                    <li class="nav-item"><NavLink class="nav-link" href="about">About Us</NavLink></li>
-                    <li class="nav-item"><NavLink class="nav-link" href="doctor">Doctor</NavLink></li>
-                    <li class="nav-item"><NavLink class="nav-link" href="health-packages">Health package</NavLink></li>
-                    <li class="nav-item"><NavLink class="nav-link" href="blog">News</NavLink></li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Homepage</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="about">About Us</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="doctor">Doctor</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="health-packages">Health package</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="blog">News</NavLink>
+                    </li>
                     @*                  <li class="nav-item dropdown">
                     <NavLink class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tin tức</NavLink>
                     <ul class="dropdown-menu m-0 border-0 shadow-sm p-2 dropdown-menu-end">
@@ -35,8 +49,27 @@
                         <Authorized>
                             <h3 class="fw-bold fs-6 dropdown-toggle" style="color:azure" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hello @context.User.Identity.Name</h3>
                             <ul class="dropdown-menu m-0 border-0 shadow-sm p-2 dropdown-menu-end">
-                                <li><NavLink class="dropdown-item px-3 py-2 rounded" href="admin">Dashboard</NavLink></li>
-                                <li><NavLink class="dropdown-item px-3 py-2 rounded" href="list-doctor">Manage doctors</NavLink></li>
+                               @if (@context.User.IsInRole("admin"))
+                               {
+                                   <li>
+                                       <NavLink class="dropdown-item px-3 py-2 rounded" href="admin">Dashboard</NavLink>
+                                   </li>
+                                   <li>
+                                       <NavLink class="dropdown-item px-3 py-2 rounded" href="list-doctor">Manage doctors</NavLink>
+                                   </li>
+                               }
+                               else if(@context.User.IsInRole("doctor"))
+                               {
+                                   <li>
+                                       <NavLink class="dropdown-item px-3 py-2 rounded" href=@($"/view-appointment/doctor/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")>View Profile</NavLink>
+                                   </li>
+                               }
+                               else
+                               {
+                                   <li>
+                                       <NavLink class="dropdown-item px-3 py-2 rounded" href=@($"/view-appointment/user/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")>View Profile</NavLink>
+                                   </li>
+                               }
                                 <li>
                                     <NavLink class="dropdown-item px-3 py-2 rounded" @onclick="LogOut">
                                         <i class="fa-solid fa-right-from-bracket"></i> Log out
@@ -56,10 +89,13 @@
         </div>
     </nav>
 </div>
+
 @code {
+
     public async Task LogOut()
     {
         await SignOutManager.SetSignOutState();
         nav.NavigateTo("authentication/logout");
     }
+
 }

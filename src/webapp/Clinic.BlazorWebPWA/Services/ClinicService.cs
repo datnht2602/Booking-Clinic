@@ -130,6 +130,16 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
+    public async Task<T> GetListBooking<T>(string id, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = $"getlistbooking/{id}",
+            AccessToken = accessToken,
+        });
+    }
+
     public async Task<T> GetScheduleAsync<T>(string doctorId)
     {
         return await this.SendAsync<T>(new ApiRequest()

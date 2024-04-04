@@ -1,4 +1,4 @@
-﻿@page "/view-appointment"
+﻿@page "/view-appointment/{role}/{id}"
 @using Clinic.DTO.Models.Dto
 @using Clinic.BlazorWebPWA.Extensions
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
@@ -162,5 +162,6 @@
 </body>
 
 @code {
-
+    [Parameter] public string id { get; set; }
+    [Parameter] public string role { get; set; }
 }
