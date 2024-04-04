@@ -90,6 +90,30 @@ namespace Clinic.Identity.Controllers
             }
             return Ok();
         }
+        [HttpPost]
+        public async Task<IActionResult> GetFeedback([FromBody] FormDto dto)
+        {
+            ResponseDto result = new();
+            var doctor = await _userManager.Users.Include(x => x.FeedBacks).FirstOrDefaultAsync(u => u.Id == dto.DoctorId);
+            if (doctor != null)
+            {
+                doctor.FeedBacks.Add(new FeedBack()
+                {
+                    UserName = dto.UserName,
+                    Rate = dto.Rate,
+                    Comment = dto.Comment
+                });
+                doctor.AverageRating = doctor.FeedBacks.Average(x => x.Rate);
+                await _userManager.UpdateAsync(doctor);
+                
+            }
+            else
+            {
+                result.IsSuccess = false;
+                return Ok(result);
+            }
+            return Ok(result);
+        }
         [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)
         {
@@ -122,6 +146,15 @@ namespace Clinic.Identity.Controllers
             var items = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
             model = !items.Detail.IsNullOrEmpty() ? JsonConvert.DeserializeObject<BriefViewModel>(items.Detail) : new();
             return Ok(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> getdetaildoctor(string userId)
+        {
+            ResponseDto result = new();
+            var doctor = await _userManager.Users.Include(x => x.FeedBacks).FirstOrDefaultAsync(u => u.Id == userId);
+            var appDto = autoMapper.Map<DoctorDetailsViewModel>(doctor);
+            result.Result = appDto;
+            return Ok(result);
         }
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdateDoctor([FromBody] DoctorDto doctorDto)

@@ -140,6 +140,25 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
+    public async Task<T> SendFeedBack<T>(FormDto form)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = $"sendfeedback",
+            Data = form
+        });
+    }
+
+    public async Task<T> GetDetailDoctor<T>(string id)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getdetaildoctor/{id}",
+        });
+    }
+
     public async Task<T> GetScheduleAsync<T>(string doctorId)
     {
         return await this.SendAsync<T>(new ApiRequest()

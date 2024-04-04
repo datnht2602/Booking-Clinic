@@ -181,7 +181,6 @@
             var confirmationResult = await this.DialogService.Confirm("Do you want save your information for next time?", "Notification", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
             updateModel.SaveInformation = confirmationResult == true ? true : false;
         }
-        viewModel.ClinicNumber = updateModel.ClinicNum;
         viewModel.OrderPlacedTime = updateModel.OrderPlacedDate.GetDateTime();
         updateModel.BriefViewModel = viewModel;
         Creating = true;

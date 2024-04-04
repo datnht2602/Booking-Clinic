@@ -1,6 +1,7 @@
 ﻿@page "/doctor/doctor-detail-component/{doctorId}"
 
 @using Clinic.DTO.Models.Dto
+@inject IClinicService clinicService
 @using Clinic.BlazorWebPWA.Extensions
 @if (Doctor != null)
 {
@@ -18,6 +19,8 @@
 							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Doctor.ClinicNum</b></RadzenText>
 							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Specialization</RadzenText>
 							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Doctor.Specialization.ConvertSpecEnum()</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Email</RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Doctor.Email</b></RadzenText>
 						</RadzenStack>
 					</RadzenStack>
 				</RadzenColumn>
@@ -32,14 +35,19 @@
 				<RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center">
 					<RadzenText TextStyle="TextStyle.Subtitle1" Class="rz-m-0" Style="color: darkblue;">FEEDBACK</RadzenText>
 				</RadzenStack>
-				<div class="py-2">
-					<div class="mx-2 fw-bold"><b>Nguyễn Thị Hồng Hạnh</b><span> ★★★★</span></div>
-					<div class="mx-4 px-2">This doctor has very good expertise.</div>
-				</div>
-				<div>
-					<div class="mx-2 fw-bold"><b>Phạm Văn Nam</b><span> ★★★★★</span></div>
-					<div class="mx-4 px-2">This doctor is very good and cured all my diseases.</div>
-				</div>
+				@if (Doctor.FeedBack != null)
+				{
+					@foreach (var item in Doctor.FeedBack)
+					{
+						<div class="py-2">
+							<div class="mx-2 fw-bold"><b>@item.UserName</b> @for (int i = 0; i < item.Rate; i++)
+							                                                            {
+								                                                            <span>★</span>
+							                                                            } </div>
+							<div class="mx-4 px-2">@item.Comment</div>
+						</div>
+					}
+				}
 			</RadzenColumn>
 		</RadzenStack>
 	</RadzenStack>
@@ -48,5 +56,16 @@
 
 @code {
 	[Parameter]
-	public DoctorListViewModel Doctor { get; set; }
+	public string doctorId { get; set; }
+
+	 DoctorDetailsViewModel Doctor = new();
+	protected override async Task OnInitializedAsync()
+	{
+		var response = await clinicService.GetDetailDoctor<ResponseDto>(doctorId);
+		if (response != null && response.IsSuccess)
+		{
+			Doctor = JsonConvert.DeserializeObject<DoctorDetailsViewModel>(Convert.ToString((response.Result)));
+		}
+	}
+
 }

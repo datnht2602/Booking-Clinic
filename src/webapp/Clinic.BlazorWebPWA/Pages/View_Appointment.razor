@@ -1,10 +1,14 @@
 ﻿@page "/view-appointment/{role}/{id}"
 @using Clinic.DTO.Models.Dto
 @using Clinic.BlazorWebPWA.Extensions
+@using InvoiceSamurai.Client.Documents
+@using InvoiceSamurai.Shared
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using QuestPDF.Fluent
 @inject IClinicService clinicService
 @inject IBookingService bookingService
 @inject NavigationManager nav
+@inject DialogService DialogService
 
 <PageTitle>View Appointment</PageTitle>
 
@@ -72,8 +76,8 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <a href="" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</a>
-                                                            <a href="" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Export</a>
+                                                            <button @onclick="@(_ =>FeedBack(item.DoctorId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</button>
+                                                            <button @onclick="@(_ =>Export(item.InvoiceId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Export</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,10 +104,16 @@
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     private string accessToken { get; set; }
     List<BookingDetailsViewModel> list = new();
+    [Inject] IJSRuntime JSRuntime { get; set; }
+    protected InvoiceModel InvoiceModel { get; set; } = new();
+    protected CustomerModel CustomModel { get; set; } = new();
+    protected GeneratePdfCommand pdfCommand = new();
+    string name = string.Empty;
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationStateTask;
         var user = authState.User;
+        name = user.Identity.Name;
         if (!user.Identity.IsAuthenticated)
         {
             nav.NavigateTo("authentication/login");
@@ -121,6 +131,34 @@
             list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
             list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
             StateHasChanged();
+        }
+    }
+
+    private async Task Export(string id)
+    {
+        var response = await clinicService.GetInvoice<ResponseDto>(id, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            var result = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
+            InvoiceModel.Coupon = result.Coupon;
+            InvoiceModel.Itens = result.Products;
+            CustomModel.Dob = result.BriefViewModel.DateOfBirth;
+            CustomModel.Name = result.BriefViewModel.UserName;
+            InvoiceModel.Number = result.Id;
+            pdfCommand = pdfCommand with
+            {
+                Invoice = InvoiceModel,
+                Customer = CustomModel
+            };
+            var document = new InvoiceDocument(pdfCommand);
+            JSRuntime?.InvokeVoidAsync("Print", Convert.ToBase64String(document.GeneratePdf()));
+        }
+    }
+    private async Task FeedBack(string id)
+    {
+        await DialogService.OpenAsync<Feedback_form>($"Feedback Form",
+            new Dictionary<string, object>() { { "id", id },{"name", name }},
+            new DialogOptions() { Width = "700px", Height = "512px", Resizable = true, Draggable = true });
         }
     }
 }

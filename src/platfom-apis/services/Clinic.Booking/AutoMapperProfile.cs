@@ -18,7 +18,13 @@ namespace Clinic.Booking
             this.CreateMap<Clinic.DTO.Models.BookingDetailsViewModel, Clinic.Data.Models.Booking>()
                 .ForMember(des => des.AdditionalData,
                     act => act.MapFrom(
-                        src => src.BriefViewModel));
+                        src => src.BriefViewModel))
+                .ForMember(des => des.InvoiceId,
+                    act => act.MapFrom(
+                        src => src.InvoiceId))
+                .ForMember(des => des.ClinicNum,
+                    act => act.MapFrom(
+                        src => src.ClinicNum));
             this.CreateMap<Clinic.DTO.Models.BookingDetailsViewModel, BookingDetailDto>()
                 .ForMember(des => des.BookingId,
                     act => act.MapFrom(

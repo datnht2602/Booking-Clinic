@@ -17,6 +17,8 @@ namespace Clinic.DTO.Models
         [Required]
         public string DoctorId { get; set; }
 
+        public string InvoiceId { get; set; }
+
         public string DoctorName { get; set; }
         public string ComboName { get; set; }
         public string Description { get; set; }

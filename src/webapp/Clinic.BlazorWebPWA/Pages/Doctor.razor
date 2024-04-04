@@ -223,9 +223,7 @@
     }
     async Task ShowDetail(string id)
     {
-        var doctor = doctors.FirstOrDefault(x => x.Id == id);
-
-        var dialogResult = await DialogService.OpenAsync<DoctorDetailComponent>("Doctor Detail", new Dictionary<string, object> { { "Doctor", doctor } }, new Radzen.DialogOptions { Width = "900px", Height = "550px" });
+        var dialogResult = await DialogService.OpenAsync<DoctorDetailComponent>("Doctor Detail", new Dictionary<string, object> { { "doctorId", id } }, new Radzen.DialogOptions { Width = "900px", Height = "550px" });
 
         if (dialogResult != null && dialogResult.Result != null)
         {}

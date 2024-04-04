@@ -78,22 +78,27 @@ namespace Clinic.Booking.Message
                 BookingDetailsViewModel? existingBooking = getExistingBooking.FirstOrDefault();
                 if (existingBooking != null)
                 {
+                    existingBooking.InvoiceId = orderMessage.InvoiceId;
                     existingBooking.OrderStatus = OrderStatus.Submitted.ToString();
-                    await repository.UpdateBookingAsync(existingBooking).ConfigureAwait(false);
-                    UpdateSchedule item = new()
+                    
+                    var result = await repository.UpdateBookingAsync(existingBooking);
+                    if (result.IsSuccessStatusCode)
                     {
-                        DoctorId = existingBooking.DoctorId,
-                        OrderTime = existingBooking.OrderPlacedDate,
-                        Detail =  existingBooking.BriefViewModel,
-                        UserId = existingBooking.UserId
-                    };
-                    var userResponse = await repository.UpdateSchedule(item).ConfigureAwait(false);
-                    if (userResponse.IsSuccessStatusCode)
-                    {
-                        var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
-                        bookingDto.InvoiceId = orderMessage.InvoiceId;
-                        await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
-                    }                    
+                        UpdateSchedule item = new()
+                        {
+                            DoctorId = existingBooking.DoctorId,
+                            OrderTime = existingBooking.OrderPlacedDate,
+                            Detail =  existingBooking.BriefViewModel,
+                            UserId = existingBooking.UserId
+                        };
+                        var userResponse = await repository.UpdateSchedule(item);
+                        if (userResponse.IsSuccessStatusCode)
+                        {
+                            var bookingDto = this.autoMapper.Map<BookingDetailDto>(existingBooking);
+                            bookingDto.InvoiceId = orderMessage.InvoiceId;
+                            await messageBus.PublishMessage(bookingDto, "checkoutmessagetopic");
+                        } 
+                    }
                 }
                 await args.CompleteMessageAsync(args.Message);
             }
