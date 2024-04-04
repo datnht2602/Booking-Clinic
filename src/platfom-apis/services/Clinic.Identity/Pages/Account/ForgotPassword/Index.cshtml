@@ -5,25 +5,26 @@
 		<partial name="_ValidationSummary" />
 		<div class="card bold-border mb-4 shadow-lg">
 			<div class="row no-gutters mx-4 my-3 px-3 py-4">
-				<div class="col-md-4 pr-5">
-					<h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2 text-uppercase">Forgot password</h2>
+				<div class="col-md-8 pr-5 d-flex justify-content-center align-items-center">
+					<img class="card-img-top image-right" src="/img/background.png" alt="background-photo">
+				</div>
+				<div class="col-md-4 my-auto">
+					<h2 class="m-auto fw-bold text-center text-black my-3 py-2 text-uppercase">Forgot password</h2>
 					<form asp-page="/Account/ForgotPassword/Index" method="post">
-						<input type="hidden"/>
-						<div class="form-control mb-3">
-							<label class="fs-4 text-sm text-muted" asp-for="Input.Email"> Email <small class="text-danger">*</small></label>
-							<input type="email" asp-for="Input.Email" placeholder="Enter your email" autocomplete="on" autofocus>
+						<input type="hidden" />
+						<div class="my-4">
+							<label class="form-label fs-6 text-sm text-navy fw-bold" asp-for="Input.Email"> Email <small class="text-danger">*</small></label>
+							<input type="email" class="form-control form-control-lg" asp-for="Input.Email" placeholder="Enter your email" autocomplete="on" autofocus>
 						</div>
-						<div class="mb-3">
+						<div class="py-2">
 							<button type="submit" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> RESET PASSWORD</button>
 						</div>
 					</form>
-					<div class="text-center">
+					<div class="text-center py-3">
 						<p class="text-muted mb-0 fs-9">Already have an account? <a asp-page="/Account/Login/Index" class="text-md-info"> Log in here</a></p>
 					</div>
 				</div>
-				<div class="col-md-8 pr-5 d-flex justify-content-center align-items-center">
-					<img class="card-img-top image-right mb-5" src="/img/background.png" alt="background-photo">
-				</div>
+
 			</div>
 		</div>
 
