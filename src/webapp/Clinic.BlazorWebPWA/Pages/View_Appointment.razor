@@ -3,6 +3,7 @@
 @using Clinic.BlazorWebPWA.Extensions
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IClinicService clinicService
+@inject IBookingService bookingService
 @inject NavigationManager nav
 
 <PageTitle>View Appointment</PageTitle>
@@ -23,103 +24,63 @@
                             <div class="user-container">
                                 <div class="user-body">
                                     <!-- Start My Appointment Section -->
-                                    <div class="user-card">
-                                        <div class="card-hdr">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-6">
-                                                    <a href="" class="title">APNT-00946</a>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <span class="label label-warning">In Process</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4">
-                                                    <div class="picture tbl-cell">
-                                                        <img src="img/user.jpg" alt="Doctor">
-                                                    </div>
-                                                    <div class="user-info tbl-cell">
-                                                        <span>Doctor Info</span>
-                                                        <h4 class="name">Emily Rasberry</h4>
-                                                        <p class="text">Gynaecology</p>
+                                    @if(list == null)
+                                    {
+                                        <h3>Loading</h3>
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in list)
+                                        {
+                                            <div class="user-card">
+                                                <div class="card-hdr">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <a href="" class="title">Booking Id: @item.Id</a>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <span class="label label-warning">@item.OrderStatus</span>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="info">
-                                                        <span>Patient</span>
-                                                        <p>PepDev Team</p>
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <div class="user-info tbl-cell">
+                                                                <span>Doctor Info</span>
+                                                                <h4 class="name">@item.DoctorName</h4>
+                                                                <p class="text">@item.Specialization.ConvertSpecEnum()</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="info">
+                                                                <span>Clinic Number</span>
+                                                                <p>@item.ClinicNum</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="info">
+                                                                <span>Date & Time</span>
+                                                                <p>@item.OrderPlacedDate.GetDateTime()</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="info">
-                                                        <span>Date & Time</span>
-                                                        <p>29-02-2024 at 11:30 AM</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-ftr">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-6">
-                                                    <span class="font-12 text-dark">Created On => 28-02-2024</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <a href="" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Read More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Start My Appointment Section -->
-                                    <div class="user-card">
-                                        <div class="card-hdr">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-6">
-                                                    <a href="" class="title">APNT-00944</a>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <span class="label label-warning">In Process</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4">
-                                                    <div class="picture tbl-cell">
-                                                        <img src="img/avatar.jpg" alt="Doctor">
-                                                    </div>
-                                                    <div class="user-info tbl-cell">
-                                                        <span>Doctor Info</span>
-                                                        <h4 class="name">Janet Collins</h4>
-                                                        <p class="text">Gynaecology</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="info">
-                                                        <span>Patient</span>
-                                                        <p>PepDev Team</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="info">
-                                                        <span>Date & Time</span>
-                                                        <p>22-02-2024 at 09:15 AM</p>
+                                                <div class="card-ftr">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <a href="" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</a>
+                                                            <a href="" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Export</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="card-ftr">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-6">
-                                                    <span class="font-12 text-dark">Created On => 21-02-2024</span>
-                                                </div>
-                                                <div class="col-md-6 text-right">
-                                                    <a href="" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Read More</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                        }
+                                    }
+                                                                     
                                 </div>
                             </div>
                         </div>
@@ -133,4 +94,33 @@
 @code {
     [Parameter] public string id { get; set; }
     [Parameter] public string role { get; set; }
+    [Inject]
+    IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    List<BookingDetailsViewModel> list = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+        var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}'");
+        if (response != null && response.IsSuccess)
+        {
+            list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
+            list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+            StateHasChanged();
+        }
+    }
 }

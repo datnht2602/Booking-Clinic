@@ -6,11 +6,17 @@ Timer = {
     start: () => new Date().getTime(),
     partial: (startTime) => `${new Date().getTime() - startTime}ms`,
 }
-function Print(){
-    console.log(`start printing`);
-    $(".hideWhenPrint").hide();
-    window.print();
-     $(".hideWhenPrint").show();
+function Print(base64String){
+    var byteString = atob(base64String);
+    var byteArray = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        byteArray[i] = byteString.charCodeAt(i);
+    }
+    var blob = new Blob([byteArray], { type: 'application/pdf' });
+    var link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = "export.pdf";
+    link.click();
 }
 PdfRenderer = {};
 

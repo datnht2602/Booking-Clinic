@@ -52,7 +52,10 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getallbooking", async ([FromServices] IBookingService bookingService,[FromQuery]string? filterCriteria= null) =>
 {
-  return await bookingService.GetBookingAsync(filterCriteria).ConfigureAwait(false);  
+    ResponseDto result = new();
+    var list = await bookingService.GetBookingAsync(filterCriteria).ConfigureAwait(false);
+    result.Result = list;
+  return result;  
 })
 .WithOpenApi();
 app.MapGet("/getbooking/{id}", async (string id,[FromServices] IBookingService bookingService) =>

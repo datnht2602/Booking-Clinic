@@ -59,7 +59,7 @@
 
     private void ExportPDF()
     {
-        JSRuntime?.InvokeVoidAsync("Print");
+        JSRuntime?.InvokeVoidAsync("Print", Convert.ToBase64String(PdfBody));
     }
 
     protected async override Task OnInitializedAsync()

@@ -6,7 +6,7 @@
         <div class="tbl-cell"><i class="fa-solid fa-circle-user"></i></div>
         <div class="tbl-cell">
             <span>Hello</span>
-            <h2>@context.User.Identity.Name</h2>
+            <h2>@name</h2>
         </div>
     </div>
     <div class="user-menu">
@@ -31,15 +31,18 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     AuthenticationState context { get; set; }
+    string name = string.Empty;
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
 
         context = await authenticationStateTask;
         var user = context.User;
+        name = user.Identity.Name;
         if (!user.Identity.IsAuthenticated)
         {
             nav.NavigateTo("authentication/login");
         }
+        StateHasChanged();
     }
 }

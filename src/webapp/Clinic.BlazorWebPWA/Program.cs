@@ -45,6 +45,7 @@ builder.Services.AddScoped<IClinicService, ClinicService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IDoctorService, DoctorService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddOidcAuthentication(options =>
 {
     options.ProviderOptions.Authority = builder.Configuration["ApplicationSettings:IdentityApiEndpoint"];
