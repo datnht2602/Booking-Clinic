@@ -2,30 +2,32 @@
 @model webapp.Pages.Account.ResetPassword.Index
 
 <main>
-    <div>
-        <h4>Reset Password</h4>
-        <hr />
-        <div class="row">
-            <div class="col-md-4">
+    <div class="container p-5 m-2 col-md-7 mx-auto">
+        <div class="bg-light shadow-sm px-5 py-3 m-3 border-1">
+            <h3 class="fw-bold text-uppercase text-center m-2">Reset Password</h3>
+            <hr />
+            <div class="row">
                 <form method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input asp-for="Input.Code" type="hidden" />
-                    <div class="form-group">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
+                    <div class="form-group mb-3">
+                        <label asp-for="Input.Email" class="fs-6 text-navy fw-bold py-1"></label>
+                        <input asp-for="Input.Email" class="form-control mb-3" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
+                    <div class="form-group mb-3">
+                        <label asp-for="Input.Password" class="fs-6 text-navy fw-bold py-1"></label>
+                        <input asp-for="Input.Password" class="form-control mb-3" />
                         <span asp-validation-for="Input.Password" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Input.ConfirmPassword"></label>
-                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <div class="form-group mb-3">
+                        <label asp-for="Input.ConfirmPassword" class="fs-6 text-navy fw-bold py-1"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control mb-3" />
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update.</button>
+                    <div class="text-center col-lg-4 py-3 mx-auto">
+                        <button type="submit" class="btn btn-primary fw-bold fs-7 rounded-3 border-0 text-uppercase">Update</button>
+                    </div>
                 </form>
             </div>
         </div>
