@@ -1,179 +1,190 @@
 ﻿@page "/about"
-
-<PageTitle>About</PageTitle>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <PageTitle>About</PageTitle>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
 <body class="d-flex flex-column h-100 bg-light">
-	<main class="flex-shrink-0">
-		<!-- Header-->
-		<div class="w-100">
-			<header style="overflow: hidden; height: 450px; position: relative;">
-				<div style="background-image: url('img/bg-aboutus.jpg'); background-size: cover; background-position: top; height: 100%;">
-					<div class="col-lg-6 position-absolute top-50 text-center">
-						<h1 class="fw-bold text-primary">WELCOME TO</h1>
-						<h1 class="fw-bold text-primary">4HEALTH CLINIC</h1>
-					</div>
-				</div>
-			</header>
-		</div>
-		<!-- About Section-->
-		<section class="py-5">
-			<div class="container">
-				<h1 class="fw-bold text-primary text-center mb-2">Introduction</h1>
-				<h5 class="lead text-center mb-5">Booking clinic software is developed to help patients and medical staff optimize the scheduling and appointment management process.</h5>
-				<div class="row justify-content-center ">
-					<!-- First column -->
-					<div class="col-md-6 ">
-						<!-- First row in the first column -->
-						<div class="row ">
-							<div class="col">
-								<div class="card bg-white shadow-lg border-0 mx-5 my-4">
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3 fw-bold text-primary text-center">1/</h1>
-										<h3 class="col-md-9 fw-bold d-flex align-items-center m-0">Choose doctor</h3>
-									</div>
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3"></h1>
-										<p class="col-md-9 d-flex align-items-center m-0">You can choose a doctor according to your health problem.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Second row in the first column -->
-						<div class="row ">
-							<div class="col ">
-								<div class="card bg-white shadow-lg border-0 mx-5 my-4">
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3 fw-bold text-primary text-center">3/</h1>
-										<h3 class="col-md-9 fw-bold d-flex align-items-center m-0">Manage Appointment</h3>
-									</div>
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3"></h1>
-										<p class="col-md-9 d-flex align-items-center m-0">You can track your scheduled appointments.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Second column -->
-					<div class="col-md-6">
-						<!-- First row in the second column -->
-						<div class="row">
-							<div class="col">
-								<div class="card bg-white shadow-lg border-0 mx-5 my-4">
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3 fw-bold text-primary text-center">2/</h1>
-										<h3 class="col-md-9 fw-bold d-flex align-items-center m-0">Booking Appoitment</h3>
-									</div>
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3"></h1>
-										<p class="col-md-9 d-flex align-items-center m-0">You can schedule an appointment easily and flexibly.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Second row in the second column -->
-						<div class="row ">
-							<div class="col">
-								<div class="card bg-white shadow-lg border-0 mx-5 my-4">
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3 fw-bold text-primary text-center">4/</h1>
-										<h3 class="col-md-9 fw-bold d-flex align-items-center m-0">E-payment</h3>
-									</div>
-									<div class="d-flex align-items-center">
-										<h1 class="col-md-3"></h1>
-										<p class="col-md-9 d-flex align-items-center m-0">You can pay quickly using e-wallet.</p>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+    <main class="flex-shrink-0">
+        <!-- Header -->
+        <div class="w-100">
+            <header style="overflow: hidden; height: 450px; position: relative;">
+                <div style="background-image: url('img/bg-aboutus.jpg'); ">
+                    <div class="col-lg-6 position-absolute top-50 text-center">
+                        <h1 class="fw-bold text-primary " data-wow-duration="1s" data-wow-delay="0.5s">WELCOME TO</h1>
+                        <h1 class="fw-bold text-primary" data-wow-duration="1s" data-wow-delay="1s">4HEALTH CLINIC</h1>
+                    </div>
+                </div>
+            </header>
+        </div>
 
-				</div>
-			</div>
-		</section>
-		<!-- Service section-->
-		<section style="overflow: hidden; height: 250px; position: relative;" id="serviceSection">
-			<div style="background-image: url('img/blue-aboutus.jpg'); background-size: cover; background-position: top; height: 100%;">
-				<div class="container position-relative py-5">
-					<div class="justify-content-center px-5 mx-3">
-						<div class="text-center mb-5">
-							<h2 class="fw-bold mb-2 text-black">Our Service</h2>
-						</div>
-						<div id="serviceCarousel" class="carousel slide" data-bs-ride="carousel">
-							<div class="carousel-inner">
-								<div class="carousel-item active">
-									<div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-										<!-- Service items for the first slide -->
-										<!-- Item 1 -->
-										<div class="col mb-5 mb-5 mb-xl-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General dental examination package</h5>
-											</div>
-										</div>
-										<!-- Item 2 -->
-										<div class="col mb-5 mb-5 mb-xl-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General health check package</h5>
-											</div>
-										</div>
-										<!-- Item 3 -->
-										<div class="col mb-5 mb-5 mb-sm-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General Ear - Nose - Throat examination package</h5>
-											</div>
-										</div>
-										<!-- Item 4 -->
-										<div class="col mb-5">
-											<div class="text-center">
-												<h5 class="fw-bolder">General dental examination package</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- Additional carousel items can be added here -->
-								<div class="carousel-item ">
-									<div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-										<!-- Service items for the first slide -->
-										<!-- Item 1 -->
-										<div class="col mb-5 mb-5 mb-xl-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General dental examination package</h5>
-											</div>
-										</div>
-										<!-- Item 2 -->
-										<div class="col mb-5 mb-5 mb-xl-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General health check package</h5>
-											</div>
-										</div>
-										<!-- Item 3 -->
-										<div class="col mb-5 mb-5 mb-sm-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General Ear - Nose - Throat examination package</h5>
-											</div>
-										</div>
-										<div class="col mb-5 mb-5 mb-sm-0">
-											<div class="text-center">
-												<h5 class="fw-bolder">General Ear - Nose - Throat examination package</h5>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="align-items-center">
-							<button class="ant-btn ant-btn-ghost ant-btn-icon-only slick-arrow slick-prev btn-primary rounded-circle position-absolute start-0 translate-middle-y top-50" type="button" data-bs-target="#serviceCarousel" data-bs-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Previous</span>
-							</button>
-							<button class="ant-btn ant-btn-ghost ant-btn-icon-only slick-arrow slick-prev btn-primary rounded-circle position-absolute end-0 translate-middle-y top-50" type="button" data-bs-target="#serviceCarousel" data-bs-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="visually-hidden">Next</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</main>
+        <!-- About Section -->
+        <section class="py-5 w-100">
+            <div class="row justify-content-center wow animate__animated animate__slideInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+                    <div class="col-md-3">
+                    <img style="height: 400px; width:auto; border-radius: 1rem" src="/img/doctor-banner.png" />
+                    </div>
+                    <!-- First column -->
+                    <div class="col-md-4 align-content-center">
+                        
+                        <!-- First row in the first column -->
+                        <div class="row">
+
+                        <div class="col wow animate__animated animate__slideInUp" data-wow-duration="1s" data-wow-delay="0.5s" >
+                            <div class="card bg-white shadow-lg border-0 mx-4 my-4" style="border-radius: 1rem; padding :1rem">
+                                    <div class="d-flex align-items-center" style="border-radius: 1rem; ">
+                                        <h1 class="col-md-3 fw-bold text-primary text-center">1/</h1>
+                                        <h3 class="col-md-9 fw-bold d-flex align-items-center m-0">Choose doctor</h3>
+                                    </div>
+                                    <div class="d-flex align-items-center" >
+                                        <h1 class="col-md-3"></h1>
+                                        <p class="col-md-9 d-flex align-items-center m-0">You can choose a doctor according to your health problem.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Second row in the first column -->
+                        <div class="row ">
+                            <div class="col wow animate__animated animate__slideInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <div class="card bg-white shadow-lg border-0 mx-4 my-4" style="border-radius: 1rem; padding :1rem">
+                                    <div class="d-flex align-items-center" style="border-radius: 1rem;">
+                                        <h1 class="col-md-3 fw-bold text-primary text-center">3/</h1>
+                                        <h3 class="col-md-9 fw-bold d-flex align-items-center m-0">Manage Appointment</h3>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <h1 class="col-md-3"></h1>
+                                        <p class="col-md-9 d-flex align-items-center m-0">You can track your scheduled appointments.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Second column -->
+                <div class="col-md-4 align-content-center">
+                        <!-- First row in the second column -->
+                        <div class="row">
+                            <div class="col wow animate__animated animate__slideInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <div class="card bg-white shadow-lg border-0 mx-4 my-4" style="border-radius: 1rem; padding :1rem">
+                                    <div class="d-flex align-items-center" style="border-radius: 1rem;">
+                                        <h1 class="col-md-3 fw-bold text-primary text-center">2/</h1>
+                                        <h3 class="col-md-9 fw-bold d-flex align-items-center m-0">Booking Appoitment</h3>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <h1 class="col-md-3"></h1>
+                                        <p class="col-md-9 d-flex align-items-center m-0">You can schedule an appointment easily and flexibly.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Second row in the second column -->
+                        <div class="row ">
+                            <div class="col wow animate__animated animate__slideInUp" data-wow-duration="1s" data-wow-delay="0.5s">
+                            <div class="card bg-white shadow-lg border-0 mx-4 my-4" style="border-radius: 1rem; padding :1rem">
+                                    <div class="d-flex align-items-center" style="border-radius: 1rem;">
+                                        <h1 class="col-md-3 fw-bold text-primary text-center">4/</h1>
+                                        <h3 class="col-md-9 fw-bold d-flex align-items-center m-0">E-payment</h3>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <h1 class="col-md-3"></h1>
+                                        <p class="col-md-9 d-flex align-items-center m-0">You can pay quickly using e-wallet.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+        </section>
+
+        <!-- Service section-->
+        <section  style="overflow: hidden; height: 250px; position: relative;" id="serviceSection">
+            <div style="background-image: url('img/blue-aboutus.jpg'); background-size: cover; background-position: top; height: 100%;">
+                <div class="container position-relative py-5">
+                    <div class="justify-content-center px-5 mx-3">
+                        <div class="text-center mb-5">
+                            <h2 class="fw-bold mb-2 text-primary wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">Our Service</h2>
+                        </div>
+                        <div id="serviceCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                                        <!-- Service items for the first slide -->
+                                        <!-- Item 1 -->
+                                        <div class="col mb-5 mb-5 mb-xl-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">General dental examination package</h5>
+                                            </div>
+                                        </div>
+                                        <!-- Item 2 -->
+                                        <div class="col mb-5 mb-5 mb-xl-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1s">General health check package</h5>
+                                            </div>
+                                        </div>
+                                        <!-- Item 3 -->
+                                        <div class="col mb-5 mb-5 mb-sm-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1.5s">General Ear - Nose - Throat examination package</h5>
+                                            </div>
+                                        </div>
+                                        <!-- Item 4 -->
+                                        <div class="col mb-5">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="2s">General dental examination package</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Additional carousel items can be added here -->
+                                <div class="carousel-item ">
+                                    <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                                        <!-- Service items for the first slide -->
+                                        <!-- Item 1 -->
+                                        <div class="col mb-5 mb-5 mb-xl-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">General dental examination package</h5>
+                                            </div>
+                                        </div>
+                                        <!-- Item 2 -->
+                                        <div class="col mb-5 mb-5 mb-xl-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1s">General health check package</h5>
+                                            </div>
+                                        </div>
+                                        <!-- Item 3 -->
+                                        <div class="col mb-5 mb-5 mb-sm-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1.5s">General Ear - Nose - Throat examination package</h5>
+                                            </div>
+                                        </div>
+                                        <div class="col mb-5 mb-5 mb-sm-0">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="2s">General Ear - Nose - Throat examination package</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="align-items-center">
+                            <button class="ant-btn ant-btn-ghost ant-btn-icon-only slick-arrow slick-prev btn-primary rounded-circle position-absolute start-0 translate-middle-y top-50" type="button" data-bs-target="#serviceCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="ant-btn ant-btn-ghost ant-btn-icon-only slick-arrow slick-prev btn-primary rounded-circle position-absolute end-0 translate-middle-y top-50" type="button" data-bs-target="#serviceCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+    <script>
+        new WOW().init();
+    </script>
 </body>
