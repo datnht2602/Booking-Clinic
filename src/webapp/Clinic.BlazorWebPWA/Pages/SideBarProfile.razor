@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using System.Security.Claims
+
+<div class="col-md-3 col-lg-2 p-0">
+    <div class="user-name">
+        <div class="tbl-cell"><i class="fa-solid fa-circle-user"></i></div>
+        <div class="tbl-cell">
+            <span>Hello</span>
+            <h2>@context.User.Identity.Name</h2>
+        </div>
+    </div>
+    <div class="user-menu">
+        <ul>
+            <li class="user-appointments">
+                <a href=@($"/view-appointment/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>Appointments</a>
+            </li>
+            <li class="user-records ">
+                <a href=""><i class="fa-solid fa-laptop-medical"></i>Cart</a>
+            </li>
+            <li class="user-profile active">
+                <a href=@($"/profile/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-user-injured"></i>Profile</a>
+            </li>
+            <li class="user-change-password ">
+                <a href=@($"/change-password/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-unlock"></i>Change Password</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    AuthenticationState context { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        context = await authenticationStateTask;
+        var user = context.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+    }
+}

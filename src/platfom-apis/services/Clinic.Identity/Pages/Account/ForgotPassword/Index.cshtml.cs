@@ -53,11 +53,12 @@ public class Index : PageModel
             // link dẫn đến trang /Account/ResetPassword để kiểm tra và đặt lại mật khẩu
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
+            var callbackUrl = $"{this.applicationSettings.Value.IdentityApiEndpoint}/Account/ResetPassword?code={code}";
+                /*Url.Page(
                 "/Account/ResetPassword",
                 pageHandler: null,
-                values: new { area = "Identity", code },
-                protocol: Request.Scheme);
+                values: new { code },
+                protocol: Request.Scheme);*/
             var mailDto = new SendMailDto()
             {
                 Email = Input.Email,
@@ -68,7 +69,7 @@ public class Index : PageModel
             // Gửi email
 
             // Chuyển đến trang thông báo đã gửi mail để reset password
-            return RedirectToPage(".Account/Login/Index");
+            return RedirectToPage("/Account/Login/Index");
         }
 
         return Page();

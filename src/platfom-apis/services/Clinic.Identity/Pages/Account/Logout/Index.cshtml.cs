@@ -100,6 +100,6 @@ public class Index : PageModel
             }
         }
 
-        return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}");
+        return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
     }
 }

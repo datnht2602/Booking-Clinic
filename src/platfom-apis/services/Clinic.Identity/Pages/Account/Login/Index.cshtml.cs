@@ -93,15 +93,15 @@ public class Index : PageModel
                 {
                     // The client is native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return this.LoadingPage($"{this.applicationSettings.Value.IdentityApiEndpoint}");
+                    return this.LoadingPage($"{this.applicationSettings.Value.ClientApiEndpoint}");
                 }
 
-                return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}");
+                return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
             }
             else
             {
                 // since we don't have a valid context, then we just go back to the home page
-                return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}");
+                return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
             }
         }
 
@@ -147,7 +147,7 @@ public class Index : PageModel
                     // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
                     if (user.UserName == "admin@gmail.com")
                     {
-                        return Redirect($"{this.applicationSettings.Value.IdentityApiEndpoint}admin");
+                        return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}admin");
                     }
                     return Redirect(Input.ReturnUrl);
                 }

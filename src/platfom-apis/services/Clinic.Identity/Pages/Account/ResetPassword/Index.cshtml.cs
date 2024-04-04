@@ -72,7 +72,7 @@ namespace webapp.Pages.Account.ResetPassword;
             if (user == null)
             {
                 // Không thấy user
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return RedirectToPage("/Account/Login");
             }
             // Đặt lại passowrd chu user - có kiểm tra mã token khi đổi
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
@@ -80,7 +80,7 @@ namespace webapp.Pages.Account.ResetPassword;
             if (result.Succeeded)
             {
                 // Chuyển đến trang thông báo đã reset thành công
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return RedirectToPage("/Account/Login");
             }
 
             foreach (var error in result.Errors)
