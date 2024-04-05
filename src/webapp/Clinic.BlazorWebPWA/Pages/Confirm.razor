@@ -20,18 +20,18 @@
                             <div class="col-md-5 mx-5 " >
                                 <div class="card mh-100 shadow-lg mb-5" style="border-radius: 1rem;">
                                     <div class="card-body p-0">
-                                        <div class="px-5 py-4">
-                                            <h4 class="text-center text-primary mb-2 mx-auto ">Patient Information</h4>
+                                        <div class="px-5 py-4" style="background-color: rgba(4, 17, 80); border-top-left-radius: 1rem; border-top-right-radius: 1rem">
+                                            <h4 class="text-center text-white mb-2 mx-auto ">Patient Information</h4>
                                         </div>
                                             
-                                        <div style="background-color: rgba(4, 17, 80); border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem">
+                                        <div >
                                             <div class="mx-4 px-5 py-4">
                                                 <div class="mb-3">
-                                                    <label for="fullname" class="form-label medium text-white fw-bold">Full Name <small class="text-danger">*</small></label>
+                                                    <label for="fullname" class="form-label medium text-primary fw-bold">Full Name <small class="text-danger">*</small></label>
                                                     <InputText @bind-Value="viewModel.UserName" class="form-control" placeholder="Nguyễn Văn A" required />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="major" class="form-label medium text-white fw-bold">Gender<small class="text-danger">*</small></label>
+                                                    <label for="major" class="form-label medium text-primary fw-bold">Gender<small class="text-danger">*</small></label>
                                                     <InputSelect @bind-Value="viewModel.Sexual" class="form-select" required aria-label="Select Gender">
                                                         <option value="">Select Gender</option>
                                                         <option value="1">Male</option>
@@ -40,23 +40,23 @@
                                                     </InputSelect>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="emailInput" class="form-label medium text-white fw-bold">Email <small class="text-danger">*</small></label>
+                                                    <label for="emailInput" class="form-label medium text-primary fw-bold">Email <small class="text-danger">*</small></label>
                                                     <InputText @bind-Value="viewModel.Email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label class="form-label medium text-white fw-bold">Phone Number<small class="text-danger">*</small></label>
+                                                    <label class="form-label medium text-primary fw-bold">Phone Number<small class="text-danger">*</small></label>
                                                     <InputText @bind-Value="viewModel.PhoneNumber" type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')" />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="date" class="form-label medium text-white fw-bold">Date of birth <small class="text-danger fw-bold">*</small></label>
+                                                    <label for="date" class="form-label medium text-primary fw-bold">Date of birth <small class="text-danger fw-bold">*</small></label>
                                                     <RadzenDatePicker @bind-Value=@viewModel.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="address" class="form-label medium text-white fw-bold">Address <small class="text-danger">*</small></label>
+                                                    <label for="address" class="form-label medium text-primary fw-bold">Address <small class="text-danger">*</small></label>
                                                     <InputText @bind-Value="viewModel.Address" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" title="Please do not enter spaces." required />
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="address" class="form-label medium text-white fw-bold">Social security number <small class="text-danger">*</small></label>
+                                                    <label for="address" class="form-label medium text-primary fw-bold">Social security number <small class="text-danger">*</small></label>
                                                     <InputText @bind-Value="viewModel.HealthInsuranceCode" class="form-control" placeholder="Enter health insurance code" required />
                                                 </div>
                                             </div>
