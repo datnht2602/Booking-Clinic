@@ -11,123 +11,134 @@
 <PageTitle>Confirm Information</PageTitle>
 <main>
     <div class="bg-white">
-        <div class="container px-5 py-5 appointments">
+        <div class="container-fluid px-5 py-5 appointments">
             <div>
                 <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">CONFIRM INFORMATION</h2>
                 <EditForm Model="viewModel" OnValidSubmit="HandleCreate">
-                    <div class="container">
-                        <div class="row gx-5">
-                            <div class="col-md-6 mb-5 offset-md-3">
-                                <div class="card mh-100 bg-primary shadow-lg">
-                                    <div class="card-body mx-4 my-3 px-5 py-4">
-
-                                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Patient Information</h4>
-                                        <div class="mb-3">
-                                            <label for="fullname" class="form-label medium text-white">Full Name <small class="text-danger">*</small></label>
-                                            <InputText @bind-Value="viewModel.UserName" class="form-control" placeholder="Nguyễn Văn A"  required/>
+                    <div class="container pt-3">
+                        <div class="row gx-5 justify-content-center">
+                            <div class="col-md-5 mx-5 " >
+                                <div class="card mh-100 shadow-lg mb-5" style="border-radius: 1rem;">
+                                    <div class="card-body p-0">
+                                        <div class="px-5 py-4">
+                                            <h4 class="text-center text-primary mb-2 mx-auto ">Patient Information</h4>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="major" class="form-label medium text-white">Gender<small class="text-danger">*</small></label>
-                                            <InputSelect @bind-Value="viewModel.Sexual" class="form-select" required aria-label="Select Gender">
-                                                <option value="">Select Gender</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Other</option>
-                                            </InputSelect>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="emailInput" class="form-label medium text-white">Email <small class="text-danger">*</small></label>
-                                            <InputText @bind-Value="viewModel.Email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required/>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label medium text-white">Phone Number<small class="text-danger">*</small></label>
-                                            <InputText @bind-Value="viewModel.PhoneNumber" type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')"/>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="date" class="form-label medium text-white">Date of birth <small class="text-danger fw-bold">*</small></label>
-                                            <RadzenDatePicker @bind-Value=@viewModel.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek />
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="address" class="form-label medium text-white">Address <small class="text-danger">*</small></label>
-                                            <InputText @bind-Value="viewModel.Address" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" title="Please do not enter spaces." required/>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="address" class="form-label medium text-white">Social security number <small class="text-danger">*</small></label>
-                                            <InputText @bind-Value="viewModel.HealthInsuranceCode" class="form-control" placeholder="Enter health insurance code" required/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-5 offset-md-3">
-                                <div class="card mh-100 bg-primary shadow-lg">
-                                    <div class="card-body mx-4 my-3 px-5 py-4">
-                                        <h4 class="m-auto text-center text-white mb-2 mx-auto">Information about booking an appointment</h4>
-                                        <div class="mb-3">
-                                            <label for="date" class="form-label medium text-white">Date and time you want to be examined <small class="text-danger fw-bold"></small></label>
-                                            @if (updateModel.OrderPlacedDate == null)
-                                            {
-                                                <p>
-                                                    <em>Loading....</em>
-                                                </p>
-                                            }
-                                            else
-                                            {
-                                                <input type="text" class="form-control" placeholder="@updateModel.OrderPlacedDate.GetDateTime()" readonly="False">
-                                            }
-
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="doctor" class="form-label medium text-white">Doctor</label>
-                                            @if (updateModel.DoctorName == null)
-                                            {
-                                                <p>
-                                                    <em>Loading....</em>
-                                                </p>
-                                            }
-                                            else
-                                            {
-                                                <input type="text" class="form-control" placeholder="@updateModel.DoctorName" readonly="False">
-                                            }
-
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="specialist" class="form-label medium text-white">Specialization</label>
-                                            @if (updateModel.Specialization == null)
-                                            {
-                                                <p>
-                                                    <em>Loading....</em>
-                                                </p>
-                                            }
-                                            else
-                                            {
-                                                <input type="text" class="form-control" placeholder="@updateModel.Specialization.ConvertSpecEnum()" readonly="False">
-                                            }
-
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="service" class="form-label medium text-white">Service</label>
-                                            @if (updateModel.Products == null)
-                                            {
-                                                <p>
-                                                    <em>Loading....</em>
-                                                </p>
-                                            }
-                                            else
-                                            {
-                                                <input type="text" class="form-control" placeholder="@string.Join(",", updateModel.Products.Select(x => x.Name))" readonly="False">
-                                            }
-
+                                            
+                                        <div style="background-color: rgba(4, 17, 80); border-bottom-left-radius: 1rem; border-bottom-right-radius: 1rem">
+                                            <div class="mx-4 px-5 py-4">
+                                                <div class="mb-3">
+                                                    <label for="fullname" class="form-label medium text-white fw-bold">Full Name <small class="text-danger">*</small></label>
+                                                    <InputText @bind-Value="viewModel.UserName" class="form-control" placeholder="Nguyễn Văn A" required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="major" class="form-label medium text-white fw-bold">Gender<small class="text-danger">*</small></label>
+                                                    <InputSelect @bind-Value="viewModel.Sexual" class="form-select" required aria-label="Select Gender">
+                                                        <option value="">Select Gender</option>
+                                                        <option value="1">Male</option>
+                                                        <option value="2">Female</option>
+                                                        <option value="3">Other</option>
+                                                    </InputSelect>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="emailInput" class="form-label medium text-white fw-bold">Email <small class="text-danger">*</small></label>
+                                                    <InputText @bind-Value="viewModel.Email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="form-label medium text-white fw-bold">Phone Number<small class="text-danger">*</small></label>
+                                                    <InputText @bind-Value="viewModel.PhoneNumber" type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')" />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="date" class="form-label medium text-white fw-bold">Date of birth <small class="text-danger fw-bold">*</small></label>
+                                                    <RadzenDatePicker @bind-Value=@viewModel.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="address" class="form-label medium text-white fw-bold">Address <small class="text-danger">*</small></label>
+                                                    <InputText @bind-Value="viewModel.Address" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" title="Please do not enter spaces." required />
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="address" class="form-label medium text-white fw-bold">Social security number <small class="text-danger">*</small></label>
+                                                    <InputText @bind-Value="viewModel.HealthInsuranceCode" class="form-control" placeholder="Enter health insurance code" required />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row justify-content-center">
-                                <div class="col-md-6">
-                                    <div class="btn-group d-flex justify-content-center">
-                                        <button type="submit" disabled="@Creating" class="btn btn-primary btn-lg mx-5 card-link">Confirm</button>
+                            <div class="col-md-5 mx-5">
+                                <div class="card mh-100 shadow-lg" style="border-radius: 1rem">
+                                    <div class="card-body p-0">
+                                        <div class="px-5 py-4" style="background-color: rgba(4, 17, 80); border-top-left-radius: 1rem; border-top-right-radius: 1rem ">
+                                                <h4 class="m-auto text-center text-white mb-2 mx-auto ">Appointment Information</h4>
+                                        </div>
+
+                                        <div class="mx-4 my-3 px-5 py-4" >
+                                            <div class="mb-3">
+                                                <label for="date" class="form-label medium text-primary fw-bold">Date and time you want to be examined <small class="text-danger fw-bold"></small></label>
+                                                @if (updateModel.OrderPlacedDate == null)
+                                                {
+                                                    <p>
+                                                        <em>Loading....</em>
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control" placeholder="@updateModel.OrderPlacedDate.GetDateTime()" readonly="False">
+                                                }
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="doctor" class="form-label medium text-primary fw-bold">Doctor</label>
+                                                @if (updateModel.DoctorName == null)
+                                                {
+                                                    <p>
+                                                        <em>Loading....</em>
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control" placeholder="@updateModel.DoctorName" readonly="False">
+                                                }
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="specialist" class="form-label medium text-primary fw-bold">Specialization</label>
+                                                @if (updateModel.Specialization == null)
+                                                {
+                                                    <p>
+                                                        <em>Loading....</em>
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control" placeholder="@updateModel.Specialization.ConvertSpecEnum()" readonly="False">
+                                                }
+
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="service" class="form-label medium text-primary fw-bold">Service</label>
+                                                @if (updateModel.Products == null)
+                                                {
+                                                    <p>
+                                                        <em>Loading....</em>
+                                                    </p>
+                                                }
+                                                else
+                                                {
+                                                    <input type="text" class="form-control" placeholder="@string.Join(",", updateModel.Products.Select(x => x.Name))" readonly="False">
+                                                }
+                                            </div>
+                                       </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center pt-5">
+                                    <div class="col-md-6">
+                                        <div class="btn-group d-flex justify-content-center">
+                                            <button type="submit" disabled="@Creating" class="btn btn-primary btn-lg mx-5 card-link">Confirm</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </EditForm>
