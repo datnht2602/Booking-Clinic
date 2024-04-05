@@ -18,7 +18,10 @@
                 <a href=@($"/view-appointment/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>Appointments</a>
             </li>
             <li class="user-records ">
-                <a href=""><i class="fa-solid fa-laptop-medical"></i>Cart</a>
+                <a href=@($"/view-cart/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-laptop-medical"></i>Cart</a>
+            </li>
+            <li class="user-appointments">
+                <a href=@($"/view-invoice/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>Invoices</a>
             </li>
 
             <li class="user-change-password ">

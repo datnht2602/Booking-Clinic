@@ -1,3 +1,4 @@
+using Clinic.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace Clinic.DTO.Models
         /// <value>
         /// The sold by.
         /// </value>
-        public SoldByViewModel SoldBy { get; set; }
+        public DetailDto Detail { get; set; }
 
         /// <summary>
         /// Gets or sets the products.

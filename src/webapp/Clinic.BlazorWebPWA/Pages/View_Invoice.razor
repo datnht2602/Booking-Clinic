@@ -1,4 +1,4 @@
-﻿@page "/view-appointment/{role}/{id}"
+﻿@page "/view-invoice/{role}/{id}"
 @using Clinic.DTO.Models.Dto
 @using Clinic.BlazorWebPWA.Extensions
 @using InvoiceSamurai.Client.Documents
@@ -22,13 +22,13 @@
             <div class="user-wrapper">
                 <div>
                     <div class="row usr-hdr">
-                      <SideBarProfile/>
+                        <SideBarProfile />
                         <div class="col-md-9 col-lg-10 p-0">
                             <h1 class="user-ttl">Appointments</h1>
                             <div class="user-container">
                                 <div class="user-body">
                                     <!-- Start My Appointment Section -->
-                                    @if(list == null)
+                                    @if (list == null)
                                     {
                                         <h3>Loading</h3>
                                     }
@@ -43,7 +43,7 @@
                                                             <a href="" class="title">Booking Id: @item.Id</a>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <span class="label label-warning">In Progress</span>
+                                                            <span class="label label-danger">Done</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -76,14 +76,15 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ =>Detail(item.InvoiceId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
+                                                            <button @onclick="@(_ =>FeedBack(item.DoctorId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</button>
+                                                            <button @onclick="@(_ =>Export(item.InvoiceId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Export</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         }
                                     }
-                                                                     
+
                                 </div>
                             </div>
                         </div>
@@ -125,7 +126,7 @@
             accessToken = token.Value;
         }
         long timeNow = DateTime.Now.Ticks;
-        var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate > {timeNow} ");
+        var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate < {timeNow} ");
         if (response != null && response.IsSuccess)
         {
             list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
@@ -134,8 +135,31 @@
         }
     }
 
-    private async Task Detail(string id)
+    private async Task Export(string id)
     {
-       
+        var response = await clinicService.GetInvoice<ResponseDto>(id, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            var result = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
+            InvoiceModel.Coupon = result.Coupon;
+            InvoiceModel.Itens = result.Products;
+            CustomModel.Dob = result.BriefViewModel.DateOfBirth;
+            CustomModel.Name = result.BriefViewModel.UserName;
+            InvoiceModel.Number = result.Id;
+            pdfCommand = pdfCommand with
+                {
+                    Invoice = InvoiceModel,
+                    Customer = CustomModel
+                };
+            var document = new InvoiceDocument(pdfCommand);
+            JSRuntime?.InvokeVoidAsync("Print", Convert.ToBase64String(document.GeneratePdf()));
+        }
     }
+    private async Task FeedBack(string id)
+    {
+        await DialogService.OpenAsync<Feedback_form>($"Feedback Form",
+            new Dictionary<string, object>() { { "id", id }, { "name", name } },
+            new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
+    }
+}
 }

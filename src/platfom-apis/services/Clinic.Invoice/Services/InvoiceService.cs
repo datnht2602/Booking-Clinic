@@ -31,12 +31,6 @@ namespace Clinic.Invoice.Services
         public async Task<InvoiceDetailsViewModel> AddInvoiceAsync(InvoiceDetailsViewModel invoice)
         {
             ArgumentValidation.ThrowIfNull(invoice, nameof(invoice));
-            invoice.SoldBy = new SoldByViewModel()
-            {
-                Email = "",
-                Phone = "",
-                ManagerName = "Derek"
-            };
             var invoiceEntity = autoMapper.Map<Data.Models.Invoice>(invoice);
             using var invoiceRequest = new StringContent(JsonSerializer.Serialize(invoiceEntity),Encoding.UTF8,ContentType);
             var invoiceResponse = await httpClient.PostAsync(new Uri($"{applicationSettings.Value.DataStoreEndpoint}getinvoice"), invoiceRequest).ConfigureAwait(false);

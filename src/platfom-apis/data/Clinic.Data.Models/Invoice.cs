@@ -22,7 +22,7 @@ namespace Clinic.Data.Models
         public AddtionalData AdditionalData { get; set; }
 
 
-        public SoldBy SoldBy { get; set; }
+        public DoctorInfo Doctor { get; set; }
 
 
         public List<Product> Product { get; set; }
