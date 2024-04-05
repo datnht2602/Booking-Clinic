@@ -284,33 +284,13 @@
             <div class="error-box">
                 <img class="img-fluid" src="/img/doctor-cannot.png" alt="Logo">
                 <h2>You are not allowed to access admin page</h2>
-                <NavLink href="/" class="btn btn-primary">
-                    <span><i class="fa-solid fa-house"></i> Homepage</span>
-                </NavLink>
-                <NavLink href="/authentication/login" class="btn btn-primary">
+                <button @onclick="@(_ => nav.NavigateTo($"/", true))" class="btn btn-primary"><span><i class="fa-solid fa-house"></i> Homepage</span></button>
+                <button @onclick="@(_ => nav.NavigateTo($"/authentication/login", true))" class="btn btn-primary">
                     <span>
                         <i class="fa-solid fa-user"></i> Log in
                     </span>
-                </NavLink>
+                </button>
             </div>
         </div>
     </NotAuthorized>
 </AuthorizeView>
-
-<script>
-    $(document).ready(function () {
-        // Bắt sự kiện khi thẻ a được nhấp
-        $('a').click(function (event) {
-            // Kiểm tra xem href của thẻ a có tồn tại hay không
-            var href = $(this).attr('href');
-            if (href && href !== '#') {
-                // Xóa cookie 'cake'
-                document.cookie = "cake=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                // Load lại trang
-                window.location.href = href
-                // Ngăn chặn hành động mặc định của thẻ a
-                event.preventDefault();
-            }
-        });
-    });
-</script>

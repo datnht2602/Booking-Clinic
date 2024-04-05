@@ -11,6 +11,7 @@ namespace Clinic.DataAccess.Extensions
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<ICouponRepository, CouponRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
             return services;
         }
     }

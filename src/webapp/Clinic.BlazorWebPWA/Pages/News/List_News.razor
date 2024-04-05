@@ -2,10 +2,9 @@
 @layout AdminLayout
 @using Clinic.Data.Models
 @using Clinic.BlazorWebPWA.Extensions
-
+@inject IBlogService blogService
 <PageTitle>List of Medical News</PageTitle>
 
-<link href="css/admin.css" rel="stylesheet" />
 
 <div class="page-wrapper">
     <div class="content">
@@ -35,12 +34,11 @@
                                         <div class="news-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <form>
-                                                    <input type="text" class="form-control" placeholder="Search here">
-                                                    <button class="btn"><i class="bi bi-search"></i></button>
+                                                    <input type="text" value="@blogName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                                 </form>
                                             </div>
                                             <div class="add-group">
-                                                <a href="upsert-news" class="btn btn-primary add-pluss ms-2"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                <RadzenButton Click=@(args => nav.NavigateTo("/upsert-news")) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
                                             </div>
                                         </div>
                                     </div>
@@ -66,18 +64,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Title</td>
-                                        <td>Summary</td>
-                                        <td>Description</td>
-                                        <td>CreatedDate</td>
-                                        <td>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="edit-news"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_news"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if(GetListBlogs is not null)
+                                    {
+                                        @foreach(var item in GetListBlogs)
+                                        {
+                                            <tr>
+                                                <td>@item.Title</td>
+                                                <td>@item.Summary</td>
+                                                <td>@item.Description</td>
+                                                <td>@item.CreatedDate</td>
+                                                <td>
+                                                    <RadzenMenu>
+                                                        <RadzenMenuItem Text="More">
+                                                            <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-news/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
+                                                            <RadzenMenuItem Click="@(args => ConfirmDelete(@item.Id))" @onclick:stopPropagation="true" Text="Delete"></RadzenMenuItem>
+                                                        </RadzenMenuItem>
+                                                    </RadzenMenu>
+                                                </td>
+                                            </tr>
+                                        }
+                                                                   }                                 
                                 </tbody>
                             </table>
                         </div>
@@ -89,5 +95,43 @@
 </div>
 
 @code {
-    
+    private List<Blog> GetListBlogs = new();
+    string blogName = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+
+        var response = await blogService.GetListBlogs<ResponseDto>(string.Empty);
+        if (response != null && response.IsSuccess)
+        {
+            GetListBlogs = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
+            StateHasChanged();
+        }
+    }
+    public async Task ConfirmDelete(string id)
+    {
+        var confirmationResult = await this.DialogService.Confirm("Are you sure?", "Delete Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (confirmationResult == true)
+        {
+            var responseDelete = await blogService.DeleteBlog<ResponseDto>(id);
+            if (responseDelete != null && responseDelete.IsSuccess)
+            {
+                GetListBlogs = null;
+                StateHasChanged();
+                var response = await blogService.GetListBlogs<ResponseDto>(string.Empty);
+                if (response != null && response.IsSuccess)
+                {
+                    GetListBlogs = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
+                    StateHasChanged();
+                }
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully" });
+            }
+        }
+    }
+    private async Task HandleChange(ChangeEventArgs e)
+    {
+        blogName = e?.Value?.ToString();
+        blogName = null;
+        GetListBlogs = GetListBlogs.Where(x => x.Title.ContainsCaseInsensitive(blogName)).ToList();
+        StateHasChanged();
+    }
 }

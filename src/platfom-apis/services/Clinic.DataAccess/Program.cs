@@ -43,5 +43,7 @@ app.MapProductEndpoints();
 
 app.MapCouponEndpoints();
 
+app.MapBlogEndpoints();
+
 app.Run();
 

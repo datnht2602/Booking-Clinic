@@ -1,0 +1,6 @@
+@Clinic.Blog_HostAddress = http://localhost:5103
+
+GET {{Clinic.Blog_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

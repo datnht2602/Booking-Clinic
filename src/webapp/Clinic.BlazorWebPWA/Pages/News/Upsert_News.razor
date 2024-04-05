@@ -1,12 +1,13 @@
 ﻿@page "/upsert-news"
+@page "/upsert-news/{id}"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using System.Text
 @layout AdminLayout
 @inject NavigationManager nav
 @inject NotificationService NotificationService
+@inject IBlogService blogService
 <PageTitle>Add News</PageTitle>
 
-<link href="css/admin.css" rel="stylesheet" />
 
 <div class="page-wrapper">
     <div class="content">
@@ -37,48 +38,39 @@
                                     <h4>Medical News Details</h4>
                                 </div>
                             </div>
+                              <EditForm Model="createBlog" OnValidSubmit="HandleBookingCreate">
                             <div class="col-12">
                                 <div class="input-block local-forms">
                                     <label>Title <span class="login-danger">*</span></label>
-                                    <input class="form-control" type="text" placeholder="" />
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="input-block local-forms">
-                                    <label>Creator<span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" />
+                                        <InputText @bind-Value="createBlog.Title" class="form-control" type="text" />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <div class="input-block local-forms">
                                     <label>Summary<span class="login-danger">*</span></label>
-                                    <textarea class="form-control" rows="3" cols="30"></textarea>
+                                    <textarea @bind="createBlog.Summary" class="form-control" rows="3" cols="30"></textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <div class="input-block local-forms">
                                     <label>Description<span class="login-danger">*</span></label>
-                                    <textarea class="form-control" rows="3" cols="30"></textarea>
+                                        <textarea @bind="createBlog.Description" class="form-control" rows="3" cols="30"></textarea>
                                 </div>
                             </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-top-form">
                                         <label class="local-top">Image <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" />
+                                        <InputText @bind-Value="createBlog.ImageUrl" class="form-control" type="text" />
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="news-submit text-end">
-                                        <button type="submit"
-                                                class="btn btn-primary submit-form me-2">
-                                            Submit
-                                        </button>
-                                        <button type="submit" class="btn btn-primary cancel-form">
-                                            Cancel
-                                        </button>
+                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
+                                        <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-news", true))" class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>
-                            </div>
+                            </EditForm>
+                        </div>                                                      
                      </div>
                  </div>
              </div>
@@ -87,5 +79,45 @@
  </div>
 
 @code {
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    [Parameter] public string? id { get; set; }
+    private Data.Models.Blog createBlog = new();
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login", true);
+        }
 
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        if (!string.IsNullOrEmpty(id))
+        {
+            var responseProduct = await blogService.GetBlogById<ResponseDto>(id);
+            if (responseProduct != null && responseProduct.IsSuccess)
+            {
+                createBlog = JsonConvert.DeserializeObject<Data.Models.Blog>(Convert.ToString((responseProduct.Result)));
+            }
+        }
+    }
+    private async Task HandleBookingCreate()
+    {   
+        var response = await blogService.CreateOrUpdateBlog<ResponseDto>(createBlog, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
+            await Task.Delay(3000);
+            nav.NavigateTo("/list-news", forceLoad: true);
+        }
+    }
 }
