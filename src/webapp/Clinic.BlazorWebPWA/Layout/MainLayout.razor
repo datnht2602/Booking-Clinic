@@ -1,9 +1,11 @@
 ﻿@inherits LayoutComponentBase
-<RadzenComponents/>
+<RadzenComponents />
 <PageTitle>Clinic.Blazorweb</PageTitle>
 
-<main class="flex-shrink-0">
-    <NavMenu />
-    @Body
+<body style="background: none !important" class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+        <NavMenu />
+        @Body
+    </main>
     <Footer />
-</main>
+</body>
