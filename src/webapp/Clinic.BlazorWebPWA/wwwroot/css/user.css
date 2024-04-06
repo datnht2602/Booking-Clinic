@@ -130,7 +130,8 @@ p, span {
 
 /*user*/
 .user-wrapper {
-    padding: 15px
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
     .user-wrapper > div {
@@ -282,7 +283,7 @@ p, span {
 .user-container {
     padding: 0;
     background-color: #f5f9fc;
-    min-height: 270px !important;
+    min-height: 330px !important;
     border-radius: 4px
 }
 
