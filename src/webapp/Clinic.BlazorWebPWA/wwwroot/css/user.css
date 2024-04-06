@@ -282,8 +282,8 @@ p, span {
 .user-container {
     padding: 0;
     background-color: #f5f9fc;
-    border-radius: 4px;
-    min-height: 270px;
+    min-height: 270px !important;
+    border-radius: 4px
 }
 
     .user-container .user-body {
