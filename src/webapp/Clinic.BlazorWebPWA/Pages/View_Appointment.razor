@@ -45,7 +45,7 @@
                                                             <a href="" class="title">Booking Id: @item.Id</a>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <span class="label label-warning">In Progress</span>
+                                                            <span class="label label-success">In Progress</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -79,6 +79,7 @@
                                                         </div>
                                                         <div class="col-md-6 text-right">
                                                             <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
+                                                            <button @onclick="@(_ =>Contact())" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Contact With Doctor</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -126,7 +127,7 @@
                                                 <div class="card-ftr">
                                                     <div class="row align-items-center">
                                                         <div class="col-md-6">
-                                                            <span class="font-12 text-dark">Sexual: @{item.BriefViewModel.Sexual == 1 ? "Male" : "Female"}</span>
+                                                            <span class="font-12 text-dark">Sexual: @(item.BriefViewModel.Sexual == 1 ? "Male" : "Female")</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
                                                             <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
@@ -208,6 +209,10 @@
        
     }
     private async Task ChangeScheduleTime(string id)
+    {
+       
+    }
+    private async Task Contact()
     {
        
     }

@@ -47,7 +47,7 @@
                                                             <a href="" class="title">Booking Id: @item.Id</a>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <span class="label label-success">Cart</span>
+                                                            <span class="label label-warning">Cart</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -80,7 +80,8 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ =>Pay(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Checkout</button>
+                                                            <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
+                                                            <button @onclick="@(_ => Pay(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Checkout</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -112,6 +113,7 @@
     protected CustomerModel CustomModel { get; set; } = new();
     protected GeneratePdfCommand pdfCommand = new();
     string name = string.Empty;
+    bool check = false;
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationStateTask;
@@ -146,6 +148,7 @@
         var checkItem = list.FirstOrDefault(x => x.Id == id);
         if (checkItem.OrderPlacedDate < DateTime.Now.Ticks)
         {
+            check = true;
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Your booking time was passed. Please choose new schedule time"});
             await DialogService.OpenAsync<ChooseSchedule>($"Choose new schedule",
                 new Dictionary<string, object>() { { "Booking", checkItem } },
@@ -157,31 +160,39 @@
             var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
             if (result.Any(x => x == checkItem.OrderPlacedDate))
             {
+                check = true;
                 NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Your booking time was booked by another one. Please choose new schedule time"});
                 await DialogService.OpenAsync<ChooseSchedule>($"Choose new schedule",
                     new Dictionary<string, object>() { { "Booking", checkItem } },
                     new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
             }
         }
-        var confirmationResult = await this.DialogService.Confirm("Your booking is available now. Do you want to check out?", "Notification Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
-        if (confirmationResult == true)
+
+        if (!check)
         {
-            int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
-
-            List<ItemData> items = new List<ItemData>();
-            foreach (var product in checkItem.Products)
+            var confirmationResult = await this.DialogService.Confirm("Your booking is available now. Do you want to check out?", "Notification Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+            if (confirmationResult == true)
             {
-                ItemData item = new ItemData(product.Name, 1, product.Price);
-                items.Add(item);
+                int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+
+                List<ItemData> items = new List<ItemData>();
+                foreach (var product in checkItem.Products)
+                {
+                    ItemData item = new ItemData(product.Name, 1, product.Price);
+                    items.Add(item);
+                }
+
+                PaymentData paymentData = new PaymentData(orderCode, (int)checkItem.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{checkItem.Id}");
+
+                CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+
+                nav.NavigateTo(createPayment.checkoutUrl);
             }
-
-            PaymentData paymentData = new PaymentData(orderCode, (int)checkItem.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{checkItem.Id}");
-
-            CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
-
-            nav.NavigateTo(createPayment.checkoutUrl);
         }
-
+    }
+    private async Task Detail(string id)
+    {
+       
     }
 }
 

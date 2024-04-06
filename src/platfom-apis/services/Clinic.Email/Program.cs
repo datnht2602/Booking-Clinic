@@ -1,6 +1,8 @@
 using Clinic.DTO.Models.Dto;
+using Clinic.Email.Contract;
 using Clinic.Email.Extension;
 using Clinic.Email.MailKitService;
+using Clinic.Email.Service;
 using Mango.Services.Email.Messaging;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -13,6 +15,7 @@ builder.Services.AddSwaggerGen();
 var mailsetting = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSettings>(mailsetting);
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 var app = builder.Build();
 
@@ -30,9 +33,9 @@ app.MapPost("/resetpassword",async (SendMailDto dto,IEmailSender _emailSender) =
         return Results.Ok();
     })
     .WithOpenApi();
-app.MapPost("/testmail",async (SendMailDto dto,IEmailSender _emailSender) =>{
-        await _emailSender.SendEmailAsync(dto.Email, $"Test Mail",
-            dto.CallBackUrl);
+app.MapPost("/testmail",async (string email,IEmailService emailService) =>
+    {
+        emailService.SendInvoice(email);
         return Results.Ok();
     })
     .WithOpenApi();
