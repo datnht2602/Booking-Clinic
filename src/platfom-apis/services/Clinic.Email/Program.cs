@@ -30,6 +30,12 @@ app.MapPost("/resetpassword",async (SendMailDto dto,IEmailSender _emailSender) =
         return Results.Ok();
     })
     .WithOpenApi();
+app.MapPost("/testmail",async (SendMailDto dto,IEmailSender _emailSender) =>{
+        await _emailSender.SendEmailAsync(dto.Email, $"Test Mail",
+            dto.CallBackUrl);
+        return Results.Ok();
+    })
+    .WithOpenApi();
 app.UseAzureServiceBusConsumer();
 app.Run();
 

@@ -1,13 +1,17 @@
 ﻿@page "/view-cart/{role}/{id}"
 @using Clinic.DTO.Models.Dto
 @using Clinic.BlazorWebPWA.Extensions
+@using Clinic.Data.Models
 @using InvoiceSamurai.Client.Documents
 @using InvoiceSamurai.Shared
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Net.payOS
+@using Net.payOS.Types
 @using QuestPDF.Fluent
 @inject IClinicService clinicService
 @inject IBookingService bookingService
 @inject NavigationManager nav
+@inject PayOS _payOS
 @inject DialogService DialogService
 
 <PageTitle>View Appointment</PageTitle>
@@ -76,7 +80,7 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ =>Pay(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Pay</button>
+                                                            <button @onclick="@(_ =>Pay(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Checkout</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -125,34 +129,59 @@
             accessToken = token.Value;
         }
         long timeNow = DateTime.Now.Ticks;
-        var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Cart}' ");
-        if (response != null && response.IsSuccess)
+        @if (role.Equals("patient"))
         {
-            list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
-            list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
-            StateHasChanged();
+            var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Cart}' ");
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
+                list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+                StateHasChanged();
+            }  
         }
     }
 
     private async Task Pay(string id)
     {
-        var response = await clinicService.GetInvoice<ResponseDto>(id, accessToken);
+        var checkItem = list.FirstOrDefault(x => x.Id == id);
+        if (checkItem.OrderPlacedDate < DateTime.Now.Ticks)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Your booking time was passed. Please choose new schedule time"});
+            await DialogService.OpenAsync<ChooseSchedule>($"Choose new schedule",
+                new Dictionary<string, object>() { { "Booking", checkItem } },
+                new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
+        }
+        var response = await clinicService.GetScheduleAsync<ResponseDto>(checkItem.DoctorId);
         if (response != null && response.IsSuccess)
         {
-            var result = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
-            InvoiceModel.Coupon = result.Coupon;
-            InvoiceModel.Itens = result.Products;
-            CustomModel.Dob = result.BriefViewModel.DateOfBirth;
-            CustomModel.Name = result.BriefViewModel.UserName;
-            InvoiceModel.Number = result.Id;
-            pdfCommand = pdfCommand with
-                {
-                    Invoice = InvoiceModel,
-                    Customer = CustomModel
-                };
-            var document = new InvoiceDocument(pdfCommand);
-            JSRuntime?.InvokeVoidAsync("Print", Convert.ToBase64String(document.GeneratePdf()));
+            var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+            if (result.Any(x => x == checkItem.OrderPlacedDate))
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Your booking time was booked by another one. Please choose new schedule time"});
+                await DialogService.OpenAsync<ChooseSchedule>($"Choose new schedule",
+                    new Dictionary<string, object>() { { "Booking", checkItem } },
+                    new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
+            }
         }
+        var confirmationResult = await this.DialogService.Confirm("Your booking is available now. Do you want to check out?", "Notification Box", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (confirmationResult == true)
+        {
+            int orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+
+            List<ItemData> items = new List<ItemData>();
+            foreach (var product in checkItem.Products)
+            {
+                ItemData item = new ItemData(product.Name, 1, product.Price);
+                items.Add(item);
+            }
+
+            PaymentData paymentData = new PaymentData(orderCode, (int)checkItem.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{checkItem.Id}");
+
+            CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+
+            nav.NavigateTo(createPayment.checkoutUrl);
+        }
+
     }
 }
 

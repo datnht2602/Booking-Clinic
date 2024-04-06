@@ -34,7 +34,9 @@
                                     }
                                     else
                                     {
-                                        @foreach (var item in list)
+                                        if (role.Equals("patient"))
+                                        {
+                                              @foreach (var item in list)
                                         {
                                             <div class="user-card">
                                                 <div class="card-hdr">
@@ -76,11 +78,64 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ =>Detail(item.InvoiceId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
+                                                            <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                        }
+                                        }
+                                        else if (role.Equals("doctor"))
+                                        {
+                                            foreach (var item in list)
+                                        {
+                                            <div class="user-card">
+                                                <div class="card-hdr">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <a href="" class="title">Booking Id: @item.Id</a>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <span class="label label-warning">In Progress</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4">
+                                                            <div class="user-info tbl-cell">
+                                                                <span>User Info</span>
+                                                                <h4 class="name">@item.BriefViewModel.UserName</h4>
+                                                                <p class="text">@item.BriefViewModel.PhoneNumber</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="info">
+                                                                <span>Date Of Birth</span>
+                                                                <p>@item.BriefViewModel.DateOfBirth</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="info">
+                                                                <span>Date & Time</span>
+                                                                <p>@item.OrderPlacedDate.GetDateTime()</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-ftr">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-6">
+                                                            <span class="font-12 text-dark">Sexual: @{item.BriefViewModel.Sexual == 1 ? "Male" : "Female"}</span>
+                                                        </div>
+                                                        <div class="col-md-6 text-right">
+                                                            <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
+                                                            <button @onclick="@(_ =>ChangeScheduleTime(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Change Schedule Time</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
                                         }
                                     }
                                                                      
@@ -124,17 +179,35 @@
         {
             accessToken = token.Value;
         }
-        long timeNow = DateTime.Now.Ticks;
-        var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate > {timeNow} ");
-        if (response != null && response.IsSuccess)
+
+        if (role.Equals("patient"))
         {
-            list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
-            list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
-            StateHasChanged();
+            long timeNow = DateTime.Now.Ticks;
+            var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate > {timeNow} ");
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
+                list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+                StateHasChanged();
+            }
+        }else if (role.Equals("doctor"))
+        {
+            long timeNow = DateTime.Now.Ticks;
+            var response = await bookingService.GetListBookings<ResponseDto>($" e.DoctorId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate > {timeNow} ");
+            if (response != null && response.IsSuccess)
+            {
+                list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
+                list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+                StateHasChanged();
+            }
         }
     }
 
     private async Task Detail(string id)
+    {
+       
+    }
+    private async Task ChangeScheduleTime(string id)
     {
        
     }
