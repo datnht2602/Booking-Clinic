@@ -206,8 +206,16 @@
 
     private async Task Detail(string id)
     {
-       
+        var item = list.FirstOrDefault(x => x.Id == id);
+        if (item != null)
+        {
+            var parameters = new Dictionary<string, object> { { "Booking", item } };
+            var dialogResult = await DialogService.OpenAsync<AppointmentDetailComponent>("Appointment Detail", parameters, new Radzen.DialogOptions { Width = "650px", Height = "500px" });
+            // Xử lý kết quả từ dialog nếu cần
+        }
     }
+
+
     private async Task ChangeScheduleTime(string id)
     {
        
