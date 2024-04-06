@@ -168,5 +168,24 @@ public class ClinicService :  BaseService,IClinicService
             //AccessToken = accessToken,
         });
     }
+    public async Task<T> GetExportString<T>(string bookingId, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getexportfile/{bookingId}",
+            AccessToken = accessToken,
+        });
+    }
+    public async Task<T> ChangePassword<T>(ChangePasswordDto dto, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = "changepassword",
+            AccessToken = accessToken,
+            Data = dto
+        });
+    }
 
 }

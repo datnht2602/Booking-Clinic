@@ -5,14 +5,9 @@ using Clinic.BlazorWebPWA;
 using Clinic.BlazorWebPWA.Services;
 using Clinic.BlazorWebPWA.Services.IService;
 using Clinic.Common.Options;
-using Clinic.Message;
-using InvoiceSamurai.Client.Documents;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Net.payOS;
-using QuestPDF.Drawing;
 using Radzen;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -60,15 +55,6 @@ builder.Services.AddOidcAuthentication(options =>
     options.ProviderOptions.RedirectUri = "authentication/login-callback";
     options.UserOptions.RoleClaim = "role";
 });
-using (Stream streamBarcode = Assembly
-           .GetExecutingAssembly()
-           .GetManifestResourceStream(AppFonts.LibreBarcode39Resourcename))
-using (Stream streamRoboto = Assembly
-           .GetExecutingAssembly()
-           .GetManifestResourceStream(AppFonts.RobotoResourcename))
-{
-    FontManager.RegisterFontType(AppFonts.LibreBarcode39, streamBarcode);
-    FontManager.RegisterFontType(AppFonts.Roboto, streamRoboto);
-}
+
 await builder.Build().RunAsync();
 

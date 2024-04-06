@@ -26,5 +26,7 @@ public interface IClinicService : IBaseService
     Task<T> GetListBooking<T>(string id, string accessToken);
     Task<T> SendFeedBack<T>(FormDto form);
     Task<T> GetDetailDoctor<T>(string id);
+    Task<T> GetExportString<T>(string id, string accessToken);
+    Task<T> ChangePassword<T>(ChangePasswordDto dto, string accessToken);
 
 }

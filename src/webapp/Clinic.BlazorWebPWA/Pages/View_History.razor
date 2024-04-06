@@ -1,9 +1,5 @@
-﻿@page "/view-appointment/{role}/{id}"
-@using Clinic.DTO.Models.Dto
+﻿@page "/view-history/{role}/{id}"
 @using Clinic.BlazorWebPWA.Extensions
-@using InvoiceSamurai.Shared
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using QuestPDF.Fluent
 @inject IClinicService clinicService
 @inject IBookingService bookingService
 @inject NavigationManager nav
@@ -12,30 +8,30 @@
 <PageTitle>View Appointment</PageTitle>
 
 <head>
-    <link rel="stylesheet" href="css/user.css" />
+    <link rel="stylesheet" href="css/user.css"/>
 </head>
 
 <body style="background: none !important">
-    <main class="flex-shrink-0">
-        <div class="container px-5">
-            <div class="user-wrapper">
-                <div>
-                    <div class="row usr-hdr">
-                      <SideBarProfile/>
-                        <div class="col-md-9 col-lg-10 p-0">
-                            <h1 class="user-ttl">Appointments</h1>
-                            <div class="user-container">
-                                <div class="user-body">
-                                    <!-- Start My Appointment Section -->
-                                    @if(list == null)
+<main class="flex-shrink-0">
+    <div class="container px-5">
+        <div class="user-wrapper">
+            <div>
+                <div class="row usr-hdr">
+                    <SideBarProfile/>
+                    <div class="col-md-9 col-lg-10 p-0">
+                        <h1 class="user-ttl">Appointments</h1>
+                        <div class="user-container">
+                            <div class="user-body">
+                                <!-- Start My Appointment Section -->
+                                @if (list == null)
+                                {
+                                    <h3>Loading</h3>
+                                }
+                                else
+                                {
+                                    if (role.Equals("patient"))
                                     {
-                                        <h3>Loading</h3>
-                                    }
-                                    else
-                                    {
-                                        if (role.Equals("patient"))
-                                        {
-                                              @foreach (var item in list)
+                                        @foreach (var item in list)
                                         {
                                             <div class="user-card">
                                                 <div class="card-hdr">
@@ -44,7 +40,7 @@
                                                             <a href="" class="title">Booking Id: @item.Id</a>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <span class="label label-success">In Progress</span>
+                                                            <span class="label label-danger">Done</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -77,17 +73,17 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
-                                                            <button @onclick="@(_ =>Contact())" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Contact With Doctor</button>
+                                                            <button @onclick="@(_ => FeedBack(item.DoctorId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</button>
+                                                            <button @onclick="@(_ => Export(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Export</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         }
-                                        }
-                                        else if (role.Equals("doctor"))
-                                        {
-                                            foreach (var item in list)
+                                    }
+                                    else if (role.Equals("doctor"))
+                                    {
+                                        @foreach (var item in list)
                                         {
                                             <div class="user-card">
                                                 <div class="card-hdr">
@@ -96,7 +92,7 @@
                                                             <a href="" class="title">Booking Id: @item.Id</a>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <span class="label label-warning">In Progress</span>
+                                                            <span class="label label-danger">Done</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -129,40 +125,36 @@
                                                             <span class="font-12 text-dark">Sexual: @(item.BriefViewModel.Sexual == 1 ? "Male" : "Female")</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ =>Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
-                                                            <button @onclick="@(_ =>ChangeScheduleTime(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Change Schedule Time</button>
+                                                            <button @onclick="@(_ => Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
+                                                            <button @onclick="@(_ => GetFeedBack())" class="btn btn-primary btn-outline btn-outline-1x btn-sm">See FeedBack</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         }
-                                        }
                                     }
-                                                                     
-                                </div>
+                                }
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 </body>
 
 @code {
     [Parameter] public string id { get; set; }
     [Parameter] public string role { get; set; }
-    [Inject]
-    IAccessTokenProvider TokenProvider { get; set; }
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private string accessToken { get; set; }
     List<BookingDetailsViewModel> list = new();
     [Inject] IJSRuntime JSRuntime { get; set; }
-    protected InvoiceModel InvoiceModel { get; set; } = new();
-    protected CustomerModel CustomModel { get; set; } = new();
-    protected GeneratePdfCommand pdfCommand = new();
     string name = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         var authState = await authenticationStateTask;
@@ -172,6 +164,7 @@
         {
             nav.NavigateTo("authentication/login");
         }
+
         var accessTokenResult = await TokenProvider.RequestAccessToken();
         accessToken = string.Empty;
 
@@ -180,20 +173,20 @@
             accessToken = token.Value;
         }
 
+        long timeNow = DateTime.Now.Ticks;
         if (role.Equals("patient"))
         {
-            long timeNow = DateTime.Now.Ticks;
-            var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate > {timeNow} ");
+            var response = await bookingService.GetListBookings<ResponseDto>($" e.UserId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate < {timeNow} ");
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
                 list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
                 StateHasChanged();
             }
-        }else if (role.Equals("doctor"))
+        }
+        else if (role.Equals("doctor"))
         {
-            long timeNow = DateTime.Now.Ticks;
-            var response = await bookingService.GetListBookings<ResponseDto>($" e.DoctorId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate > {timeNow} ");
+            var response = await bookingService.GetListBookings<ResponseDto>($" e.DoctorId = '{id}' and e.OrderStatus= '{OrderStatus.Submitted}' and e.OrderPlacedDate < {timeNow}  ");
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
@@ -203,24 +196,31 @@
         }
     }
 
+    private async Task Export(string id)
+    {
+        var response = await clinicService.GetExportString<string>(id, accessToken);
+        if (response != null)
+        {
+            JSRuntime?.InvokeVoidAsync("Print", response);
+        }
+    }
+
+    private async Task FeedBack(string id)
+    {
+        await DialogService.OpenAsync<Feedback_form>($"Feedback Form",
+            new Dictionary<string, object>() { { "id", id }, { "name", name } },
+            new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
+    }
     private async Task Detail(string id)
     {
-        var item = list.FirstOrDefault(x => x.Id == id);
-        if (item != null)
-        {
-            var parameters = new Dictionary<string, object> { { "Booking", item } };
-            var dialogResult = await DialogService.OpenAsync<AppointmentDetailComponent>("Appointment Detail", parameters, new Radzen.DialogOptions { Width = "650px", Height = "500px" });
-            // Xử lý kết quả từ dialog nếu cần
-        }
-    }
-
-
-    private async Task ChangeScheduleTime(string id)
-    {
        
     }
-    private async Task Contact()
+    private async Task GetFeedBack()
     {
-       
+        await DialogService.OpenAsync<Feedback_form>($"Feedback",
+            new Dictionary<string, object>() { { "id", id }, { "name", name } },
+            new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
     }
+
 }
+

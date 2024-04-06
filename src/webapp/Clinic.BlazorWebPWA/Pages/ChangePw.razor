@@ -22,25 +22,25 @@
                             <h1 class="user-ttl">Change Password</h1>
                             <div class="card">
                                 <div class="card-body">
-                                    <form class="my-2">
+                                    <EditForm Model="dto" OnValidSubmit="Handle" class="my-2">
                                         <div class="col-md-8 mx-2">
                                             <div class="mb-3">
                                                     <label for="Oldpw" class="form-label medium text-navy fw-bold fs-6">Current password <small class="text-danger fw-bold">*</small></label>
-                                                    <input type="password" class="form-control" placeholder="Enter your current password" autofocus required>
+                                                    <input type="password" @bind-value="@dto.OldPassword" class="form-control" placeholder="Enter your current password" >
                                             </div>
                                             <div class="mb-3">
                                                 <label for="Newpw" class="form-label medium text-navy fw-bold fs-6">New password <small class="text-danger fw-bold">*</small></label>
-                                                <input type="password" class="form-control" placeholder="Enter your new password" autofocus required>
+                                                <input type="password" @bind-value="@dto.NewPassword" class="form-control" placeholder="Enter your new password" >
                                             </div>
                                             <div class="mb-3">
                                                 <label for="CNewpw" class="form-label medium text-navy fw-bold fs-6">Confirm new password <small class="text-danger fw-bold">*</small></label>
-                                                <input type="password" class="form-control" placeholder="Confirm your new password" autofocus required>
+                                                <input type="password" @bind-value="@dto.ConfirmPassword" class="form-control" placeholder="Confirm your new password" >
                                             </div>
                                             <div class="mb-3 text-center">
-                                                <button type="button" class="btn btn-primary rounded-3 fs-6">SUBMIT</button>
+                                                <button type="submit" class="btn btn-primary rounded-3 fs-6">SUBMIT</button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </EditForm>
                                 </div>
                             </div>
                         </div>
@@ -54,4 +54,35 @@
 @code {
     [Parameter] public string id { get; set; }
     [Parameter] public string role { get; set; }
+    [Inject]
+    IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    ChangePasswordDto dto = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        var userId = user.FindFirst(c => c.Type == "sub")?.Value;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+        dto.Id = userId;
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+    }
+    private async Task Handle()
+    {
+        var result = await clinicService.ChangePassword<HttpResponseMessage>(dto, accessToken);
+        if (result.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Change Password Successfully"});
+        }
+    }
 }

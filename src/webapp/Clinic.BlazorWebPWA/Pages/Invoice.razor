@@ -1,8 +1,4 @@
 ﻿@page "/invoice/{bookingId}"
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using InvoiceSamurai.Shared
-@using InvoiceSamurai.Client.Documents
-@using QuestPDF.Fluent
 @inject NavigationManager nav
 @inject IClinicService clinicService
 
@@ -18,19 +14,7 @@
                     <h5 class="m-auto text-center text-white mb-2 mx-auto">Clinic: 4Health Clinic</h5>
 
                     <div class="m-2 p-2 d-flex justify-content-center">
-
-                        @{
-                            RenderPdf();
-                        }
-                        @if (PdfBody.Length == 0)
-                        {
-                            <div class="d-flex justify-content-center mt-3" style="width: 100%;">
-                                <div class="spinner-border" role="status">
-                                    <span class="visually-hidden text-black">Rendering pdf</span>
-                                </div>
-                                <div class="h3 ml-2 text-black">Rendering pdf...</div>
-                            </div>
-                        }
+                        
                         <canvas id="pdf-canvas" class=""> </canvas>
                     </div>
                     <div class="m-3 text-center">
@@ -47,19 +31,16 @@
     [Parameter] public string bookingId { get; set; }
     [Inject] IAccessTokenProvider TokenProvider { get; set; }
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
-    public InvoiceDetailsViewModel ViewModel { get; set; }
+    public string invoice { get; set; }
     private string accessToken { get; set; }
     public bool Notification { get; set; }
     [Inject] IJSRuntime JSRuntime { get; set; }
-    protected InvoiceModel InvoiceModel { get; set; } = new();
-    protected CustomerModel CustomModel { get; set; } = new();
-    protected GeneratePdfCommand pdfCommand = new();
     protected byte[] PdfBody = Array.Empty<byte>();
     protected event EventHandler<int> RaiseNewHashCode;
 
     private void ExportPDF()
     {
-        JSRuntime?.InvokeVoidAsync("Print", Convert.ToBase64String(PdfBody));
+        JSRuntime?.InvokeVoidAsync("Print", invoice);
     }
 
     protected async override Task OnInitializedAsync()
@@ -81,47 +62,15 @@
             accessToken = token.Value;
         }
 
-        var response = await clinicService.GetInvoice<ResponseDto>(bookingId, accessToken);
-        if (response != null && response.IsSuccess)
+        var response = await clinicService.GetInvoice<string>(bookingId, accessToken);
+        if (response != null)
         {
-            ViewModel = JsonConvert.DeserializeObject<InvoiceDetailsViewModel>(Convert.ToString((response.Result)));
-            InvoiceModel.Coupon = ViewModel.Coupon;
-            InvoiceModel.Itens = ViewModel.Products;
-            CustomModel.Dob = ViewModel.BriefViewModel.DateOfBirth;
-            CustomModel.Name = ViewModel.BriefViewModel.UserName;
-            InvoiceModel.Number = ViewModel.Id;
+            invoice = response;
+            PdfBody = Convert. FromBase64String(response);
+            JSRuntime.InvokeVoidAsync("PdfRenderer.renderPdf", PdfBody);
             StateHasChanged();
         }
     }
-
-    private void HandleIncomingPdf(byte[] pdfBody)
-    {
-        PdfBody = pdfBody;
-        JSRuntime.InvokeVoidAsync("PdfRenderer.renderPdf", pdfBody);
-        StateHasChanged();
-    }
-
-    int previousCommand = -1;
-
-    protected void RenderPdf()
-    {
-        pdfCommand = pdfCommand with
-            {
-                Invoice = InvoiceModel,
-                Customer = CustomModel
-            };
-        if (pdfCommand.GetHashCode() == previousCommand)
-        {
-            return;
-        }
-
-        previousCommand = pdfCommand.GetHashCode();
-        RaiseNewHashCode?.Invoke(this, previousCommand);
-
-        PdfBody = Array.Empty<byte>();
-        JSRuntime?.InvokeVoidAsync("PdfRenderer.clearCanvas");
-        var document = new InvoiceDocument(pdfCommand);
-        HandleIncomingPdf(document.GeneratePdf());
-    }
+    
 
 }

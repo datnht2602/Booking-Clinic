@@ -10,6 +10,9 @@ using Clinic.Invoice.Contracts;
 using Microsoft.Extensions.Options;
 using System.Text;
 using System.Text.Json;
+using InvoiceSamurai.Client.Documents;
+using InvoiceSamurai.Shared;
+using QuestPDF.Fluent;
 
 namespace Clinic.Invoice.Services
 {
@@ -44,9 +47,47 @@ namespace Clinic.Invoice.Services
             return createdInvoice;
         }
 
-        public async Task<ResponseDto> GetInvoiceByIdAsync(string invoiceId)
+        public async Task<string> ExportInvoiceById(string bookingId)
         {
-            ResponseDto result = new();
+            string filterCriteria = $"e.OrderId = '{bookingId}'";
+            using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getallinvoice?filterCriteria={filterCriteria}");
+            var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
+            if(!invoiceResponse.IsSuccessStatusCode)
+            {
+                await ThrowServiceToServiceErrors(invoiceResponse).ConfigureAwait(false);
+            }
+            if(invoiceResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+            {
+                var list = await invoiceResponse.Content.ReadFromJsonAsync<IEnumerable<Clinic.Data.Models.Invoice>>().ConfigureAwait(false);
+                var invoiceDAO = list.FirstOrDefault();
+                var invoiceModel = autoMapper.Map<InvoiceDetailsViewModel>(invoiceDAO);
+                InvoiceModel InvoiceModel = new()
+                {
+                  Coupon = invoiceModel.Coupon,
+                  Itens = invoiceModel.Products,
+                  Number = invoiceModel.Id
+                };
+                CustomerModel CustomModel= new()
+                {
+                    Dob = invoiceModel.BriefViewModel.DateOfBirth,
+                   Name = invoiceModel.BriefViewModel.UserName,
+                };
+                GeneratePdfCommand pdfCommand = new()
+                {
+                    Invoice = InvoiceModel,
+                    Customer = CustomModel
+                };
+                var document = new InvoiceDocument(pdfCommand);
+                return Convert.ToBase64String(document.GeneratePdf());
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> GetInvoiceByIdAsync(string invoiceId)
+        {
             using var invoiceRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.DataStoreEndpoint}getinvoice/{invoiceId}");
             var invoiceResponse = await httpClient.SendAsync(invoiceRequest).ConfigureAwait(false);
             if(!invoiceResponse.IsSuccessStatusCode)
@@ -57,13 +98,29 @@ namespace Clinic.Invoice.Services
             {
                 var invoiceDAO = await invoiceResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Invoice>().ConfigureAwait(false);
 
-                var invoice = autoMapper.Map<InvoiceDetailsViewModel>(invoiceDAO);
-                result.Result = invoice;
-                return result;
+                var invoiceModel = autoMapper.Map<InvoiceDetailsViewModel>(invoiceDAO);
+                InvoiceModel InvoiceModel = new()
+                {
+                    Coupon = invoiceModel.Coupon,
+                    Itens = invoiceModel.Products,
+                    Number = invoiceModel.Id
+                };
+                CustomerModel CustomModel= new()
+                {
+                    Dob = invoiceModel.BriefViewModel.DateOfBirth,
+                    Name = invoiceModel.BriefViewModel.UserName,
+                };
+                GeneratePdfCommand pdfCommand = new()
+                {
+                    Invoice = InvoiceModel,
+                    Customer = CustomModel
+                };
+                var document = new InvoiceDocument(pdfCommand);
+                return  Convert.ToBase64String(document.GeneratePdf());
             }
             else
             {
-                return result;
+                return null;
             }
         }
 

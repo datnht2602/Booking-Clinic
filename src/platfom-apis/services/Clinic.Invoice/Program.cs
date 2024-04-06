@@ -1,3 +1,4 @@
+using System.Reflection;
 using Clinic.Caching;
 using Clinic.Caching.Interfaces;
 using Clinic.Common.Middlewares;
@@ -10,9 +11,11 @@ using Clinic.Invoice.Extension;
 using Clinic.Invoice.Message;
 using Clinic.Invoice.Services;
 using Clinic.Message;
+using InvoiceSamurai.Client.Documents;
 using Microsoft.AspNetCore.Mvc;
 using Polly;
 using Polly.Extensions.Http;
+using QuestPDF.Drawing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +40,16 @@ if(builder.Configuration.GetValue<bool>("ApplicationSettings:Redis")){
 }else{
     builder.Services.AddDistributedMemoryCache();
 }
+using (Stream streamBarcode = Assembly
+           .GetExecutingAssembly()
+           .GetManifestResourceStream(AppFonts.LibreBarcode39Resourcename))
+using (Stream streamRoboto = Assembly
+           .GetExecutingAssembly()
+           .GetManifestResourceStream(AppFonts.RobotoResourcename))
+{
+    FontManager.RegisterFontType(AppFonts.LibreBarcode39, streamBarcode);
+    FontManager.RegisterFontType(AppFonts.Roboto, streamRoboto);
+}
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,10 +63,15 @@ app.UseHttpsRedirection();
 
 app.MapGet("/getinvoice/{id}", async (string id,[FromServices] IInvoiceService invoiceService) =>
 {
-  return await invoiceService.GetInvoiceByIdAsync(id) is ResponseDto invoice ? Results.Ok(invoice) : Results.NotFound();  
+  return await invoiceService.GetInvoiceByIdAsync(id) is string invoice ? Results.Ok(invoice) : Results.NotFound();  
 })
 .WithName("GetInvoiceById")
 .WithOpenApi();
+app.MapGet("/getexportfile/{id}", async (string id,[FromServices] IInvoiceService invoiceService) =>
+    {
+        return await invoiceService.ExportInvoiceById(id) is string invoice ? Results.Ok(invoice) : Results.NotFound();  
+    })
+    .WithOpenApi();
 app.MapPost("/getinvoice",async (InvoiceDetailsViewModel invoice, IInvoiceService invoiceService) =>{
      if (invoice == null || invoice.Etag != null)
             {

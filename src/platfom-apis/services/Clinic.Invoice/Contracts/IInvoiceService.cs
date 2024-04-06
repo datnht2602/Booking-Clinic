@@ -5,8 +5,9 @@ namespace Clinic.Invoice.Contracts
 {
     public interface IInvoiceService
     {
-        Task<ResponseDto> GetInvoiceByIdAsync(string invoiceId);
+        Task<string> GetInvoiceByIdAsync(string invoiceId);
 
         Task<InvoiceDetailsViewModel> AddInvoiceAsync(InvoiceDetailsViewModel invoice);
+        Task<string> ExportInvoiceById(string bookingId);
     }
 }

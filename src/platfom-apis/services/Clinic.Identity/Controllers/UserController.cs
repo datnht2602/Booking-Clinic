@@ -26,17 +26,20 @@ namespace Clinic.Identity.Controllers
         private readonly HttpClient httpClient;
         private readonly IDistributedCacheService cacheService;
         private readonly IOptions<ApplicationSettings> applicationSettings;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         public UserController(UserManager<ApplicationUser> userManager,
             IMapper autoMapper,
             IHttpClientFactory httpClientFactory,
             IDistributedCacheService cacheService,
-             IOptions<ApplicationSettings> applicationSettings)
+             IOptions<ApplicationSettings> applicationSettings,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             this.autoMapper = autoMapper;
             httpClient = httpClientFactory.CreateClient();
             this.cacheService = cacheService;
             this.applicationSettings = applicationSettings;
+            _signInManager = signInManager;
         }
         public IActionResult Index()
         {
@@ -113,6 +116,24 @@ namespace Clinic.Identity.Controllers
                 return Ok(result);
             }
             return Ok(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var user = await _userManager.FindByIdAsync(dto.Id);
+            if (user == null)
+            {
+                return NotFound($"Lỗi nạp User với ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var changePasswordResult = await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
+            if (!changePasswordResult.Succeeded)
+            {
+                return BadRequest();
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+            return Ok();
         }
         [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)

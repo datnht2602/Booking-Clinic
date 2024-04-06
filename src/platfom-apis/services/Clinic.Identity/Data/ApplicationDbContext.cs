@@ -12,5 +12,6 @@ namespace Clinic.Identity.Data
         }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ScheduleTime> ScheduleTimes { get; set; }
+        public DbSet<FeedBack> FeedBacks { get; set; }
     }
 }
