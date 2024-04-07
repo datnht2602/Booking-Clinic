@@ -1,5 +1,9 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Clinic.Data.Models
+@inject IBlogService blogService
+@inject DialogService DialogService
+@inject NavigationManager nav
 <PageTitle>Homepage</PageTitle>
 <!-- Header-->
 <header class="bg-primary pt-0">
@@ -126,76 +130,47 @@
             </div>
         </div>
         <div class="row gx-5">
-            <div class="col-lg-4 mb-5">
-                <div class="card h-100 shadow-sm rounded-3 border-0">
-                    <img class="card-img-top" src="img/blog-1.jpeg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="blog-post.html">
-                            <h5 class="card-title mb-3 lh-base">Things Most People Don't Know About Medical Clinic</h5>
-                        </a>
-                        <p class="card-text mb-0">Adaptive height of each card this text is a bit longer to illustrate the. Some quick  text to build on the card title bulk of the card's content and make up the.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="img/u1.png" alt="..." />
-                                <div class="small">
-                                    <div class="fw-bold">Kelly Rowan</div>
-                                    <div class="text-muted">March 12, 2021 &middot; 6 min read</div>
+            @if (GetListNews != null)
+            {
+                @foreach (var item in GetListNews)
+                {
+                    <div class="col-lg-4 mb-5">
+                        <div class="card h-100 shadow-sm rounded-3 border-0">
+                            <img class="card-img-top" src="@item.ImageUrl" alt="..." style="height: 250px; width: auto; object-position: top; object-fit: cover;">
+                            <div class="card-body p-4">
+                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                                <a class="text-decoration-none link-dark stretched-link">
+                                    <h5 class="card-title mb-3 lh-base">@item.Title</h5>
+                                </a>
+                                <p class="description-cell"><div class="ellipsis">@item.Summary</div></p>
+                            </div>
+                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                <div class="d-flex align-items-end justify-content-between">
+                                    <a class="stretched-link text-decoration-none" @onclick='() => nav.NavigateTo("/blog/detail")'>
+                                        Read more
+                                        <i class="bi bi-arrow-right"></i>
+                                    </a>
+                                    <div class="small">
+                                        <div class="text-muted">@item.CreatedDate</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-5">
-                <div class="card h-100 shadow-sm rounded-3 border-0">
-                    <img class="card-img-top" src="img/blog-3.jpeg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">Media</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="blog-post.html">
-                            <h5 class="card-title mb-3 lh-base">The Ugly Truth About Medical Clinic</h5>
-                        </a>
-                        <p class="card-text mb-0">This text is a bit longer to illustrate the adaptive height of each card. Some quick  text to build on the card title and make up the bulk of the card's content.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="img/u2.png" alt="..." />
-                                <div class="small">
-                                    <div class="fw-bold">Josiah Barclay</div>
-                                    <div class="text-muted">March 23, 2021 &middot; 4 min read</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-5">
-                <div class="card h-100 shadow-sm rounded-3 border-0">
-                    <img class="card-img-top" src="img/blog-4.jpeg" alt="..." />
-                    <div class="card-body p-4">
-                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
-                        <a class="text-decoration-none link-dark stretched-link" href="blog-post.html">
-                            <h5 class="card-title mb-3 lh-base">What NOT to Do in the Medical Clinic Industry</h5>
-                        </a>
-                        <p class="card-text mb-0">Some quick  text to build on the card title and make up the bulk of the card's content This text is a bit longer to illustrate the adaptive height of each card.</p>
-                    </div>
-                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
-                        <div class="d-flex align-items-end justify-content-between">
-                            <div class="d-flex align-items-center">
-                                <img class="rounded-circle me-3" src="img/u3.png" alt="..." />
-                                <div class="small">
-                                    <div class="fw-bold">Evelyn Martinez</div>
-                                    <div class="text-muted">April 2, 2021 &middot; 10 min read</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                }
+            }
         </div>
     </div>
 </section>
+@code {
+    private List<Blog> GetListNews = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await blogService.GetListBlogs<ResponseDto>("e.IsMainCombo = true");
+        if (response != null && response.IsSuccess)
+        {
+            GetListNews = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
+        }
+    }
+}
 

@@ -5,6 +5,7 @@
 @inject IBlogService blogService
 <PageTitle>List of Medical News</PageTitle>
 
+<link href="css/admin.css" rel="stylesheet" />
 
 <div class="page-wrapper">
     <div class="content">
@@ -33,9 +34,7 @@
                                         <h3>Medical News List</h3>
                                         <div class="news-search-blk">
                                             <div class="top-nav-search table-search-blk">
-                                                <form>
-                                                    <input type="text" value="@blogName" @onchange="HandleChange" class="form-control" placeholder="Search here">
-                                                </form>
+                                                <input type="text" value="@blogName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
                                                 <RadzenButton Click=@(args => nav.NavigateTo("/upsert-news")) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
@@ -70,8 +69,8 @@
                                         {
                                             <tr>
                                                 <td>@item.Title</td>
-                                                <td>@item.Summary</td>
-                                                <td>@item.Description</td>
+                                                <td class="description-cell"><div class="ellipsis">@item.Summary</div></td>
+                                                <td class="description-cell"><div class="ellipsis">@item.Description</div></td>
                                                 <td>@item.CreatedDate</td>
                                                 <td>
                                                     <RadzenMenu>
@@ -135,3 +134,15 @@
         StateHasChanged();
     }
 }
+<style>
+
+    td.description-cell {
+        max-width: 20em;
+    }
+
+    div.ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

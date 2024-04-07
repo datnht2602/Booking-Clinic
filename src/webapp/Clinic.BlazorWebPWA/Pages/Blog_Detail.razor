@@ -1,6 +1,19 @@
-﻿@page "/blog/detail"
+﻿@page "/blog/detail/{postId}"
+@using Clinic.BlazorWebPWA.Services
+@using Clinic.Data.Models
+@using Microsoft.AspNetCore.WebUtilities;
+@using Clinic.DTO.Models.Dto
+@inject IBlogService blogService
+@inject NavigationManager navigationManager
 
-<PageTitle>Blog</PageTitle>
+@if (PostDetail != null)
+{
+    <PageTitle>@PostDetail.Title</PageTitle>
+}
+else
+{
+    <PageTitle>Post Detail</PageTitle>
+}
 
 <body class="d-flex flex-column h-100 bg-light">
     <main class="flex-shrink-0">
@@ -15,42 +28,36 @@
                 <div class="row gx-5">
                     <div class="col-lg-9 mx-auto">
                         <div class="bg-white shadow-sm p-5 rounded-3">
-                            @* Title *@
-                            <h1 class="fw-bold text-black mb-3">Boots on the Ground, Inclusive Thought Provoking Ideas</h1>
-                            @* Summary *@
-                            <p class="fs-5 fw-light text-dark-50 mb-4">
-                                Empower communities and energize engaging ideas; scale and impact do-gooders while disruptring industries. Venture philanthropy benefits corporations and people by moving the needle.
-                            </p>
-                            <div class="d-flex align-items-center my-3">
-                                <div class="ms-3">
-                                    <div class="text-muted small">April, 3 2024</div>
-                                </div>
-                            </div>
-                            <!-- Post content-->
-                            <div>
-                                <!-- Preview image figure-->
-                                <figure class="mb-4"><img class="img-fluid rounded" src="img/post_1.webp" alt="..."></figure>
-                                <!-- Post content-->
-                                <section>
-                                    @* Nội dung bài đăng *@
-                                    <h4 class="fw-bolder mb-4 mt-5">It's time to build your new project</h4>
-                                    <p class="fs-5 mb-4">
-                                        Facilis enim voluptatibus qui voluptatum nemo non, facere, fugiat deserunt dicta ab sunt in sequi, assumenda nobis ipsam quidem corporis. Nemo, aliquam.
-                                    </p>
-                                    <p class="fs-6 mb-4">Science is an enterprise that should be cherished as an activity of the free human mind. Because it transforms who we are, how we live, and it gives us an understanding of our place in the universe.</p>
-                                    <p class="fs-6 mb-4">The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that.</p>
-                                    <p class="fs-6 mb-4">If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth.</p>
-                                    <h4 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h4>
-                                    <p class="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
-                                    <p class="fs-6 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
-                                    <p class="fs-6 mb-4">Laborum placeat quas accusantium vitae perferendis dolores possimus tempora, qui consectetur hic ullam autem. Enim, rerum obcaecati numquam quaerat necessitatibus voluptatem? Repellat!</p>
-                                    <p class="fs-6 mb-4">Quasi, quos quaerat? Sint at odit possimus ullam saepe suscipit officiis nobis eaque, laudantium ut earum tempore repellendus mollitia odio nam! Unde?</p>
-                                    <p class="fs-6 mb-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi explicabo unde perferendis reprehenderit ullam nobis? Laborum amet voluptatem sunt natus? Tempore commodi corporis accusamus laudantium assumenda blanditiis aut nobis culpa.</p>
-                                    <div class="border-top text-center pt-5">
-                                        <a class="btn btn-outline-primary" @onclick='() => nav.NavigateTo("/blog")'>Back to Blog Overview</a>
+                            @if (PostDetail != null)
+                            {
+                                <h1 class="fw-bold text-black mb-3">@PostDetail.Title</h1>
+                                
+                                <p class="fs-5 fw-light text-dark-50 mb-4">
+                                    @PostDetail.Summary
+                                </p>
+
+                                <div class="d-flex align-items-center my-3">
+                                    <div class="ms-3">
+                                        <div class="text-muted small">@PostDetail.CreatedDate</div>
                                     </div>
-                                </section>
-                            </div>
+                                </div>
+                                <!-- Post content -->
+                                <div>
+                                    <figure class="mb-4"><img class="img-fluid rounded" src="@PostDetail.ImageUrl" alt="..."></figure>
+                                    
+                                    <section>
+                                        <div class="fs-6 mb-5">@PostDetail.Description</div>
+
+                                        <div class="border-top text-center pt-5">
+                                            <button class="btn btn-outline-primary" @onclick='() => nav.NavigateTo("/blog")'>Back to Blog Overview</button>
+                                        </div>
+                                    </section>
+                                </div>
+                            }
+                            else
+                            {
+                                <p>Post not found.</p>
+                            }
                         </div>
                     </div>
                 </div>
@@ -61,5 +68,16 @@
     <script src="js/scripts.js"></script>
 </body>
 @code {
+    private string postId;
+    BlogDto PostDetail = new();
 
+    protected override async Task OnInitializedAsync()
+    {
+        postId = navigationManager.Uri.Split('/').Last();
+        var response = await blogService.GetBlogById<ResponseDto>(postId);
+        if (response != null && response.IsSuccess)
+        {
+            PostDetail = JsonConvert.DeserializeObject<BlogDto>(Convert.ToString((response.Result)));
+        }
+    }
 }

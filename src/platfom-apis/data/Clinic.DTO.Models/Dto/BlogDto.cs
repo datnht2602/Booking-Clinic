@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Clinic.Data.Models
+namespace Clinic.DTO.Models.Dto
 {
-    public class Blog
+    public class BlogDto
     {
-        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
         public string Title { get; set; }
         public string Summary { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public string ImageUrl { get; set; }
-
-        [JsonProperty("_etag")]
-        public string Etag { get; set; }
     }
+
 }

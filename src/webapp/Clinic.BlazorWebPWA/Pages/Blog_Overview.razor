@@ -1,0 +1,91 @@
+﻿@page "/blog"
+@using Clinic.Data.Models
+@inject IBlogService blogService
+@inject DialogService DialogService
+@inject NavigationManager nav
+<PageTitle>Blog</PageTitle>
+
+<body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+        <div class="bg-primary">
+            <header class="bg-primary py-4 inner-header">
+                <div class="container py-3 px-5">
+                    <div class ="row gx-5 align-items-center justify-content-center">
+                        <div class="col-lg-12">
+                            <div class="text-center">
+                                <div class="text-center">
+                                    <h1 class="fw-bold text-white text-uppercase">Medical News</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <section class="py-3 bg-white">
+            <div class="container px-5 pt-5">
+                <div class="row gx-5">
+                    @if (GetListNews == null)
+                    {
+                        <h3>Loading...</h3>
+                    }
+                    else
+                    {
+                        @foreach (var item in GetListNews)
+                        {
+                            <div class="col-lg-4 mb-5">
+                                <div class="card h-100 shadow-sm rounded-3 border-0">
+                                    <img class="card-img-top" src="@item.ImageUrl" alt="..." style="height: 250px; width: auto; object-position: top; object-fit: cover;">
+                                    <div class="card-body p-4">
+                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
+                                        <a class="text-decoration-none link-dark stretched-link">
+                                            <h5 class="card-title mb-3 lh-base">@item.Title</h5>
+                                        </a>
+                                        <p class="description-cell"><div class="ellipsis">@item.Summary</div></p>
+                                    </div>
+                                    <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                        <div class="d-flex align-items-end justify-content-between">
+                                            <a class="stretched-link text-decoration-none" @onclick='() => nav.NavigateTo($"/blog/detail?id={item.Id}")'>}
+                                                Read more
+                                                <i class="bi bi-arrow-right"></i>
+                                            </a>
+                                            <div class="small">
+                                                <div class="text-muted">@item.CreatedDate</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+@code {
+    private List<Blog> GetListNews = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await blogService.GetListBlogs<ResponseDto>("e.IsMainCombo = true");
+        if (response != null && response.IsSuccess)
+        {
+            GetListNews = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
+        }
+    }
+}
+<style>
+
+    td.description-cell {
+        max-width: 40em;
+        max-height: 30em;
+    }
+
+    div.ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
