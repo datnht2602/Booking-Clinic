@@ -8,21 +8,22 @@
     <link rel="stylesheet" href="css/user.css" />
 </head>
 
-<div class="container px-5">
-    <div class="user-wrapper">
-        <div>
-            <div class="row user-hdr">
-                <SideBarProfile />
-                <div class="col-md-9 col-lg-9 p-0">
-                    <h1 class="user-ttl">Chat</h1>
-                    <div class="user-container">
-                        <div class="user-body py-3">
-                            <div class="row">
-                                <div class="col-md-3">
+<main class="flex-shrink-0">
+    <div class="container px-5">
+        <div class="user-wrapper">
+            <div>
+                <div class="row user-hdr">
+                    <SideBarProfile />
+                    <div class="col-md-9 col-lg-9 p-0">
+                        <h1 class="user-ttl">Chat</h1>
+                        <div class="user-container">
+                            <div class="user-body py-3">
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12 col-xl-6">
+                                        <div class="user-card">
 
-                                </div>
-                                <div class="col-md-9">
-
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -31,8 +32,23 @@
             </div>
         </div>
     </div>
-</div>
+</main>
 
+<script>
+    jQuery(document).ready(function () {
+
+        $(".chat-list a").click(function () {
+            $(".chatbox").addClass('showbox');
+            return false;
+        });
+
+        $(".chat-icon").click(function () {
+            $(".chatbox").removeClass('showbox');
+        });
+
+
+    });
+</script>
 
 @code {
     [Parameter] public string id { get; set; }
