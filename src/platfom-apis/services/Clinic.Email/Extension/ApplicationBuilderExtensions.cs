@@ -24,5 +24,11 @@ namespace Clinic.Email.Extension
         {
             ServiceBusConsumer.Stop();
         }
+        public static DateTime GetDateTime(this long ticks)
+        {
+            DateTime result = new DateTime(ticks);
+
+            return result;
+        }
     }
 }

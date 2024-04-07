@@ -104,7 +104,8 @@ namespace Clinic.Identity.Controllers
                 {
                     UserName = dto.UserName,
                     Rate = dto.Rate,
-                    Comment = dto.Comment
+                    Comment = dto.Comment,
+                    BookingId = dto.BookingId
                 });
                 doctor.AverageRating = doctor.FeedBacks.Average(x => x.Rate);
                 await _userManager.UpdateAsync(doctor);
@@ -116,6 +117,22 @@ namespace Clinic.Identity.Controllers
                 return Ok(result);
             }
             return Ok(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Feedback(string doctorId,string bookingId)
+        {
+            var item = await _userManager.Users.Include(x => x.FeedBacks).Where(u => u.Id == doctorId).Select(x => x.FeedBacks).FirstOrDefaultAsync();
+            if (item != null || item.Count > 0)
+            {
+                var result = item.FirstOrDefault();
+                FormDto form = new()
+                {
+                    Rate = result.Rate,
+                    Comment = result.Comment
+                };
+                return Ok(form);
+            }       
+            return Ok(new FormDto());
         }
         [HttpPost]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)

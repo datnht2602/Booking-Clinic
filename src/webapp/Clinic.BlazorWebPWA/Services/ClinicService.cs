@@ -91,15 +91,15 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
-    public async Task<T> ChangeBookingStatus<T>(string bookingId, string accessToken)
+    public async Task<T> GetFeedBack<T>(string doctorId, string bookingId)
     {
         return await this.SendAsync<T>(new ApiRequest()
         {
             ApiType = ApiType.GET,
-            Url = $"changebooking/{bookingId}",
-            AccessToken = accessToken
+            Url = $"feedback/{doctorId}/{bookingId}"
         });
     }
+    
 
     public async Task<T> GetInvoice<T>(string bookingId, string accessToken)
     {

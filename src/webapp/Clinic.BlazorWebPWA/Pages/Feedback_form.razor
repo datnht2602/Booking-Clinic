@@ -1,40 +1,49 @@
-﻿@page "/feedback/{id}/{name}"
+﻿@page "/feedback"
+@page "/feedback/{id}/{bookingId}"
 @inject IClinicService clinicService
 
 
         <div class="bg-light p-4 rounded-3">
             <div class="mx-auto">
-                @if (message != String.Empty)
-                {
-                    <h3>@message</h3>
-                }
                 <div class="mb-3 col-md-12">
                     <label for="rate" class="form-label text-navy fs-6 fw-bold">Rating Star</label>
-                    <input type="number" @bind-value="@form.Rate" class="form-control" placeholder="Enter a number" min="1" max="5">
+                    <input type="number" Disabled="@(ExistFeedBack == true)" @bind-value="@form.Rate" class="form-control" placeholder="Enter a number" min="1" max="5">
                 </div>
 
                 <div class="mb-3 col-md-12">
                     <label for="comment" class="form-label fs-6 text-navy fw-bold">Comments</label>
-                    <textarea @bind="form.Comment" class="form-control" placeholder="Enter your comment here" rows="3"></textarea>
+                    <textarea @bind="form.Comment" Disabled="@(ExistFeedBack == true)" class="form-control" placeholder="Enter your comment here" rows="3"></textarea>
                 </div>
-                <div class="text-center col-md-4 p-2 mx-auto">
-                    <button @onclick="@(_ => SendForm())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Send </button>
-                </div>
+                @if (id != null && bookingId != null)
+                {
+                    <div class="text-center col-md-4 p-2 mx-auto">
+                        <button @onclick="@(_ => SendForm())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Contact With Patient </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center col-md-4 p-2 mx-auto">
+                        <button @onclick="@(_ => SendForm())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Send </button>
+                    </div>
+                }
             </div>
         </div>
 
 
 @code {
-    [Parameter] public string id { get; set; }
-    [Parameter] public string name { get; set; }
-    FormDto form = new();
-    string message = string.Empty;
-    protected override void OnInitialized()
+    [Parameter] public FormDto form { get; set; }
+    [Parameter] public string id { get; set; } 
+    [Parameter] public string bookingId { get; set; }
+    bool ExistFeedBack;
+    protected override async Task OnInitializedAsync()
     {
-        form.DoctorId = id;
-        form.UserName = name;
+        if (id != null && bookingId != null)
+        {
+            form = await clinicService.GetFeedBack<FormDto>(id, bookingId);
+            ExistFeedBack = true;
+            StateHasChanged();
+        }
     }
-
     private async Task SendForm()
     {
         var response = await clinicService.SendFeedBack<ResponseDto>(form);

@@ -73,7 +73,7 @@
                                                             <span class="font-12 text-dark">Price: @item.OrderTotal.ToString("C") vnd</span>
                                                         </div>
                                                         <div class="col-md-6 text-right">
-                                                            <button @onclick="@(_ => FeedBack(item.DoctorId))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</button>
+                                                            <button @onclick="@(_ => FeedBack(item.DoctorId,item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">FeedBack</button>
                                                             <button @onclick="@(_ => Export(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Export</button>
                                                         </div>
                                                     </div>
@@ -126,7 +126,7 @@
                                                         </div>
                                                         <div class="col-md-6 text-right">
                                                             <button @onclick="@(_ => Detail(item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">Detail</button>
-                                                            <button @onclick="@(_ => GetFeedBack())" class="btn btn-primary btn-outline btn-outline-1x btn-sm">See FeedBack</button>
+                                                            <button @onclick="@(_ => GetFeedBack(item.DoctorId,item.Id))" class="btn btn-primary btn-outline btn-outline-1x btn-sm">See FeedBack</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -205,20 +205,26 @@
         }
     }
 
-    private async Task FeedBack(string id)
+    private async Task FeedBack(string doctorId,string bookingId)
     {
+        var form = new FormDto()
+        {
+            UserName = name,
+            DoctorId = doctorId,
+            BookingId = bookingId
+        };
         await DialogService.OpenAsync<Feedback_form>($"Feedback Form",
-            new Dictionary<string, object>() { { "id", id }, { "name", name } },
+            new Dictionary<string, object>() { { "form", form } },
             new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
     }
     private async Task Detail(string id)
     {
        
     }
-    private async Task GetFeedBack()
+    private async Task GetFeedBack(string doctorId,string bookingId)
     {
         await DialogService.OpenAsync<Feedback_form>($"Feedback",
-            new Dictionary<string, object>() { { "id", id }, { "name", name } },
+            new Dictionary<string, object>() { { "id", doctorId }, { "bookingId", bookingId } },
             new DialogOptions() { Width = "700px", Height = "", Resizable = true, Draggable = true });
     }
 
