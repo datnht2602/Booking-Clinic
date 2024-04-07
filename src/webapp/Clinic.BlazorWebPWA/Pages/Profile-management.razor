@@ -1,53 +1,102 @@
-﻿@page "/change-pw"
-
+﻿@page "/profile"
+@inject IClinicService clinicService
 <PageTitle>Profile Management</PageTitle>
 <body style="background: none !important">
-    <main class="flex-shrink-0">
-        <div class="container mt-5">
-            <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">MANAGE PERSONAL INFORMATION</h2>
-            <div class="card bold-border mb-5 shadow-lg">
-                <div class="row no-gutters mx-4 my-3 px-5 py-4">
-                    <div class="col-md-3">
-                        <img class="card-img image-left" src="img/avatar.jpg" alt="...">
-                    </div>
-                    <div class="col-md-9">
-                        <div class="card-body">
+<main class="flex-shrink-0">
+    <div class="container mt-5">
+        <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">MANAGE PERSONAL INFORMATION</h2>
+        <div class="card bold-border mb-5 shadow-lg">
+            <div class="row no-gutters mx-4 my-3 px-5 py-4">
+                <div class="col-md-3">
+                    <img class="card-img image-left" src="img/avatar.jpg" alt="...">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <EditForm Model="update" OnValidSubmit="HandleUpdate">
                             <div class="mb-3">
                                 <label for="fullname" class="form-label medium text-black">Full Name<small class="text-danger">*</small></label>
-                                <input type="text" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required>
+                                <InputText @bind-Value="update.UserName" class="form-control" placeholder="Nguyễn Văn A" pattern="[^\s]+" title="Please do not enter spaces." required/>
                             </div>
                             <div class="mb-3">
                                 <label for="major" class="form-label medium text-black">Gender<small class="text-danger">*</small></label>
-                                <select class="form-select" required aria-label="Select Gender">
+                                <InputSelect @bind-Value="update.Sexual" required aria-label="Select Gender">
                                     <option value="">Select Gender</option>
                                     <option value="1">Male</option>
                                     <option value="2">Female</option>
                                     <option value="3">Other</option>
-                                </select>
+                                </InputSelect>
                             </div>
                             <div class="mb-3">
                                 <label for="emailInput" class="form-label medium text-black">Email <small class="text-danger">*</small></label>
-                                <input type="email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required>
+                                <InputText @bind-Value="update.Email" class="form-control" id="emailInput" placeholder="nguyenvana@gmail.com" required/>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label medium text-black">Phone Number<small class="text-danger">*</small></label>
-                                <input type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')">
+                                <InputText @bind-Value="update.PhoneNumber" type="tel" class="form-control" placeholder="Input Phone Number" required pattern="0[0-9]{9}" title="Please enter a valid phone number" oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Please enter a valid phone number without spaces.')"/>
                             </div>
                             <div class="mb-3">
                                 <label for="date" class="form-label medium text-black">Date of birth<small class="text-danger fw-bold">*</small></label>
-                                <input type="datetime-local" class="form-control" id="datetime" required>
+                                <RadzenDatePicker @bind-Value=@update.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
                             </div>
                             <div class="mb-3">
                                 <label for="address" class="form-label medium text-black">Address<small class="text-danger">*</small></label>
-                                <input type="text" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" pattern="[^\s]+" title="Please do not enter spaces." required>
+                                <InputText @bind-Value="update.Address" class="form-control" placeholder="400 Hải Phòng, phường Chinh Gián, quận Thanh Khê, Đà Nẵng" title="Please do not enter spaces." required/>
                             </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between px-3 py-5">
-                        <a href="" class="btn btn-primary btn-lg mx-auto card-link">Save changes</a>
+                            <div class="mb-3">
+                                <label for="address" class="form-label medium text-primary fw-bold">Social security number <small class="text-danger">*</small></label>
+                                <InputText @bind-Value="update.HealthInsuranceCode" class="form-control" placeholder="Enter health insurance code" required/>
+                            </div>
+                            <div class="d-flex justify-content-between px-3 py-5">
+                                <button type="submit" class="btn btn-primary btn-lg mx-auto card-link">Save changes</button>
+                            </div>
+                        </EditForm>
                     </div>
                 </div>
             </div>
+
         </div>
-    </main>
+    </div>
+</main>
 </body>
+
+@code
+{
+    BriefViewModel update = new();
+    [Parameter] public string id { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        var result =  await clinicService.GetDetailUser<BriefViewModel>(id, accessToken);
+        if (result != null)
+        {
+            update = result;
+        }
+    }
+
+    async Task HandleUpdate()
+    {
+        var result = await clinicService.UpdateDetailUser<HttpResponseMessage>(update, id, accessToken);
+        if (result.IsSuccessStatusCode)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Update Profile Successfully"});
+        }
+    }
+}

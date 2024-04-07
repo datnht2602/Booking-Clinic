@@ -185,6 +185,20 @@ namespace Clinic.Identity.Controllers
             model = !items.Detail.IsNullOrEmpty() ? JsonConvert.DeserializeObject<BriefViewModel>(items.Detail) : new();
             return Ok(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserDetail(string userId,[FromBody] BriefViewModel model)
+        {
+            var items = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if (items == null)
+            {
+                return NotFound();
+            }
+            items.Detail = JsonConvert.SerializeObject(model);
+            items.Name = model.UserName;
+            await _userManager.UpdateAsync(items);
+            await _signInManager.RefreshSignInAsync(items);
+            return Ok(model);
+        }
         [HttpGet]
         public async Task<IActionResult> getdetaildoctor(string userId)
         {

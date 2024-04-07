@@ -3,7 +3,9 @@
 
 <div class="col-md-3 col-lg-3 p-0">
     <div class="user-name">
-        <div class="tbl-cell"><i class="fa-solid fa-circle-user"></i></div>
+        <div class="tbl-cell">
+            <i class="fa-solid fa-circle-user"></i>
+        </div>
         <div class="tbl-cell">
             <span>Hello</span>
             <h2>@name</h2>
@@ -11,18 +13,19 @@
     </div>
     <div class="user-menu">
         <ul>
-            <li class="user-profile">
-                <a href=@($"/profile/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-user-injured"></i>Profile</a>
-            </li>
-            <li class="user-appointments">
-                <a href=@($"/view-appointment/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>Appointments</a>
-            </li>
             @if (@context.User.IsInRole("patient"))
             {
+                <li class="user-profile">
+                    <a href=@($"/profile/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-user-injured"></i>Profile</a>
+                </li>
                 <li class="user-records ">
                     <a href=@($"/view-cart/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-laptop-medical"></i>Cart</a>
                 </li>
             }
+            <li class="user-appointments">
+                <a href=@($"/view-appointment/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>Appointments</a>
+            </li>
+
             <li class="user-appointments">
                 <a href=@($"/view-history/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>History</a>
             </li>
@@ -40,10 +43,10 @@
 </div>
 
 @code {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     AuthenticationState context { get; set; }
     string name = string.Empty;
+
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
@@ -55,6 +58,8 @@
         {
             nav.NavigateTo("authentication/login");
         }
+
         StateHasChanged();
     }
+
 }

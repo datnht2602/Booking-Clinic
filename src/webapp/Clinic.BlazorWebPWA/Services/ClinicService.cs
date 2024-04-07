@@ -71,15 +71,28 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
-    public Task<T> GetInvoiceByIdAsync<T>(string orderId)
+    public async Task<T> GetDetailUser<T>(string userId, string accessToken)
     {
-        throw new NotImplementedException();
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"getdetailuser/{userId}",
+            AccessToken = accessToken
+        });
     }
+    
 
-    public Task<T> SubmitOrder<T>(BookingDetailsViewModel order)
+    public async Task<T> UpdateDetailUser<T>(BriefViewModel model,string id, string accessToken)
     {
-        throw new NotImplementedException();
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = $"updatedetailuser/{id}",
+            AccessToken = accessToken,
+            Data = model
+        });
     }
+    
 
     public async Task<T> GetCoupon<T>(string coupon, string accessToken)
     {
