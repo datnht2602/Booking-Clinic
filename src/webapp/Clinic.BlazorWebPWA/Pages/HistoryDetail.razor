@@ -1,0 +1,82 @@
+﻿@page "/view-history/historydetail"
+@using Clinic.DTO.Models.Dto
+@inject IClinicService clinicService
+@using Clinic.BlazorWebPWA.Extensions
+@inject IBookingService bookingService
+
+@if (Booking != null)
+{
+	<RadzenStack Gap="1rem" Orientation="Orientation.Vertical" JustifyContent="JustifyContent.SpaceBetween">
+		<RadzenStack>
+			<RadzenRow Style="height: 250px; padding-left: 20px">
+				<RadzenColumn Size="12" SizeMD="6" Class="rz-p-4 rz-border-radius-1 border-0">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+						<RadzenStack Gap="1" Class="rz-text-truncate" Style="overflow: visible;">
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-2 rz-my-0" Style="color: var(--rz-text-tertiary-color);">Patient Name</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Booking.BriefViewModel.UserName)</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Sexual</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Booking.BriefViewModel.Sexual== 1 ? "Male" : "Female")</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Phone Number</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Booking.BriefViewModel.PhoneNumber)</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Date Of Birth</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Booking.BriefViewModel.DateOfBirth)</b></RadzenText>
+						</RadzenStack>
+					</RadzenStack>
+				</RadzenColumn>
+				<RadzenColumn Size="12" SizeMD="6" Class="rz-p-4 rz-border-radius-1 border-0">
+					<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+						<RadzenStack Gap="1" Class="rz-text-truncate" Style="overflow: visible;">
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Date & Time</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Booking.OrderPlacedDate.GetDateTime()</b></RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Service</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate">
+								<b>
+									@if (Booking.Products != null && Booking.Products.Any())
+									{
+										@foreach (var product in Booking.Products)
+										{
+											<div>@product.Name</div>
+										}
+									}
+									else
+									{
+										<p>None</p>
+									}
+								</b>
+							</RadzenText>
+							<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Combo</RadzenText>
+							<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate">
+								<b>
+									@if (Booking.ComboName != null && Booking.ComboName.Any())
+									{
+										@foreach (var booking in Booking.ComboName)
+										{
+											<div>@Booking.ComboName</div>
+										}
+									}
+									else
+									{
+										<p>None</p>
+									}
+								</b>
+							</RadzenText>
+
+						</RadzenStack>
+					</RadzenStack>
+				</RadzenColumn>
+			</RadzenRow>
+			<RadzenColumn Style="padding-left: 37px">
+				<RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center">
+					<RadzenStack Gap="1" Class="rz-text-truncate" Style="overflow: visible;">
+						<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Description<RadzenSplitterPane></RadzenSplitterPane></RadzenText>
+						<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Booking.Description</b></RadzenText>
+					</RadzenStack>
+				</RadzenStack>
+			</RadzenColumn>
+		</RadzenStack>
+	</RadzenStack>
+}
+
+@code {
+	[Parameter] public BookingDetailsViewModel Booking { get; set; }
+}
