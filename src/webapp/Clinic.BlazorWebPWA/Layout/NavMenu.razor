@@ -37,6 +37,9 @@
                     <li class="nav-item">
                         <NavLink class="nav-link" href="blog">News</NavLink>
                     </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="contact">Contact</NavLink>
+                    </li>
                     @*                  <li class="nav-item dropdown">
                     <NavLink class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tin tức</NavLink>
                     <ul class="dropdown-menu m-0 border-0 shadow-sm p-2 dropdown-menu-end">
@@ -62,7 +65,7 @@
                                else
                                {
                                    <li>
-                                        <NavLink class="dropdown-item px-3 py-2 rounded" href=@($"/view-appointment/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")>View Profile</NavLink>
+                                        <NavLink class="dropdown-item px-3 py-2 rounded" href=@($"/profile/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-regular fa-id-badge"></i> View Profile</NavLink>
                                    </li>
                                }
                                 <li>
