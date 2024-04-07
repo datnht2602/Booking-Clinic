@@ -88,7 +88,7 @@
 								<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-2 rz-my-0" Style="color: var(--rz-text-tertiary-color);">Patient Name</RadzenText>
 								<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Booking.BriefViewModel.UserName)</b></RadzenText>
 								<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Sexual</RadzenText>
-								<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Booking.BriefViewModel.Sexual</b></RadzenText>
+								<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@(Booking.BriefViewModel.Sexual == 1 ? "Male" : "Female")</b></RadzenText>
 								<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Phone Number</RadzenText>
 								<RadzenText TextStyle="TextStyle.Body1" Class="rz-text-truncate"><b>@Booking.BriefViewModel.PhoneNumber</b></RadzenText>
 								<RadzenText TextStyle="TextStyle.Overline" Class="rz-mt-4 rz-mb-0" Style="color: var(--rz-text-tertiary-color);">Date Of Birth</RadzenText>
