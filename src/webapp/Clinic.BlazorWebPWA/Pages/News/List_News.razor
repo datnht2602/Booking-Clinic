@@ -103,6 +103,7 @@
         if (response != null && response.IsSuccess)
         {
             GetListBlogs = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
+            GetListBlogs = GetListBlogs.OrderByDescending(x => x.CreatedDate).Take(9).ToList();
             StateHasChanged();
         }
     }

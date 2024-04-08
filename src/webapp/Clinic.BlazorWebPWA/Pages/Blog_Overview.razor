@@ -45,7 +45,7 @@
                                     </div>
                                     <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                         <div class="d-flex align-items-end justify-content-between">
-                                            <a class="stretched-link text-decoration-none" @onclick='() => nav.NavigateTo($"/blog/detail?id={item.Id}")'>}
+                                            <a class="stretched-link text-decoration-none" @onclick='() => nav.NavigateTo($"/blog/detail/{item.Id}")'>
                                                 Read more
                                                 <i class="bi bi-arrow-right"></i>
                                             </a>
@@ -69,7 +69,7 @@
     private List<Blog> GetListNews = new();
     protected override async Task OnInitializedAsync()
     {
-        var response = await blogService.GetListBlogs<ResponseDto>("e.IsMainCombo = true");
+        var response = await blogService.GetListBlogs<ResponseDto>();
         if (response != null && response.IsSuccess)
         {
             GetListNews = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));

@@ -163,19 +163,19 @@
                                 <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-poll-horizontal"></i></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="admin">Admin Dashboard</a></li>
-                                    <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
-                                    <li><a href="patient-dashboard">Patient Dashboard</a></li>
+                                  @*   <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
+                                    <li><a href="patient-dashboard">Patient Dashboard</a></li> *@
                                 </ul>
                             </li>
-                            <li>
+                          @*   <li>
                                 <a href="list-doctor">
                                     <span class="menu-side" style="cursor: pointer">
                                         <i class="fa-solid fa-user-doctor"></i>
                                     </span>
                                     <span>Doctor</span>
                                 </a>
-                            </li>
-                            <li class="submenu">
+                            </li> *@
+@*                             <li class="submenu">
                                 <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-users"></i></span> <span>Patients </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="/list-patient">Patients List</a></li>
@@ -183,32 +183,32 @@
                                     <li><a href="/edit-patient">Edit Patients</a></li>
                                     <li><a href="/patient-profile">Patients Profile</a></li>
                                 </ul>
-                            </li>
+                            </li> *@
                             <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-hand-holding-heart"></i></span> <span> Product </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
+                                <a @onclick="@(_ => nav.NavigateTo("/list-product",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-hand-holding-heart"></i></span> <span> Product </span> <span class="menu-arrow"></span></a>
+                              @*   <ul style="display: none;">
                                     <li><a href="list-product">Product List</a></li>
                                     <li><a href="upsert-product">Add Product</a></li>
 
-                                </ul>
+                                </ul> *@
                             </li>
                             <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-regular fa-calendar-check"></i></span> <span> Appointments </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
+                                <a @onclick="@(_ => nav.NavigateTo("/list-coupon",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-regular fa-calendar-check"></i></span> <span> Coupons </span> <span class="menu-arrow"></span></a>
+                             @*    <ul style="display: none;">
                                     <li><a href="/">Appointment List</a></li>
                                     <li><a href="/">Book Appointment</a></li>
                                     <li><a href="/">Edit Appointment</a></li>
-                                </ul>
+                                </ul> *@
                             </li>
                             <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-calendar-day"></i></span> <span> Doctor Schedule </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
+                                <a @onclick="@(_ => nav.NavigateTo("/list-doctor",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-calendar-day"></i></span> <span> Doctors </span> <span class="menu-arrow"></span></a>
+                               @*  <ul style="display: none;">
                                     <li><a href="/">Schedule List</a></li>
                                     <li><a href="/">Add Schedule</a></li>
                                     <li><a href="/">Edit Schedule</a></li>
-                                </ul>
+                                </ul> *@
                             </li>
-                            <li class="submenu">
+                           @*  <li class="submenu">
                                 <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-house-medical-flag"></i></span> <span> Departments </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="/">Department List</a></li>
@@ -225,40 +225,40 @@
                                     <li><a href="/">Taxes</a></li>
                                     <li><a href="/">Provident Fund</a></li>
                                 </ul>
-                            </li>
-                            <li class="submenu">
+                            </li> *@
+                          @*   <li class="submenu">
                                 <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-money-check-dollar"></i></span> <span> Payroll </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="/"> Employee Salary </a></li>
                                     <li><a href="/"> Payslip </a></li>
                                 </ul>
-                            </li>
+                            </li> *@
                             <li>
                                 <a href="/"><span class="menu-side"><i class="fa-solid fa-comment-dots"></i></span> <span>Chat</span></a>
                             </li>
 
-                            <li class="submenu">
+                          @*   <li class="submenu">
                                 <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-envelope"></i></span> <span> Email</span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="/">Compose Mail</a></li>
                                     <li><a href="/">Inbox</a></li>
                                     <li><a href="/">Mail View</a></li>
                                 </ul>
-                            </li>
+                            </li> *@
                             <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-book-open"></i></span> <span> Blog</span> <span class="menu-arrow"></span></a>
+                                <a @onclick="@(_ => nav.NavigateTo("/list-news",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-book-open"></i></span> <span> Blog</span> <span class="menu-arrow"></span></a>
                             </li>
-                            <li>
+                          @*   <li>
                                 <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-14.svg" alt></span> <span>Activities</span></a>
-                            </li>
-                            <li class="submenu">
+                            </li> *@
+                          @*   <li class="submenu">
                                 <a style="cursor: pointer"><i class="fa fa-flag"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="/"> Expense Report </a></li>
                                     <li><a href="/"> Invoice Report </a></li>
                                 </ul>
-                            </li>
-                            <li class="submenu">
+                            </li> *@
+                          @*   <li class="submenu">
                                 <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-15.svg" alt></span> <span> Invoice </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
                                     <li><a href="/"> Invoices List </a></li>
@@ -268,10 +268,10 @@
                                     <li><a href="/"> Invoices Details</a></li>
                                     <li><a href="/"> Invoices Settings</a></li>
                                 </ul>
-                            </li>
+                            </li> *@
                         </ul>
                         <div class="logout-btn">
-                            <a href="/"><span class="menu-side"><i class="fa-solid fa-right-from-bracket"></i></span> <span>Logout</span></a>
+                            <a @onclick="@(_ => nav.NavigateTo($"/authentication/logout", true))"><span class="menu-side"><i class="fa-solid fa-right-from-bracket"></i></span> <span>Logout</span></a>
                         </div>
                     </div>
                 </div>

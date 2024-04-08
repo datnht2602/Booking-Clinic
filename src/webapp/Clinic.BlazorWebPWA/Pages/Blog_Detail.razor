@@ -68,16 +68,16 @@ else
     <script src="js/scripts.js"></script>
 </body>
 @code {
-    private string postId;
+    [Parameter] public string postId { get; set; }
     BlogDto PostDetail = new();
 
     protected override async Task OnInitializedAsync()
     {
-        postId = navigationManager.Uri.Split('/').Last();
         var response = await blogService.GetBlogById<ResponseDto>(postId);
         if (response != null && response.IsSuccess)
         {
             PostDetail = JsonConvert.DeserializeObject<BlogDto>(Convert.ToString((response.Result)));
+            StateHasChanged();
         }
     }
 }
