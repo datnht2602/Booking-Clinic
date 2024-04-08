@@ -14,7 +14,7 @@
                     <h1 class="display-5 fw-bolder text-white mb-4">We provide <span class="fw-bold text-warning">medical</span> services that you can <span class="fw-bold text-warning">trust!</span></h1>
                     <p class="lead fw-light text-white-50 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam.</p>
                     <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-                        <NavLink class="btn btn-outline-light fw-bold fs-7 rounded-3 px-4 py-3 text-uppercase" href="book-appointments">Booking Appointment</NavLink>
+                        <NavLink class="btn btn-outline-light fw-bold fs-7 rounded-3 px-4 py-3 text-uppercase" @onclick='() => nav.NavigateTo("/doctor")'>Booking Appointment</NavLink>
                     </div>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                             </div>
                             <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                 <div class="d-flex align-items-end justify-content-between">
-                                    <a class="stretched-link text-decoration-none" @onclick='() => nav.NavigateTo("/blog/detail")'>
+                                    <a class="stretched-link text-decoration-none" @onclick='() => nav.NavigateTo("/blog")'>
                                         Read more
                                         <i class="bi bi-arrow-right"></i>
                                     </a>
@@ -166,7 +166,7 @@
     private List<Blog> GetListNews = new();
     protected override async Task OnInitializedAsync()
     {
-        var response = await blogService.GetListBlogs<ResponseDto>("e.IsMainCombo = true");
+        var response = await blogService.GetListBlogs<ResponseDto>();
         if (response != null && response.IsSuccess)
         {
             GetListNews = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
