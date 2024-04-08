@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\platfom-apis\core\Clinic.Caching\Clinic.Caching.csproj" />
-    <ProjectReference Include="..\src\platfom-apis\core\Clinic.Common\Clinic.Common.csproj" />
-    <ProjectReference Include="..\src\platfom-apis\data\Clinic.Data.Models\Clinic.Data.Models.csproj" />
-    <ProjectReference Include="..\src\platfom-apis\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
+    <ProjectReference Include="..\..\core\Clinic.Caching\Clinic.Caching.csproj" />
+    <ProjectReference Include="..\..\core\Clinic.Common\Clinic.Common.csproj" />
+    <ProjectReference Include="..\..\data\Clinic.Data.Models\Clinic.Data.Models.csproj" />
+    <ProjectReference Include="..\..\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
   </ItemGroup>
 
 </Project>
