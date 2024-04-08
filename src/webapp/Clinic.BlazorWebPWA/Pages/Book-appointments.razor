@@ -82,7 +82,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Total</label>
-                                <input type="text" class="form-control" placeholder="@FormattedTotal" readonly="False">
+                                <input type="text" class="form-control" placeholder="@booking.OrderTotal.ToString("C") vnd" readonly="False">
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
@@ -118,7 +118,7 @@
     public string NameApplyCoupon  = "Apply";
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
-    public string FormattedTotal => $"{booking.OrderTotal:N0} vnd";
+    //public string FormattedTotal => $"{booking.OrderTotal:N0} vnd";
     string ErrorMessage = string.Empty;
     void Change(object value, string name)
     {
@@ -230,7 +230,7 @@
             {
                 var couponObj = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(discount.Result));
                 createBooking.DiscountTotal = couponObj.DiscountAmount;
-                booking.OrderTotal -= booking.OrderTotal * (createBooking.DiscountTotal / 100);
+                booking.OrderTotal = booking.OrderTotal * (1 - couponObj.DiscountAmount / 100);
                 ExistCoupon = true;
                 NameApplyCoupon = "Remove";
                 StateHasChanged();
