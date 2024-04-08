@@ -216,7 +216,16 @@
 
     private async Task ChangeScheduleTime(string id)
     {
-       
+        var confirmationResult = await this.DialogService.Confirm("Are you sure?", "Change Schedule", new ConfirmOptions { OkButtonText = "Yes", CancelButtonText = "No" });
+        if (confirmationResult == true)
+        {
+            var item = list.FirstOrDefault(x => x.Id == id);
+            var response = await clinicService.ChangeSchedule<HttpResponseMessage>(item, accessToken);
+            if (response.IsSuccessStatusCode)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Changed  Successfully" });
+            }                      
+        }
     }
     private async Task Contact()
     {

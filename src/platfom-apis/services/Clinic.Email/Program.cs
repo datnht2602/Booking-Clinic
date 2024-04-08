@@ -1,3 +1,4 @@
+using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.Email.Contract;
 using Clinic.Email.Extension;
@@ -38,6 +39,12 @@ app.MapPost("/testmail",async (string email,IEmailService emailService) =>
         emailService.SendInvoice(email);
         return Results.Ok();
     })
+    .WithOpenApi();
+app.MapPost("/changeschedule", async (BookingDetailsViewModel model, IEmailService emailService) =>
+{
+    await emailService.ChangeSchedule(model);
+    return Results.Ok();
+})
     .WithOpenApi();
 app.UseAzureServiceBusConsumer();
 app.Run();

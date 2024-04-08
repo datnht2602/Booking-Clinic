@@ -201,4 +201,14 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
+    public async Task<T> ChangeSchedule<T>(BookingDetailsViewModel model, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = "changeschedule",
+            AccessToken = accessToken,
+            Data = model
+        });
+    }
 }
