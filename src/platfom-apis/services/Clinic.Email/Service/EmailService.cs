@@ -1,17 +1,20 @@
+using Clinic.Common.Options;
 using Clinic.DTO.Models;
 using Clinic.Email.Contract;
 using Clinic.Email.Extension;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Options;
 
 namespace Clinic.Email.Service;
 
 public class EmailService : IEmailService
 {
     private readonly IEmailSender _emailSender;
-
-    public EmailService(IEmailSender emailSender)
+    private readonly IOptions<ApplicationSettings> applicationSettings;
+    public EmailService(IEmailSender emailSender, IOptions<ApplicationSettings> applicationSettings)
     {
         _emailSender = emailSender;
+        this.applicationSettings = applicationSettings;
     }
     public async Task SendInvoice(string email)
     {
@@ -119,7 +122,7 @@ public class EmailService : IEmailService
                                                                 <tr>
                                                                     <td style=""text-align: center; vertical-align: middle; padding: 10px"">
                                                                         <button style=""width: 250px; height: 50px; background-color: #48a7f2; color: white; border: none; border-radius: 8px; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;"">
-                                                                            Choose another doctor</button>
+                                                                            <a href=""{this.applicationSettings.Value.ClientApiEndpoint}/changedoctor/{model.Id}"">Choose another doctor</a></button>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

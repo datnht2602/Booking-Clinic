@@ -211,4 +211,15 @@ public class ClinicService :  BaseService,IClinicService
             Data = model
         });
     }
+
+    public async Task<T> ChangeDoctor<T>(BookingDetailsViewModel dto, string accessToken)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.POST,
+            Url = "changedoctor",
+            AccessToken = accessToken,
+            Data = dto
+        });
+    }
 }

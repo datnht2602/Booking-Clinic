@@ -1,0 +1,81 @@
+﻿@page "/changedoctor/{bookingId}"
+@inject IClinicService clinicService
+<PageTitle>Change Doctor</PageTitle>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    <link href="css/paymentNoti.css" rel="stylesheet" />
+</head>
+<body>
+<div class="card">
+    @if (updateSuccess)
+    {
+        <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="height: 200px; width: 200px; margin: auto; margin-bottom: 30px;">
+            <i1 class="checkmark justify-content-center align-items-center">✓</i1>
+        </div>
+        <h1>Change successful</h1>
+        <p>Thanks for your copration!<br /></p>
+        <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
+            <button type="button" @onclick='() => nav.NavigateTo($"/view-appointment/patient/{model.UserId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">View Appointments</button>
+        }
+        else
+        {
+            <div class="card">
+                <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin: auto; margin-bottom: 30px;">
+                    <i2 class="crossmark">✖</i2>
+                </div>
+                <h2>Change Doctor Failed</h2>
+                <p>Sorry! We cannot find any doctor for you<br />Please choose another schedule time.</p>
+                <button type="button" href="/" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Back To Main page</button>
+                <button type="button" @onclick='() => nav.NavigateTo($"/view-appointment/patient/{model.UserId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Change Schedule</button>
+
+            </div>
+        }
+    </div>
+</body>
+@code {
+    [Parameter] public string bookingId { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    BookingDetailsViewModel model { get; set; }
+    bool updateSuccess = false;
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        var response = await clinicService.GetBookingByIdAsync<ResponseDto>(bookingId, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            model = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+            var changeDoctor = await clinicService.ChangeDoctor<ResponseDto>(model, accessToken);
+            if(changeDoctor != null && changeDoctor.IsSuccess)
+            {
+                var doctorDto =  JsonConvert.DeserializeObject<ChangeDoctorDto>(Convert.ToString((response.Result)));
+                model.DoctorId = doctorDto.DoctorId;
+                model.DoctorName = doctorDto.DoctorName;
+                var update = await clinicService.CreateOrUpdateBooking<ResponseDto>(model, accessToken);
+                if (response != null && response.IsSuccess)
+                {
+                    updateSuccess = true;
+                    StateHasChanged();
+                }
+            }
+        }
+    }
+}

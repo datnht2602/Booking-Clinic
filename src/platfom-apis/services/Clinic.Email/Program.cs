@@ -1,3 +1,4 @@
+using Clinic.Common.Options;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.Email.Contract;
@@ -14,6 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var mailsetting = builder.Configuration.GetSection("MailSettings");
+builder.Services.Configure<ApplicationSettings>(builder.Configuration.GetSection("ApplicationSettings"));
 builder.Services.Configure<MailSettings>(mailsetting);
 builder.Services.AddSingleton<IEmailSender, SendMailService>();
 builder.Services.AddSingleton<IEmailService, EmailService>();

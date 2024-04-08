@@ -8,6 +8,7 @@ using Clinic.Data.Models;
 using Clinic.DTO.Models;
 using Clinic.DTO.Models.Dto;
 using Clinic.DTO.Models.Model;
+using Clinic.Identity.Data;
 using Clinic.Identity.Models;
 using Duende.IdentityServer.Extensions;
 using IdentityModel;
@@ -27,12 +28,14 @@ namespace Clinic.Identity.Controllers
         private readonly IDistributedCacheService cacheService;
         private readonly IOptions<ApplicationSettings> applicationSettings;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _db;
         public UserController(UserManager<ApplicationUser> userManager,
             IMapper autoMapper,
             IHttpClientFactory httpClientFactory,
             IDistributedCacheService cacheService,
              IOptions<ApplicationSettings> applicationSettings,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext db)
         {
             _userManager = userManager;
             this.autoMapper = autoMapper;
@@ -40,6 +43,7 @@ namespace Clinic.Identity.Controllers
             this.cacheService = cacheService;
             this.applicationSettings = applicationSettings;
             _signInManager = signInManager;
+            _db = db;
         }
         public IActionResult Index()
         {
@@ -71,6 +75,39 @@ namespace Clinic.Identity.Controllers
                 }  
                 result.Result = listDoctors;
                 return Ok(result);                                
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeDoctor([FromBody] BookingDetailsViewModel model)
+        {
+            ResponseDto result = new();
+            var doctors = await _userManager.GetUsersInRoleAsync(SD.DOCTOR);
+            var usersDto = autoMapper.Map<List<ApplicationUsersDto>>(doctors.ToList());
+            var userModels = autoMapper.Map<List<ApplicationUserModel>>(usersDto);
+            var doctorIds = userModels.Where(x => x.Specialization == model.Specialization).Select(x => x.Id).ToList();
+            var listSchedule = _db.ScheduleTimes.Where(x => doctorIds.Contains(x.UserId)).ToList();
+            foreach(var doctorId in doctorIds)
+            {
+                if(!listSchedule.Any(x => x.UserId == doctorId && x.Time == model.OrderPlacedDate)){
+                    _db.ScheduleTimes.Add(new ScheduleTime
+                    {
+                        UserId = doctorId,
+                        Time = model.OrderPlacedDate,
+                    });
+                    if (await _db.SaveChangesAsync() > 0)
+                    {                       
+                        ChangeDoctorDto dto = new()
+                        {
+                            DoctorId = doctorId,
+                            DoctorName = userModels.FirstOrDefault(x => x.Id == doctorId).Name,
+                        };
+                        result.Result = dto;
+                        return Ok(result);
+                    };
+                    
+                }
+            }
+            result.IsSuccess = false;
+            return Ok(result);
         }
         [HttpPost]
         public async Task<IActionResult> UpdateSchedule([FromBody] UpdateSchedule dto)
