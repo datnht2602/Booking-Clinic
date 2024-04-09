@@ -235,6 +235,10 @@
                 NameApplyCoupon = "Remove";
                 StateHasChanged();
             }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Coupon is not available" });
+            }
         }else if (ExistCoupon)
         {
             booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
@@ -284,6 +288,7 @@
             createBooking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
             createBooking.ClinicNum = booking.ClinicNum;
             createBooking.CouponCode = coupon;
+            createBooking.ImageUrl = booking.Image;
             var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(createBooking, accessToken);
             if (response != null && response.IsSuccess)
             {

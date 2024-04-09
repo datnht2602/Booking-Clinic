@@ -20,6 +20,7 @@ namespace Clinic.Data.Models
         public string InvoiceId { get; set; }
         public int ClinicNum { get; set; }
         public string CouponCode { get; set; }
+        public string ImageUrl { get; set; }
         public double DiscountTotal { get; set; }
         public int CartTotalItems { get; set; }
         public List<Product> Products { get; set; }

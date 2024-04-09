@@ -24,6 +24,7 @@ namespace Clinic.DTO.Models
         public string Description { get; set; }
         public string CouponCode { get; set; }
         public double DiscountTotal { get; set; }
+        public string ImageUrl { get; set; }
         public int ClinicNum { get; set; }
         public List<ProductListViewModel> Products { get; set; }
         public string OrderStatus { get; set; }

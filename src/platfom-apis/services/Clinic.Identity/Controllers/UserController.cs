@@ -209,6 +209,7 @@ namespace Clinic.Identity.Controllers
                 model.OrderedTime = userModels.OrderedTimes;
                 model.DoctorId = userModels.Id;
                 model.ClinicNum = int.Parse(userModels.ClinicNum);
+                model.Image = userModels.ImageUrl;
             }
             ResponseDto result = new();
             result.Result = model;

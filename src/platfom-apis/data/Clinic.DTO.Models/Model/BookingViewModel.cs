@@ -9,4 +9,5 @@ public class BookingViewModel
     public List<ProductListViewModel> ProductListViewModels { get; set; }
     public double OrderTotal { get; set; }
     public int ClinicNum { get; set; }
+    public string Image { get; set; }
 }
