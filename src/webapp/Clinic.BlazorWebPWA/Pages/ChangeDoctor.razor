@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="card">
-    @if (updateSuccess)
+    @if (updateSuccess is true)
     {
         <div class="rounded-circle bg-light d-flex justify-content-center align-items-center" style="height: 200px; width: 200px; margin: auto; margin-bottom: 30px;">
             <i1 class="checkmark justify-content-center align-items-center">✓</i1>
@@ -25,9 +25,9 @@
                     <i2 class="crossmark">✖</i2>
                 </div>
                 <h2>Change Doctor Failed</h2>
-                <p>Sorry! We cannot find any doctor for you<br />Please choose another schedule time.</p>
-                <button type="button" href="/" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Back To Main page</button>
-                <button type="button" @onclick='() => nav.NavigateTo($"/view-appointment/patient/{model.UserId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Change Schedule</button>
+                <p>Sorry! We cannot find any doctor for you<br />Please choose another schedule time.<br /></p>
+   <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
+            <button type="button" @onclick='() => nav.NavigateTo($"/changeschedule/{model.Id}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Change Schedule</button>
 
             </div>
         }
@@ -39,7 +39,7 @@
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private string accessToken { get; set; }
     BookingDetailsViewModel model { get; set; }
-    bool updateSuccess = false;
+    bool? updateSuccess = null;
     protected async override Task OnInitializedAsync()
     {
         base.OnInitialized();
@@ -71,8 +71,9 @@
                 model.DoctorName = doctorDto.DoctorName;
                 model.ClinicNum = int.Parse(doctorDto.ClinicNum);
                 model.BriefViewModel.ClinicNumber = model.ClinicNum;
-                var check = await clinicService.ChangeDoctorBooking<HttpResponseMessage>(model, accessToken);
-                if (check.IsSuccessStatusCode)
+                model.ImageUrl = doctorDto.ImageUrl;
+                var check = await clinicService.ChangeDoctorBooking<bool>(model, accessToken);
+                if (check)
                 {
                     updateSuccess = true;
                     StateHasChanged();

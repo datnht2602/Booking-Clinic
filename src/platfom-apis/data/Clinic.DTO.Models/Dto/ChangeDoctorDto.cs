@@ -11,5 +11,6 @@ namespace Clinic.DTO.Models.Dto
         public string DoctorId { get; set; }
         public string DoctorName { get; set; }
         public string ClinicNum { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

@@ -78,7 +78,7 @@ app.MapPut("/getbooking",async (BookingDetailsViewModel booking, IBookingService
             {
                 return Results.BadRequest();
             }
-   return (await bookingService.UpdateBookingAsync(booking)).StatusCode == HttpStatusCode.Accepted ? Results.Accepted() : Results.NoContent();
+   return (await bookingService.UpdateBookingAsync(booking)).StatusCode == HttpStatusCode.Accepted ? Results.Ok(true) : Results.NotFound(false);
 })
 .WithOpenApi();
 app.MapGet("/bookingsucess/{id}", async (string id, [FromServices] IBookingService bookingService) =>

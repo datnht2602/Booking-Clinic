@@ -224,7 +224,7 @@
             var response = await clinicService.ChangeSchedule<HttpResponseMessage>(item, accessToken);
             if (response.IsSuccessStatusCode)
             {
-                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Changed  Successfully" });
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Changed  Successfully" });
             }                      
         }
     }

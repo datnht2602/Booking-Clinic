@@ -99,7 +99,8 @@ namespace Clinic.Identity.Controllers
                         {
                             DoctorId = doctorId,
                             DoctorName = userModels.FirstOrDefault(x => x.Id == doctorId).Name,
-                            ClinicNum = userModels.FirstOrDefault(x => x.Id == doctorId).ClinicNum
+                            ClinicNum = userModels.FirstOrDefault(x => x.Id == doctorId).ClinicNum,
+                            ImageUrl = userModels.FirstOrDefault(x => x.Id == doctorId).ImageUrl
                         };
                         result.Result = dto;
                         return Ok(result);
@@ -188,7 +189,7 @@ namespace Clinic.Identity.Controllers
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            return Ok();
+            return Ok(true);
         }
         [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)

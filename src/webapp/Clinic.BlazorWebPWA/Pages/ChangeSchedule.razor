@@ -1,0 +1,121 @@
+@page "/changeschedule/{bookingId}
+@using Clinic.BlazorWebPWA.Extensions
+@using Clinic.Data.Models
+@inject IClinicService clinicService
+<PageTitle>Change Schedule</PageTitle>
+
+<div class="bg-light p-4 rounded-3">
+    <div class="mx-auto">
+        <div class="row">
+            <div class="mb-3 col-6">
+                <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
+                <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Style="width: 100%" Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
+            </div>
+            <div class="mb-3 col-6">
+                <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
+                <RadzenDropDown TValue="TimeSpan" Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent"/>
+            </div>
+        </div>
+         <div class="text-center col-md-4 p-2 mx-auto">
+                            <button @onclick="@(_ => SendSchedule())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Checkout </button>
+                        </div>
+    </div>
+</div>
+@code {
+    [Parameter] public string bookingId { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
+    [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
+    private string accessToken { get; set; }
+    BookingDetailsViewModel Booking { get; set; }
+    private DateTime DateOnly { get; set; }
+    private TimeSpan TimeOnly { get; set; }
+    List<TimeSpan> timeSlots = Extension.GetTimeSlots();
+    bool notBook;
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            nav.NavigateTo("authentication/login");
+        }
+
+        var accessTokenResult = await TokenProvider.RequestAccessToken();
+        accessToken = string.Empty;
+
+        if (accessTokenResult.TryGetToken(out var token))
+        {
+            accessToken = token.Value;
+        }
+
+        var response = await clinicService.GetBookingByIdAsync<ResponseDto>(bookingId, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            Booking = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
+        }
+    }
+        async Task SelectDate(object value)
+    {
+        DateOnly = (DateTime)value;
+        if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "You cannot book time before" });
+            notBook = true;
+        }
+        else
+        {
+            var response = await clinicService.GetScheduleAsync<ResponseDto>(Booking.DoctorId);
+            if (response != null && response.IsSuccess)
+            {
+                var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+                if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+                {
+                    NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "This time was booked" });
+                    notBook = true;
+                }
+                else
+                {
+                    notBook = false;
+                }
+            }
+        }
+    }
+
+    async Task SelectTime(object value)
+    {
+        TimeOnly = (TimeSpan)value;
+        if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "You cannot book time before" });
+            notBook = true;
+        }
+        else
+        {
+            var response = await clinicService.GetScheduleAsync<ResponseDto>(Booking.DoctorId);
+            if (response != null && response.IsSuccess)
+            {
+                var result = JsonConvert.DeserializeObject<List<long>>(Convert.ToString((response.Result)));
+                if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
+                {
+                    NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "This time was booked" });
+                    notBook = true;
+                }
+                else
+                {
+                    notBook = false;
+                }
+            }
+        }
+    }
+    private async Task SendSchedule()
+    {
+        Booking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
+        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(Booking, accessToken);
+        if (response != null && response.IsSuccess)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Changed  Successfully" });
+        }
+    }
+}

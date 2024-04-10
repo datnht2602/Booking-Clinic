@@ -79,8 +79,8 @@
     }
     private async Task Handle()
     {
-        var result = await clinicService.ChangePassword<HttpResponseMessage>(dto, accessToken);
-        if (result.IsSuccessStatusCode)
+        var result = await clinicService.ChangePassword<bool>(dto, accessToken);
+        if (result)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Change Password Successfully"});
         }
