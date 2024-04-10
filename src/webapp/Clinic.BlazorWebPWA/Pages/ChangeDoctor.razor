@@ -66,11 +66,13 @@
             var changeDoctor = await clinicService.ChangeDoctor<ResponseDto>(model, accessToken);
             if(changeDoctor != null && changeDoctor.IsSuccess)
             {
-                var doctorDto =  JsonConvert.DeserializeObject<ChangeDoctorDto>(Convert.ToString((response.Result)));
+                var doctorDto =  JsonConvert.DeserializeObject<ChangeDoctorDto>(Convert.ToString(changeDoctor.Result));
                 model.DoctorId = doctorDto.DoctorId;
                 model.DoctorName = doctorDto.DoctorName;
-                var update = await clinicService.CreateOrUpdateBooking<ResponseDto>(model, accessToken);
-                if (response != null && response.IsSuccess)
+                model.ClinicNum = int.Parse(doctorDto.ClinicNum);
+                model.BriefViewModel.ClinicNumber = model.ClinicNum;
+                var check = await clinicService.ChangeDoctorBooking<HttpResponseMessage>(model, accessToken);
+                if (check.IsSuccessStatusCode)
                 {
                     updateSuccess = true;
                     StateHasChanged();

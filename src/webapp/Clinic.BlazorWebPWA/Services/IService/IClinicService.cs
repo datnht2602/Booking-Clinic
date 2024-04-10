@@ -23,7 +23,7 @@ public interface IClinicService : IBaseService
     Task<T> GetInvoice<T>(string bookingId, string accessToken);
     Task<T> GetHealthPackages<T>(string filterCriteria = null);
     Task<T> CreateOrUpdateDoctor<T>(DoctorDto model,string accessToken);
-    Task<T> GetListBooking<T>(string id, string accessToken);
+    Task<T> ChangeDoctorBooking<T>(BookingDetailsViewModel model, string accessToken);
     Task<T> SendFeedBack<T>(FormDto form);
     Task<T> GetDetailDoctor<T>(string id);
     Task<T> GetExportString<T>(string id, string accessToken);

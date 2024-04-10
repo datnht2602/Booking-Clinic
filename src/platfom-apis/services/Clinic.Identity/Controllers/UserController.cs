@@ -99,6 +99,7 @@ namespace Clinic.Identity.Controllers
                         {
                             DoctorId = doctorId,
                             DoctorName = userModels.FirstOrDefault(x => x.Id == doctorId).Name,
+                            ClinicNum = userModels.FirstOrDefault(x => x.Id == doctorId).ClinicNum
                         };
                         result.Result = dto;
                         return Ok(result);

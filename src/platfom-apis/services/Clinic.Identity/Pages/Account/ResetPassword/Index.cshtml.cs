@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Clinic.Common.Options;
 using Clinic.Identity.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
 
 namespace webapp.Pages.Account.ResetPassword;
 
@@ -13,10 +15,12 @@ namespace webapp.Pages.Account.ResetPassword;
     public class Index : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOptions<ApplicationSettings> applicationSettings;
 
-        public Index(UserManager<ApplicationUser> userManager)
+        public Index(UserManager<ApplicationUser> userManager,IOptions<ApplicationSettings> applicationSettings)
         {
             _userManager = userManager;
+            this.applicationSettings = applicationSettings;
         }
 
         [BindProperty]
@@ -80,7 +84,7 @@ namespace webapp.Pages.Account.ResetPassword;
             if (result.Succeeded)
             {
                 // Chuyển đến trang thông báo đã reset thành công
-                return RedirectToPage("/Account/Login");
+                return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
             }
 
             foreach (var error in result.Errors)
