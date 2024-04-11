@@ -15,7 +15,7 @@
         </div>
         <h1>Change successful</h1>
         <p>Thanks for your copration!<br /></p>
-        <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
+        <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-3 py-2 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
             <button type="button" @onclick='() => nav.NavigateTo($"/view-appointment/patient/{model.UserId}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">View Appointments</button>
         }
         else
@@ -26,7 +26,7 @@
                 </div>
                 <h2>Change Doctor Failed</h2>
                 <p>Sorry! We cannot find any doctor for you<br />Please choose another schedule time.<br /></p>
-   <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
+   <button type="button" @onclick='() => nav.NavigateTo("/")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-3 py-2 text-uppercase mb-3" style="background: #2c77b0; font-size: 17px">Go back to Homepage</button>
             <button type="button" @onclick='() => nav.NavigateTo($"/changeschedule/{model.Id}")' class="btn btn-warning btn-outline-light fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase" style="background: #2c77b0; font-size: 17px">Change Schedule</button>
 
             </div>

@@ -36,29 +36,15 @@ public class EmailService : IEmailService
                 <tr style=""vertical-align:top"">
                     <td style=""word-break:break-word;border-collapse:collapse!important;vertical-align:top"">
                         <div style=""background-color:transparent"">
-                            <div style=""Margin:0 auto;min-width:320px;max-width:500px;word-wrap:break-word;word-break:break-word;background-color:transparent"" class=""m_3727995092631990582block-grid"">
-                                <div style=""border-collapse:collapse;display:table;width:100%;background-color:transparent"">
-                                    <div class=""m_3727995092631990582col"" style=""min-width:320px;max-width:550px;display:table-cell;vertical-align:top"">
-                                        <div style=""background-color:transparent;width:100%!important"">
-                                            <div style=""border-top:0px solid transparent;border-left:0px solid transparent;border-bottom:0px solid transparent;border-right:0px solid transparent;padding-top:5px;padding-bottom:5px;padding-right:0px;padding-left:0px"">
-                                                <div align=""center"" class=""m_3727995092631990582fullwidthOnMobile"" style=""padding-right:0px;padding-left:0px"">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style=""background-color:transparent"">
-                            <div style=""Margin:0 auto;min-width:320px;max-width:500px;word-wrap:break-word;word-break:break-word;background-color:transparent"" class=""m_3727995092631990582block-grid"">
+                            <div style=""min-width:320px;max-width:450px;word-wrap:break-word;word-break:break-word;background-color:transparent"" class=""m_3727995092631990582block-grid"">
                                 <div style=""border-collapse:collapse;display:table;width:100%;background-color:transparent"">
                                     <div class=""m_3727995092631990582col"" style=""min-width:320px;max-width:500px;display:table-cell;vertical-align:top"">
                                         <div style=""background-color:transparent;width:100%!important"">
                                             <div style=""border-top:0px solid transparent;border-left:0px solid transparent;border-bottom:0px solid transparent;border-right:0px solid transparent;padding-top:5px;padding-bottom:5px;padding-right:0px;padding-left:0px"">
                                                 <div style=""font-size:16px;font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;text-align:center"">
-                                                    <div style=""display: flex; gap: 20px; justify-content: center; align-items: center; height: 100vh;"">
-                                                        <div style=""flex-basis: 45%;"">
-                                                            <table align=""center"" style=""margin:0 auto;width:450px;height:550px;border:5px solid #e0e6e8;padding:5px"">
+                                                    <div style=""display: flex; justify-content: center; align-items: center; height: 100vh;"">
+                                                        <div style=""display: flex; justify-content: center;  gap: 20px;"">
+                                                            <table align=""center"" style=""margin:0 auto;width:450px;height:600px;border:5px solid #e0e6e8;padding:5px"">
                                                                 <tbody>
                                                                     <tr>
                                                                         <td style=""text-align:center""><b>4Health Clinic</b></td>
@@ -105,8 +91,8 @@ public class EmailService : IEmailService
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <div style=""flex-basis: 45%;"">
-                                                            <table align=""center"" style=""margin: 0 auto; width: 450px; height: 550px; border: 5px solid #e0e6e8; padding: 5px; display: flex; flex-direction: column; justify-content: space-between;"">
+                                                        <div style=""display: flex; justify-content: center; margin-left: 15px;"">
+                                                            <table align=""center"" style=""margin: 0 auto; width: 450px; height: 600px; border: 5px solid #e0e6e8; padding: 5px; display: flex; flex-direction: column; justify-content: space-between;"">
                                                                 <tr>
                                                                     <td colspan=""2"" style=""text-align: center; vertical-align: bottom; padding-top: 60px; padding-bottom: 10px"">
                                                                         <p>

@@ -1,26 +1,39 @@
-@page "/changeschedule/{bookingId}
+@page "/changeschedule/{bookingId}"
+@using Clinic.BlazorWebPWA.Extensions
 @using Clinic.BlazorWebPWA.Extensions
 @using Clinic.Data.Models
 @inject IClinicService clinicService
 <PageTitle>Change Schedule</PageTitle>
 
-<div class="bg-light p-4 rounded-3">
-    <div class="mx-auto">
-        <div class="row">
-            <div class="mb-3 col-6">
-                <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
-                <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Style="width: 100%" Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
+<div class="container h-100 d-flex justify-content-center align-items-center">
+    <div class="card mh-100 shadow-lg m-5" style="border-radius: 1rem; max-width: 600px;">
+        <div class="card-body">
+            <div class="px-5 py-4" style="background-color: rgba(4, 17, 80); border-top-left-radius: 1rem; border-top-right-radius: 1rem ">
+                <h4 class="m-auto text-center text-white mb-2 mx-auto ">Change Schedule</h4>
             </div>
-            <div class="mb-3 col-6">
-                <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
-                <RadzenDropDown TValue="TimeSpan" Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent"/>
-            </div>
-        </div>
-         <div class="text-center col-md-4 p-2 mx-auto">
-                            <button @onclick="@(_ => SendSchedule())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Checkout </button>
-                        </div>
-    </div>
+            <div class="mx-4 my-3 px-5 py-4">
+                <div class="row">
+                    <div class="mb-6 col-md-6">
+                        <label for="date" class="form-label medium text-dark">Choose appointment date <small class="text-danger fw-bold">*</small></label>
+                        <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Style="width: 100%" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                     </div>
+                     <div class="mb-6 col-md-6">
+                         <label for="time" class="form-label medium text-dark">Choose appointment time <small class="text-danger fw-bold">*</small></label>
+                         <RadzenDropDown TValue="TimeSpan" Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                     </div>
+                 </div>
+             </div>
+             <div class="row justify-content-center pb-5">
+                 <div class="col-md-6">
+                     <div class="btn-group d-flex justify-content-center">
+                         <button @onclick="@(_ => SendSchedule())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Confirm </button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
 </div>
+
 @code {
     [Parameter] public string bookingId { get; set; }
     [Inject] IAccessTokenProvider TokenProvider { get; set; }
@@ -116,6 +129,7 @@
         if (response != null && response.IsSuccess)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Changed  Successfully" });
+            nav.NavigateTo("/", forceLoad: true);
         }
     }
 }
