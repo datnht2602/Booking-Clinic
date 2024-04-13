@@ -89,7 +89,8 @@ namespace Clinic.Booking.Message
                             DoctorId = existingBooking.DoctorId,
                             OrderTime = existingBooking.OrderPlacedDate,
                             Detail =  existingBooking.BriefViewModel,
-                            UserId = existingBooking.UserId
+                            UserId = existingBooking.UserId,
+                            ServiceCount = existingBooking.Products.Count()
                         };
                         var userResponse = await repository.UpdateSchedule(item);
                         if (userResponse.IsSuccessStatusCode)

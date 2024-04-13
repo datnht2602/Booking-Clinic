@@ -181,6 +181,7 @@
         {
             updateModel = JsonConvert.DeserializeObject<BookingDetailsViewModel>(Convert.ToString((response.Result)));
             viewModel = updateModel.BriefViewModel;
+            viewModel.ClinicNumber = updateModel.ClinicNum;
             updateModel.SaveInformation = updateModel.BriefViewModel.UserName == null ? true : false;
         }
     }
@@ -207,7 +208,7 @@
                 items.Add(item);
             }
 
-            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{updateModel.Id}");
+            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{updateModel.Id}",expiredAt: 5);
 
             CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 

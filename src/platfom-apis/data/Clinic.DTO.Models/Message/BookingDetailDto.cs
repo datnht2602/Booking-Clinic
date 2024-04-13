@@ -12,7 +12,7 @@ namespace Clinic.DTO.Models.Message
         public string UserId { get; set; }
         public int Specialization { get; set; }
         public string DoctorId { get; set; }
-
+        public int ClinicNum { get; set; }
         public string DoctorName { get; set; }
         public string Description { get; set; }
         public string CouponCode { get; set; }

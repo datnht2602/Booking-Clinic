@@ -1,11 +1,12 @@
 ﻿@page "/payment/success/{bookingId}"
 @using Clinic.DTO.Models.Message
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Clinic.Message
 @using System.Text
+@using Net.payOS
+@using Net.payOS.Types
 @inject NavigationManager nav
 @inject IClinicService clinicService
 @inject IHttpClientFactory ClientFactory
+@inject PayOS _payOS
 <PageTitle>Payment Success</PageTitle>
 
 <head>
@@ -31,6 +32,8 @@
     string invoiceId = Guid.NewGuid().ToString();
     protected async override Task OnInitializedAsync()
     {
+
+        PaymentLinkInformation paymentLinkInfomation = await _payOS.getPaymentLinkInfomation(1);
         InvoiceMessage message = new()
         {
             Id = bookingId,

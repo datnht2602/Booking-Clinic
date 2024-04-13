@@ -18,6 +18,7 @@ namespace Clinic.DTO.Models
 
         public int Price { get; set; }
         
-        public string FormattedTotal => $"{Price:N0} vnd";
+        public string FormattedTotal => $"{Price:N0}";
+        public string FormattedName => $"Service Name: {Name}, Price: {Price.ToString("C")}";
     }
 }

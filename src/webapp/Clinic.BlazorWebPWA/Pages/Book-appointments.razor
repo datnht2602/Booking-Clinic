@@ -56,7 +56,11 @@
                                             }
                                             else
                                             {
-                                                <RadzenDropDownDataGrid class="form-select"
+                                                <RadzenDropDown @bind-Value=@multipleValues Multiple=true AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Name="DropDownGroupingMultiSelect"
+                                                                Data=@booking.ProductListViewModels  ValueProperty="Id" TextProperty="FormattedName" MaxSelectedLabels="1" Style="margin-bottom: 20px; width: 100%"  Change="@(args => Change(args, "DropDown"))">
+                                                
+                                                </RadzenDropDown>
+                                                @*<RadzenDropDownDataGrid class="form-select"
                                                                         FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                         AllowFiltering="true" AllowClear="true"
                                                                         Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
@@ -64,7 +68,7 @@
                                                                         Placeholder="Select Service" MaxSelectedLabels="4"
                                                                         SelectAllText="Select all items" SelectedItemsText="are now selected"
                                                                         Change="@(args => Change(args,"DropDown"))">
-                                                </RadzenDropDownDataGrid>
+                                                </RadzenDropDownDataGrid>*@
 
                                             }
                                         </div>
@@ -82,7 +86,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label medium text-white">Total</label>
-                                <input type="text" class="form-control" placeholder="@booking.OrderTotal.ToString("C") vnd" readonly="False">
+                                <input type="text" class="form-control" placeholder="@booking.OrderTotal.ToString("C")" readonly="False">
                             </div>
                             <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto">
@@ -123,10 +127,20 @@
     void Change(object value, string name)
     {
         eventValue = value is IEnumerable<object> ? string.Join(",", (IEnumerable<object>)value) : (string)value;
-
-
-        booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
-        StateHasChanged();
+        if (multipleValues.Count() > 3)
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "3 services Are Max" });
+            List<string> tempList = multipleValues.ToList();
+            tempList.RemoveAt(tempList.Count - 1);
+            ErrorMessage = "You cannot book appointment";
+            multipleValues= tempList;
+        }
+        else
+        {
+            ErrorMessage = String.Empty;
+            booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
+            StateHasChanged();
+        }
     }
     async Task SelectDate(object value)
     {
@@ -229,15 +243,18 @@
             if (discount != null && discount.IsSuccess)
             {
                 var couponObj = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(discount.Result));
-                createBooking.DiscountTotal = couponObj.DiscountAmount;
-                booking.OrderTotal = booking.OrderTotal * (1 - couponObj.DiscountAmount / 100);
-                ExistCoupon = true;
-                NameApplyCoupon = "Remove";
-                StateHasChanged();
-            }
-            else
-            {
-                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Coupon is not available" });
+                if (couponObj != null)
+                {
+                    createBooking.DiscountTotal = couponObj.DiscountAmount;
+                    booking.OrderTotal = booking.OrderTotal * (1 - couponObj.DiscountAmount / 100);
+                    ExistCoupon = true;
+                    NameApplyCoupon = "Remove";
+                    StateHasChanged();
+                }
+                else
+                {
+                    NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Coupon is not available" });
+                }
             }
         }else if (ExistCoupon)
         {

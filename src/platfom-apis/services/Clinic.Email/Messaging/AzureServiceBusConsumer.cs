@@ -170,7 +170,7 @@ namespace Mango.Services.Email.Messaging
                                                                 <td style=""text-align:center;padding:0px;margin:0px""><p style=""margin:0px;margin-bottom:10px;color:#ff4500""></p></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style=""text-align:left;padding:10px"">Clinic Number: <b>{information.BriefViewModel.ClinicNumber}</b></td>
+                                                                <td style=""text-align:left;padding:10px"">Clinic Number: <b>{information.ClinicNum}</b></td>
                                                             </tr>
                                                             <tr>
                                                                 <td style=""text-align:left;padding:10px"">Date: <b>{information.OrderPlacedDate.GetDateTime().ToString("yyyy-MM-dd")}</b></td>
@@ -182,7 +182,7 @@ namespace Mango.Services.Email.Messaging
                                                                 <td style=""text-align:left;padding:10px"">Doctor: <b>{information.DoctorName}</b></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style=""text-align:left;padding:10px"">Name: <b>{information.UserName}</b></td>
+                                                                <td style=""text-align:left;padding:10px"">Name: <b>{information.BriefViewModel.UserName}</b></td>
                                                             </tr>
                                                             <tr>
                                                                 <td style=""text-align:left;padding:10px"">Gender: <b>{(information.BriefViewModel.Sexual == 1 ? "Male" : "Female")}</b></td>

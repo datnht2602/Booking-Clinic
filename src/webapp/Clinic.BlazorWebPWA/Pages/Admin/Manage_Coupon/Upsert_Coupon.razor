@@ -11,7 +11,7 @@
 @inject NotificationService NotificationService
 <PageTitle>Add Coupon</PageTitle>
 
-<link href="css/admin.css" rel="stylesheet" />
+<link href="css/admin.css" rel="stylesheet"/>
 
 <div class="page-wrapper">
     <div class="content">
@@ -43,49 +43,54 @@
                                         <h4>Doctor Details</h4>
                                     </div>
                                 </div>
-                                 <div class="col-12 col-md-6 col-xl-4">
-                                     <div class="input-block local-forms">
-                                         <label>Coupon Code <span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createCoupon.CouponCode" class="form-control" type="text" placeholder="" />
-                                     </div>
-                                 </div>
-                                 <div class="col-12 col-md-6 col-xl-4">
-                                     <div class="input-block local-forms">
-                                         <label>Discount Amount <span class="login-danger">*</span></label>
-                                        <InputNumber @bind-Value="createCoupon.DiscountAmount" class="form-control" type="text" placeholder="" />
-                                     </div>
-                                 </div>
-                                 <div class="col-12 col-md-6 col-xl-6">
-                                     <div class="input-block local-top-form">
-                                        <RadzenCheckBox @bind-Value=@createCoupon.IsEnable Name="CheckBox1" />
-                                        <RadzenLabel Text="Enable" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;" />
-                                     </div>
-                                 </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Coupon Code <span class="login-danger">*</span></label>
+                                        <InputText @bind-Value="createCoupon.CouponCode" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Discount Amount <span class="login-danger">*</span></label>
+                                        <InputNumber @bind-Value="createCoupon.DiscountAmount" class="form-control" type="text" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="input-block local-forms">
+                                        <label>Discount Amount <span class="login-danger">*</span></label>
+                                        <InputNumber @bind-Value="createCoupon.Quantity" class="form-control" type="number" placeholder=""/>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="input-block local-top-form">
+                                        <RadzenCheckBox @bind-Value=@createCoupon.IsEnable Name="CheckBox1"/>
+                                        <RadzenLabel Text="Enable" Component="CheckBox1" Style="margin-left: 8px; vertical-align: middle;"/>
+                                    </div>
+                                </div>
 
-                                 <div class="col-12">
-                                     <div class="doctor-submit text-end">
-                                         <button type="submit"
-                                                 class="btn btn-primary submit-form me-2">
-                                             Submit
-                                         </button>
-                                         <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-coupon", true))" class="btn btn-primary cancel-form">
-                                             Cancel
-                                         </button>
-                                     </div>
-                                 </div>
-                             </div>
-                         </EditForm>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div>
- </div>
+                                <div class="col-12">
+                                    <div class="doctor-submit text-end">
+                                        <button type="submit"
+                                                class="btn btn-primary submit-form me-2">
+                                            Submit
+                                        </button>
+                                        <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-coupon", true))" class="btn btn-primary cancel-form">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
- @code {
+@code {
 
-    [Inject]
-    IAccessTokenProvider TokenProvider { get; set; }
+    [Inject] IAccessTokenProvider TokenProvider { get; set; }
     NavigationManager NavigationManager { get; set; }
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());

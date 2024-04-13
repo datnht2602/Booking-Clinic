@@ -125,8 +125,8 @@
     private async Task SendSchedule()
     {
         Booking.OrderPlacedDate = DateOnly.Add(TimeOnly).Ticks;
-        var response = await clinicService.CreateOrUpdateBooking<ResponseDto>(Booking, accessToken);
-        if (response != null && response.IsSuccess)
+        var response = await clinicService.ChangeDoctorBooking<bool>(Booking, accessToken);
+        if (response)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Changed  Successfully" });
             nav.NavigateTo("/", forceLoad: true);

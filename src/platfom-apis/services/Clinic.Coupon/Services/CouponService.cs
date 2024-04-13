@@ -41,6 +41,13 @@ public class CouponService : ICouponService
         if(couponResponse.StatusCode != System.Net.HttpStatusCode.NoContent){
             var couponModel = await couponResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Coupon>().ConfigureAwait(false);
             coupon = autoMapper.Map<CouponDto>(couponModel);
+            couponModel.Quantity -= 1;
+            if (couponModel.Quantity <= 0)
+            {
+                couponModel.IsEnable = false;
+            }
+
+            await this.UpdateCouponAsync(couponModel);
         }
         result.Result = coupon;
         return result;

@@ -123,6 +123,17 @@ namespace Clinic.Identity.Controllers
                     UserId = dto.UserId,
                     Time = dto.OrderTime
                 });
+                if (dto.ServiceCount == 3)
+                {
+                    TimeSpan additionalTime = new TimeSpan(0, 30, 0); // 30 minutes
+                    long additionalTicks = additionalTime.Ticks;
+                    long newTimeInTicks = dto.OrderTime + additionalTicks;
+                    doctor.ScheduleTimes.Add(new ScheduleTime
+                    {
+                        UserId = dto.UserId,
+                        Time = newTimeInTicks
+                    });
+                }
                 await _userManager.UpdateAsync(doctor);
             }
             if(user != null)

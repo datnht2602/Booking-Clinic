@@ -12,5 +12,6 @@ namespace Clinic.DTO.Models.Model
         public string UserId { get; set; }
         public long OrderTime { get; set; }
         public BriefViewModel Detail { get; set; }
+        public int ServiceCount { get; set; }
     }
 }

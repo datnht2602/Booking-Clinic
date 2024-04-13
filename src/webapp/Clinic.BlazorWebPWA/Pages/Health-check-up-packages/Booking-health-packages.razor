@@ -51,7 +51,12 @@
                                         }
                                         else
                                         {
-                                            <RadzenDropDownDataGrid class="form-select"
+                                           
+                                            <RadzenDropDown @bind-Value=@multipleValues Multiple=true AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Name="DropDownGroupingMultiSelect"
+                                                            Data=@viewModel.Products  ValueProperty="Id" TextProperty="FormattedName" MaxSelectedLabels="1" Style="margin-bottom: 20px; width: 100%"  Change="@(args => Change(args, "DropDown"))">
+                                                
+                                            </RadzenDropDown>
+                                            @*<RadzenDropDownDataGrid class="form-select"
                                                                     FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                                                                     AllowFiltering="true" AllowClear="true"
                                                                     Data="@viewModel.Products" @bind-Value="multipleValues" Multiple="true"
@@ -59,7 +64,7 @@
                                                                     Placeholder="Select Service" MaxSelectedLabels="4"
                                                                     SelectAllText="Select all items" SelectedItemsText="are now selected"
                                                                     Change="@(args => Change(args, "DropDown"))">
-                                            </RadzenDropDownDataGrid>
+                                            </RadzenDropDownDataGrid>*@
                                         }
                                     </div>
                                 </div>
@@ -76,7 +81,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label medium text-white">Total</label>
-                                <input type="text" class="form-control" placeholder="@viewModel.Price.ToString("C") vnd" readonly="False">
+                                <input type="text" class="form-control" placeholder="@viewModel.Price.ToString("C")" readonly="False">
                         </div>
                         <div>
                             <div class="text-center col-lg-5 py-4 mx-auto">
