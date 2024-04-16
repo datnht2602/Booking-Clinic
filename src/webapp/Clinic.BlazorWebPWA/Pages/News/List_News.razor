@@ -30,23 +30,17 @@
                         <div class="page-table-header mb-2">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <div class="news-table-blk">
+                                    <div class="doctor-table-blk">
                                         <h3>Medical News List</h3>
-                                        <div class="news-search-blk">
+                                        <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input type="text" value="@blogName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
-                                                <RadzenButton Click=@(args => nav.NavigateTo("/upsert-news")) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
+                                                <RadzenButton Click=@(_ => nav.NavigateTo($"upsert-news", true)) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt></a>
-                                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt></a>
-                                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt></a>
-                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt></a>
                                 </div>
                             </div>
                         </div>
