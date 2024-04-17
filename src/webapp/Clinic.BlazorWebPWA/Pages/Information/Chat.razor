@@ -1,0 +1,59 @@
+﻿@page "/chat"
+@using Clinic.DTO.Models.Dto
+@using Clinic.BlazorWebPWA.Extensions
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject IClinicService clinicService
+@inject NavigationManager nav
+
+<PageTitle>Chat</PageTitle>
+
+<head>
+    <link rel="stylesheet" href="css/user.css" />
+</head>
+
+<main class="flex-shrink-0">
+    <div class="container px-5">
+        <div class="user-wrapper">
+            <div>
+                <div class="row usr-hdr">
+                    <SideBarProfile />
+                    <div class="col-md-9 col-lg-9 p-0">
+                        <h1 class="user-ttl">Chat</h1>
+                        <div class="user-container">
+                            <div class="user-body py-3">
+                                <div class="col-md-3 col-sm-1">
+
+                                </div>
+                                <div class="col-md-9 col-sm-11">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@* <script>
+    jQuery(document).ready(function () {
+
+    $(".chat-list a").click(function () {
+    $(".chatbox").addClass('showbox');
+    return false;
+    });
+
+    $(".chat-icon").click(function () {
+    $(".chatbox").removeClass('showbox');
+    });
+
+
+    });
+    </script> *@
+
+@code {
+    [Parameter] public string id { get; set; }
+    [Parameter] public string role { get; set; }
+}

@@ -5,73 +5,73 @@
 <PageTitle>Profile</PageTitle>
 
 <head>
-    <link rel="stylesheet" href="css/user.css"/>
+    <link rel="stylesheet" href="css/user.css" />
 </head>
 
 <body style="background: none !important">
-<main class="flex-shrink-0">
-    <div class="container px-5">
-        <div class="user-wrapper">
-            <div>
-                <div class="row usr-hdr">
-                    <SideBarProfile/>
-                    <div class="col-md-9 col-lg-9 p-0">
-                        <h1 class="user-ttl">Profile</h1>
-                        <div class="user-container">
-                            <div class="user-body py-3">
-                               <EditForm Model="update" OnValidSubmit="HandleUpdate">
-                                    <div class="row pt-3">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="Fname" class="form-label medium text-navy fw-bold">Full Name</label>
-                                            <InputText @bind-Value="update.UserName" class="form-control py-2" required/>
+    <main class="flex-shrink-0">
+        <div class="container px-5">
+            <div class="user-wrapper">
+                <div>
+                    <div class="row usr-hdr">
+                        <SideBarProfile />
+                        <div class="col-md-9 col-lg-9 p-0">
+                            <h1 class="user-ttl">Profile</h1>
+                            <div class="user-container">
+                                <div class="user-body py-3">
+                                    <EditForm Model="update" OnValidSubmit="HandleUpdate">
+                                        <div class="row pt-3">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="Fname" class="form-label medium text-navy fw-bold">Full Name</label>
+                                                <InputText @bind-Value="update.UserName" class="form-control py-2" required />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="code" class="form-label medium text-navy fw-bold">Health Insurance Code</label>
+                                                <InputText @bind-Value="update.HealthInsuranceCode" class="form-control  py-2" required />
+                                            </div>
                                         </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="code" class="form-label medium text-navy fw-bold">Health Insurance Code</label>
-                                            <InputText @bind-Value="update.HealthInsuranceCode" class="form-control  py-2" required/>
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="Pnumbers" class="form-label medium text-navy fw-bold">Phone numbers</label>
+                                                <InputText @bind-Value="update.PhoneNumber" class="form-control  py-2" required />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="email" class="form-label medium text-navy fw-bold">Email</label>
+                                                <InputText @bind-Value="update.Email" class="form-control  py-2" required />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="Pnumbers" class="form-label medium text-navy fw-bold">Phone numbers</label>
-                                            <InputText @bind-Value="update.PhoneNumber" class="form-control  py-2" required/>
+                                        <div class="row">
+                                            <div class="mb-3 col-md-6">
+                                                <label for="Dob" class="form-label medium text-navy fw-bold">Date of birth</label>
+                                                <RadzenDatePicker @bind-Value=@update.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                                            </div>
+                                            <div class="mb-3 col-md-6">
+                                                <label for="gender" class="form-label medium text-navy fw-bold">Gender</label>
+                                                <InputSelect @bind-Value="update.Sexual" class="form-select  py-2">
+                                                    <option selected>Choose gender</option>
+                                                    <option value="1">Male</option>
+                                                    <option value="2">Female</option>
+                                                    <option value="3">Other</option>
+                                                </InputSelect>
+                                            </div>
                                         </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="email" class="form-label medium text-navy fw-bold">Email</label>
-                                            <InputText @bind-Value="update.Email" class="form-control  py-2" required/>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="Dob" class="form-label medium text-navy fw-bold">Date of birth</label>
-                                                      <RadzenDatePicker @bind-Value=@update.DateOfBirth DateFormat="dd/MM/yyyy" Style="width: 100%" required Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
-                                        </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="gender" class="form-label medium text-navy fw-bold">Gender</label>
-                                            <InputSelect @bind-Value="update.Sexual" class="form-select  py-2">
-                                                <option selected>Choose gender</option>
-                                                <option value="1">Male</option>
-                                                <option value="2">Female</option>
-                                                <option value="3">Other</option>
-                                            </InputSelect>
-                                        </div>
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="address" class="form-label medium text-navy fw-bold">Address</label>
-                                        <InputText @bind-Value="update.Address" class="form-control py-2" required/>
-                                    </div>
-                                    <div class="text-right">
-                                        <button type="submit" class="btn btn-outline-primary mx-3">Update</button>
-                                    </div>
-                                 </EditForm>
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label medium text-navy fw-bold">Address</label>
+                                            <InputText @bind-Value="update.Address" class="form-control py-2" required />
+                                        </div>
+                                        <div class="text-right">
+                                            <button type="submit" class="btn btn-outline-primary mx-3">Update</button>
+                                        </div>
+                                    </EditForm>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 </body>
 
 @code {
