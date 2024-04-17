@@ -208,67 +208,15 @@
                                     <li><a href="/">Edit Schedule</a></li>
                                 </ul> *@
                             </li>
-                           @*  <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-house-medical-flag"></i></span> <span> Departments </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="/">Department List</a></li>
-                                    <li><a href="/">Add Department</a></li>
-                                    <li><a href="/">Edit Department</a></li>
-                                </ul>
-                            </li>
-                            <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-file-invoice-dollar"></i></span> <span> Accounts </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="/">Invoices</a></li>
-                                    <li><a href="/">Payments</a></li>
-                                    <li><a href="/">Expenses</a></li>
-                                    <li><a href="/">Taxes</a></li>
-                                    <li><a href="/">Provident Fund</a></li>
-                                </ul>
-                            </li> *@
-                          @*   <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-money-check-dollar"></i></span> <span> Payroll </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="/"> Employee Salary </a></li>
-                                    <li><a href="/"> Payslip </a></li>
-                                </ul>
-                            </li> *@
+                           
                             <li>
                                 <a href="/"><span class="menu-side"><i class="fa-solid fa-comment-dots"></i></span> <span>Chat</span></a>
                             </li>
 
-                          @*   <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-envelope"></i></span> <span> Email</span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="/">Compose Mail</a></li>
-                                    <li><a href="/">Inbox</a></li>
-                                    <li><a href="/">Mail View</a></li>
-                                </ul>
-                            </li> *@
                             <li class="submenu">
                                 <a @onclick="@(_ => nav.NavigateTo("/list-news",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-book-open"></i></span> <span> Blog</span> <span class="menu-arrow"></span></a>
                             </li>
-                          @*   <li>
-                                <a href="/"><span class="menu-side"><img src="img/icons/menu-icon-14.svg" alt></span> <span>Activities</span></a>
-                            </li> *@
-                          @*   <li class="submenu">
-                                <a style="cursor: pointer"><i class="fa fa-flag"></i> <span> Reports </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="/"> Expense Report </a></li>
-                                    <li><a href="/"> Invoice Report </a></li>
-                                </ul>
-                            </li> *@
-                          @*   <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><img src="img/icons/menu-icon-15.svg" alt></span> <span> Invoice </span> <span class="menu-arrow"></span></a>
-                                <ul style="display: none;">
-                                    <li><a href="/"> Invoices List </a></li>
-                                    <li><a href="/"> Invoices Grid</a></li>
-                                    <li><a href="/"> Add Invoices</a></li>
-                                    <li><a href="/"> Edit Invoices</a></li>
-                                    <li><a href="/"> Invoices Details</a></li>
-                                    <li><a href="/"> Invoices Settings</a></li>
-                                </ul>
-                            </li> *@
+                         
                         </ul>
                         <div class="logout-btn">
                             <a @onclick="LogOut" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-right-from-bracket"></i></span> <span>Logout</span></a>
