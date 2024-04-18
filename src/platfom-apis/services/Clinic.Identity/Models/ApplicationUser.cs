@@ -15,5 +15,6 @@ namespace Clinic.Identity.Models
         public double AverageRating { get; set; }
         public List<ScheduleTime> ScheduleTimes { get; set; }
         public List<FeedBack> FeedBacks { get; set; }
+        public long CreatedTime { get; set; } = DateTime.Now.Ticks;
     }
 }

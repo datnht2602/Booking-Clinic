@@ -9,7 +9,7 @@ public interface IClinicService : IBaseService
     Task<T> GetScheduleAsync<T>(string doctorId);
     Task<T> GetBookingViewAsync<T>(string userId,string accessToken);
 
-    Task<T> GetDoctorByIdAsync<T>(string id);
+    Task<T> GetListUser<T>(string accessToken);
 
     Task<T> CreateOrUpdateBooking<T>(BookingDetailsViewModel model,string accessToken);
 

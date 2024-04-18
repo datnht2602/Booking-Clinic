@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Clinic.Common.Options;
 using Clinic.Identity;
 using Clinic.Identity.Data;
 using Clinic.Identity.Models;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace webapp.Pages.Create;
 
@@ -26,6 +28,7 @@ public class Index : PageModel
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ApplicationDbContext _db;
     private readonly IIdentityServerInteractionService _interaction;
+    private readonly IOptions<ApplicationSettings> applicationSettings;
 
     [BindProperty]
     public InputModel Input { get; set; }
@@ -35,18 +38,19 @@ public class Index : PageModel
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         RoleManager<IdentityRole> roleManager,
-        ApplicationDbContext db)
+        ApplicationDbContext db,
+        IOptions<ApplicationSettings> applicationSettings)
     {
         _db = db;
         _roleManager = roleManager;
         _userManager = userManager;
         _signInManager = signInManager;
         _interaction = interaction;
+        this.applicationSettings = applicationSettings;
     }
 
     public IActionResult OnGet(string returnUrl)
     {
-        if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
         Input = new InputModel { ReturnUrl = returnUrl };
         return Page();
     }
@@ -131,7 +135,7 @@ public class Index : PageModel
             // request for a local page
             if (Url.IsLocalUrl(Input.ReturnUrl))
             {
-                return Redirect(Input.ReturnUrl);
+                return Redirect($"{Input.ReturnUrl}account/login");
             }
             else if (string.IsNullOrEmpty(Input.ReturnUrl))
             {

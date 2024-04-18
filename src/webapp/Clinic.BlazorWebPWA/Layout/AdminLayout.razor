@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject SignOutSessionStateManager SignOutManager
 
 <RadzenComponents />
 <PageTitle>Clinic.BlazorwebAdmin</PageTitle>
@@ -126,7 +126,7 @@
                     <li class="nav-item dropdown has-arrow user-profile-list">
                         <a href="#" class="dropdown-toggle nav-link user-link" data-bs-toggle="dropdown">
                             <div class="user-names">
-                                <h5>Liam Michael </h5>
+                                <h5>Young Blood </h5>
                                 <span>Admin</span>
                             </div>
                             <span class="user-img">
@@ -160,9 +160,9 @@
                         <ul>
                             <li class="menu-title">Main</li>
                             <li class="submenu">
-                                <a style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-poll-horizontal"></i></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
+                                <a @onclick="@(_ => nav.NavigateTo("/admin",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-square-poll-horizontal"></i></span> <span> Dashboard </span> <span class="menu-arrow"></span></a>
                                 <ul style="display: none;">
-                                    <li><a href="admin">Admin Dashboard</a></li>
+                                    <li><a >Admin Dashboard</a></li>
                                   @*   <li><a href="doctor-dashboard">Doctor Dashboard</a></li>
                                     <li><a href="patient-dashboard">Patient Dashboard</a></li> *@
                                 </ul>
@@ -271,7 +271,7 @@
                             </li> *@
                         </ul>
                         <div class="logout-btn">
-                            <a @onclick="@(_ => nav.NavigateTo($"/authentication/logout", true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-right-from-bracket"></i></span> <span>Logout</span></a>
+                            <a @onclick="LogOut" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-right-from-bracket"></i></span> <span>Logout</span></a>
                         </div>
                     </div>
                 </div>
@@ -294,3 +294,12 @@
         </div>
     </NotAuthorized>
 </AuthorizeView>
+@code{
+
+    public async Task LogOut()
+    {
+        await SignOutManager.SetSignOutState();
+        nav.NavigateTo("authentication/logout",true);
+    }
+
+}

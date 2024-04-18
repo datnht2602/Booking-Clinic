@@ -203,6 +203,15 @@ namespace Clinic.Identity.Controllers
             return Ok(true);
         }
         [HttpGet]
+        public async Task<IActionResult> GetNewUser()
+        {
+            var user = await _userManager.GetUsersInRoleAsync(SD.PATIENT);
+            DateTime today = DateTime.Now;
+            DateTime firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+            var result = user.Where(x => x.CreatedTime >= firstDayOfMonth.Ticks);
+            return Ok(user.Count());
+        }
+        [HttpGet]
         public async Task<IActionResult> GetDoctorSchedule(string userId)
         {
             BookingViewModel model = new();

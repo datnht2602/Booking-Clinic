@@ -155,7 +155,7 @@ public class Index : PageModel
                 // request for a local page
                 if (Url.IsLocalUrl(Input.ReturnUrl))
                 {
-                    return Redirect(Input.ReturnUrl);
+                    return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
                 }
                 else if (string.IsNullOrEmpty(Input.ReturnUrl))
                 {

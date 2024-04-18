@@ -45,10 +45,16 @@ public class ClinicService :  BaseService,IClinicService
         });
     }
 
-    public Task<T> GetDoctorByIdAsync<T>(string id)
+    public async Task<T> GetListUser<T>(string accessToken)
     {
-        throw new NotImplementedException();
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = "getnewuser",
+            AccessToken = accessToken
+        });
     }
+    
 
     public async Task<T> CreateOrUpdateBooking<T>(BookingDetailsViewModel model,string accessToken)
     {

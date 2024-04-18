@@ -3,6 +3,8 @@
 
 
 using System.ComponentModel.DataAnnotations;
+using Clinic.Common.Options;
+using Microsoft.Extensions.Options;
 
 namespace webapp.Pages.Login;
 
@@ -18,8 +20,8 @@ public class InputModel
     public string Password { get; set; }
         
     public bool RememberLogin { get; set; }
-        
-    public string ReturnUrl { get; set; }
+
+    public string ReturnUrl { get; set; } = "https://localhost:7072";
 
     public string Button { get; set; }
 }
