@@ -32,8 +32,6 @@
 <script src="_framework/blazor.webassembly.js"></script>
 <script>navigator.serviceWorker.register('service-worker.js');</script>
 
-
-
 <AuthorizeView Roles="admin">
     <Authorized>
         <div class="main-wrapper">
@@ -43,7 +41,7 @@
                         <img src="img/logo.png" height="35" alt="4Health Clinic Booking">
                     </a>
                 </div>
-                <a id="toggle_btn" href="javascript:void(0);"><i class="fa-solid fa-bars"></i></a>
+                <a id="toggle_btn" class="text-dark"><i class="fa-solid fa-bars"></i></a>
                 <a id="mobile_btn" class="mobile_btn float-start" href="#sidebar"><i class="fa-solid fa-bars"></i></a>
                 <div class="top-nav-search mob-view">
                     <form>
@@ -72,9 +70,9 @@
                         </div>
                     </li>
                     <li class="nav-item dropdown d-none d-md-block">
-                        <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa-solid fa-bell"></i><span class="pulse"></span> </a>
+                        <a id="open_msg_box" class="hasnotifications nav-link"><i class="fa-solid fa-bell"></i><span class="pulse"></span> </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-arrow user-profile-list">
                         <a href="#" class="nav-link user-link">
                             <div class="user-names">
                                 <h5>Young Blood </h5>

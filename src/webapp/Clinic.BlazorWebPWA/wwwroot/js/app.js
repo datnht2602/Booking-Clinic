@@ -455,23 +455,7 @@ $(document).ready(function ($) {
         $(this).parent().find('#checkBoxes').fadeToggle();
         $(this).parent().parent().siblings().find('#checkBoxes').fadeOut();
     });
-    $('.invoices-main-form .selectBox').on("click", function () {
-        $(this).parent().find('#checkBoxes-one').fadeToggle();
-        $(this).parent().parent().siblings().find('#checkBoxes-one').fadeOut();
-    });
-    $(function () {
-        $("input[name='invoice']").click(function () {
-            if ($("#chkYes").is(":checked")) {
-                $("#show-invoices").show();
-            } else {
-                $("#show-invoices").hide();
-            }
-        });
-    });
-    $(".add-table-items").on('click', '.remove-btn', function () {
-        $(this).closest('.add-row').remove();
-        return false;
-    });
+
     if ($('#editor').length > 0) {
         ClassicEditor.create(document.querySelector('#editor'), {
             toolbar: ['bold', 'italic', 'link']
