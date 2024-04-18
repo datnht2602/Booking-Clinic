@@ -6500,86 +6500,6 @@ html.menu-opened {
     white-space: nowrap;
 }
 
-/*-----------------
-	24. Invoice
------------------------*/
-
-.invoice-details,
-.invoice-payment-details > li span {
-    float: right;
-    text-align: right;
-}
-
-.attach-files > ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.attach-files li {
-    display: inline-block;
-    margin-right: 10px;
-    position: relative;
-}
-
-    .attach-files li img {
-        width: 50px;
-    }
-
-.file-remove {
-    color: #f00;
-    position: absolute;
-    right: -6px;
-    top: -7px;
-}
-
-.attach-files li:last-child {
-    margin-right: 0;
-}
-
-.inv-logo {
-    height: auto;
-    margin-bottom: 20px;
-    max-height: 100px;
-    width: auto;
-}
-
-.form-amt {
-    border: 1px solid #fff;
-}
-
-.page-title-icon {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.invoices-links:last-child {
-    margin-right: 0px;
-}
-
-.invoices-links {
-    color: #1B2559;
-    margin-right: 20px;
-}
-
-.invoice-inner-datepic {
-    border: 0;
-    padding-left: 0;
-}
-
-.invoice-inner-datepic {
-    border: 0;
-    padding-left: 0;
-}
-
-.invoices-form .inovices-month-info .form-control {
-    height: 42px;
-}
 
 .app-listing {
     padding: 0;
@@ -6826,118 +6746,6 @@ html.menu-opened {
 .custom_check input:checked ~ .checkmark {
     background-color: #2e37a4;
     border-color: #2e37a4;
-}
-
-.invoices-tabs-card {
-    background: transparent;
-    box-shadow: none;
-    border: 0;
-}
-
-.inovices-card .card-body {
-    padding: 15px;
-}
-
-.invoices-main-tabs {
-    border-bottom: 2px solid #F3F3F3;
-    padding-bottom: 10px;
-}
-
-.invoices-tabs ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-    .invoices-tabs ul li {
-        position: relative;
-        display: inline-block;
-        margin-right: 36px;
-    }
-
-        .invoices-tabs ul li a.active {
-            color: #2e37a4;
-            border-bottom: 2px solid #2e37a4;
-        }
-
-.invoices-settings-btn {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    justify-content: end;
-    -webkit-justify-content: end;
-    -ms-flex-pack: end;
-}
-
-.invoices-settings-icon {
-    color: #2e37a4;
-    margin-right: 20px;
-}
-
-.invoices-settings-btn .btn {
-    font-weight: 600;
-    color: #fff;
-    background-color: #2e37a4;
-    padding: 12px 0;
-    min-width: 167px;
-    border: 1px solid #2e37a4;
-    border-radius: 6px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    justify-content: center;
-    -webkit-justify-content: center;
-    -ms-flex-pack: center;
-}
-
-.inovices-card {
-    border-radius: 5px;
-}
-
-.inovices-widget-header {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    justify-content: space-between;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: space-between;
-}
-
-.inovices-widget-icon img {
-    width: 50px;
-}
-
-.inovices-widget-header .inovices-amount {
-    font-weight: 600;
-    font-size: 20px;
-    color: #2e37a4;
-}
-
-.inovices-all {
-    font-weight: 500;
-    color: #1B2559;
-    margin-top: 16px;
-}
-
-    .inovices-all span {
-        font-size: 10px;
-        margin-left: 15px;
-    }
-
-.invoices-tabs ul li a {
-    font-weight: 500;
-    font-size: 15px;
-    color: #1B2559;
-    padding-bottom: 24px;
 }
 
 table .badge {
@@ -13411,19 +13219,6 @@ body[data-layout-mode=dark] .alertify .ajs-header {
         padding: 10px;
     }
 
-    .invoices-view {
-        width: 90%;
-        float: right;
-    }
-
-    .invoices-tabs ul li {
-        margin-right: 10px;
-    }
-
-        .invoices-tabs ul li a {
-            font-size: 14px;
-        }
-
     .login-wrap-bg {
         padding: 15px 50px 15px;
     }
@@ -13546,11 +13341,6 @@ body[data-layout-mode=dark] .alertify .ajs-header {
     .slide-nav .page-wrapper {
         left: 225px;
         margin-left: 0;
-    }
-
-    .invoices-view {
-        width: 100%;
-        float: none;
     }
 
     #toggle_btn {
