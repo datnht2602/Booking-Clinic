@@ -42,19 +42,19 @@
                             <div class="col-12">
                                 <div class="input-block local-forms">
                                     <label>Title <span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createBlog.Title" class="form-control" type="text" />
+                                        <InputText @bind-Value="createBlog.Title" class="form-control" type="text" required/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <div class="input-block local-forms">
                                     <label>Summary<span class="login-danger">*</span></label>
-                                    <textarea @bind="createBlog.Summary" class="form-control" rows="3" cols="30"></textarea>
+                                    <textarea @bind="createBlog.Summary" class="form-control" rows="3" cols="30" required></textarea>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12">
                                 <div class="input-block local-forms">
                                     <label>Description<span class="login-danger">*</span></label>
-                                        <textarea @bind="createBlog.Description" class="form-control" rows="3" cols="30"></textarea>
+                                        <textarea @bind="createBlog.Description" class="form-control" rows="3" cols="30" required></textarea>
                                 </div>
                             </div>
                                 <div class="col-12 col-md-6 col-xl-6">
