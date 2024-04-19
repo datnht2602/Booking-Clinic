@@ -43,14 +43,14 @@
                                 <div class="col-12">
                                     <div class="input-block local-forms">
                                         <label>Service's Name<span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createProduct.Name" class="form-control" type="text"/>
+                                        <InputText @bind-Value="createProduct.Name" class="form-control" type="text" required />
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6">
                                     <div class="input-block local-forms">
                                         <label>Creator<span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createProduct.Authors" class="form-control" type="text"/>
+                                        <InputText @bind-Value="createProduct.Authors" class="form-control" type="text" required />
                                     </div>
                                 </div>
 
@@ -85,7 +85,7 @@
                                 <div class="col-12 col-sm-12">
                                     <div class="input-block local-forms">
                                         <label>Description<span class="login-danger">*</span></label>
-                                        <textarea @bind="@createProduct.Description" class="form-control" rows="3" cols="30"></textarea>
+                                        <textarea @bind="@createProduct.Description" class="form-control" rows="3" cols="30" required></textarea>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">

@@ -21,7 +21,7 @@
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="doctors.html">Doctors </a>
+                            <a href="list-doctor">Doctors </a>
                         </li>
                         <li class="breadcrumb-item">
                             <i class="fa-solid fa-chevron-right"></i>
@@ -46,7 +46,7 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
                                         <label>Username <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="text" placeholder=""/>
+                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="text" placeholder="" required />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -55,21 +55,22 @@
                                         <input @bind-value="@createDoctor.Password" class="form-control"
 
                                                type="text"
-                                               placeholder=""/>
+                                               placeholder=""
+                                               required/>
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-forms">
                                         <label>Name <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.Name" class="form-control" type="text" placeholder=""/>
+                                        <input @bind-value="@createDoctor.Name" class="form-control" type="text" placeholder="" required />
                                     </div>
                                 </div>
 
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-forms">
                                         <label>Phone Number <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="text" placeholder=""/>
+                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="text" placeholder="" required />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">

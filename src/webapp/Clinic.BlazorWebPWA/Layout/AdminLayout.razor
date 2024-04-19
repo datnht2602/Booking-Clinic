@@ -84,15 +84,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="dropdown mobile-user-menu float-end">
-                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-ellipsis-vertical"></i></a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="profile.html">My Profile</a>
-                        <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                        <a class="dropdown-item" href="settings.html">Settings</a>
-                        <a class="dropdown-item" href="login.html">Logout</a>
-                    </div>
-                </div>
+
             </div>
             <div class="sidebar" id="sidebar">
                 <div class="sidebar-inner slimscroll">
@@ -116,7 +108,7 @@
                             </li>
 
                             <li class="submenu">
-                                <a @onclick="@(_ => nav.NavigateTo("/list-doctor",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-calendar-day"></i></span> <span> Doctors </span> </a>
+                                <a @onclick="@(_ => nav.NavigateTo("/list-doctor",true))" style="cursor: pointer"><span class="menu-side"><i class="fa-solid fa-user-doctor"></i></span> <span> Doctors </span> </a>
                                 @*  <ul style="display: none;">
                                 <li><a href="/">Schedule List</a></li>
                                 <li><a href="/">Add Schedule</a></li>
