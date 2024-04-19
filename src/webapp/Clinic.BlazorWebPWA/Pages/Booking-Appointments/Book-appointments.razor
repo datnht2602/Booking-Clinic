@@ -18,7 +18,7 @@
             <div class="container px-5 py-5 appointments">
                 <div>
                     <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-2">BOOK APPOINTMENT</h2>
-                
+
                     <EditForm Model="createBooking" OnValidSubmit="HandleBookingCreate">
                         <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
                             <div class="row">
@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="mb-3 col-6">
                                     <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
-                                    <RadzenDropDown TValue="TimeSpan"   Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />                               
+                                    <RadzenDropDown TValue="TimeSpan" Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -52,7 +52,9 @@
                                             <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
                                             @if (booking.ProductListViewModels == null)
                                             {
-                                                <p class="text-white"><em>Loading....</em></p>
+                                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                                                    <span class="fs-5"><em>Loading...</em></span>
+                                                </div>
                                             }
                                             else
                                             {
@@ -120,7 +122,7 @@
     IEnumerable<string> multipleValues;
     // Get the list of time slots
     List<TimeSpan> timeSlots = Extension.GetTimeSlots();
-    public string NameApplyCoupon  = "Apply";
+    public string NameApplyCoupon = "Apply";
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
     //public string FormattedTotal => $"{booking.OrderTotal:N0} vnd";
@@ -154,7 +156,8 @@
          DialogService.Close();
      });
         DateOnly = (DateTime)value;
-        if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks){
+        if (DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
+        {
             ErrorMessage = "You can not book time before";
             await BusyDialog(ErrorMessage);
         }
@@ -175,7 +178,7 @@
                 }
                 StateHasChanged();
             }
-        }      
+        }
     }
     async Task SelectTime(object value)
     {
@@ -202,7 +205,7 @@
                 if (result.Any(x => x == DateOnly.Add(TimeOnly).Ticks))
                 {
                     ErrorMessage = "Schedule has been booked";
-                    await BusyDialog(ErrorMessage);                 
+                    await BusyDialog(ErrorMessage);
                 }
                 else
                 {
@@ -257,7 +260,8 @@
                     NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Coupon is not available" });
                 }
             }
-        }else if (ExistCoupon)
+        }
+        else if (ExistCoupon)
         {
             booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
             ExistCoupon = false;

@@ -27,7 +27,7 @@
             </li>
 
             <li class="user-appointments">
-                <a href=@($"/view-history/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-calendar-days"></i>History</a>
+                <a href=@($"/view-history/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-solid fa-clock-rotate-left"></i>History</a>
             </li>
             <li class="user-chat">
                 @*
