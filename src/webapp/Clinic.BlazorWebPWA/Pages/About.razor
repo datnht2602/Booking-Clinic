@@ -107,64 +107,51 @@
                         </div>
                         <div id="serviceCarousel" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-                                        <!-- Service items for the first slide -->
-                                        <!-- Item 1 -->
-                                        <div class="col mb-5 mb-5 mb-xl-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">General dental examination package</h5>
+                                @for (var i = 1; i <= doctorFilter.Count(); i += 3 )
+                                {
+                                    if (i < 4)
+                                    {
+                                        <div class="carousel-item active">
+                                            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                                                <!-- Service items for the first slide -->
+                                                <!-- Item 1 -->
+                                                @for (var y = i; y <= i+3; y++)
+                                                {
+                                                    if (y <= doctorFilter.Count())
+                                                    {
+                                                        <div class="col mb-5 mb-5 mb-xl-0">
+                                                            <div class="text-center">
+                                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">@doctorFilter[y]</h5>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                            
+                                                }
                                             </div>
-                                        </div>
-                                        <!-- Item 2 -->
-                                        <div class="col mb-5 mb-5 mb-xl-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1s">General health check package</h5>
+                                        </div> 
+                                    }
+                                    else
+                                    {
+                                        <div class="carousel-item">
+                                            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                                                <!-- Service items for the first slide -->
+                                                <!-- Item 1 -->
+                                                @for (var y = i; y <= i+3; y++)
+                                                {
+                                                    if (y <= doctorFilter.Count())
+                                                    {
+                                                        <div class="col mb-5 mb-5 mb-xl-0">
+                                                            <div class="text-center">
+                                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">@doctorFilter[y]</h5>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                            
+                                                }
                                             </div>
-                                        </div>
-                                        <!-- Item 3 -->
-                                        <div class="col mb-5 mb-5 mb-sm-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1.5s">General Ear - Nose - Throat examination package</h5>
-                                            </div>
-                                        </div>
-                                        <!-- Item 4 -->
-                                        <div class="col mb-5">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="2s">General dental examination package</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Additional carousel items can be added here -->
-                                <div class="carousel-item ">
-                                    <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-                                        <!-- Service items for the first slide -->
-                                        <!-- Item 1 -->
-                                        <div class="col mb-5 mb-5 mb-xl-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">General dental examination package</h5>
-                                            </div>
-                                        </div>
-                                        <!-- Item 2 -->
-                                        <div class="col mb-5 mb-5 mb-xl-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1s">General health check package</h5>
-                                            </div>
-                                        </div>
-                                        <!-- Item 3 -->
-                                        <div class="col mb-5 mb-5 mb-sm-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="1.5s">General Ear - Nose - Throat examination package</h5>
-                                            </div>
-                                        </div>
-                                        <div class="col mb-5 mb-5 mb-sm-0">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder wow animate__animated animate__fadeIn" data-wow-duration="1s" data-wow-delay="2s">General Ear - Nose - Throat examination package</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </div> 
+                                    }
+                                }
                             </div>
                         </div>
                         <div class="align-items-center">
@@ -188,3 +175,12 @@
         new WOW().init();
     </script>
 </body>
+@code
+{
+    Dictionary<int, string> doctorFilter = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
+    protected override void OnInitialized()
+    {
+        int firstElement = doctorFilter.Keys.First();
+        doctorFilter.Remove(firstElement);
+    }
+}

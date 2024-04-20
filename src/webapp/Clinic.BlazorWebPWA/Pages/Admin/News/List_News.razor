@@ -124,9 +124,15 @@
     private async Task HandleChange(ChangeEventArgs e)
     {
         blogName = e?.Value?.ToString();
-        blogName = null;
-        GetListBlogs = GetListBlogs.Where(x => x.Title.ContainsCaseInsensitive(blogName)).ToList();
-        StateHasChanged();
+        GetListBlogs = null;
+        var response = await blogService.GetListBlogs<ResponseDto>(string.Empty);
+        if (response != null && response.IsSuccess)
+        {
+            GetListBlogs = JsonConvert.DeserializeObject<List<Blog>>(Convert.ToString((response.Result)));
+            GetListBlogs = GetListBlogs.Where(x => x.Title.ContainsCaseInsensitive(blogName)).ToList();
+            StateHasChanged();
+        }
+        
     }
 }
 <style>

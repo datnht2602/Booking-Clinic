@@ -66,7 +66,7 @@
                                 <div class="col-12">
                                     <div class="news-submit text-end">
                                         <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
-                                        <button type="submit" @onclick="@(_ => nav.NavigateTo($"/list-news", true))" class="btn btn-primary cancel-form">Cancel</button>
+                                        <button @onclick="@(_ => nav.NavigateTo($"/list-news", true))" class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>
                             </EditForm>
@@ -116,7 +116,7 @@
         if (response != null && response.IsSuccess)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
-            await Task.Delay(3000);
+            await Task.Delay(1500);
             nav.NavigateTo("/list-news", forceLoad: true);
         }
     }

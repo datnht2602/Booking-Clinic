@@ -9,4 +9,5 @@ public interface ICouponService : IBaseService
     Task<T> GetListCoupons<T>(string filterCriteria = null);
     Task<T> GetCoupon<T>(string id);
     Task<T> DeleteCoupon<T>(string id);
+    Task<T> RemoveCoupon<T>(string id);
 }

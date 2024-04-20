@@ -147,7 +147,6 @@
 
     [Inject] 
     IAccessTokenProvider TokenProvider { get; set; }
-    NavigationManager NavigationManager { get; set; }
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
     private string accessToken { get; set; }
@@ -196,8 +195,8 @@
         if (response != null && response.IsSuccess)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
-            await Task.Delay(3000);
-            NavigationManager.NavigateTo("/list-doctor", forceLoad: true);
+            await Task.Delay(1500);
+            nav.NavigateTo("/list-doctor", forceLoad: true);
         }
     }
 

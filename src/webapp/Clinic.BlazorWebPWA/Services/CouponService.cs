@@ -49,4 +49,13 @@ public class CouponService : BaseService, ICouponService
             Url = $"getcoupon/{id}",
         });
     }
+
+    public async Task<T> RemoveCoupon<T>(string id)
+    {
+        return await this.SendAsync<T>(new ApiRequest()
+        {
+            ApiType = ApiType.GET,
+            Url = $"removecoupon/{id}",
+        });
+    }
 }

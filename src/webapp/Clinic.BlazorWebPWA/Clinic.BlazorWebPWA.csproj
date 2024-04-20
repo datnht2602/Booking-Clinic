@@ -10,6 +10,8 @@
 
 	<ItemGroup>
 		<_ContentIncludedByDefault Remove="appsettings.json" />
+		<_ContentIncludedByDefault Remove="Pages\News\List_News.razor" />
+		<_ContentIncludedByDefault Remove="Pages\News\Upsert_News.razor" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -53,5 +55,10 @@
 	  <EmbeddedResource Include="Roboto-Regular.ttf">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Include="Pages\Admin\News\List_News.razor" />
+	  <AdditionalFiles Include="Pages\Admin\News\Upsert_News.razor" />
 	</ItemGroup>
 </Project>

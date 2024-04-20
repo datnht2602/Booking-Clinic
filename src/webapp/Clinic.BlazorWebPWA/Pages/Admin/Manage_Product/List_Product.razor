@@ -130,8 +130,13 @@
     {
         productName = e?.Value?.ToString();
         GetListProducts = null;
-        GetListProducts = GetListProducts.Where(x => x.Name.ContainsCaseInsensitive(productName)).ToList();
-        StateHasChanged();
+        var response = await productService.GetListProducts<ResponseDto>(string.Empty);
+        if (response != null && response.IsSuccess)
+        {
+            GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
+            GetListProducts = GetListProducts.Where(x => x.Name.ContainsCaseInsensitive(productName)).ToList();
+            StateHasChanged();
+        }
     }
     void AddProduct()
     {

@@ -10,4 +10,5 @@ public interface ICouponService
     Task<ResponseDto> AddCouponAsync(Data.Models.Coupon coupon);
     Task<ResponseDto> UpdateCouponAsync(Data.Models.Coupon coupon);
     Task<ResponseDto> DeleteCouponAsync(string couponId);
+    Task<ResponseDto> RemoveCoupon(string couponId);
 }

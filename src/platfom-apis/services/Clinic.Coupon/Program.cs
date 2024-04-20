@@ -56,6 +56,11 @@ app.MapGet("/getlistcoupon", async ([FromServices] ICouponService couponService,
     })
     .WithName("GetProduct")
     .WithOpenApi();
+app.MapGet("/removecoupon/{id}", async (string id, [FromServices] ICouponService couponService) =>
+    {
+        return await couponService.RemoveCoupon(id).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();
+    })
+    .WithOpenApi();
 app.MapGet("/getcoupons/{id}", async (string id, [FromServices] ICouponService couponService) =>
     {
         return await couponService.GetCouponByIdASync(id).ConfigureAwait(false) is ResponseDto product ? Results.Ok(product) : Results.NotFound();

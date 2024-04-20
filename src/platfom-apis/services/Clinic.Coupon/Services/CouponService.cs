@@ -8,7 +8,8 @@ using Clinic.Data.Models;
 using Clinic.DTO.Models.Dto;
 using Microsoft.Extensions.Options;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Clinic.Coupon.Services;
 
@@ -40,13 +41,12 @@ public class CouponService : ICouponService
         }
         if(couponResponse.StatusCode != System.Net.HttpStatusCode.NoContent){
             var couponModel = await couponResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Coupon>().ConfigureAwait(false);
-            coupon = autoMapper.Map<CouponDto>(couponModel);
             couponModel.Quantity -= 1;
             if (couponModel.Quantity <= 0)
             {
                 couponModel.IsEnable = false;
             }
-
+            coupon = autoMapper.Map<CouponDto>(couponModel);
             await this.UpdateCouponAsync(couponModel);
         }
         result.Result = coupon;
@@ -70,7 +70,6 @@ public class CouponService : ICouponService
             }
                 
             coupons = await couponResponse.Content.ReadFromJsonAsync<IEnumerable<Clinic.Data.Models.Coupon>>().ConfigureAwait(false);
-            await this.cacheService.AddOrUpdateCacheAsync<IEnumerable<Clinic.Data.Models.Coupon>>($"coupons", coupons).ConfigureAwait(false);
         }
 
 
@@ -141,7 +140,6 @@ public class CouponService : ICouponService
         }
 
         // clearning the cache
-        await cacheService.RemoveCacheAsync($"coupons").ConfigureAwait(false);
         return new ResponseDto();
     }
 
@@ -155,6 +153,31 @@ public class CouponService : ICouponService
         }
         await cacheService.RemoveCacheAsync($"coupons").ConfigureAwait(false);
         return new ResponseDto();
+    }
+
+    public async Task<ResponseDto> RemoveCoupon(string couponId)
+    {
+        ResponseDto result = new();
+        if (couponId == null)
+        {
+            return null;
+        }
+        using var couponRequest = new HttpRequestMessage(HttpMethod.Get, $"{this.applicationSettings.Value.DataStoreEndpoint}getcoupons/{couponId}");
+        var couponResponse = await httpClient.SendAsync(couponRequest).ConfigureAwait(false);
+        if (!couponResponse.IsSuccessStatusCode)
+        {
+            await ThrowServiceToServiceErrors(couponResponse).ConfigureAwait(false);
+        }
+        if (couponResponse.StatusCode != System.Net.HttpStatusCode.NoContent)
+        {
+            var coupon = await couponResponse.Content.ReadFromJsonAsync<Clinic.Data.Models.Coupon>().ConfigureAwait(false);
+            coupon.Quantity += 1;
+            coupon.IsEnable = true;
+            await UpdateCouponAsync(coupon);
+            return result;
+        }
+        result.IsSuccess = false;
+        return result;
     }
 
     private async Task ThrowServiceToServiceErrors(HttpResponseMessage response)

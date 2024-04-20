@@ -2,10 +2,12 @@
 @page "/doctor/book-appointments/{id}"
 @using Clinic.DTO.Models.Dto
 @using Clinic.BlazorWebPWA.Extensions
+@using Clinic.BlazorWebPWA.Services
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IClinicService clinicService
 @inject NavigationManager nav
 @inject DialogService DialogService
+@inject ICouponService couponService
 <PageTitle>Booking Appointment</PageTitle>
 
 <head>
@@ -125,7 +127,7 @@
     public string NameApplyCoupon = "Apply";
     private DateTime DateOnly { get; set; }
     private TimeSpan TimeOnly { get; set; }
-    //public string FormattedTotal => $"{booking.OrderTotal:N0} vnd";
+    CouponDto couponObj;
     string ErrorMessage = string.Empty;
     void Change(object value, string name)
     {
@@ -246,7 +248,7 @@
             var discount = await clinicService.GetCoupon<ResponseDto>(coupon, accessToken);
             if (discount != null && discount.IsSuccess)
             {
-                var couponObj = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(discount.Result));
+                 couponObj = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(discount.Result));
                 if (couponObj != null)
                 {
                     createBooking.DiscountTotal = couponObj.DiscountAmount;
@@ -263,13 +265,17 @@
         }
         else if (ExistCoupon)
         {
-            booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
-            ExistCoupon = false;
-            NameApplyCoupon = "Apply";
-            coupon = string.Empty;
-            StateHasChanged();
+            
+            var discount = await couponService.RemoveCoupon<ResponseDto>(couponObj.Id);
+            if ( discount.IsSuccess)
+            {
+                booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
+                ExistCoupon = false;
+                NameApplyCoupon = "Apply";
+                coupon = string.Empty;
+                StateHasChanged();
+            }
         }
-
     }
     private async Task HandleBookingCreate()
     {
