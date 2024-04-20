@@ -136,7 +136,7 @@
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Successfully" });
             await Task.Delay(3000);
-            NavigationManager.NavigateTo("/list-coupon", forceLoad: true);
+            nav.NavigateTo("/list-coupon", forceLoad: true);
         }
     }
 
