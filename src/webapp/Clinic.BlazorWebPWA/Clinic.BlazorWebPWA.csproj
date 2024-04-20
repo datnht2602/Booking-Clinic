@@ -39,7 +39,6 @@
 		<None Include="wwwroot\plugins\apexchart\chart-data.js" />
 		<None Include="wwwroot\plugins\datatables\datatables.min.js" />
 		<None Include="wwwroot\plugins\datatables\jquery.dataTables.min.js" />
-		<None Include="wwwroot\plugins\moment.js" />
 		<None Include="wwwroot\plugins\moment\moment.min.js" />
 		<None Include="wwwroot\plugins\moment\moment.min.jssourcemap" />
 	</ItemGroup>
