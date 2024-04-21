@@ -10,19 +10,6 @@
 
 <div class="page-wrapper">
     <div class="content">
-
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="list-product">Health Packages </a></li>
-                        <li class="breadcrumb-item"><i class="fa-solid fa-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">List of Health Packages</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
@@ -35,7 +22,7 @@
                                         <h3>Packages List</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
-                                                    <input type="text" value="@productName" @onchange="HandleChange" class="form-control" placeholder="Search here">
+                                                <input type="text" value="@productName" @onchange="HandleChange" class="form-control" placeholder="Search here">
                                             </div>
                                             <div class="add-group">
                                                 <RadzenButton Click=@(args => AddProduct()) Style="margin-left: 20px" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Secondary" />
@@ -65,7 +52,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(GetListProducts is not null)
+                                    @if (GetListProducts is not null)
                                     {
                                         @foreach (var item in GetListProducts)
                                         {
@@ -76,14 +63,14 @@
                                                 <td class="description-cell"><div class="ellipsis">@item.Description</div></td>
                                                 <td>@item.IsMainCombo</td>
                                                 <RadzenMenu>
-                                                <RadzenMenuItem Text="More">
-                                                    <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-product/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
-                                                    <RadzenMenuItem Click="@(args => ConfirmDelete(@item.Id))" @onclick:stopPropagation="true" Text="Delete"></RadzenMenuItem>
-                                                </RadzenMenuItem>
+                                                    <RadzenMenuItem Text="More">
+                                                        <RadzenMenuItem Click="@(_ => nav.NavigateTo($"upsert-product/{@item.Id}", true))" Text="Edit"></RadzenMenuItem>
+                                                        <RadzenMenuItem Click="@(args => ConfirmDelete(@item.Id))" @onclick:stopPropagation="true" Text="Delete"></RadzenMenuItem>
+                                                    </RadzenMenuItem>
                                                 </RadzenMenu>
                                             </tr>
                                         }
-                                    }                                   
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -93,10 +80,11 @@
         </div>
     </div>
 </div>
-@code{
+@code {
     private List<Product> GetListProducts = new();
     string productName = string.Empty;
-    protected override async Task OnInitializedAsync(){
+    protected override async Task OnInitializedAsync()
+    {
 
         var response = await productService.GetListProducts<ResponseDto>(string.Empty);
         if (response != null && response.IsSuccess)
@@ -115,14 +103,14 @@
             if (responseDelete != null && responseDelete.IsSuccess)
             {
                 GetListProducts = null;
-               StateHasChanged();
+                StateHasChanged();
                 var response = await productService.GetListProducts<ResponseDto>(string.Empty);
                 if (response != null && response.IsSuccess)
                 {
                     GetListProducts = JsonConvert.DeserializeObject<List<Product>>(Convert.ToString((response.Result)));
                     StateHasChanged();
                 }
-                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully"});
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Delete Successfully" });
             }
         }
     }
@@ -140,18 +128,19 @@
     }
     void AddProduct()
     {
-        nav.NavigateTo("/upsert-product",true);
+        nav.NavigateTo("/upsert-product", true);
     }
 }
 
 <style>
 
-td.description-cell {
-   max-width: 20em;
-}
-div.ellipsis {
-   white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-}
+    td.description-cell {
+        max-width: 20em;
+    }
+
+    div.ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 </style>

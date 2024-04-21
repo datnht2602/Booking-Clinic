@@ -5,7 +5,7 @@
     <PageTitle>About</PageTitle>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
-<body class="d-flex flex-column h-100 bg-light">
+
     <main class="flex-shrink-0">
         <!-- Header -->
         <div class="w-100">
@@ -174,7 +174,7 @@
     <script>
         new WOW().init();
     </script>
-</body>
+
 @code
 {
     Dictionary<int, string> doctorFilter = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());

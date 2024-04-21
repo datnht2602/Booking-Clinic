@@ -69,43 +69,45 @@
                     else
                     {
                         @foreach (var doctor in doctors)
-                    {
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card mb-5">
-                                <div class="bg-white shadow-lg border">
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card mb-5">
+                                    <div class="bg-white shadow-lg border">
                                         <div class="mx-auto">
                                             <img class="img-fluid " src="@doctor.ImageUrl" alt="doctor-image" style="height: 350px; width: 450px; object-position: top; object-fit: cover;">
+                                        </div>
+                                        <div class="card-body align-items-center" style="height: 18em">
+                                            <div class="text-center mb-2">
+                                                <h5 class="fw-bold card-title">@doctor.Title @doctor.Name </h5>
+                                                <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
                                             </div>
-                                    <div class="card-body align-items-center" style="height: 18em">
-                                        <div class="text-center mb-2">
-                                            <h5 class="fw-bold card-title">@doctor.Title @doctor.Name </h5>
-                                            <p class="card-subtitle mb-0 text-muted">@doctor.Specialization.ConvertSpecEnum()</p>
-                                        </div>
-                                        <div class="card-text px-3">
-                                            <p class="text-muted fw-light mb-2" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">@doctor.Introduction</p>
-                                        </div>
-                                        <div class="d-flex px-3 justify-content-between">
-                                            <p class="fw-bold my-auto fs-6"> Rating: </p>
-                                            <div class="stars gap-sm-2 fs-5">
-                                                @for (int i = 0; i < doctor.AverageRating; i++)
-                                                {
-                                                    <i class="fa-solid fa-star" style="color: rgb(255, 210, 48);"></i>
-                                                }
+                                            <div class="card-text px-3">
+                                                <p class="text-muted fw-light mb-2" style="overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">@doctor.Introduction</p>
                                             </div>
-                                            <p class="fw-bold my-auto fs-6">@doctor.AverageRating.ToString("F2") </p>
-                                        </div>
-                                        <div class="d-flex justify-content-between card-body">
-                                            <div><a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a></div>
-                                                    <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
+                                            <div class="d-flex px-3 justify-content-between">
+                                                <p class="fw-bold my-auto fs-6"> Rating: </p>
+                                                <div class="stars gap-sm-2 fs-5">
+                                                    @for (int i = 0; i < doctor.AverageRating; i++)
+                                                    {
+                                                        <i class="fa-solid fa-star" style="color: rgb(255, 210, 48);"></i>
+                                                    }
+                                                </div>
+                                                <p class="fw-bold my-auto fs-6">@doctor.AverageRating.ToString("F2") </p>
+                                            </div>
+                                            <div class="d-flex justify-content-between card-body">
+                                                <div>
+                                                    <a href="#" class="text-primary fs-4 card-link"><i class="fa-brands fa-rocketchat"></i></a>
+                                                </div>
+                                                <RadzenButton Text="Detail" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
                                                               Click=@(args => ShowDetail(doctor.Id)) />
-                                                <RadzenButton Text="Booking"  ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
+                                                <RadzenButton Text="Booking" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
                                                               Click=@(_ => nav.NavigateTo($"doctor/book-appointments/{doctor.Id}", true)) />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
+                        }
                     }
 
                 </div>
@@ -229,6 +231,6 @@
         var dialogResult = await DialogService.OpenAsync<DoctorDetailComponent>("Doctor Detail", new Dictionary<string, object> { { "doctorId", id } }, new Radzen.DialogOptions { Width = "900px", Height = "550px" });
 
         if (dialogResult != null && dialogResult.Result != null)
-        {}
+        { }
     }
 }

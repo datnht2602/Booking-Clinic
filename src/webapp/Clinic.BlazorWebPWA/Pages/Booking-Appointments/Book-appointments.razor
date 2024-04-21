@@ -54,38 +54,39 @@
                                             <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
                                             @if (booking.ProductListViewModels == null)
                                             {
-                                                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
-                                                    <span class="fs-5"><em>Loading...</em></span>
+                                                <div class="d-flex">
+                                                    <div class="spinner-border text-white me-3" style="width: 2rem; height: 2rem;" role="status">
+                                                        <span class="visually-hidden"><em>Loading...</em></span>
+                                                    </div>
+                                                    <p class="text-white">Loading...</p>
                                                 </div>
                                             }
                                             else
                                             {
                                                 <RadzenDropDown @bind-Value=@multipleValues Multiple=true AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Name="DropDownGroupingMultiSelect"
-                                                                Data=@booking.ProductListViewModels  ValueProperty="Id" TextProperty="FormattedName" MaxSelectedLabels="1" Style="margin-bottom: 20px; width: 100%"  Change="@(args => Change(args, "DropDown"))">
-                                                
+                                                                Data=@booking.ProductListViewModels ValueProperty="Id" TextProperty="FormattedName" MaxSelectedLabels="1" Style="margin-bottom: 20px; width: 100%" Change="@(args => Change(args, "DropDown"))">
+
                                                 </RadzenDropDown>
                                                 @*<RadzenDropDownDataGrid class="form-select"
-                                                                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                                                        AllowFiltering="true" AllowClear="true"
-                                                                        Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
-                                                                        TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
-                                                                        Placeholder="Select Service" MaxSelectedLabels="4"
-                                                                        SelectAllText="Select all items" SelectedItemsText="are now selected"
-                                                                        Change="@(args => Change(args,"DropDown"))">
-                                                </RadzenDropDownDataGrid>*@
+                                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                            AllowFiltering="true" AllowClear="true"
+                                            Data="@booking.ProductListViewModels" @bind-Value="multipleValues" Multiple="true"
+                                            TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
+                                            Placeholder="Select Service" MaxSelectedLabels="4"
+                                            SelectAllText="Select all items" SelectedItemsText="are now selected"
+                                            Change="@(args => Change(args,"DropDown"))">
+                                            </RadzenDropDownDataGrid>*@
 
                                             }
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-md-9">
-                                    <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
-                                    <RadzenTextBox Disabled="@(ExistCoupon == true)" @bind-Value=@coupon class="w-100" aria-label="Default TextBox" />
-                                </div>
-                                <div class="col-md-3 d-flex justify-content-md-center align-items-md-end">
-                                    <button type="button" @onclick="HandleAddCoupon" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-2 text-uppercase">@NameApplyCoupon</button>
+                            <div class="mb-3">
+                                <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
+                                <div class="input-group">
+                                    <RadzenTextBox Disabled="@(ExistCoupon == true)" @bind-Value=@coupon class="form-control" aria-label="Default TextBox" />
+                                    <button type="button" @onclick="HandleAddCoupon" class="btn btn-warning fw-bold fs-7 text-uppercase">@NameApplyCoupon</button>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -248,7 +249,7 @@
             var discount = await clinicService.GetCoupon<ResponseDto>(coupon, accessToken);
             if (discount != null && discount.IsSuccess)
             {
-                 couponObj = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(discount.Result));
+                couponObj = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(discount.Result));
                 if (couponObj != null)
                 {
                     createBooking.DiscountTotal = couponObj.DiscountAmount;
@@ -265,9 +266,9 @@
         }
         else if (ExistCoupon)
         {
-            
+
             var discount = await couponService.RemoveCoupon<ResponseDto>(couponObj.Id);
-            if ( discount.IsSuccess)
+            if (discount.IsSuccess)
             {
                 booking.OrderTotal =  booking.ProductListViewModels.Where(x => eventValue.Contains(x.Id)).ToList().Sum((x => x.Price));
                 ExistCoupon = false;
@@ -287,7 +288,7 @@
           // Close the dialog
           DialogService.Close();
       });
-        if (ErrorMessage != string.Empty || multipleValues?.Count() == 0 )
+        if (ErrorMessage != string.Empty || multipleValues?.Count() == 0)
         {
             ErrorMessage = "You cannot book appointment";
             await BusyDialog(ErrorMessage);

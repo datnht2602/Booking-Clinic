@@ -380,17 +380,6 @@ $(document).ready(function ($) {
         $('.checkmail').click();
         return false;
     });
-    if ($('.checkmail').length > 0) {
-        $('.checkmail').each(function () {
-            $(this).on('click', function () {
-                if ($(this).closest('tr').hasClass('checked')) {
-                    $(this).closest('tr').removeClass('checked');
-                } else {
-                    $(this).closest('tr').addClass('checked');
-                }
-            });
-        });
-    }
     $(document).on('click', '.mail-important', function () {
         $(this).find('i.fa').toggleClass('fa-star').toggleClass('fa-star-o');
     });
