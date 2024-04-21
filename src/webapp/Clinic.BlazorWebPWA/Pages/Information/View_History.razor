@@ -181,7 +181,7 @@
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
-                list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+                list = list.OrderBy(x => x.OrderPlacedDate).ToList();
                 StateHasChanged();
             }
         }
@@ -191,7 +191,7 @@
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
-                list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+                list = list.OrderBy(x => x.OrderPlacedDate).ToList();
                 StateHasChanged();
             }
         }
