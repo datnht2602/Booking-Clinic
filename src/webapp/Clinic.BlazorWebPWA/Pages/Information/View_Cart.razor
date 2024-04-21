@@ -136,7 +136,7 @@
             if (response != null && response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<BookingDetailsViewModel>>(Convert.ToString((response.Result)));
-                list = list.OrderByDescending(x => x.OrderPlacedDate).ToList();
+                list = list.OrderBy(x => x.OrderPlacedDate).ToList();
                 StateHasChanged();
             }  
         }
@@ -181,7 +181,7 @@
                     items.Add(item);
                 }
 
-                PaymentData paymentData = new PaymentData(orderCode, (int)checkItem.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{checkItem.Id}");
+                PaymentData paymentData = new PaymentData(orderCode, (int)checkItem.OrderTotal, "Thanh toan don hang", items, "https://icy-bush-0e7ff6b00.5.azurestaticapps.net/payment/failed", $"https://icy-bush-0e7ff6b00.5.azurestaticapps.net/payment/success/{checkItem.Id}");
 
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
