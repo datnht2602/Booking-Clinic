@@ -29,4 +29,8 @@
     <ProjectReference Include="..\..\data\Clinic.DTO.Models\Clinic.DTO.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Properties\ServiceDependencies\ClinicIdentity20240321115711 - Web Deploy\profile.arm.json" />
+  </ItemGroup>
+
 </Project>

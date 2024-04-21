@@ -208,7 +208,7 @@
                 items.Add(item);
             }
 
-            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://localhost:7072/payment/failed", $"https://localhost:7072/payment/success/{updateModel.Id}");
+            PaymentData paymentData = new PaymentData(orderCode, (int)updateModel.OrderTotal, "Thanh toan don hang", items, "https://icy-bush-0e7ff6b00.5.azurestaticapps.net/payment/failed", $"https://icy-bush-0e7ff6b00.5.azurestaticapps.net/payment/success/{updateModel.Id}");
 
             CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
