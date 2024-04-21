@@ -9,19 +9,6 @@
 
 <div class="page-wrapper">
     <div class="content">
-
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="list-news">News</a></li>
-                        <li class="breadcrumb-item"><i class="fa-solid fa-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">List of Medical News</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
@@ -57,9 +44,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(GetListBlogs is not null)
+                                    @if (GetListBlogs is not null)
                                     {
-                                        @foreach(var item in GetListBlogs)
+                                        @foreach (var item in GetListBlogs)
                                         {
                                             <tr>
                                                 <td>@item.Title</td>
@@ -76,7 +63,7 @@
                                                 </td>
                                             </tr>
                                         }
-                                                                   }                                 
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -132,7 +119,7 @@
             GetListBlogs = GetListBlogs.Where(x => x.Title.ContainsCaseInsensitive(blogName)).ToList();
             StateHasChanged();
         }
-        
+
     }
 }
 <style>
