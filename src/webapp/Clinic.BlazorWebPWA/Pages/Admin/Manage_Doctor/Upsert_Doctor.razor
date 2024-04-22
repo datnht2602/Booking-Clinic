@@ -28,8 +28,8 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
-                                        <label>Username <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="text" placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
+                                        <label>Email <span class="login-danger">*</span></label>
+                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="email" placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -53,7 +53,7 @@
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-forms">
                                         <label>Phone Number <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="text" placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
+                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="tel" placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -88,7 +88,7 @@
                                         <label>WorkingExperience <span class="login-danger">*</span></label>
                                         <RadzenTextArea Placeholder="Enter introduction here..." @bind-Value=@createDoctor.Introduction class="w-100"
                                                         aria-label="TextArea with placeholder"
-                                                        pattern="^(?!\s*$).+" title="Please avoid only spaces input" />
+                                                        pattern="^(?!\s*$).+" title="Please avoid only spaces input" required/>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -103,12 +103,12 @@
                                     <div class="input-block local-forms">
                                         <label>ClinicNum <span class="login-danger">*</span></label>
                                         <InputText @bind-Value="createDoctor.ClinicNum" class="form-control" type="text"
-                                                   placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" />
+                                                   placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required/>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-top-form">
-                                        <label class="local-top">Avartar <span class="login-danger">*</span></label>
+                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
                                         <InputText @bind-Value="createDoctor.ImageUrl" class="form-control" type="text" placeholder="" />
                                     </div>
                                 </div>
