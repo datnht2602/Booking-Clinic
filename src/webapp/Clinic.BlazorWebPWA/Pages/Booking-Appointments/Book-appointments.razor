@@ -45,7 +45,9 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label medium text-white">Enter health status<small class="text-danger">*</small></label>
-                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.." required></textarea>
+                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4"
+                                          placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.."
+                                          pattern="^(?!\s*$).+" title="Please avoid only spaces input" required></textarea>
                             </div>
                             <div class="row" id="multiselect">
                                 <div class="mb-3 col-12">

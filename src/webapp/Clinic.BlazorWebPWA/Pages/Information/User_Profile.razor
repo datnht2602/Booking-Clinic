@@ -27,17 +27,17 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label for="code" class="form-label medium text-navy fw-bold">Health Insurance Code</label>
-                                                <InputText @bind-Value="update.HealthInsuranceCode" class="form-control  py-2" />
+                                                <InputText @bind-Value="update.HealthInsuranceCode" class="form-control py-2" pattern="^(?!\s*$).+" title="Please avoid only spaces input" />
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="mb-3 col-md-6">
                                                 <label for="Pnumbers" class="form-label medium text-navy fw-bold">Phone numbers</label>
-                                                <InputText @bind-Value="update.PhoneNumber" class="form-control  py-2" required />
+                                                <InputText @bind-Value="update.PhoneNumber" class="form-control py-2" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label for="email" class="form-label medium text-navy fw-bold">Email</label>
-                                                <InputText @bind-Value="update.Email" class="form-control  py-2" required />
+                                                <InputText @bind-Value="update.Email" class="form-control  py-2" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                             </div>
                                         </div>
                                         <div class="row">
@@ -47,7 +47,7 @@
                                             </div>
                                             <div class="mb-3 col-md-6">
                                                 <label for="gender" class="form-label medium text-navy fw-bold">Gender</label>
-                                                <InputSelect @bind-Value="update.Sexual" class="form-select  py-2">
+                                                <InputSelect @bind-Value="update.Sexual" class="form-select py-2">
                                                     <option selected>Choose gender</option>
                                                     <option value="1">Male</option>
                                                     <option value="2">Female</option>
@@ -58,7 +58,7 @@
 
                                         <div class="mb-3">
                                             <label for="address" class="form-label medium text-navy fw-bold">Address</label>
-                                            <InputText @bind-Value="update.Address" class="form-control py-2" required />
+                                            <InputText @bind-Value="update.Address" class="form-control py-2" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                         </div>
                                         <div class="text-right">
                                             <button type="submit" class="btn btn-outline-primary mx-3">Update</button>
