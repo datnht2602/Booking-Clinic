@@ -174,7 +174,7 @@ namespace Clinic.Identity.Controllers
             var item = await _userManager.Users.Include(x => x.FeedBacks).Where(u => u.Id == doctorId).Select(x => x.FeedBacks).FirstOrDefaultAsync();
             if (item != null || item.Count > 0)
             {
-                var result = item.FirstOrDefault();
+                var result = item.FirstOrDefault(x => x.BookingId == bookingId);
                 FormDto form = new()
                 {
                     Rate = result.Rate,
@@ -196,7 +196,7 @@ namespace Clinic.Identity.Controllers
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, dto.OldPassword, dto.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
-                return BadRequest();
+                return Ok(false);
             }
 
             await _signInManager.RefreshSignInAsync(user);

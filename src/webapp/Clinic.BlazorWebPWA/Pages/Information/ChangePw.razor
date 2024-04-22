@@ -79,10 +79,23 @@
     }
     private async Task Handle()
     {
-        var result = await clinicService.ChangePassword<bool>(dto, accessToken);
-        if (result)
+        if (dto.NewPassword != dto.ConfirmPassword)
         {
-            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Change Password Successfully" });
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Warning, Summary = "Please Set New Password same" });  
         }
+        else
+        {
+            var result = await clinicService.ChangePassword<bool>(dto, accessToken);
+            if (result)
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Change Password Successfully" });
+            }
+            else
+            {
+                NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Old Password Not True" });
+
+            }
+        }
+        
     }
 }

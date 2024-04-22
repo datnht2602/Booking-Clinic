@@ -26,7 +26,7 @@
              <div class="row justify-content-center pb-5">
                  <div class="col-md-6">
                      <div class="btn-group d-flex justify-content-center">
-                         <button @onclick="@(_ => SendSchedule())" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Confirm </button>
+                         <button @onclick="@(_ => SendSchedule())" Disabled="@notBook" class="btn btn-warning fw-bold fs-7 rounded-3 w-100 border-0 px-4 py-3 text-uppercase"> Confirm </button>
                      </div>
                  </div>
              </div>
@@ -93,6 +93,7 @@
                     notBook = false;
                 }
             }
+            StateHasChanged();
         }
     }
 
@@ -120,6 +121,7 @@
                     notBook = false;
                 }
             }
+            StateHasChanged();
         }
     }
     private async Task SendSchedule()
