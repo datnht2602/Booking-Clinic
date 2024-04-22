@@ -55,7 +55,7 @@
                                else
                                {
                                    <li>
-                                        <NavLink class="dropdown-item px-3 py-2 rounded" href=@($"/profile/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-regular fa-id-badge"></i> Information</NavLink>
+                                        <NavLink class="dropdown-item px-3 py-2 rounded" href=@($"/view-appointment/{@context.User.FindFirst(c => c.Type == "role")?.Value}/{@context.User.FindFirst(c => c.Type == "sub")?.Value}")><i class="fa-regular fa-id-badge"></i> Information</NavLink>
                                    </li>
                                }
                                 <li>
