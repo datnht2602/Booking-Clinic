@@ -107,10 +107,14 @@
 
     async Task HandleUpdate()
     {
-        var result = await clinicService.UpdateDetailUser<HttpResponseMessage>(update, id, accessToken);
-        if (result.IsSuccessStatusCode)
+        var result = await clinicService.UpdateDetailUser<BriefViewModel>(update, id, accessToken);
+        if (result != null)
         {
             NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Success, Summary = "Update Profile Successfully" });
+        }
+        else
+        {
+            NotificationService.Notify(new NotificationMessage { Severity = NotificationSeverity.Error, Summary = "Update Profile Failed" });
         }
     }
 
