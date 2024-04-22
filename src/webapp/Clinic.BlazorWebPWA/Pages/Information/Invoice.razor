@@ -14,15 +14,21 @@
                     <h5 class="m-auto text-center text-white mb-2 mx-auto">Clinic: 4Health Clinic</h5>
 
                     <div class="m-2 p-2 d-flex flex-column justify-content-center align-items-center">
-                        <div class="my-3 py-2 d-flex flex-column justify-content-center align-items-center" style="z-index: 999;">
-                            <div class="spinner-border text-white" role="status" style="width: 4em; height: 4em;">
-                                <span class="visually-hidden">Loading...</span>
+                        @if (response == String.Empty)
+                        {
+                            <div class="my-3 py-2 d-flex flex-column justify-content-center align-items-center" style="z-index: 999;">
+                                <div class="spinner-border text-white" role="status" style="width: 4em; height: 4em;">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <h5 class="fs-5 text-center my-2 text-white">Loading...</h5>
                             </div>
-                            <h5 class="fs-5 text-center my-2 text-white">Loading...</h5>
-                        </div>
-                        <div class="">
-                            <canvas id="pdf-canvas" class="" width="706" height="999" style="width: 565px; height: 799px;"></canvas>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="">
+                                <canvas id="pdf-canvas" class="" width="706" height="999" style="width: 565px; height: 799px;"></canvas>
+                            </div>
+                        }
                     </div>
                     <div class="m-3 text-center">
                         <RadzenButton Text="Export" ButtonStyle="ButtonStyle.Info" Size="ButtonSize.Medium"
@@ -44,7 +50,7 @@
     [Inject] IJSRuntime JSRuntime { get; set; }
     protected byte[] PdfBody = Array.Empty<byte>();
     protected event EventHandler<int> RaiseNewHashCode;
-
+    string response = String.Empty;
     private void ExportPDF()
     {
         JSRuntime?.InvokeVoidAsync("Print", invoice);
@@ -69,8 +75,8 @@
             accessToken = token.Value;
         }
 
-        var response = await clinicService.GetInvoice<string>(bookingId, accessToken);
-        if (response != null)
+         response = await clinicService.GetInvoice<string>(bookingId, accessToken);
+        if (response != String.Empty)
         {
             invoice = response;
             PdfBody = Convert.FromBase64String(response);
