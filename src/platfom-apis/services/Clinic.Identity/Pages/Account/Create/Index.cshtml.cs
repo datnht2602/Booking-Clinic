@@ -75,15 +75,15 @@ public class Index : PageModel
                 {
                     // The client is native, so this change in how to
                     // return the response is for better UX for the end user.
-                    return this.LoadingPage(Input.ReturnUrl);
+                    return this.LoadingPage($"{this.applicationSettings.Value.ClientApiEndpoint}");
                 }
 
-                return Redirect(Input.ReturnUrl);
+                return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
             }
             else
             {
                 // since we don't have a valid context, then we just go back to the home page
-                return Redirect("~/");
+                return Redirect($"{this.applicationSettings.Value.ClientApiEndpoint}");
             }
         }
 
