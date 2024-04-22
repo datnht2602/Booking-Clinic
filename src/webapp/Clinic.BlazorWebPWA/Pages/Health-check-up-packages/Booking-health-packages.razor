@@ -7,95 +7,96 @@
 <PageTitle>Booking Health Package</PageTitle>
 
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
 <body>
-<main>
-    <div class="bg-white">
-        <div class="container px-5 py-5 appointments">
-            <div>
-                <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-3">BOOKING HEALTH PACKAGE</h2>
-                <EditForm Model="viewModel" OnValidSubmit="HandleBookingCreate">
-                    <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
-                        <div class="row">
-                            <div class="mb-3 col-12">
-                                <label for="major" class="form-label medium text-white">Name Combo</label>
-                                <input type="text" class="form-control" placeholder="@viewModel.Name" readonly="False">
+    <main>
+        <div class="bg-white">
+            <div class="container px-5 py-5 appointments">
+                <div>
+                    <h2 class="m-auto fw-bold text-center text-black mb-2 mx-auto p-3">BOOKING HEALTH PACKAGE</h2>
+                    <EditForm Model="viewModel" OnValidSubmit="HandleBookingCreate">
+                        <div class="m-auto bg-primary shadow-sm p-5 rounded-3 col-lg-8 mx-auto">
+                            <div class="row">
+                                <div class="mb-3 col-12">
+                                    <label for="major" class="form-label medium text-white">Name Combo</label>
+                                    <input type="text" class="form-control" placeholder="@viewModel.Name" readonly="False">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3 col-6">
-                                <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
-                                <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Style="width: 100%" Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
+                            <div class="row">
+                                <div class="mb-3 col-6">
+                                    <label for="date" class="form-label medium text-white">Choose appointment date <small class="text-danger fw-bold">*</small></label>
+                                    <RadzenDatePicker @bind-Value=@DateOnly DateFormat="dd/MM/yyyy" Change="@(args => SelectDate(args))" Style="width: 100%" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
+                                </div>
+                                <div class="mb-3 col-6">
+                                    <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
+                                    <RadzenDropDown TValue="TimeSpan" Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
+                                </div>
                             </div>
-                            <div class="mb-3 col-6">
-                                <label for="time" class="form-label medium text-white">Choose appointment time <small class="text-danger fw-bold">*</small></label>
-                                <RadzenDropDown TValue="TimeSpan" Value=@TimeOnly Data=@timeSlots Change="@(args => SelectTime(args))" Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent"/>
+                            <div class="mb-3">
+                                <label class="form-label medium text-white">Enter health status<small class="text-danger">*</small></label>
+                                <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.." required></textarea>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label medium text-white">Enter health status<small class="text-danger">*</small></label>
-                            <textarea class="form-control height-auto" @bind="createBooking.Description" rows="4" placeholder="Enter your health condition, questions to ask your doctor and health issues to consider.." required></textarea>
-                        </div>
-                        <div class="row" id="multiselect">
-                            <div class="mb-3 col-12">
-                                <div class="">
-                                    <div class="sd-multiSelect form-group">
-                                        <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
-                                        @if (viewModel.Products == null)
-                                        {
-                                            <p class="text-white">
-                                                <em>Loading....</em>
-                                            </p>
-                                        }
-                                        else
-                                        {
-                                           
-                                            <RadzenDropDown @bind-Value=@multipleValues Multiple=true AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Name="DropDownGroupingMultiSelect"
-                                                            Data=@viewModel.Products  ValueProperty="Id" TextProperty="FormattedName" MaxSelectedLabels="1" Style="margin-bottom: 20px; width: 100%"  Change="@(args => Change(args, "DropDown"))">
-                                                
-                                            </RadzenDropDown>
-                                            @*<RadzenDropDownDataGrid class="form-select"
-                                                                    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
-                                                                    AllowFiltering="true" AllowClear="true"
-                                                                    Data="@viewModel.Products" @bind-Value="multipleValues" Multiple="true"
-                                                                    TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
-                                                                    Placeholder="Select Service" MaxSelectedLabels="4"
-                                                                    SelectAllText="Select all items" SelectedItemsText="are now selected"
-                                                                    Change="@(args => Change(args, "DropDown"))">
+                            <div class="row" id="multiselect">
+                                <div class="mb-3 col-12">
+                                    <div class="">
+                                        <div class="sd-multiSelect form-group">
+                                            <label for="current-job-role" class="form-label medium text-white">Select Service<small class="text-danger">*</small></label>
+                                            @if (viewModel.Products == null)
+                                            {
+                                                <div class="d-flex">
+                                                    <div class="spinner-border text-white me-3" style="width: 2rem; height: 2rem;" role="status">
+                                                        <span class="visually-hidden"><em>Loading...</em></span>
+                                                    </div>
+                                                    <p class="text-white">Loading...</p>
+                                                </div>
+                                            }
+                                            else
+                                            {
+
+                                                <RadzenDropDown @bind-Value=@multipleValues Multiple=true AllowClear="true" AllowFiltering="true" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" Name="DropDownGroupingMultiSelect"
+                                                                Data=@viewModel.Products ValueProperty="Id" TextProperty="FormattedName" MaxSelectedLabels="1" Style="margin-bottom: 20px; width: 100%" Change="@(args => Change(args, "DropDown"))">
+
+                                                </RadzenDropDown>
+                                                @*<RadzenDropDownDataGrid class="form-select"
+                                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                            AllowFiltering="true" AllowClear="true"
+                                            Data="@viewModel.Products" @bind-Value="multipleValues" Multiple="true"
+                                            TextProperty="Name" ValueProperty="Id" Style="margin-bottom: 20px; width: 100%"
+                                            Placeholder="Select Service" MaxSelectedLabels="4"
+                                            SelectAllText="Select all items" SelectedItemsText="are now selected"
+                                            Change="@(args => Change(args, "DropDown"))">
                                             </RadzenDropDownDataGrid>*@
-                                        }
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-9">
+                            <div class="mb-3">
                                 <label for="payment" class="form-label medium text-white">Coupon <small class="text-danger"></small></label>
-                                <RadzenTextBox Disabled="@(ExistCoupon == true)" @bind-Value=@coupon class="w-100" aria-label="Default TextBox"/>
+                                <div class="input-group">
+                                    <RadzenTextBox Disabled="@(ExistCoupon == true)" @bind-Value=@coupon class="form-control" aria-label="Default TextBox" />
+                                    <button type="button" @onclick="HandleAddCoupon" class="btn btn-warning fw-bold fs-7 text-uppercase">@NameApplyCoupon</button>
+                                </div>
                             </div>
-                            <div class="col-md-3 d-flex justify-content-md-center align-items-md-end">
-                                <button type="button" @onclick="HandleAddCoupon" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-2 text-uppercase">@NameApplyCoupon</button>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="price" class="form-label medium text-white">Total</label>
+                            <div class="mb-3">
+                                <label for="price" class="form-label medium text-white">Total</label>
                                 <input type="text" class="form-control" placeholder="@viewModel.Price.ToString("C")" readonly="False">
-                        </div>
-                        <div>
+                            </div>
+                            <div>
                                 <div class="text-center col-lg-5 py-4 mx-auto d-flex justify-content-between">
                                     <a href="/health-packages" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase" style="width: 110px">Back</a>
-                                <button type="submit" disabled="@Creating" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Submit</button>
+                                    <button type="submit" disabled="@Creating" class="btn btn-warning fw-bold fs-7 rounded-3 border-0 px-4 py-3 text-uppercase">Submit</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </EditForm>
+                    </EditForm>
+                </div>
             </div>
-        </div>
 
-    </div>
-</main>
+        </div>
+    </main>
 
 </body>
 
@@ -149,7 +150,7 @@
             multipleValues = viewModel.Products != null ? viewModel.Products.Select(x => x.Id).AsEnumerable() : [];
         }
     }
-   async Task SelectDate(object value)
+    async Task SelectDate(object value)
     {
         InvokeAsync(async () =>
      {
@@ -186,7 +187,8 @@
         {
             ErrorMessage = "You can not book time before";
             await BusyDialog(ErrorMessage);
-        }else
+        }
+        else
         {
             ErrorMessage = string.Empty;
         }
@@ -258,7 +260,7 @@
             else
             {
                 Creating = false;
-            } 
+            }
         }
     }
 
