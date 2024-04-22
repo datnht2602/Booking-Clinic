@@ -11,7 +11,7 @@
 @inject NotificationService NotificationService
 <PageTitle>Add Doctor</PageTitle>
 
-<link href="css/admin.css" rel="stylesheet"/>
+<link href="css/admin.css" rel="stylesheet" />
 
 <div class="page-wrapper">
     <div class="content">
@@ -28,18 +28,18 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
-                                        <label>Username <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="text" placeholder="" required />
+                                        <label>Email <span class="login-danger">*</span></label>
+                                        <input @bind-value="@createDoctor.UserName" class="form-control" type="email" placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
                                         <label>Password <span class="login-danger">*</span></label>
                                         <input @bind-value="@createDoctor.Password" class="form-control"
-
                                                type="text"
                                                placeholder=""
-                                               required/>
+                                               pattern="^(?!\s*$).+" title="Please avoid only spaces input"
+                                               required />
                                     </div>
                                 </div>
 
@@ -53,7 +53,7 @@
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-forms">
                                         <label>Phone Number <span class="login-danger">*</span></label>
-                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="text" placeholder="" required />
+                                        <input @bind-value="@createDoctor.PhoneNumber" class="form-control" type="tel" placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -62,7 +62,7 @@
                                             Date Of Birth
                                             <span class="login-danger">*</span>
                                         </label>
-                                        <RadzenDatePicker @bind-Value=@createDoctor.DateOfBirth DateFormat="dd/MM/yyyy" Name="RadzenDatePickerBindValue" ShowCalendarWeek/>
+                                        <RadzenDatePicker @bind-Value=@createDoctor.DateOfBirth DateFormat="dd/MM/yyyy" Name="RadzenDatePickerBindValue" ShowCalendarWeek />
 
                                     </div>
                                 </div>
@@ -71,38 +71,45 @@
                                         <label>
                                             Specialization <span class="login-danger">*</span>
                                         </label>
-                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Change="@(args => SpecSelect(args))" Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent"/>
+                                        <RadzenDropDown TValue="int" ValueProperty="Key" TextProperty="Value" Value=@value Change="@(args => SpecSelect(args))" Data=@Specializations Style="width: 100%; max-width: 400px;" Name="DropDownChangeEvent" />
 
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
                                         <label>Achievement <span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createDoctor.Title" class="form-control" type="text" placeholder=""/>
+                                        <InputText @bind-Value="createDoctor.Title" class="form-control" type="text" placeholder=""
+                                                   pattern="^(?!\s*$).+"
+                                                   title="Please avoid only spaces input" />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
                                         <label>WorkingExperience <span class="login-danger">*</span></label>
-                                        <RadzenTextArea Placeholder="Enter introduction here..." @bind-Value=@createDoctor.Introduction class="w-100" aria-label="TextArea with placeholder"/>
+                                        <RadzenTextArea Placeholder="Enter introduction here..." @bind-Value=@createDoctor.Introduction class="w-100"
+                                                        aria-label="TextArea with placeholder"
+                                                        pattern="^(?!\s*$).+" title="Please avoid only spaces input" required/>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
                                         <label>Rating <span class="login-danger">*</span></label>
-                                        <InputNumber @bind-Value="createDoctor.Rating" class="form-control" type="text" placeholder=""/>
+                                        <InputNumber @bind-Value="createDoctor.Rating" class="form-control"
+                                                     type="text" placeholder=""
+                                                     min="1" max="5" />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="input-block local-forms">
                                         <label>ClinicNum <span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createDoctor.ClinicNum" class="form-control" type="text" placeholder=""/>
+                                        <InputText @bind-Value="createDoctor.ClinicNum" class="form-control" type="text"
+                                                   placeholder="" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required/>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
                                     <div class="input-block local-top-form">
-                                        <label class="local-top">Avartar <span class="login-danger">*</span></label>
-                                        <InputText @bind-Value="createDoctor.ImageUrl" class="form-control" type="text" placeholder=""/>
+                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
+                                        <InputText @bind-Value="createDoctor.ImageUrl" class="form-control" type="text" placeholder="" />
                                     </div>
                                 </div>
 
@@ -128,7 +135,7 @@
 
 @code {
 
-    [Inject] 
+    [Inject]
     IAccessTokenProvider TokenProvider { get; set; }
     [CascadingParameter] private Task<AuthenticationState> authenticationStateTask { get; set; }
     private Dictionary<int, string> Specializations = Enum.GetValues(typeof(Specialization)).Cast<Specialization>().ToDictionary(x => (int)x, x => x.ToString());
