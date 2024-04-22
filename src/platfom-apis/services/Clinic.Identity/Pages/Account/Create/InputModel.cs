@@ -28,9 +28,7 @@ public class InputModel
     [Display(Name="Name")]
     public string Name {set; get;}
     [Required]
-    [StringLength(10, MinimumLength = 10,ErrorMessage = "Phone number length is 10")]
-    [DataType(DataType.Text)]
-    [Display(Name="Name")]
+    [Phone]
     public string Phone {set; get;}
 
     public string ReturnUrl { get; set; }

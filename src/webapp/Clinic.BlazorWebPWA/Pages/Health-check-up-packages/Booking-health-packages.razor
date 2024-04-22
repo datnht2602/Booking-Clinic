@@ -235,7 +235,7 @@
             // Close the dialog
             DialogService.Close();
         });
-        if (ErrorMessage != string.Empty)
+        if (ErrorMessage != string.Empty || multipleValues?.Count() == 0 || DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
         {
             ErrorMessage = "You cannot book health package";
             await BusyDialog(ErrorMessage);

@@ -288,7 +288,7 @@
           // Close the dialog
           DialogService.Close();
       });
-        if (ErrorMessage != string.Empty || multipleValues?.Count() == 0)
+        if (ErrorMessage != string.Empty || multipleValues?.Count() == 0 || DateOnly.Add(TimeOnly).Ticks < DateTime.Now.Ticks)
         {
             ErrorMessage = "You cannot book appointment";
             await BusyDialog(ErrorMessage);
