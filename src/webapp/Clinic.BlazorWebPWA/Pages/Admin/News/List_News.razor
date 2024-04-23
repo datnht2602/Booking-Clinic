@@ -49,7 +49,7 @@
                                         @foreach (var item in GetListBlogs)
                                         {
                                             <tr>
-                                                <td>@item.Title</td>
+                                                <td class="description-cell"><div class="ellipsis">@item.Title</div></td>
                                                 <td class="description-cell"><div class="ellipsis">@item.Summary</div></td>
                                                 <td class="description-cell"><div class="ellipsis">@item.Description</div></td>
                                                 <td>@item.CreatedDate</td>

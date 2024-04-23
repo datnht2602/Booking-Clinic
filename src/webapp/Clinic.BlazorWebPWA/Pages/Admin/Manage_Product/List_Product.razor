@@ -57,7 +57,7 @@
                                         @foreach (var item in GetListProducts)
                                         {
                                             <tr>
-                                                <td class="profile-image"><a href=@($"upsert-product/{item.Id}")>@item.Name</a></td>
+                                                <td class="description-cell"><div class="ellipsis">@item.Name</div></td>
                                                 <td>@item.Specialization.ConvertSpecEnum()</td>
                                                 <td>@item.Price</td>
                                                 <td class="description-cell"><div class="ellipsis">@item.Description</div></td>

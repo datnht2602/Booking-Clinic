@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-12 col-lg-6 col-xl-9">
+            <div class="col-12 col-md-12 col-lg-6 col-xl-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="chart-title patient-visit">
@@ -91,7 +91,7 @@
                                     {
                                         @foreach (var item in GetPercentageGender)
                                         {
-                                            <li><i class="fa fa-circle current-users" aria-hidden="true"></i>@(item.Key == 1 ? "Male" : "Female") @item.Value.ToString("F2")%</li>
+                                            <li><i class="fa fa-circle current-users" aria-hidden="true"></i>@(item.Key == 1 ? " Male" : " Female") @item.Value.ToString("F2")%</li>
                                         }
                                     }
                                 </ul>
@@ -103,7 +103,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-12  col-xl-4">
+            <div class="col-12 col-md-12  col-xl-3">
                 <div class="card top-departments">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Top Departments</h4>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-12  col-xl-8">
+            <div class="col-12 col-md-12  col-xl-9">
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title d-inline-block">Upcoming Appointments</h4>

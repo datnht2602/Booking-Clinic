@@ -107,13 +107,13 @@ public class EmailService : IEmailService
                                                                 </tr>
                                                                 <tr>
                                                                     <td style=""text-align: center; vertical-align: middle; padding: 10px"">
-                                                                        <button style=""width: 250px; height: 50px; background-color: #48a7f2; color: white; border: none; border-radius: 8px; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;"">
+                                                                        <button style=""width: 250px; height: 50px; background-color: white; border-color: #48a7f2; border-radius: 8px; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;"">
                                                                             <a href=""{this.applicationSettings.Value.ClientApiEndpoint}/changedoctor/{model.Id}"">Choose another doctor</a></button>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style=""text-align: center; vertical-align: middle; padding: 10px"">
-                                                                        <button style=""width: 250px; height: 50px; background-color: #48a7f2; color: white; border: none; border-radius: 8px; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;"">
+                                                                        <button style=""width: 250px; height: 50px; background-color: white; border-color: #48a7f2; border-radius: 8px; padding: 10px 24px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer;"">
                                                                             <a href=""{this.applicationSettings.Value.ClientApiEndpoint}/changeschedule/{model.Id}"">Choose another time</a></button>
                                                                     </td>
                                                                 </tr>
