@@ -51,7 +51,6 @@ namespace Clinic.Booking.Services
             return result;
            }else{
             booking.OrderStatus = OrderStatus.Cart.ToString();
-            booking.OrderTotal = booking.Products.Sum(x => x.Price);
 
                 using var userRequest = new HttpRequestMessage(HttpMethod.Get, $"{applicationSettings.Value.IdentityApiEndpoint}/user/GetDetail?userId={booking.UserId}");
                 var userResponse = await httpClient.SendAsync(userRequest).ConfigureAwait(false);
