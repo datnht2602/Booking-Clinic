@@ -13,23 +13,23 @@
                             <input type="hidden" asp-for="Input.ReturnUrl" />
                             <div class="mb-3">
                                 <label class="fs-5" asp-for="Input.Name">Name<small class="text-danger">*</small></label>
-                                <input class="form-control" placeholder="Input Name" asp-for="Input.Name">
+                                <input class="form-control" placeholder="Input Name" asp-for="Input.Name" type="email" pattern="^(?!\s*$).+" title="Please avoid only spaces input" required>
                             </div>
                             <div class="mb-3">
                                 <label class="fs-5" asp-for="Input.Email">Email<small class="text-danger">*</small></label>
-                                <input class="form-control" placeholder="name@example.com" asp-for="Input.Email" autofocus>
+                                <input class="form-control" placeholder="name@example.com" asp-for="Input.Email" autofocus required>
                             </div>
                             <div class="mb-3">
                                 <label class="fs-5" asp-for="Input.Phone">Phone Number<small class="text-danger">*</small></label>
-                                <input type="tel" class="form-control" placeholder="Input Phone Number" asp-for="Input.Phone">
+                                <input type="tel" class="form-control" placeholder="Input Phone Number" asp-for="Input.Phone" pattern="0[0-9]{9}" required>
                             </div>
                             <div class="mb-3">
                                 <label class="fs-5 text-sm" asp-for="Input.Password">Password<small class="text-danger">*</small></label>
-                                <input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off">
+                                <input type="password" class="form-control" placeholder="Input Password" asp-for="Input.Password" autocomplete="off" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
                             </div>
                             <div class="mb-3">
                                 <label class="fs-5 text-sm" asp-for="Input.Password">Confirm Password<small class="text-danger">*</small></label>
-                                <input type="password" class="form-control" placeholder="Input Confirm Password" asp-for="Input.ConfirmPassword" autocomplete="off">
+                                <input type="password" class="form-control" placeholder="Input Confirm Password" asp-for="Input.ConfirmPassword" autocomplete="off" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
                             </div>
                             <div class="btn-group d-flex justify-content-between py-3">
                                 <button class="btn btn-warning fw-bold fs-7 rounded-3 w-30 h-10 border-0 mx-3 text-uppercase" name="Input.Button" value="create">Create</button>

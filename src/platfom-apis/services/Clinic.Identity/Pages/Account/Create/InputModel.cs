@@ -13,13 +13,13 @@ public class InputModel
     public string Email { get; set; }
 
     [Required]
-    [StringLength(100, ErrorMessage = "{0} dài từ {2} đến {1} ký tự.", MinimumLength = 6)]
+    [StringLength(100, ErrorMessage = "{0} from {2} to {1} length.", MinimumLength = 6)]
     [DataType(DataType.Password)]
     public string Password { get; set; }
 
     [DataType(DataType.Password)]
-    [Display(Name = "Nhập lại mật khẩu")]
-    [Compare("Password", ErrorMessage = "Password not same")]
+    [Display(Name = "Confirm password")]
+    [Compare("Password", ErrorMessage = "Confirm password are not same with password")]
     public string ConfirmPassword { get; set; }
 
     [Required]
