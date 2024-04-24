@@ -194,7 +194,7 @@ namespace Mango.Services.Email.Messaging
                                                                 <td style=""text-align:left;padding:10px"">Healh Insurance Code: <b>{information.BriefViewModel.HealthInsuranceCode}</b></td>
                                                             </tr>
                                                             <tr>
-                                                                <td style=""text-align:left;padding:10px"">Price: <b>{information.OrderTotal.ToString("C")} VND</b></td>
+                                                                <td style=""text-align:left;padding:10px"">Price: <b>{information.OrderTotal.ToString("C")}</b></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>

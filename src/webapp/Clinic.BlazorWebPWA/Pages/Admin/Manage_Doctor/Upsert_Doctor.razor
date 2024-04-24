@@ -38,6 +38,7 @@
                                         <input @bind-value="@createDoctor.Password" class="form-control"
                                                type="text"
                                                placeholder=""
+                                               disabled="@notShowPass"
                                                pattern="^(?!\s*$).+" title="Please avoid only spaces input"
                                                required />
                                     </div>
@@ -142,6 +143,7 @@
     private string accessToken { get; set; }
     private DoctorDto createDoctor = new();
     int value;
+    bool notShowPass = false;
     [Parameter] public string? id { get; set; }
 
     protected async override Task OnInitializedAsync()
@@ -169,6 +171,8 @@
             if (responseDoctor != null && responseDoctor.IsSuccess)
             {
                 createDoctor = JsonConvert.DeserializeObject<DoctorDto>(Convert.ToString((responseDoctor.Result)));
+                notShowPass = true;
+                StateHasChanged();
             }
         }
     }
